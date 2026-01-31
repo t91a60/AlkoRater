@@ -1,0 +1,20 @@
+{
+  "name": "alko-rater",
+  "version": "1.0.0",
+  "description": "Progressive Web App do oceniania alkoholi",
+  "main": "public/index.html",
+  "scripts": {
+    "start": "npx serve -s public -p 3000",
+    "dev": "npx serve -s public -p 3000",
+    "generate-icons": "start icon-generator.html"
+  },
+  "keywords": [
+    "pwa",
+    "alcohol",
+    "rating",
+    "beer",
+    "offline"
+  ],
+  "author": "",
+  "license": "MIT"
+}

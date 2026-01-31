@@ -1,0 +1,667 @@
+[
+    {
+        "name": "Casillero del Diablo Cabernet Sauvignon",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.5%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Casillero+del+Diablo+Cabernet"
+    },
+    {
+        "name": "Casillero del Diablo Merlot",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.5%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Casillero+del+Diablo+Merlot"
+    },
+    {
+        "name": "Casillero del Diablo Chardonnay",
+        "type": "Wino białe wytrawne",
+        "alcohol": "13.5%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Casillero+del+Diablo+Chardonnay"
+    },
+    {
+        "name": "Casillero del Diablo Sauvignon Blanc",
+        "type": "Wino białe wytrawne",
+        "alcohol": "13%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Casillero+Sauvignon+Blanc"
+    },
+    {
+        "name": "Frontera Cabernet Sauvignon",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13%",
+        "price": "14.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Frontera+Cabernet+Sauvignon"
+    },
+    {
+        "name": "Frontera Merlot",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13%",
+        "price": "14.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Frontera+Merlot"
+    },
+    {
+        "name": "Frontera Chardonnay",
+        "type": "Wino białe wytrawne",
+        "alcohol": "13%",
+        "price": "14.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Frontera+Chardonnay"
+    },
+    {
+        "name": "Frontera Sauvignon Blanc",
+        "type": "Wino białe wytrawne",
+        "alcohol": "12.5%",
+        "price": "14.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Frontera+Sauvignon+Blanc"
+    },
+    {
+        "name": "Gato Negro Cabernet Sauvignon",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13%",
+        "price": "16.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Gato+Negro+Cabernet"
+    },
+    {
+        "name": "Gato Negro Merlot",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13%",
+        "price": "16.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Gato+Negro+Merlot"
+    },
+    {
+        "name": "Gato Negro Chardonnay",
+        "type": "Wino białe wytrawne",
+        "alcohol": "13%",
+        "price": "16.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Gato+Negro+Chardonnay"
+    },
+    {
+        "name": "Gato Negro Sauvignon Blanc",
+        "type": "Wino białe wytrawne",
+        "alcohol": "12.5%",
+        "price": "16.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Gato+Negro+Sauvignon"
+    },
+    {
+        "name": "Trivento Golden Reserve Malbec",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "14%",
+        "price": "29.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Trivento+Malbec"
+    },
+    {
+        "name": "Trivento Reserve Cabernet Sauvignon",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.5%",
+        "price": "22.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Trivento+Cabernet"
+    },
+    {
+        "name": "Trapiche Malbec",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.5%",
+        "price": "26.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Trapiche+Malbec"
+    },
+    {
+        "name": "Norton Malbec",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.5%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Norton+Malbec"
+    },
+    {
+        "name": "Lindemans Bin 45 Cabernet Sauvignon",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.5%",
+        "price": "21.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Lindemans+Cabernet"
+    },
+    {
+        "name": "Lindemans Bin 65 Chardonnay",
+        "type": "Wino białe wytrawne",
+        "alcohol": "13%",
+        "price": "21.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Lindemans+Chardonnay"
+    },
+    {
+        "name": "Yellow Tail Cabernet Sauvignon",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.5%",
+        "price": "23.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Yellow+Tail+Cabernet"
+    },
+    {
+        "name": "Yellow Tail Shiraz",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.5%",
+        "price": "23.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Yellow+Tail+Shiraz"
+    },
+    {
+        "name": "Yellow Tail Chardonnay",
+        "type": "Wino białe wytrawne",
+        "alcohol": "13%",
+        "price": "23.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Yellow+Tail+Chardonnay"
+    },
+    {
+        "name": "Lambrusco Emilia IGT Czerwone Półsłodkie",
+        "type": "Wino czerwone półsłodkie musujące",
+        "alcohol": "8%",
+        "price": "12.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Lambrusco+Emilia"
+    },
+    {
+        "name": "Lambrusco Bianco",
+        "type": "Wino białe półsłodkie musujące",
+        "alcohol": "8%",
+        "price": "12.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Lambrusco+Bianco"
+    },
+    {
+        "name": "Lambrusco Rosato",
+        "type": "Wino różowe półsłodkie musujące",
+        "alcohol": "8%",
+        "price": "12.99 zł",
+        "image_url": "https://dummyimage.com/600x600/ff69b4/ffffff?text=Lambrusco+Rosato"
+    },
+    {
+        "name": "Freixenet Cordon Negro Brut",
+        "type": "Wino musujące wytrawne",
+        "alcohol": "11.5%",
+        "price": "29.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Freixenet+Cordon+Negro"
+    },
+    {
+        "name": "Freixenet Carta Nevada Semi Seco",
+        "type": "Wino musujące półwytrawne",
+        "alcohol": "11.5%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Freixenet+Carta+Nevada"
+    },
+    {
+        "name": "Cinzano Asti DOCG",
+        "type": "Wino musujące słodkie",
+        "alcohol": "7%",
+        "price": "22.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Cinzano+Asti"
+    },
+    {
+        "name": "Cinzano Prosecco DOC",
+        "type": "Wino musujące wytrawne",
+        "alcohol": "11%",
+        "price": "26.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Cinzano+Prosecco"
+    },
+    {
+        "name": "Martini Prosecco DOC",
+        "type": "Wino musujące wytrawne",
+        "alcohol": "11%",
+        "price": "28.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Martini+Prosecco"
+    },
+    {
+        "name": "Martini Asti DOCG",
+        "type": "Wino musujące słodkie",
+        "alcohol": "7.5%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Martini+Asti"
+    },
+    {
+        "name": "Villa Marchese Prosecco DOC",
+        "type": "Wino musujące wytrawne",
+        "alcohol": "11%",
+        "price": "19.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Villa+Marchese+Prosecco"
+    },
+    {
+        "name": "Bottega Gold Prosecco DOC",
+        "type": "Wino musujące wytrawne",
+        "alcohol": "11%",
+        "price": "69.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Bottega+Gold"
+    },
+    {
+        "name": "JP Chenet Colombard Sauvignon",
+        "type": "Wino białe półwytrawne",
+        "alcohol": "11%",
+        "price": "16.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=JP+Chenet+Colombard"
+    },
+    {
+        "name": "JP Chenet Cabernet Syrah",
+        "type": "Wino czerwone półwytrawne",
+        "alcohol": "12%",
+        "price": "16.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=JP+Chenet+Cabernet"
+    },
+    {
+        "name": "JP Chenet Ice Edition Rosé",
+        "type": "Wino różowe półsłodkie",
+        "alcohol": "10%",
+        "price": "17.99 zł",
+        "image_url": "https://dummyimage.com/600x600/ff69b4/ffffff?text=JP+Chenet+Ice+Rose"
+    },
+    {
+        "name": "JP Chenet Ice Edition Blanc",
+        "type": "Wino białe półsłodkie",
+        "alcohol": "10%",
+        "price": "17.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=JP+Chenet+Ice+Blanc"
+    },
+    {
+        "name": "Hardys Stamp Shiraz Cabernet",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.5%",
+        "price": "18.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Hardys+Shiraz+Cabernet"
+    },
+    {
+        "name": "Hardys Stamp Chardonnay Semillon",
+        "type": "Wino białe wytrawne",
+        "alcohol": "12.5%",
+        "price": "18.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Hardys+Chardonnay"
+    },
+    {
+        "name": "Tarapacá Reserva Carmenere",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.5%",
+        "price": "22.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Tarapaca+Carmenere"
+    },
+    {
+        "name": "Tarapacá Reserva Cabernet Sauvignon",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.5%",
+        "price": "22.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Tarapaca+Cabernet"
+    },
+    {
+        "name": "Santa Rita 120 Cabernet Sauvignon",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13%",
+        "price": "19.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Santa+Rita+120+Cabernet"
+    },
+    {
+        "name": "Santa Rita 120 Sauvignon Blanc",
+        "type": "Wino białe wytrawne",
+        "alcohol": "12.5%",
+        "price": "19.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Santa+Rita+Sauvignon"
+    },
+    {
+        "name": "Barefoot Cabernet Sauvignon",
+        "type": "Wino czerwone półsłodkie",
+        "alcohol": "13%",
+        "price": "21.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Barefoot+Cabernet"
+    },
+    {
+        "name": "Barefoot Pinot Grigio",
+        "type": "Wino białe półsłodkie",
+        "alcohol": "12%",
+        "price": "21.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Barefoot+Pinot+Grigio"
+    },
+    {
+        "name": "Barefoot Pink Moscato",
+        "type": "Wino różowe słodkie",
+        "alcohol": "7.5%",
+        "price": "21.99 zł",
+        "image_url": "https://dummyimage.com/600x600/ff69b4/ffffff?text=Barefoot+Pink+Moscato"
+    },
+    {
+        "name": "Blossom Hill White Zinfandel",
+        "type": "Wino różowe półsłodkie",
+        "alcohol": "10.5%",
+        "price": "18.99 zł",
+        "image_url": "https://dummyimage.com/600x600/ff69b4/ffffff?text=Blossom+Hill+Zinfandel"
+    },
+    {
+        "name": "Blossom Hill Soft & Fruity Red",
+        "type": "Wino czerwone półsłodkie",
+        "alcohol": "11.5%",
+        "price": "18.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Blossom+Hill+Red"
+    },
+    {
+        "name": "Carlo Rossi California Red",
+        "type": "Wino czerwone półsłodkie",
+        "alcohol": "10.5%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Carlo+Rossi+Red"
+    },
+    {
+        "name": "Carlo Rossi California White",
+        "type": "Wino białe półsłodkie",
+        "alcohol": "10%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Carlo+Rossi+White"
+    },
+    {
+        "name": "Côtes du Rhône Villages",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.5%",
+        "price": "26.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Cotes+du+Rhone"
+    },
+    {
+        "name": "Bordeaux Rouge AOC",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13%",
+        "price": "29.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Bordeaux+Rouge"
+    },
+    {
+        "name": "Chianti DOCG",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "12.5%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Chianti+DOCG"
+    },
+    {
+        "name": "Montepulciano d'Abruzzo DOC",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13%",
+        "price": "19.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Montepulciano+Abruzzo"
+    },
+    {
+        "name": "Pinot Grigio delle Venezie DOC",
+        "type": "Wino białe wytrawne",
+        "alcohol": "12%",
+        "price": "18.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Pinot+Grigio+Venezie"
+    },
+    {
+        "name": "Riesling Pfalz",
+        "type": "Wino białe półwytrawne",
+        "alcohol": "11%",
+        "price": "22.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Riesling+Pfalz"
+    },
+    {
+        "name": "Liebfraumilch",
+        "type": "Wino białe półsłodkie",
+        "alcohol": "9%",
+        "price": "15.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Liebfraumilch"
+    },
+    {
+        "name": "Vina Maipo Cabernet Sauvignon",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.5%",
+        "price": "21.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Vina+Maipo+Cabernet"
+    },
+    {
+        "name": "Robert Mondavi Private Selection Merlot",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.5%",
+        "price": "32.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Mondavi+Merlot"
+    },
+    {
+        "name": "Gallo Family Vineyards Merlot",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Gallo+Merlot"
+    },
+    {
+        "name": "Gallo Family Vineyards Chardonnay",
+        "type": "Wino białe wytrawne",
+        "alcohol": "12.5%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Gallo+Chardonnay"
+    },
+    {
+        "name": "Jacob's Creek Classic Shiraz",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.9%",
+        "price": "26.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Jacobs+Creek+Shiraz"
+    },
+    {
+        "name": "Jacob's Creek Classic Chardonnay",
+        "type": "Wino białe wytrawne",
+        "alcohol": "12.9%",
+        "price": "26.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Jacobs+Creek+Chardonnay"
+    },
+    {
+        "name": "19 Crimes Red Blend",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "14%",
+        "price": "34.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=19+Crimes+Red"
+    },
+    {
+        "name": "Apothic Red",
+        "type": "Wino czerwone półsłodkie",
+        "alcohol": "13.5%",
+        "price": "29.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Apothic+Red"
+    },
+    {
+        "name": "Beringer Founders' Estate Cabernet Sauvignon",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.5%",
+        "price": "31.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Beringer+Cabernet"
+    },
+    {
+        "name": "Cono Sur Bicicleta Pinot Noir",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13%",
+        "price": "23.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Cono+Sur+Pinot+Noir"
+    },
+    {
+        "name": "Cono Sur Bicicleta Chardonnay",
+        "type": "Wino białe wytrawne",
+        "alcohol": "13%",
+        "price": "23.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Cono+Sur+Chardonnay"
+    },
+    {
+        "name": "Undurraga Sibaris Carmenere",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.5%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Undurraga+Carmenere"
+    },
+    {
+        "name": "Mirabello Primitivo di Manduria DOC",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "14%",
+        "price": "22.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Mirabello+Primitivo"
+    },
+    {
+        "name": "Villa Maria Private Bin Sauvignon Blanc",
+        "type": "Wino białe wytrawne",
+        "alcohol": "13%",
+        "price": "34.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Villa+Maria+Sauvignon"
+    },
+    {
+        "name": "Oyster Bay Sauvignon Blanc",
+        "type": "Wino białe wytrawne",
+        "alcohol": "12.5%",
+        "price": "36.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Oyster+Bay+Sauvignon"
+    },
+    {
+        "name": "Mateus Rosé",
+        "type": "Wino różowe półsłodkie",
+        "alcohol": "11%",
+        "price": "17.99 zł",
+        "image_url": "https://dummyimage.com/600x600/ff69b4/ffffff?text=Mateus+Rose"
+    },
+    {
+        "name": "Lancers Rosé",
+        "type": "Wino różowe półsłodkie",
+        "alcohol": "11%",
+        "price": "18.99 zł",
+        "image_url": "https://dummyimage.com/600x600/ff69b4/ffffff?text=Lancers+Rose"
+    },
+    {
+        "name": "Espiral Vinho Verde",
+        "type": "Wino białe wytrawne",
+        "alcohol": "9.5%",
+        "price": "19.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Espiral+Vinho+Verde"
+    },
+    {
+        "name": "Casal Garcia Vinho Verde",
+        "type": "Wino białe wytrawne",
+        "alcohol": "9%",
+        "price": "16.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Casal+Garcia"
+    },
+    {
+        "name": "Torres Sangre de Toro",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.5%",
+        "price": "28.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Torres+Sangre+de+Toro"
+    },
+    {
+        "name": "Torres Viña Sol",
+        "type": "Wino białe wytrawne",
+        "alcohol": "11.5%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Torres+Vina+Sol"
+    },
+    {
+        "name": "Campo Viejo Rioja Tempranillo",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.5%",
+        "price": "26.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Campo+Viejo+Rioja"
+    },
+    {
+        "name": "Marques de Caceres Rioja Crianza",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13.5%",
+        "price": "32.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Marques+Caceres+Crianza"
+    },
+    {
+        "name": "Faustino VII Rioja",
+        "type": "Wino czerwone wytrawne",
+        "alcohol": "13%",
+        "price": "29.99 zł",
+        "image_url": "https://dummyimage.com/600x600/8b0000/ffffff?text=Faustino+VII"
+    },
+    {
+        "name": "Moscato d'Asti DOCG",
+        "type": "Wino białe słodkie musujące",
+        "alcohol": "5.5%",
+        "price": "26.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Moscato+Asti"
+    },
+    {
+        "name": "Zonin Prosecco DOC",
+        "type": "Wino musujące wytrawne",
+        "alcohol": "11%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Zonin+Prosecco"
+    },
+    {
+        "name": "Mionetto Prosecco DOC Brut",
+        "type": "Wino musujące wytrawne",
+        "alcohol": "11%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Mionetto+Prosecco"
+    },
+    {
+        "name": "Ruffino Prosecco DOC",
+        "type": "Wino musujące wytrawne",
+        "alcohol": "11%",
+        "price": "28.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Ruffino+Prosecco"
+    },
+    {
+        "name": "La Marca Prosecco DOC",
+        "type": "Wino musujące wytrawne",
+        "alcohol": "11%",
+        "price": "34.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=La+Marca+Prosecco"
+    },
+    {
+        "name": "Moet & Chandon Brut Imperial",
+        "type": "Szampan wytrawny",
+        "alcohol": "12%",
+        "price": "169.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Moet+Chandon"
+    },
+    {
+        "name": "Veuve Clicquot Brut",
+        "type": "Szampan wytrawny",
+        "alcohol": "12%",
+        "price": "189.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Veuve+Clicquot"
+    },
+    {
+        "name": "Mumm Cordon Rouge Brut",
+        "type": "Szampan wytrawny",
+        "alcohol": "12%",
+        "price": "139.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Mumm+Cordon+Rouge"
+    },
+    {
+        "name": "Piper-Heidsieck Brut",
+        "type": "Szampan wytrawny",
+        "alcohol": "12%",
+        "price": "129.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Piper+Heidsieck"
+    },
+    {
+        "name": "Nicolas Feuillatte Brut Reserve",
+        "type": "Szampan wytrawny",
+        "alcohol": "12%",
+        "price": "99.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Nicolas+Feuillatte"
+    },
+    {
+        "name": "Lanson Black Label Brut",
+        "type": "Szampan wytrawny",
+        "alcohol": "12.5%",
+        "price": "119.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Lanson+Black+Label"
+    },
+    {
+        "name": "Taittinger Brut Reserve",
+        "type": "Szampan wytrawny",
+        "alcohol": "12.5%",
+        "price": "159.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Taittinger+Brut"
+    },
+    {
+        "name": "Pommery Brut Royal",
+        "type": "Szampan wytrawny",
+        "alcohol": "12%",
+        "price": "134.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Pommery+Brut+Royal"
+    },
+    {
+        "name": "Dom Perignon Vintage",
+        "type": "Szampan wytrawny prestiżowy",
+        "alcohol": "12.5%",
+        "price": "699.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Dom+Perignon"
+    },
+    {
+        "name": "Bollinger Special Cuvee Brut",
+        "type": "Szampan wytrawny",
+        "alcohol": "12%",
+        "price": "199.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f5deb3/000000?text=Bollinger+Special+Cuvee"
+    }
+]

@@ -1,0 +1,940 @@
+[
+    {
+        "name": "Żubrówka Biała",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "32.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Zubrowka+Biala"
+    },
+    {
+        "name": "Żubrówka Bison Grass",
+        "type": "Smakowa",
+        "alcohol": "40%",
+        "price": "34.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Zubrowka+Bison+Grass"
+    },
+    {
+        "name": "Żubrówka Czarna",
+        "type": "Smakowa",
+        "alcohol": "40%",
+        "price": "35.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Zubrowka+Czarna"
+    },
+    {
+        "name": "Żubrówka Złota",
+        "type": "Smakowa",
+        "alcohol": "40%",
+        "price": "36.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Zubrowka+Zlota"
+    },
+    {
+        "name": "Żubrówka Bizon",
+        "type": "Smakowa",
+        "alcohol": "40%",
+        "price": "35.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Zubrowka+Bizon"
+    },
+    {
+        "name": "Wyborowa Klasyczna",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "28.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Wyborowa+Klasyczna"
+    },
+    {
+        "name": "Wyborowa Exquisite",
+        "type": "Premium",
+        "alcohol": "40%",
+        "price": "49.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Wyborowa+Exquisite"
+    },
+    {
+        "name": "Wyborowa Smak Cytrusowy",
+        "type": "Smakowa",
+        "alcohol": "37.5%",
+        "price": "29.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Wyborowa+Smak+Cytrusowy"
+    },
+    {
+        "name": "Absolwent",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Absolwent"
+    },
+    {
+        "name": "Absolwent Cytrus",
+        "type": "Smakowa",
+        "alcohol": "40%",
+        "price": "25.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Absolwent+Cytrus"
+    },
+    {
+        "name": "Absolwent Premium",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Absolwent+Premium"
+    },
+    {
+        "name": "Soplica Czysta",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "26.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Czysta"
+    },
+    {
+        "name": "Soplica Wiśniowa",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Wisniowa"
+    },
+    {
+        "name": "Soplica Pigwowa",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Pigwowa"
+    },
+    {
+        "name": "Soplica Orzechowa",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Orzechowa"
+    },
+    {
+        "name": "Soplica Śliwkowa",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Sliwkowa"
+    },
+    {
+        "name": "Soplica Malinowa",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Malinowa"
+    },
+    {
+        "name": "Soplica Berberyska",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Berberyska"
+    },
+    {
+        "name": "Soplica Jeżynowa",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Jezynowa"
+    },
+    {
+        "name": "Soplica Agrestowa",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Agrestowa"
+    },
+    {
+        "name": "Soplica Cytrynowa",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Cytrynowa"
+    },
+    {
+        "name": "Soplica Wiśnia z Czekoladą",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "29.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Wisnia+z+Czekolada"
+    },
+    {
+        "name": "Soplica Truskawkowa",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Truskawkowa"
+    },
+    {
+        "name": "Soplica Kardamon",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "29.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Kardamon"
+    },
+    {
+        "name": "Soplica Brzoskwiniowa",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Brzoskwiniowa"
+    },
+    {
+        "name": "Soplica Gruszkowa",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Gruszkowa"
+    },
+    {
+        "name": "Soplica Porzeczkowa",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Porzeczkowa"
+    },
+    {
+        "name": "Soplica Miętowa",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Mietowa"
+    },
+    {
+        "name": "Luksusowa",
+        "type": "Ziemniaczana",
+        "alcohol": "40%",
+        "price": "29.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Luksusowa"
+    },
+    {
+        "name": "Luksusowa Lemon",
+        "type": "Smakowa",
+        "alcohol": "40%",
+        "price": "31.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Luksusowa+Lemon"
+    },
+    {
+        "name": "Bols Vodka",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Bols+Vodka"
+    },
+    {
+        "name": "Stock Prestige",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "25.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Stock+Prestige"
+    },
+    {
+        "name": "Stock Prestige Cytryna",
+        "type": "Smakowa",
+        "alcohol": "37.5%",
+        "price": "26.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Stock+Prestige+Cytryna"
+    },
+    {
+        "name": "Stock 84",
+        "type": "Czysta mocna",
+        "alcohol": "42%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Stock+84"
+    },
+    {
+        "name": "Stock 80",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "25.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Stock+80"
+    },
+    {
+        "name": "Żołądkowa Gorzka",
+        "type": "Smakowa ziołowa",
+        "alcohol": "36%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Zoladkowa+Gorzka"
+    },
+    {
+        "name": "Żołądkowa Gorzka Czysta",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "22.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Zoladkowa+Gorzka+Czysta"
+    },
+    {
+        "name": "Żołądkowa Gorzka Miętowa",
+        "type": "Smakowa",
+        "alcohol": "36%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Zoladkowa+Gorzka+Mietowa"
+    },
+    {
+        "name": "Żołądkowa De Luxe",
+        "type": "Smakowa ziołowa",
+        "alcohol": "40%",
+        "price": "31.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Zoladkowa+De+Luxe"
+    },
+    {
+        "name": "Krupnik",
+        "type": "Smakowa miodowa",
+        "alcohol": "40%",
+        "price": "29.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Krupnik"
+    },
+    {
+        "name": "Krupnik Wiśniowy",
+        "type": "Smakowa",
+        "alcohol": "32%",
+        "price": "28.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Krupnik+Wisniowy"
+    },
+    {
+        "name": "Krupnik Pigwowy",
+        "type": "Smakowa",
+        "alcohol": "32%",
+        "price": "28.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Krupnik+Pigwowy"
+    },
+    {
+        "name": "Krupnik Śliwkowy",
+        "type": "Smakowa",
+        "alcohol": "32%",
+        "price": "28.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Krupnik+Sliwkowy"
+    },
+    {
+        "name": "Krupnik Lemon",
+        "type": "Smakowa",
+        "alcohol": "32%",
+        "price": "28.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Krupnik+Lemon"
+    },
+    {
+        "name": "Krupnik Jabłkowy",
+        "type": "Smakowa",
+        "alcohol": "32%",
+        "price": "28.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Krupnik+Jablkowy"
+    },
+    {
+        "name": "Krupnik Tradycyjny",
+        "type": "Smakowa miodowa",
+        "alcohol": "40%",
+        "price": "32.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Krupnik+Tradycyjny"
+    },
+    {
+        "name": "Palace Vodka",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "31.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Palace+Vodka"
+    },
+    {
+        "name": "Extra Żytnia",
+        "type": "Żytnia",
+        "alcohol": "40%",
+        "price": "23.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Extra+Zytnia"
+    },
+    {
+        "name": "Podlaska",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "26.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Podlaska"
+    },
+    {
+        "name": "Starotoruńska",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Starotorunska"
+    },
+    {
+        "name": "Mazowiecka",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "25.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Mazowiecka"
+    },
+    {
+        "name": "Saska Vodka",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "28.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Saska+Vodka"
+    },
+    {
+        "name": "Czysta de Luxe",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "29.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Czysta+de+Luxe"
+    },
+    {
+        "name": "Żytniówka",
+        "type": "Żytnia",
+        "alcohol": "40%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Zytniowka"
+    },
+    {
+        "name": "Lubelska",
+        "type": "Smakowa",
+        "alcohol": "40%",
+        "price": "26.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Lubelska"
+    },
+    {
+        "name": "Lubelska Wiśniowa",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Lubelska+Wisniowa"
+    },
+    {
+        "name": "Parkowa",
+        "type": "Czysta ekonomiczna",
+        "alcohol": "40%",
+        "price": "19.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Parkowa"
+    },
+    {
+        "name": "Popularna",
+        "type": "Czysta ekonomiczna",
+        "alcohol": "40%",
+        "price": "18.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Popularna"
+    },
+    {
+        "name": "Senator",
+        "type": "Czysta ekonomiczna",
+        "alcohol": "40%",
+        "price": "20.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Senator"
+    },
+    {
+        "name": "Lux Torpeda",
+        "type": "Czysta ekonomiczna",
+        "alcohol": "40%",
+        "price": "19.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Lux+Torpeda"
+    },
+    {
+        "name": "Maximus",
+        "type": "Czysta ekonomiczna",
+        "alcohol": "40%",
+        "price": "21.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Maximus"
+    },
+    {
+        "name": "Smirnoff Red",
+        "type": "Czysta",
+        "alcohol": "37.5%",
+        "price": "32.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Smirnoff+Red"
+    },
+    {
+        "name": "Smirnoff Black",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "34.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Smirnoff+Black"
+    },
+    {
+        "name": "Finlandia Vodka",
+        "type": "Premium",
+        "alcohol": "40%",
+        "price": "54.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Finlandia+Vodka"
+    },
+    {
+        "name": "Absolut Vodka",
+        "type": "Premium",
+        "alcohol": "40%",
+        "price": "59.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Absolut+Vodka"
+    },
+    {
+        "name": "Absolut Citron",
+        "type": "Smakowa",
+        "alcohol": "40%",
+        "price": "62.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Absolut+Citron"
+    },
+    {
+        "name": "Wisent Vodka",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "29.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Wisent+Vodka"
+    },
+    {
+        "name": "Wisent Biała",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "28.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Wisent+Biala"
+    },
+    {
+        "name": "Królewska",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "26.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Krolewska"
+    },
+    {
+        "name": "Dębowa Polska Wódka Dębowa",
+        "type": "Smakowa",
+        "alcohol": "40%",
+        "price": "33.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Debowa+Polska+Wodka+Debowa"
+    },
+    {
+        "name": "Żołędkówka",
+        "type": "Smakowa żołędziowa",
+        "alcohol": "34%",
+        "price": "23.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Zoledkowka"
+    },
+    {
+        "name": "Jarzębiak",
+        "type": "Nalewka smakowa",
+        "alcohol": "30%",
+        "price": "26.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Jarzebiak"
+    },
+    {
+        "name": "Wiśniówka",
+        "type": "Nalewka smakowa",
+        "alcohol": "32%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Wisniowka"
+    },
+    {
+        "name": "Tatrzańska",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "26.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Tatrzanska"
+    },
+    {
+        "name": "Polskie Tradycje",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Polskie+Tradycje"
+    },
+    {
+        "name": "Kormoran",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "23.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Kormoran"
+    },
+    {
+        "name": "Huzar",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "22.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Huzar"
+    },
+    {
+        "name": "Polonaise",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "25.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Polonaise"
+    },
+    {
+        "name": "Boruta",
+        "type": "Smakowa ziołowa",
+        "alcohol": "35%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Boruta"
+    },
+    {
+        "name": "Pan Samochodzik",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "22.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Pan+Samochodzik"
+    },
+    {
+        "name": "Sobieski Vodka",
+        "type": "Żytnia",
+        "alcohol": "40%",
+        "price": "39.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Sobieski+Vodka"
+    },
+    {
+        "name": "Sobieski Cytrus",
+        "type": "Smakowa",
+        "alcohol": "37.5%",
+        "price": "41.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Sobieski+Cytrus"
+    },
+    {
+        "name": "Russian Standard Original",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "44.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Russian+Standard+Original"
+    },
+    {
+        "name": "Skyy Vodka",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "37.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Skyy+Vodka"
+    },
+    {
+        "name": "Eristoff",
+        "type": "Czysta",
+        "alcohol": "37.5%",
+        "price": "29.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Eristoff"
+    },
+    {
+        "name": "Belvedere Pure",
+        "type": "Premium",
+        "alcohol": "40%",
+        "price": "119.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Belvedere+Pure"
+    },
+    {
+        "name": "Chopin Żytnia",
+        "type": "Premium Żytnia",
+        "alcohol": "40%",
+        "price": "89.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Chopin+Zytnia"
+    },
+    {
+        "name": "Chopin Ziemniaczana",
+        "type": "Premium Ziemniaczana",
+        "alcohol": "40%",
+        "price": "89.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Chopin+Ziemniaczana"
+    },
+    {
+        "name": "Grey Goose",
+        "type": "Premium",
+        "alcohol": "40%",
+        "price": "149.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Grey+Goose"
+    },
+    {
+        "name": "Monopolowa",
+        "type": "Ziemniaczana",
+        "alcohol": "40%",
+        "price": "42.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Monopolowa"
+    },
+    {
+        "name": "Starka",
+        "type": "Tradycyjna leżakowana",
+        "alcohol": "40%",
+        "price": "49.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Starka"
+    },
+    {
+        "name": "Bols Jenever",
+        "type": "Tradycyjna jenever",
+        "alcohol": "35%",
+        "price": "34.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Bols+Jenever"
+    },
+    {
+        "name": "Żubrówka Biała 0.5L",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "27.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Zubrowka+Biala+0.5L"
+    },
+    {
+        "name": "Wyborowa Klasyczna 0.5L",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Wyborowa+Klasyczna+0.5L"
+    },
+    {
+        "name": "Absolwent 0.5L",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "19.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Absolwent+0.5L"
+    },
+    {
+        "name": "Soplica Czysta 0.5L",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "21.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Czysta+0.5L"
+    },
+    {
+        "name": "Luksusowa 0.5L",
+        "type": "Ziemniaczana",
+        "alcohol": "40%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Luksusowa+0.5L"
+    },
+    {
+        "name": "Stock Prestige 0.5L",
+        "type": "Czysta",
+        "alcohol": "40%",
+        "price": "19.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Stock+Prestige+0.5L"
+    },
+    {
+        "name": "Żołądkowa Gorzka 0.5L",
+        "type": "Smakowa ziołowa",
+        "alcohol": "36%",
+        "price": "19.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Zoladkowa+Gorzka+0.5L"
+    },
+    {
+        "name": "Krupnik 0.5L",
+        "type": "Smakowa miodowa",
+        "alcohol": "40%",
+        "price": "24.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Krupnik+0.5L"
+    },
+    {
+        "name": "Soplica Wiśniowa 0.2L",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "12.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Wisniowa+0.2L"
+    },
+    {
+        "name": "Soplica Pigwowa 0.2L",
+        "type": "Smakowa",
+        "alcohol": "30%",
+        "price": "12.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Soplica+Pigwowa+0.2L"
+    },
+    {
+        "name": "Żubrówka Bison Grass 0.2L",
+        "type": "Smakowa",
+        "alcohol": "40%",
+        "price": "14.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Zubrowka+Bison+Grass+0.2L"
+    },
+    {
+        "name": "Krupnik Wiśniowy 0.2L",
+        "type": "Smakowa",
+        "alcohol": "32%",
+        "price": "12.99 zł",
+        "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Krupnik+Wisniowy+0.2L"
+    },
+    {
+        "name": "Biały Bocian",
+        "type": "Czysta Premium",
+        "alcohol": "40%",
+        "price": "38.99 zł",
+        "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Bialy+Bocian"
+    },
+    {
+        "name": "Mickiewicz",
+        "type": "Wódka Premium (Pszeniczna)",
+        "alcohol": "40%",
+        "price": "39.99 zł",
+        "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Mickiewicz"
+    },
+    {
+        "name": "Björn Crystal",
+        "type": "Czysta (Matowa)",
+        "alcohol": "40%",
+        "price": "36.99 zł",
+        "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Bjorn+Crystal"
+    },
+    {
+        "name": "Okowita Podole Wielkie Ziemniak",
+        "type": "Kraftowa / Okowita",
+        "alcohol": "43%",
+        "price": "149.00 zł",
+        "image_url": "https://dummyimage.com/600x600/e67e22/ffffff?text=Podole+Wielkie"
+    },
+    {
+        "name": "Młody Ziemniak (Current Vintage)",
+        "type": "Ziemniaczana Sezonowa",
+        "alcohol": "40%",
+        "price": "125.00 zł",
+        "image_url": "https://dummyimage.com/600x600/e67e22/ffffff?text=Mlody+Ziemniak"
+    },
+    {
+        "name": "J.A. Baczewski",
+        "type": "Wódka Monopolowa Premium",
+        "alcohol": "40%",
+        "price": "59.99 zł",
+        "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Baczewski"
+    },
+    {
+        "name": "Baczewski Jeżynówka",
+        "type": "Smakowa Premium",
+        "alcohol": "38%",
+        "price": "64.99 zł",
+        "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Jezy%C3%B3wka"
+    },
+    {
+        "name": "Pravda Vodka",
+        "type": "Super Premium",
+        "alcohol": "40%",
+        "price": "95.00 zł",
+        "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Pravda"
+    },
+    {
+        "name": "U'Luvka",
+        "type": "Ultra Premium",
+        "alcohol": "40%",
+        "price": "189.00 zł",
+        "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=ULuvka"
+    },
+    {
+        "name": "Krzeska Ziołowa",
+        "type": "Ziołowa Premium",
+        "alcohol": "40%",
+        "price": "129.00 zł",
+        "image_url": "https://dummyimage.com/600x600/2ecc71/ffffff?text=Krzeska"
+    },
+    {
+        "name": "Wolf & Oak Wódka Żytnia",
+        "type": "Kraftowa",
+        "alcohol": "40%",
+        "price": "89.00 zł",
+        "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Wolf+Oak"
+    },
+    {
+        "name": "Mikrogorzelnia Żyto",
+        "type": "Rzemieślnicza",
+        "alcohol": "40%",
+        "price": "92.00 zł",
+        "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Mikrogorzelnia"
+    },
+    {
+        "name": "Potocki Vodka",
+        "type": "Żytnia Super Premium",
+        "alcohol": "40%",
+        "price": "139.00 zł",
+        "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Potocki"
+    },
+    {
+        "name": "Saska Pigwa z Nutą Miodu",
+        "type": "Smakowa",
+        "alcohol": "28%",
+        "price": "31.99 zł",
+        "image_url": "https://dummyimage.com/600x600/f1c40f/ffffff?text=Saska+Pigwa"
+    },
+    {
+        "name": "Saska Wiśnia z Nutą Rumu",
+        "type": "Smakowa",
+        "alcohol": "28%",
+        "price": "31.99 zł",
+        "image_url": "https://dummyimage.com/600x600/c0392b/ffffff?text=Saska+Wisnia"
+    },
+    {
+        "name": "Lubelska Mango",
+        "type": "Smakowa / Likier",
+        "alcohol": "25%",
+        "price": "27.50 zł",
+        "image_url": "https://dummyimage.com/600x600/f39c12/ffffff?text=Lubelska+Mango"
+    },
+    {
+        "name": "Lubelska Cytrynówka",
+        "type": "Smakowa",
+        "alcohol": "25%",
+        "price": "27.50 zł",
+        "image_url": "https://dummyimage.com/600x600/f1c40f/ffffff?text=Lubelska+Cytrynowka"
+    },
+    {
+        "name": "Dębowa Polska (Butelka z uchem)",
+        "type": "Wódka Dębowa Premium",
+        "alcohol": "40%",
+        "price": "85.00 zł",
+        "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Debowa+Ucho"
+    },
+    {
+        "name": "Amundsen Vodka",
+        "type": "Czysta Premium",
+        "alcohol": "40%",
+        "price": "42.99 zł",
+        "image_url": "https://dummyimage.com/600x600/3498db/ffffff?text=Amundsen"
+    },
+    {
+        "name": "Orkisz",
+        "type": "Wódka z Orkiszu Premium",
+        "alcohol": "40%",
+        "price": "89.00 zł",
+        "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Orkisz"
+    },
+    {
+        "name": "Dwór Sieraków Pieprzowa",
+        "type": "Wytrawna Smakowa",
+        "alcohol": "40%",
+        "price": "72.00 zł",
+        "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Sierakow+Pieprz"
+    },
+    {
+        "name": "Soplica Kawowa",
+        "type": "Likier na wódce",
+        "alcohol": "25%",
+        "price": "32.99 zł",
+        "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Soplica+Kawa"
+    },
+    {
+        "name": "Biały Bocian Advocaat",
+        "type": "Likier Jajeczny",
+        "alcohol": "16%",
+        "price": "29.99 zł",
+        "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Bocian+Advocaat"
+    },
+    {
+        "name": "Belvedere Heritage 176",
+        "type": "Słodowa Super Premium",
+        "alcohol": "40%",
+        "price": "169.00 zł",
+        "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Belvedere+Heritage"
+    },
+    {
+        "name": "Stumbras Centenary",
+        "type": "Czysta (z kłosem)",
+        "alcohol": "40%",
+        "price": "39.99 zł",
+        "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Stumbras"
+    },
+    {
+        "name": "Finlandia Cranberry",
+        "type": "Smakowa Premium",
+        "alcohol": "37.5%",
+        "price": "56.99 zł",
+        "image_url": "https://dummyimage.com/600x600/c0392b/ffffff?text=Finlandia+Cranberry"
+    },
+    {
+        "name": "Finlandia Lime",
+        "type": "Smakowa Premium",
+        "alcohol": "37.5%",
+        "price": "56.99 zł",
+        "image_url": "https://dummyimage.com/600x600/2ecc71/ffffff?text=Finlandia+Lime"
+    },
+    {
+        "name": "Żubrówka Czarna Jesion",
+        "type": "Premium Leżakowana",
+        "alcohol": "40%",
+        "price": "49.99 zł",
+        "image_url": "https://dummyimage.com/600x600/34495e/ffffff?text=Zubrowka+Jesion"
+    },
+    {
+        "name": "Ostoya",
+        "type": "Pszeniczna Premium",
+        "alcohol": "40%",
+        "price": "45.00 zł",
+        "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Ostoya"
+    },
+    {
+        "name": "Wyborowa Pszenica",
+        "type": "Zbożowa",
+        "alcohol": "40%",
+        "price": "34.00 zł",
+        "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Wyborowa+Pszenica"
+    }
+]
