@@ -1,9 +1,33 @@
+const CONSTANTS = {
+    MAX_RECENT_ITEMS: 10,
+    SEARCH_DEBOUNCE_MS: 300,
+    ANIMATION_DELAY_MS: 300
+};
+
 const app = {
     appData: [],
     favorites: [],
     currentTab: 'start',
     currentItem: null,
     ratingConfig: { stars: 0, tag: '', note: '' },
+
+    escapeHTML: (str) => {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    },
+
+    debounce: (func, delay) => {
+        let timeoutId;
+        return (...args) => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => func(...args), delay);
+        };
+    },
 
     el: {
         headerTitle: document.getElementById('headerTitle'),
@@ -35,9 +59,9 @@ const app = {
     loadAllData: async () => {
         try {
             const [beerData, vodkaData, wineData] = await Promise.all([
-                fetch('./data/piwa.json').then(r => r.ok ? r.json() : []).catch(() => []),
-                fetch('./data/wodki.json').then(r => r.ok ? r.json() : []).catch(() => []),
-                fetch('./data/wina.json').then(r => r.ok ? r.json() : []).catch(() => [])
+                fetch('./data/piwa.json').then(r => r.ok ? r.json() : []).catch(err => { console.error('Error fetching piwa:', err); return []; }),
+                fetch('./data/wodki.json').then(r => r.ok ? r.json() : []).catch(err => { console.error('Error fetching wodki:', err); return []; }),
+                fetch('./data/wina.json').then(r => r.ok ? r.json() : []).catch(err => { console.error('Error fetching wina:', err); return []; })
             ]);
 
             app.appData = [
@@ -72,22 +96,22 @@ const app = {
         app.el.dashboardGrid.innerHTML = `
       <div class="stat-card">
         <div class="stat-icon">⭐</div>
-        <div class="stat-value">${avgScore}</div>
+        <div class="stat-value">${app.escapeHTML(avgScore)}</div>
         <div class="stat-label">Średnia Ocena</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon">📝</div>
-        <div class="stat-value">${total}</div>
+        <div class="stat-value">${app.escapeHTML(total)}</div>
         <div class="stat-label">Oceniono</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon">🏆</div>
-        <div class="stat-value" style="text-transform:capitalize">${topCategory}</div>
+        <div class="stat-value" style="text-transform:capitalize">${app.escapeHTML(topCategory)}</div>
         <div class="stat-label">Ulubiony Typ</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon">🕒</div>
-        <div class="stat-value" style="font-size:16px; line-height:1.3; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;">${lastItem}</div>
+        <div class="stat-value" style="font-size:16px; line-height:1.3; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;">${app.escapeHTML(lastItem)}</div>
         <div class="stat-label">Ostatnio</div>
       </div>
     `;
@@ -98,7 +122,7 @@ const app = {
     updateRecentlyRated: () => {
         const container = app.el.recentlyRated;
         container.innerHTML = '';
-        const recent = app.favorites.slice(0, 10);
+        const recent = app.favorites.slice(0, CONSTANTS.MAX_RECENT_ITEMS);
 
         if (recent.length === 0) {
             container.innerHTML = '<p style="opacity:0.4; font-size:13px; padding:10px;">Brak ocenionych produktów</p>';
@@ -109,9 +133,9 @@ const app = {
             const card = document.createElement('div');
             card.className = 'recent-card';
             card.innerHTML = `
-        <img src="${fav.item.image_url}" onerror="this.src='./icons/icon-60.png'" alt="img">
-        <div class="recent-name">${fav.item.name}</div>
-        <div class="recent-stars">${fav.stars} ★</div>
+        <img src="${app.escapeHTML(fav.item.image_url)}" onerror="this.src='./icons/icon-60.png'" alt="img">
+        <div class="recent-name">${app.escapeHTML(fav.item.name)}</div>
+        <div class="recent-stars">${app.escapeHTML(fav.stars)} ★</div>
       `;
             card.addEventListener('click', () => app.openRateModal(fav.item));
             container.appendChild(card);
@@ -201,16 +225,16 @@ const app = {
         </svg>
       `;
             const alcVal = fav.item.alcohol ? (fav.item.alcohol.includes('%') ? fav.item.alcohol : fav.item.alcohol + '%') : null;
-            const alcoholBadge = alcVal ? `<span class="separator">·</span><span class="alcohol-badge">${alcVal}</span>` : '';
+            const alcoholBadge = alcVal ? `<span class="separator">·</span><span class="alcohol-badge">${app.escapeHTML(alcVal)}</span>` : '';
 
             div.innerHTML = `
-        <img src="${fav.item.image_url}" onerror="this.src='./icons/icon-60.png'" alt="${fav.item.name}">
+        <img src="${app.escapeHTML(fav.item.image_url)}" onerror="this.src='./icons/icon-60.png'" alt="${app.escapeHTML(fav.item.name)}">
         <div class="item-info">
-          <div class="item-name">${fav.item.name}${alcoholBadge}</div>
-          <div class="item-meta">${fav.tag}</div>
+          <div class="item-name">${app.escapeHTML(fav.item.name)}${alcoholBadge}</div>
+          <div class="item-meta">${app.escapeHTML(fav.tag)}</div>
         </div>
         <div class="item-stars">
-          ${fav.stars} <span style="font-size:12px; margin-left:1px;">★</span>
+          ${app.escapeHTML(fav.stars)} <span style="font-size:12px; margin-left:1px;">★</span>
         </div>
         <button class="delete-btn" onclick="event.stopPropagation(); app.deleteFavorite(${fav.id})">
           ${trashIcon}
@@ -286,12 +310,12 @@ const app = {
             const div = document.createElement('div');
             div.className = 'search-item';
             const alcVal = item.alcohol ? (item.alcohol.includes('%') ? item.alcohol : item.alcohol + '%') : null;
-            const alcoholBadge = alcVal ? `<span class="separator">·</span><span class="alcohol-badge">${alcVal}</span>` : '';
+            const alcoholBadge = alcVal ? `<span class="separator">·</span><span class="alcohol-badge">${app.escapeHTML(alcVal)}</span>` : '';
             div.innerHTML = `
-        <img src="${item.image_url}" onerror="this.src='./icons/icon-60.png'" alt="img">
+        <img src="${app.escapeHTML(item.image_url)}" onerror="this.src='./icons/icon-60.png'" alt="img">
         <div class="item-info">
-          <div class="item-name">${item.name}${alcoholBadge}</div>
-          <div class="item-meta">${item.category}</div>
+          <div class="item-name">${app.escapeHTML(item.name)}${alcoholBadge}</div>
+          <div class="item-meta">${app.escapeHTML(item.category)}</div>
         </div>
       `;
             div.addEventListener('click', () => app.openRateModal(item));
@@ -318,8 +342,8 @@ const app = {
         }
 
         const alcVal = item.alcohol ? (item.alcohol.includes('%') ? item.alcohol : item.alcohol + '%') : null;
-        const alcoholBadge = alcVal ? `<span class="separator">·</span><span class="alcohol-badge">${alcVal}</span>` : '';
-        document.getElementById('modalTitle').innerHTML = `${item.name}${alcoholBadge}`;
+        const alcoholBadge = alcVal ? `<span class="separator">·</span><span class="alcohol-badge">${app.escapeHTML(alcVal)}</span>` : '';
+        document.getElementById('modalTitle').innerHTML = `${app.escapeHTML(item.name)}${alcoholBadge}`;
         document.getElementById('modalCategoryTag').textContent = `Kategoria: ${strictCategory}`;
         document.getElementById('noteInput').value = app.ratingConfig.note;
 
@@ -383,10 +407,10 @@ const app = {
         const existingIndex = app.favorites.findIndex(f => f.item.name === app.currentItem.name);
 
         if (existingIndex >= 0) {
-            app.favorites[existingIndex] = record;
+            app.favorites = app.favorites.map((f, i) => i === existingIndex ? record : f);
             app.showToast('Zaktualizowano ocenę!');
         } else {
-            app.favorites.unshift(record);
+            app.favorites = [record, ...app.favorites];
             app.showToast('Zapisano ocenę!');
         }
 
@@ -437,7 +461,7 @@ const app = {
             btn.addEventListener('click', () => app.switchTab(btn.dataset.tab))
         );
 
-        app.el.searchInput.addEventListener('input', app.handleSearch);
+        app.el.searchInput.addEventListener('input', app.debounce(app.handleSearch, CONSTANTS.SEARCH_DEBOUNCE_MS));
         const clearBtn = document.getElementById('clearSearch');
         if (clearBtn) {
             clearBtn.addEventListener('click', () => {
