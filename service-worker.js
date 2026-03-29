@@ -7,9 +7,6 @@ const ASSETS_TO_CACHE = [
     'style.css',
     'app.js',
     'manifest.json',
-    'data/piwa.json',
-    'data/wodki.json',
-    'data/wina.json',
     'icons/icon-60.png',
     'icons/icon-180.png',
     'icons/icon-192.png',
@@ -17,11 +14,18 @@ const ASSETS_TO_CACHE = [
     'logo.png'
 ];
 
+const DATA_TO_CACHE = [
+    'data/piwa.json',
+    'data/wodki.json',
+    'data/wina.json'
+];
+
 self.addEventListener('install', (event) => {
     event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => {
-            return cache.addAll(ASSETS_TO_CACHE);
-        })
+        Promise.all([
+            caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE)),
+            caches.open(DATA_CACHE_NAME).then((cache) => cache.addAll(DATA_TO_CACHE))
+        ])
     );
     self.skipWaiting();
 });

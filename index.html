@@ -84,6 +84,18 @@
                     <button class="filter-chip" data-filter="wino">Wino</button>
                 </div>
 
+                <div class="backup-actions glass">
+                    <button id="btnExport" class="backup-btn">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        Eksportuj
+                    </button>
+                    <button id="btnImport" class="backup-btn">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Importuj
+                    </button>
+                    <input type="file" id="fileImport" accept=".json" style="display:none">
+                </div>
+
                 <div id="favoritesList" class="results-list"></div>
             </section>
         </div>
@@ -122,7 +134,11 @@
         <div id="modal-wrapper">
             <div class="modal-overlay"></div>
             <div class="modal-content">
+                <div class="modal-grabber"></div>
                 <button id="modalClose" class="close-btn-right">✕</button>
+                <button id="modalShare" class="share-btn-left">
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                </button>
                 <h3 id="modalTitle" class="modal-title">Nazwa Produktu</h3>
                 <div id="modalCategoryTag" class="category-badge">Kategoria: ...</div>
                 <div class="stars-container">

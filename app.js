@@ -12,7 +12,7 @@ const app = {
     ratingConfig: { stars: 0, tag: '', note: '' },
 
     escapeHTML: (str) => {
-        if (!str) return '';
+        if (str === null || str === undefined || str === '') return '';
         return String(str)
             .replace(/&/g, '&amp;')
             .replace(/</g, '&lt;')
@@ -54,6 +54,13 @@ const app = {
         await app.loadAllData();
         app.toggleSkeletons(false);
         app.updateDashboard();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('action') === 'search') {
+            app.switchTab('search');
+            // Optionally clear the URL without reloading to prevent stuck state on refresh
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
     },
 
     loadAllData: async () => {
@@ -83,14 +90,13 @@ const app = {
 
         app.favorites.forEach(fav => {
             categoryCount[fav.tag] = (categoryCount[fav.tag] || 0) + 1;
-            totalScore += parseInt(fav.stars);
+            totalScore += parseInt(fav.stars, 10);
         });
 
         const avgScore = total ? (totalScore / total).toFixed(1) : '0.0';
-        const topCategory = Object.keys(categoryCount).reduce(
-            (a, b) => categoryCount[a] > categoryCount[b] ? a : b,
-            '-'
-        ) || '-';
+        const topCategory = Object.keys(categoryCount).length > 0 
+            ? Object.keys(categoryCount).reduce((a, b) => categoryCount[a] > categoryCount[b] ? a : b) 
+            : '-';
         const lastItem = app.favorites[0] ? app.favorites[0].item.name : 'Brak';
 
         app.el.dashboardGrid.innerHTML = `
@@ -121,7 +127,6 @@ const app = {
 
     updateRecentlyRated: () => {
         const container = app.el.recentlyRated;
-        container.innerHTML = '';
         const recent = app.favorites.slice(0, CONSTANTS.MAX_RECENT_ITEMS);
 
         if (recent.length === 0) {
@@ -129,17 +134,13 @@ const app = {
             return;
         }
 
-        recent.forEach(fav => {
-            const card = document.createElement('div');
-            card.className = 'recent-card';
-            card.innerHTML = `
-        <img src="${app.escapeHTML(fav.item.image_url)}" onerror="this.src='./icons/icon-60.png'" alt="img">
-        <div class="recent-name">${app.escapeHTML(fav.item.name)}</div>
-        <div class="recent-stars">${app.escapeHTML(fav.stars)} ★</div>
-      `;
-            card.addEventListener('click', () => app.openRateModal(fav.item));
-            container.appendChild(card);
-        });
+        container.innerHTML = recent.map(fav => `
+            <div class="recent-card" data-item-name="${app.escapeHTML(fav.item.name)}">
+                <img src="${app.escapeHTML(fav.item.image_url)}" loading="lazy" onerror="this.src='./icons/icon-60.png'" alt="img">
+                <div class="recent-name">${app.escapeHTML(fav.item.name)}</div>
+                <div class="recent-stars">${app.escapeHTML(fav.stars)} ★</div>
+            </div>
+        `).join('');
     },
 
     switchTab: (tabName) => {
@@ -213,36 +214,33 @@ const app = {
             return;
         }
 
-        list.forEach(fav => {
-            const div = document.createElement('div');
-            div.id = `fav-${fav.id}`;
-            div.className = 'favorite-card';
-
-            const trashIcon = `
+        const trashIcon = `
         <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none">
           <polyline points="3 6 5 6 21 6"></polyline>
           <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
         </svg>
       `;
+
+        container.innerHTML = list.map(fav => {
             const alcVal = fav.item.alcohol ? (fav.item.alcohol.includes('%') ? fav.item.alcohol : fav.item.alcohol + '%') : null;
             const alcoholBadge = alcVal ? `<span class="separator">·</span><span class="alcohol-badge">${app.escapeHTML(alcVal)}</span>` : '';
 
-            div.innerHTML = `
-        <img src="${app.escapeHTML(fav.item.image_url)}" onerror="this.src='./icons/icon-60.png'" alt="${app.escapeHTML(fav.item.name)}">
-        <div class="item-info">
-          <div class="item-name">${app.escapeHTML(fav.item.name)}${alcoholBadge}</div>
-          <div class="item-meta">${app.escapeHTML(fav.tag)}</div>
-        </div>
-        <div class="item-stars">
-          ${app.escapeHTML(fav.stars)} <span style="font-size:12px; margin-left:1px;">★</span>
-        </div>
-        <button class="delete-btn" onclick="event.stopPropagation(); app.deleteFavorite(${fav.id})">
-          ${trashIcon}
-        </button>
-      `;
-            div.addEventListener('click', () => app.openRateModal(fav.item));
-            container.appendChild(div);
-        });
+            return `
+            <div id="fav-${fav.id}" class="favorite-card" data-item-name="${app.escapeHTML(fav.item.name)}">
+                <img src="${app.escapeHTML(fav.item.image_url)}" loading="lazy" onerror="this.src='./icons/icon-60.png'" alt="${app.escapeHTML(fav.item.name)}">
+                <div class="item-info">
+                <div class="item-name">${app.escapeHTML(fav.item.name)}${alcoholBadge}</div>
+                <div class="item-meta">${app.escapeHTML(fav.tag)}</div>
+                </div>
+                <div class="item-stars">
+                ${app.escapeHTML(fav.stars)} <span style="font-size:12px; margin-left:1px;">★</span>
+                </div>
+                <button class="delete-btn" data-delete-id="${fav.id}">
+                ${trashIcon}
+                </button>
+            </div>
+            `;
+        }).join('');
     },
 
     filterFavorites: (type) => {
@@ -287,7 +285,7 @@ const app = {
             return;
         }
 
-        const effectiveQuery = app.cleanQuery(raw) || raw;
+        const effectiveQuery = app.cleanQuery(raw) || raw.toLowerCase();
         const results = app.appData.filter(item => {
             const name = item.name.toLowerCase();
             return name.includes(effectiveQuery);
@@ -306,21 +304,19 @@ const app = {
         }
         app.el.noResults.style.display = 'none';
 
-        list.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'search-item';
+        container.innerHTML = list.map(item => {
             const alcVal = item.alcohol ? (item.alcohol.includes('%') ? item.alcohol : item.alcohol + '%') : null;
             const alcoholBadge = alcVal ? `<span class="separator">·</span><span class="alcohol-badge">${app.escapeHTML(alcVal)}</span>` : '';
-            div.innerHTML = `
-        <img src="${app.escapeHTML(item.image_url)}" onerror="this.src='./icons/icon-60.png'" alt="img">
-        <div class="item-info">
-          <div class="item-name">${app.escapeHTML(item.name)}${alcoholBadge}</div>
-          <div class="item-meta">${app.escapeHTML(item.category)}</div>
-        </div>
-      `;
-            div.addEventListener('click', () => app.openRateModal(item));
-            container.appendChild(div);
-        });
+            return `
+            <div class="search-item" data-item-name="${app.escapeHTML(item.name)}">
+                <img src="${app.escapeHTML(item.image_url)}" loading="lazy" onerror="this.src='./icons/icon-60.png'" alt="img">
+                <div class="item-info">
+                <div class="item-name">${app.escapeHTML(item.name)}${alcoholBadge}</div>
+                <div class="item-meta">${app.escapeHTML(item.category)}</div>
+                </div>
+            </div>
+            `;
+        }).join('');
     },
 
     openRateModal: (item) => {
@@ -456,7 +452,156 @@ const app = {
         }, 2000);
     },
 
+    shareCurrentItem: async () => {
+        app.haptics.light();
+        if (!app.currentItem) return;
+        const itemName = app.currentItem.name;
+        const ratingText = app.ratingConfig.stars > 0 ? `Oceniłem to na ${app.ratingConfig.stars}★ w Alko-Rater! Polecam!` : 'Sprawdź ten alkohol w Alko-Rater!';
+        
+        const shareData = {
+            title: `Alko Rater: ${itemName}`,
+            text: `${itemName} - ${ratingText}`,
+            url: window.location.origin + window.location.pathname
+        };
+
+        try {
+            if (navigator.share) {
+                await navigator.share(shareData);
+            } else {
+                app.showToast('Udostępnianie niedostępne na tym urządzeniu.');
+            }
+        } catch (err) {
+            console.log('Share failed:', err);
+        }
+    },
+
+    exportBackup: () => {
+        app.haptics.light();
+        if (app.favorites.length === 0) {
+            app.showToast('Baza jest pusta!');
+            return;
+        }
+        const dataStr = JSON.stringify(app.favorites, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        try {
+            if (navigator.share && navigator.canShare) {
+                const file = new File([blob], 'alko-rater-backup.json', { type: 'application/json' });
+                if (navigator.canShare({ files: [file] })) {
+                    navigator.share({
+                        files: [file],
+                        title: 'Backup Alko-Rater',
+                        text: 'Mój backup ulubionych alkoholi'
+                    }).then(() => URL.revokeObjectURL(url)).catch(e => {
+                        console.log('Share failed/cancelled', e);
+                        app.downloadBlob(url);
+                    });
+                    return;
+                }
+            }
+        } catch (e) {
+            console.error(e);
+        }
+        app.downloadBlob(url);
+    },
+
+    downloadBlob: (url) => {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `alko-rater-backup-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        app.showToast('Wyeksportowano!');
+    },
+
+    importBackup: (e) => {
+        app.haptics.light();
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                const data = JSON.parse(event.target.result);
+                if (Array.isArray(data)) {
+                    const valid = data.every(f => f.id && f.item && f.item.name);
+                    if (!valid) throw new Error("Invalid format");
+                    
+                    app.favorites = data;
+                    localStorage.setItem('favorites', JSON.stringify(app.favorites));
+                    app.showToast(`Zimportowano ${data.length} ocen!`);
+                    app.haptics.success();
+                    
+                    app.updateDashboard();
+                    if (app.currentTab === 'favorites') {
+                        app.renderFavorites(document.querySelector('.filter-chip.active')?.dataset.filter);
+                    }
+                } else {
+                    throw new Error("Not array");
+                }
+            } catch (err) {
+                app.showToast('Błąd parsowania pliku.');
+                app.haptics.warning();
+            }
+        };
+        reader.readAsText(file);
+        e.target.value = '';
+    },
+
     setupListeners: () => {
+        // Event delegation for recently rated
+        app.el.recentlyRated.addEventListener('click', (e) => {
+            const card = e.target.closest('.recent-card');
+            if (!card) return;
+            const name = card.dataset.itemName;
+            const fav = app.favorites.find(f => f.item.name === name);
+            if (fav) app.openRateModal(fav.item);
+        });
+
+        // Event delegation for search results
+        app.el.searchResults.addEventListener('click', (e) => {
+            const card = e.target.closest('.search-item');
+            if (!card) return;
+            const name = card.dataset.itemName;
+            const item = app.appData.find(i => i.name === name);
+            if (item) app.openRateModal(item);
+        });
+
+        // Event delegation for favorites list
+        app.el.favoritesList.addEventListener('click', (e) => {
+            const deleteBtn = e.target.closest('.delete-btn');
+            if (deleteBtn) {
+                e.stopPropagation();
+                app.deleteFavorite(parseInt(deleteBtn.dataset.deleteId, 10));
+                return;
+            }
+            const card = e.target.closest('.favorite-card');
+            if (card) {
+                const name = card.dataset.itemName;
+                const fav = app.favorites.find(f => f.item.name === name);
+                if (fav) app.openRateModal(fav.item);
+            }
+        });
+
+        const btnExport = document.getElementById('btnExport');
+        const btnImport = document.getElementById('btnImport');
+        const fileImport = document.getElementById('fileImport');
+        const modalShare = document.getElementById('modalShare');
+
+        if (btnExport) btnExport.addEventListener('click', app.exportBackup);
+        if (btnImport) btnImport.addEventListener('click', () => fileImport?.click());
+        if (fileImport) fileImport.addEventListener('change', app.importBackup);
+        if (modalShare) modalShare.addEventListener('click', app.shareCurrentItem);
+
+        const inputs = document.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => document.body.classList.add('keyboard-open'));
+            input.addEventListener('blur', () => document.body.classList.remove('keyboard-open'));
+        });
+
         app.el.navItems.forEach(btn =>
             btn.addEventListener('click', () => app.switchTab(btn.dataset.tab))
         );
