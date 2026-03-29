@@ -67,6 +67,7 @@ body {
     flex: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
     padding-bottom: calc(var(--nav-height) + var(--sab) + 40px);
     scroll-behavior: smooth;
 }
@@ -295,6 +296,7 @@ body.keyboard-open .bottom-nav {
     display: flex;
     gap: 12px;
     overflow-x: auto;
+    overscroll-behavior-x: contain;
     padding: 4px 0 12px 0;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
