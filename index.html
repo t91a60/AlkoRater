@@ -7,9 +7,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#000000">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://dummyimage.com; font-src 'self'; connect-src 'self';">
     <title>Alko Rater</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="src/css/style.css">
     <link rel="apple-touch-icon" href="icons/icon-180.png">
 </head>
 
@@ -131,7 +133,7 @@
             </button>
         </nav>
 
-        <div id="modal-wrapper">
+        <div id="modal-wrapper" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1" style="display: none;">
             <div class="modal-overlay"></div>
             <div class="modal-content">
                 <div class="modal-grabber"></div>
@@ -155,7 +157,7 @@
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script type="module" src="src/js/main.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('service-worker.js');

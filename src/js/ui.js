@@ -1,0 +1,484 @@
+/**
+ * @module ui
+ * All rendering, modal, tab switching, toast, haptics, search, backup.
+ * Imports: state (read/write), storage (saveFavorites).
+ * No circular dependencies.
+ */
+
+import { CONSTANTS, state } from './state.js';
+import { saveFavorites } from './storage.js';
+
+// ─── Utilities ────────────────────────────────────────────────────────────────
+
+export const escapeHTML = (str) => {
+    if (str === null || str === undefined || str === '') return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+};
+
+export const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func(...args), delay);
+    };
+};
+
+// ─── Haptics ──────────────────────────────────────────────────────────────────
+
+export const haptics = {
+    light:   () => { if (navigator.vibrate) navigator.vibrate(10); },
+    success: () => { if (navigator.vibrate) navigator.vibrate([10, 30, 10]); },
+    warning: () => { if (navigator.vibrate) navigator.vibrate([50, 50, 50, 50]); },
+};
+
+// ─── Toast ────────────────────────────────────────────────────────────────────
+
+export const showToast = (msg) => {
+    const existing = document.querySelector('.toast');
+    if (existing) existing.remove();
+
+    const t = document.createElement('div');
+    t.className = 'toast';
+    const span = document.createElement('span');
+    span.textContent = msg; // textContent — XSS safe
+    t.appendChild(span);
+    document.body.appendChild(t);
+
+    setTimeout(() => {
+        t.style.animation = 'dynamicIslandPop 0.5s var(--spring-bounce) reverse forwards';
+        setTimeout(() => t.remove(), 500);
+    }, 2000);
+};
+
+// ─── Skeletons ────────────────────────────────────────────────────────────────
+
+export const toggleSkeletons = (show) => {
+    const container = state.el.skeletons;
+    if (show) {
+        container.style.display = 'block';
+        container.innerHTML = Array(6).fill('<div class="skeleton-row"></div>').join('');
+    } else {
+        container.style.display = 'none';
+    }
+};
+
+// ─── Dashboard ────────────────────────────────────────────────────────────────
+
+export const updateDashboard = () => {
+    const total = state.favorites.length;
+    const categoryCount = {};
+    let totalScore = 0;
+
+    state.favorites.forEach(fav => {
+        categoryCount[fav.tag] = (categoryCount[fav.tag] || 0) + 1;
+        totalScore += parseInt(fav.stars, 10);
+    });
+
+    const avgScore    = total ? (totalScore / total).toFixed(1) : '0.0';
+    const topCategory = Object.keys(categoryCount).length > 0
+        ? Object.keys(categoryCount).reduce((a, b) => categoryCount[a] > categoryCount[b] ? a : b)
+        : '-';
+    const lastItem = state.favorites[0] ? state.favorites[0].item.name : 'Brak';
+
+    state.el.dashboardGrid.innerHTML = `
+      <div class="stat-card">
+        <div class="stat-icon">⭐</div>
+        <div class="stat-value">${escapeHTML(avgScore)}</div>
+        <div class="stat-label">Średnia Ocena</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📝</div>
+        <div class="stat-value">${escapeHTML(total)}</div>
+        <div class="stat-label">Oceniono</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🏆</div>
+        <div class="stat-value" style="text-transform:capitalize">${escapeHTML(topCategory)}</div>
+        <div class="stat-label">Ulubiony Typ</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🕒</div>
+        <div class="stat-value" style="font-size:16px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${escapeHTML(lastItem)}</div>
+        <div class="stat-label">Ostatnio</div>
+      </div>
+    `;
+
+    updateRecentlyRated();
+};
+
+export const updateRecentlyRated = () => {
+    const container = state.el.recentlyRated;
+    const recent    = state.favorites.slice(0, CONSTANTS.MAX_RECENT_ITEMS);
+
+    if (recent.length === 0) {
+        container.innerHTML = '<p style="opacity:0.4;font-size:13px;padding:10px;">Brak ocenionych produktów</p>';
+        return;
+    }
+
+    container.innerHTML = recent.map(fav => `
+        <div class="recent-card" data-item-name="${escapeHTML(fav.item.name)}">
+            <img src="${escapeHTML(fav.item.image_url)}" loading="lazy" onerror="this.src='./icons/icon-60.png'" alt="img">
+            <div class="recent-name">${escapeHTML(fav.item.name)}</div>
+            <div class="recent-stars">${escapeHTML(fav.stars)} ★</div>
+        </div>
+    `).join('');
+};
+
+// ─── Tab Navigation ───────────────────────────────────────────────────────────
+
+export const switchTab = (tabName) => {
+    if (state.currentTab === tabName) return;
+    haptics.light();
+
+    const currentEl = state.el.tabs[state.currentTab];
+    const nextEl    = state.el.tabs[tabName];
+
+    state.el.navItems.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tabName);
+    });
+
+    const titles = { start: 'Start', search: 'Szukaj', favorites: 'Ulubione' };
+    state.el.headerTitle.textContent = titles[tabName];
+
+    if (currentEl) {
+        currentEl.classList.remove('active', 'tab-enter');
+        currentEl.classList.add('tab-exit');
+        setTimeout(() => {
+            currentEl.classList.remove('tab-exit');
+            currentEl.style.display = 'none';
+        }, 300);
+    }
+
+    if (nextEl) {
+        nextEl.style.display = 'block';
+        nextEl.classList.remove('tab-exit');
+        nextEl.classList.add('active', 'tab-enter');
+        setTimeout(() => nextEl.classList.remove('tab-enter'), 350);
+    }
+
+    state.currentTab = tabName;
+    document.querySelector('.content-area').scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (tabName === 'favorites') renderFavorites(document.querySelector('.filter-chip.active')?.dataset.filter);
+    if (tabName === 'start')     updateDashboard();
+};
+
+// ─── Favorites ────────────────────────────────────────────────────────────────
+
+const GHOST_SVG = `
+    <svg class="ghost-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z"></path>
+        <circle cx="9" cy="10" r="1.2" fill="currentColor"></circle>
+        <circle cx="15" cy="10" r="1.2" fill="currentColor"></circle>
+    </svg>`;
+
+const TRASH_SVG = `
+    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none">
+        <polyline points="3 6 5 6 21 6"></polyline>
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+    </svg>`;
+
+const alcoholBadgeHTML = (alcohol) => {
+    if (!alcohol) return '';
+    const val = alcohol.includes('%') ? alcohol : alcohol + '%';
+    return `<span class="separator">·</span><span class="alcohol-badge">${escapeHTML(val)}</span>`;
+};
+
+export const renderFavorites = (filter = 'wszystkie') => {
+    const container  = state.el.favoritesList;
+    container.innerHTML = '';
+    const activeFilter = (filter || 'wszystkie').toLowerCase();
+    const list = activeFilter === 'wszystkie'
+        ? state.favorites
+        : state.favorites.filter(f => f.tag.toLowerCase() === activeFilter);
+
+    if (list.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state-animated">
+                <div class="floating-ghost">${GHOST_SVG}</div>
+                <p style="opacity:0.6;font-weight:500;">Brak ulubionych</p>
+            </div>`;
+        return;
+    }
+
+    container.innerHTML = list.map(fav => `
+        <div id="fav-${fav.id}" class="favorite-card" data-item-name="${escapeHTML(fav.item.name)}">
+            <img src="${escapeHTML(fav.item.image_url)}" loading="lazy" onerror="this.src='./icons/icon-60.png'" alt="${escapeHTML(fav.item.name)}">
+            <div class="item-info">
+                <div class="item-name">${escapeHTML(fav.item.name)}${alcoholBadgeHTML(fav.item.alcohol)}</div>
+                <div class="item-meta">${escapeHTML(fav.tag)}</div>
+            </div>
+            <div class="item-stars">${escapeHTML(fav.stars)} <span style="font-size:12px;margin-left:1px;">★</span></div>
+            <button class="delete-btn" data-delete-id="${fav.id}">${TRASH_SVG}</button>
+        </div>
+    `).join('');
+};
+
+export const filterFavorites = (type) => {
+    haptics.light();
+    document.querySelectorAll('.filter-chip').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === type);
+    });
+    renderFavorites(type);
+};
+
+export const deleteFavorite = (id) => {
+    haptics.light();
+    const el = document.getElementById(`fav-${id}`);
+    if (el) el.classList.add('slide-out-left');
+
+    setTimeout(() => {
+        // Use String() comparison so both old numeric IDs and new string IDs work
+        state.favorites = state.favorites.filter(f => String(f.id) !== String(id));
+        saveFavorites();
+        const activeFilter = document.querySelector('.filter-chip.active')?.dataset.filter || 'wszystkie';
+        renderFavorites(activeFilter);
+        updateDashboard();
+        showToast('Usunięto z ulubionych');
+        haptics.warning();
+    }, 300);
+};
+
+// ─── Search ───────────────────────────────────────────────────────────────────
+
+const cleanQuery = (raw) => {
+    const stopWords = ['piwo', 'wódka', 'wino', 'vodka', 'beer', 'wine'];
+    const cleaned = raw.toLowerCase().split(/\s+/).filter(w => !stopWords.includes(w));
+    return cleaned.join(' ');
+};
+
+export const handleSearch = (e) => {
+    const raw     = e.target.value.trim();
+    const clearBtn = document.getElementById('clearSearch');
+    if (clearBtn) clearBtn.style.display = raw ? 'flex' : 'none';
+
+    if (raw.length < 2) {
+        state.el.searchResults.innerHTML = '';
+        state.el.noResults.style.display = 'none';
+        return;
+    }
+
+    const effectiveQuery = cleanQuery(raw) || raw.toLowerCase();
+    const results = state.appData.filter(item => {
+        const name = item.name.toLowerCase();
+        const type = (item.type || '').toLowerCase();
+        return name.includes(effectiveQuery) || type.includes(effectiveQuery);
+    }).slice(0, 50);
+
+    renderResults(results);
+};
+
+export const renderResults = (list) => {
+    const container = state.el.searchResults;
+    container.innerHTML = '';
+
+    if (list.length === 0) {
+        state.el.noResults.style.display = 'block';
+        return;
+    }
+    state.el.noResults.style.display = 'none';
+
+    container.innerHTML = list.map(item => `
+        <div class="search-item" data-item-name="${escapeHTML(item.name)}">
+            <img src="${escapeHTML(item.image_url)}" loading="lazy" onerror="this.src='./icons/icon-60.png'" alt="img">
+            <div class="item-info">
+                <div class="item-name">${escapeHTML(item.name)}${alcoholBadgeHTML(item.alcohol)}</div>
+                <div class="item-meta">${escapeHTML(item.category)}</div>
+            </div>
+        </div>
+    `).join('');
+};
+
+// ─── Modal ────────────────────────────────────────────────────────────────────
+
+export const openRateModal = (item) => {
+    haptics.light();
+    state.currentItem = item;
+    const strictCategory = item.category || 'Nieznane';
+    const existing       = state.favorites.find(f => f.item.name === item.name);
+
+    if (existing) {
+        state.ratingConfig = { stars: existing.stars, tag: strictCategory, note: existing.note || '' };
+        document.getElementById('saveButton').textContent = 'Zaktualizuj';
+    } else {
+        state.ratingConfig = { stars: 0, tag: strictCategory, note: '' };
+        document.getElementById('saveButton').textContent = 'Zapisz Ocenę';
+    }
+
+    document.getElementById('modalTitle').innerHTML =
+        `${escapeHTML(item.name)}${alcoholBadgeHTML(item.alcohol)}`;
+    document.getElementById('modalCategoryTag').textContent = `Kategoria: ${strictCategory}`;
+    document.getElementById('noteInput').value = state.ratingConfig.note;
+
+    document.querySelector('.app-container').classList.add('scale-back');
+    document.querySelector('.bottom-nav').classList.add('tab-bar-hidden');
+    state.el.modal.style.display = 'block';
+    setTimeout(() => state.el.modal.classList.add('active'), 10);
+
+    renderModalState();
+};
+
+export const renderModalState = () => {
+    document.querySelectorAll('.star').forEach(s => {
+        s.classList.toggle('active', parseInt(s.dataset.value) <= state.ratingConfig.stars);
+    });
+
+    if (state.ratingConfig.stars === 5) {
+        document.querySelectorAll('.star').forEach((s, idx) => {
+            setTimeout(() => s.classList.add('star-pop'), idx * 50);
+        });
+        setTimeout(() => {
+            document.querySelectorAll('.star').forEach(s => s.classList.remove('star-pop'));
+        }, 800);
+    }
+
+    validateSave();
+};
+
+export const setRating = (val) => {
+    state.ratingConfig.stars = val;
+    haptics.light();
+    if (val === 5) haptics.success();
+    renderModalState();
+};
+
+export const validateSave = () => {
+    document.getElementById('saveButton').disabled = state.ratingConfig.stars < 1;
+};
+
+export const closeModal = () => {
+    document.querySelector('.app-container').classList.remove('scale-back');
+    document.querySelector('.bottom-nav').classList.remove('tab-bar-hidden');
+    state.el.modal.classList.remove('active');
+    setTimeout(() => state.el.modal.style.display = 'none', 400);
+};
+
+export const saveRating = () => {
+    if (!state.currentItem) return;
+    state.ratingConfig.note = document.getElementById('noteInput').value;
+
+    const record = {
+        id:   `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+        item: state.currentItem,
+        ...state.ratingConfig,
+        date: new Date().toISOString(),
+    };
+
+    const existingIndex = state.favorites.findIndex(f => f.item.name === state.currentItem.name);
+    if (existingIndex >= 0) {
+        state.favorites = state.favorites.map((f, i) => i === existingIndex ? record : f);
+        showToast('Zaktualizowano ocenę!');
+    } else {
+        state.favorites = [record, ...state.favorites];
+        showToast('Zapisano ocenę!');
+    }
+
+    saveFavorites();
+    updateDashboard();
+    if (state.currentTab === 'favorites') {
+        renderFavorites(document.querySelector('.filter-chip.active')?.dataset.filter);
+    }
+    haptics.success();
+    closeModal();
+};
+
+// ─── Share & Backup ───────────────────────────────────────────────────────────
+
+export const shareCurrentItem = async () => {
+    haptics.light();
+    if (!state.currentItem) return;
+
+    const ratingText = state.ratingConfig.stars > 0
+        ? `Oceniłem to na ${state.ratingConfig.stars}★ w Alko-Rater! Polecam!`
+        : 'Sprawdź ten alkohol w Alko-Rater!';
+
+    try {
+        if (navigator.share) {
+            await navigator.share({
+                title: `Alko Rater: ${state.currentItem.name}`,
+                text:  `${state.currentItem.name} - ${ratingText}`,
+                url:   window.location.origin + window.location.pathname,
+            });
+        } else {
+            showToast('Udostępnianie niedostępne na tym urządzeniu.');
+        }
+    } catch (err) {
+        console.log('[Share] failed or cancelled:', err);
+    }
+};
+
+export const exportBackup = () => {
+    haptics.light();
+    if (state.favorites.length === 0) { showToast('Baza jest pusta!'); return; }
+
+    const blob = new Blob([JSON.stringify(state.favorites, null, 2)], { type: 'application/json' });
+    const url  = URL.createObjectURL(blob);
+
+    try {
+        if (navigator.share && navigator.canShare) {
+            const file = new File([blob], 'alko-rater-backup.json', { type: 'application/json' });
+            if (navigator.canShare({ files: [file] })) {
+                navigator.share({ files: [file], title: 'Backup Alko-Rater', text: 'Mój backup ulubionych alkoholi' })
+                    .then(() => URL.revokeObjectURL(url))
+                    .catch(() => downloadBlob(url));
+                return;
+            }
+        }
+    } catch (e) { console.error(e); }
+
+    downloadBlob(url);
+};
+
+export const downloadBlob = (url) => {
+    const a = document.createElement('a');
+    a.href     = url;
+    a.download = `alko-rater-backup-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    showToast('Wyeksportowano!');
+};
+
+export const importBackup = (e) => {
+    haptics.light();
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+        try {
+            const data = JSON.parse(event.target.result);
+            if (!Array.isArray(data)) throw new Error('Not an array');
+
+            const valid = data.every(f =>
+                f.id &&
+                f.item &&
+                typeof f.item.name === 'string' &&
+                f.item.name.trim().length > 0 &&
+                Number(f.stars) >= 1 &&
+                Number(f.stars) <= 5
+            );
+            if (!valid) throw new Error('Invalid format');
+
+            state.favorites = data;
+            saveFavorites();
+            showToast(`Zaimportowano ${data.length} ocen!`);
+            haptics.success();
+            updateDashboard();
+            if (state.currentTab === 'favorites') {
+                renderFavorites(document.querySelector('.filter-chip.active')?.dataset.filter);
+            }
+        } catch (err) {
+            showToast('Błąd parsowania pliku.');
+            haptics.warning();
+        }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+};

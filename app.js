@@ -4,6 +4,19 @@ const CONSTANTS = {
     ANIMATION_DELAY_MS: 300
 };
 
+// K2 Fix: Derives correct category from item.type field
+// so items are classified correctly regardless of which JSON file they came from.
+const deriveCategory = (type = '') => {
+    const t = type.toLowerCase();
+    if (t.includes('wino') || t.includes('szampan') || t.includes('prosecco') ||
+        t.includes('musujące') || t.includes('porto') || t.includes('sherry') ||
+        t.includes('bordeaux') || t.includes('rose') || t.includes('cava')) return 'Wino';
+    if (t.includes('piwo') || t.includes('lager') || t.includes('porter') ||
+        t.includes('stout') || t.includes('ipa') || t.includes('weizen') ||
+        t.includes('pszeniczn') || t.includes(' ale') || t.includes('kraftowe piwo')) return 'Piwo';
+    return 'Wódka'; // Domyślnie: wódki, likiery, okowity
+};
+
 const app = {
     appData: [],
     favorites: [],
@@ -29,25 +42,30 @@ const app = {
         };
     },
 
-    el: {
-        headerTitle: document.getElementById('headerTitle'),
-        tabs: {
-            start: document.getElementById('tab-start'),
-            search: document.getElementById('tab-search'),
-            favorites: document.getElementById('tab-favorites')
-        },
-        navItems: document.querySelectorAll('.nav-item'),
-        searchInput: document.getElementById('searchInput'),
-        searchResults: document.getElementById('searchResults'),
-        favoritesList: document.getElementById('favoritesList'),
-        dashboardGrid: document.getElementById('dashboardGrid'),
-        recentlyRated: document.getElementById('recentlyRated'),
-        skeletons: document.getElementById('searchSkeletons'),
-        noResults: document.getElementById('noResults'),
-        modal: document.getElementById('modal-wrapper')
+    el: {}, // JS-2 Fix: DOM refs populated in initEl() after DOM is ready
+
+    initEl: () => {
+        app.el = {
+            headerTitle: document.getElementById('headerTitle'),
+            tabs: {
+                start: document.getElementById('tab-start'),
+                search: document.getElementById('tab-search'),
+                favorites: document.getElementById('tab-favorites')
+            },
+            navItems: document.querySelectorAll('.nav-item'),
+            searchInput: document.getElementById('searchInput'),
+            searchResults: document.getElementById('searchResults'),
+            favoritesList: document.getElementById('favoritesList'),
+            dashboardGrid: document.getElementById('dashboardGrid'),
+            recentlyRated: document.getElementById('recentlyRated'),
+            skeletons: document.getElementById('searchSkeletons'),
+            noResults: document.getElementById('noResults'),
+            modal: document.getElementById('modal-wrapper')
+        };
     },
 
     init: async () => {
+        app.initEl(); // Initialize DOM references after DOM is ready
         app.loadFavorites();
         app.setupListeners();
         app.toggleSkeletons(true);
@@ -72,9 +90,9 @@ const app = {
             ]);
 
             app.appData = [
-                ...beerData.map(item => ({ ...item, category: 'Piwo' })),
-                ...vodkaData.map(item => ({ ...item, category: 'Wódka' })),
-                ...wineData.map(item => ({ ...item, category: 'Wino' }))
+                ...beerData.map(item => ({ ...item, category: deriveCategory(item.type) })),
+                ...vodkaData.map(item => ({ ...item, category: deriveCategory(item.type) })),
+                ...wineData.map(item => ({ ...item, category: deriveCategory(item.type) }))
             ];
 
             document.getElementById('dbCount').textContent = app.appData.length;
@@ -288,7 +306,8 @@ const app = {
         const effectiveQuery = app.cleanQuery(raw) || raw.toLowerCase();
         const results = app.appData.filter(item => {
             const name = item.name.toLowerCase();
-            return name.includes(effectiveQuery);
+            const type = (item.type || '').toLowerCase(); // W3 Fix: search by type too
+            return name.includes(effectiveQuery) || type.includes(effectiveQuery);
         }).slice(0, 50);
 
         app.renderResults(results);
@@ -394,7 +413,7 @@ const app = {
 
         app.ratingConfig.note = document.getElementById('noteInput').value;
         const record = {
-            id: Date.now(),
+            id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`, // W4 Fix: collision-proof ID
             item: app.currentItem,
             ...app.ratingConfig,
             date: new Date().toISOString()
@@ -443,7 +462,9 @@ const app = {
 
         const t = document.createElement('div');
         t.className = 'toast';
-        t.innerHTML = `<span>${msg}</span>`;
+        const span = document.createElement('span'); // N4 Fix: avoid innerHTML for XSS safety
+        span.textContent = msg;
+        t.appendChild(span);
         document.body.appendChild(t);
 
         setTimeout(() => {
@@ -527,7 +548,15 @@ const app = {
             try {
                 const data = JSON.parse(event.target.result);
                 if (Array.isArray(data)) {
-                    const valid = data.every(f => f.id && f.item && f.item.name);
+                    // W5 Fix: deep validation - check types and value ranges
+                    const valid = data.every(f =>
+                        f.id &&
+                        f.item &&
+                        typeof f.item.name === 'string' &&
+                        f.item.name.trim().length > 0 &&
+                        Number(f.stars) >= 1 &&
+                        Number(f.stars) <= 5
+                    );
                     if (!valid) throw new Error("Invalid format");
                     
                     app.favorites = data;
