@@ -33,19 +33,23 @@ export const deriveCategory = (type = '') => {
     return 'Wódka'; // default: vodkas, liqueurs, spirits
 };
 
-// ─── Fetch All JSON ───────────────────────────────────────────────────────────
+// ─── Fetch Helper ─────────────────────────────────────────────────────────────
 
 const fetchJSON = (url) =>
     fetch(url)
-        .then(r => r.ok ? r.json() : [])
-        .catch(err => { console.error(`[Data] Error fetching ${url}:`, err); return []; });
+        .then((r) => (r.ok ? r.json() : []))
+        .catch((err) => {
+            console.error(`[Data] Error fetching ${url}:`, err);
+            return [];
+        });
+
+// ─── Load All Data ────────────────────────────────────────────────────────────
 
 /**
- * Fetches JSON files sequentially or concurrently and populates the global appData state.
+ * Fetches JSON files concurrently and populates the global appData state.
  * Validates responses and normalizes categories using deriveCategory.
  *
  * @returns {Promise<void>} Resolves when all data is loaded into `state.appData`
- * @throws {Error} If fetching one of the critical data files fails
  */
 export const loadAllData = async () => {
     const [beerData, vodkaData, wineData] = await Promise.all([
@@ -55,9 +59,9 @@ export const loadAllData = async () => {
     ]);
 
     state.appData = [
-        ...beerData.map(item  => ({ ...item, category: deriveCategory(item.type) })),
-        ...vodkaData.map(item => ({ ...item, category: deriveCategory(item.type) })),
-        ...wineData.map(item  => ({ ...item, category: deriveCategory(item.type) })),
+        ...beerData.map((item) => ({ ...item, category: deriveCategory(item.type) })),
+        ...vodkaData.map((item) => ({ ...item, category: deriveCategory(item.type) })),
+        ...wineData.map((item) => ({ ...item, category: deriveCategory(item.type) })),
     ];
 
     const dbCountEl = document.getElementById('dbCount');

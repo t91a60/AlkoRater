@@ -1,9 +1,9 @@
 {
   "name": "alko-rater",
-  "version": "1.0.0",
-  "description": "Progressive Web App do oceniania alkoholi",
-  "main": "public/index.html",
-"scripts": {
+  "version": "2.0.0",
+  "description": "Progressive Web App do oceniania alkoholi — iOS feel, offline-first, mobile-first",
+  "main": "index.html",
+  "scripts": {
     "dev": "npx serve . -p 3000 --single",
     "dev:cache": "npx serve . -p 3000 --single",
     "build": "echo 'Statyczna PWA – nie ma builda'",
@@ -14,7 +14,9 @@
     "alcohol",
     "rating",
     "beer",
-    "offline"
+    "offline",
+    "ios-feel",
+    "mobile-first"
   ],
   "author": "",
   "license": "MIT"

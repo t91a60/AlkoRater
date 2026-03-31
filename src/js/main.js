@@ -4,9 +4,9 @@
  * This is the only file referenced from index.html (type="module").
  */
 
-import { CONSTANTS, state }   from './state.js';
-import { loadFavorites }       from './storage.js';
-import { loadAllData }         from './data.js';
+import { CONSTANTS, state } from './state.js';
+import { loadFavorites } from './storage.js';
+import { loadAllData } from './data.js';
 import {
     debounce,
     showToast,
@@ -30,21 +30,21 @@ import {
 
 const initEl = () => {
     state.el = {
-        headerTitle:   document.getElementById('headerTitle'),
+        headerTitle: document.getElementById('headerTitle'),
         tabs: {
-            start:     document.getElementById('tab-start'),
-            search:    document.getElementById('tab-search'),
+            start: document.getElementById('tab-start'),
+            search: document.getElementById('tab-search'),
             favorites: document.getElementById('tab-favorites'),
         },
-        navItems:      document.querySelectorAll('.nav-item'),
-        searchInput:   document.getElementById('searchInput'),
+        navItems: document.querySelectorAll('.nav-item'),
+        searchInput: document.getElementById('searchInput'),
         searchResults: document.getElementById('searchResults'),
         favoritesList: document.getElementById('favoritesList'),
         dashboardGrid: document.getElementById('dashboardGrid'),
         recentlyRated: document.getElementById('recentlyRated'),
-        skeletons:     document.getElementById('searchSkeletons'),
-        noResults:     document.getElementById('noResults'),
-        modal:         document.getElementById('modal-wrapper'),
+        skeletons: document.getElementById('searchSkeletons'),
+        noResults: document.getElementById('noResults'),
+        modal: document.getElementById('modal-wrapper'),
     };
 };
 
@@ -55,7 +55,7 @@ const setupListeners = () => {
     state.el.recentlyRated.addEventListener('click', (e) => {
         const card = e.target.closest('.recent-card');
         if (!card) return;
-        const fav = state.favorites.find(f => f.item.name === card.dataset.itemName);
+        const fav = state.favorites.find((f) => f.item.name === card.dataset.itemName);
         if (fav) openRateModal(fav.item);
     });
 
@@ -63,7 +63,7 @@ const setupListeners = () => {
     state.el.searchResults.addEventListener('click', (e) => {
         const card = e.target.closest('.search-item');
         if (!card) return;
-        const item = state.appData.find(i => i.name === card.dataset.itemName);
+        const item = state.appData.find((i) => i.name === card.dataset.itemName);
         if (item) openRateModal(item);
     });
 
@@ -72,12 +72,12 @@ const setupListeners = () => {
         const deleteBtn = e.target.closest('.delete-btn');
         if (deleteBtn) {
             e.stopPropagation();
-            deleteFavorite(deleteBtn.dataset.deleteId); // pass as string (supports old numeric + new string IDs)
+            deleteFavorite(deleteBtn.dataset.deleteId);
             return;
         }
         const card = e.target.closest('.favorite-card');
         if (card) {
-            const fav = state.favorites.find(f => f.item.name === card.dataset.itemName);
+            const fav = state.favorites.find((f) => f.item.name === card.dataset.itemName);
             if (fav) openRateModal(fav.item);
         }
     });
@@ -88,19 +88,19 @@ const setupListeners = () => {
     const fileImport = document.getElementById('fileImport');
     const modalShare = document.getElementById('modalShare');
 
-    if (btnExport)  btnExport.addEventListener('click', exportBackup);
-    if (btnImport)  btnImport.addEventListener('click', () => fileImport?.click());
+    if (btnExport) btnExport.addEventListener('click', exportBackup);
+    if (btnImport) btnImport.addEventListener('click', () => fileImport?.click());
     if (fileImport) fileImport.addEventListener('change', importBackup);
     if (modalShare) modalShare.addEventListener('click', shareCurrentItem);
 
     // ── iOS keyboard body class ───────────────────────────────────────────────
-    document.querySelectorAll('input, textarea').forEach(input => {
+    document.querySelectorAll('input, textarea').forEach((input) => {
         input.addEventListener('focus', () => document.body.classList.add('keyboard-open'));
-        input.addEventListener('blur',  () => document.body.classList.remove('keyboard-open'));
+        input.addEventListener('blur', () => document.body.classList.remove('keyboard-open'));
     });
 
     // ── Bottom navigation tabs ────────────────────────────────────────────────
-    state.el.navItems.forEach(btn =>
+    state.el.navItems.forEach((btn) =>
         btn.addEventListener('click', () => switchTab(btn.dataset.tab))
     );
 
@@ -138,7 +138,7 @@ const setupListeners = () => {
     });
 
     // ── Filter chips ──────────────────────────────────────────────────────────
-    document.querySelectorAll('.filter-chip').forEach(chip => {
+    document.querySelectorAll('.filter-chip').forEach((chip) => {
         chip.addEventListener('click', () => filterFavorites(chip.dataset.filter));
     });
 };

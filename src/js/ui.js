@@ -10,16 +10,27 @@ import { saveFavorites } from './storage.js';
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
 
+/**
+ * Escapes HTML to prevent XSS attacks.
+ * @param {string} str - Raw string
+ * @returns {string} Escaped string
+ */
 export const escapeHTML = (str) => {
     if (str === null || str === undefined || str === '') return '';
     return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
+        .replace(/&/g, '&')
+        .replace(/</g, '<')
+        .replace(/>/g, '>')
+        .replace(/"/g, '"')
         .replace(/'/g, '&#039;');
 };
 
+/**
+ * Debounces a function call.
+ * @param {Function} func - Function to debounce
+ * @param {number} delay - Delay in milliseconds
+ * @returns {Function} Debounced function
+ */
 export const debounce = (func, delay) => {
     let timeoutId;
     return (...args) => {
@@ -31,13 +42,17 @@ export const debounce = (func, delay) => {
 // ─── Haptics ──────────────────────────────────────────────────────────────────
 
 export const haptics = {
-    light:   () => { if (navigator.vibrate) navigator.vibrate(10); },
+    light: () => { if (navigator.vibrate) navigator.vibrate(10); },
     success: () => { if (navigator.vibrate) navigator.vibrate([10, 30, 10]); },
     warning: () => { if (navigator.vibrate) navigator.vibrate([50, 50, 50, 50]); },
 };
 
 // ─── Toast ────────────────────────────────────────────────────────────────────
 
+/**
+ * Shows a toast notification with iOS-style animation.
+ * @param {string} msg - Toast message
+ */
 export const showToast = (msg) => {
     const existing = document.querySelector('.toast');
     if (existing) existing.remove();
@@ -50,13 +65,17 @@ export const showToast = (msg) => {
     document.body.appendChild(t);
 
     setTimeout(() => {
-        t.style.animation = 'dynamicIslandPop 0.5s var(--spring-bounce) reverse forwards';
-        setTimeout(() => t.remove(), 500);
+        t.style.animation = 'toastSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) reverse forwards';
+        setTimeout(() => t.remove(), 400);
     }, 2000);
 };
 
 // ─── Skeletons ────────────────────────────────────────────────────────────────
 
+/**
+ * Toggles loading skeleton placeholders.
+ * @param {boolean} show - Whether to show skeletons
+ */
 export const toggleSkeletons = (show) => {
     const container = state.el.skeletons;
     if (show) {
@@ -69,39 +88,42 @@ export const toggleSkeletons = (show) => {
 
 // ─── Dashboard ────────────────────────────────────────────────────────────────
 
+/**
+ * Updates the dashboard statistics.
+ */
 export const updateDashboard = () => {
     const total = state.favorites.length;
     const categoryCount = {};
     let totalScore = 0;
 
-    state.favorites.forEach(fav => {
+    state.favorites.forEach((fav) => {
         categoryCount[fav.tag] = (categoryCount[fav.tag] || 0) + 1;
         totalScore += parseInt(fav.stars, 10);
     });
 
-    const avgScore    = total ? (totalScore / total).toFixed(1) : '0.0';
+    const avgScore = total ? (totalScore / total).toFixed(1) : '0.0';
     const topCategory = Object.keys(categoryCount).length > 0
         ? Object.keys(categoryCount).reduce((a, b) => categoryCount[a] > categoryCount[b] ? a : b)
         : '-';
     const lastItem = state.favorites[0] ? state.favorites[0].item.name : 'Brak';
 
     state.el.dashboardGrid.innerHTML = `
-      <div class="stat-card">
+      <div class="stat-card animate-fade-in">
         <div class="stat-icon">⭐</div>
         <div class="stat-value">${escapeHTML(avgScore)}</div>
         <div class="stat-label">Średnia Ocena</div>
       </div>
-      <div class="stat-card">
+      <div class="stat-card animate-fade-in">
         <div class="stat-icon">📝</div>
         <div class="stat-value">${escapeHTML(total)}</div>
         <div class="stat-label">Oceniono</div>
       </div>
-      <div class="stat-card">
+      <div class="stat-card animate-fade-in">
         <div class="stat-icon">🏆</div>
         <div class="stat-value" style="text-transform:capitalize">${escapeHTML(topCategory)}</div>
         <div class="stat-label">Ulubiony Typ</div>
       </div>
-      <div class="stat-card">
+      <div class="stat-card animate-fade-in">
         <div class="stat-icon">🕒</div>
         <div class="stat-value" style="font-size:16px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">${escapeHTML(lastItem)}</div>
         <div class="stat-label">Ostatnio</div>
@@ -111,17 +133,20 @@ export const updateDashboard = () => {
     updateRecentlyRated();
 };
 
+/**
+ * Updates the recently rated items horizontal scroll.
+ */
 export const updateRecentlyRated = () => {
     const container = state.el.recentlyRated;
-    const recent    = state.favorites.slice(0, CONSTANTS.MAX_RECENT_ITEMS);
+    const recent = state.favorites.slice(0, CONSTANTS.MAX_RECENT_ITEMS);
 
     if (recent.length === 0) {
         container.innerHTML = '<p style="opacity:0.4;font-size:13px;padding:10px;">Brak ocenionych produktów</p>';
         return;
     }
 
-    container.innerHTML = recent.map(fav => `
-        <div class="recent-card" data-item-name="${escapeHTML(fav.item.name)}">
+    container.innerHTML = recent.map((fav, idx) => `
+        <div class="recent-card animate-fade-in" data-item-name="${escapeHTML(fav.item.name)}" style="animation-delay: ${idx * 40}ms">
             <img src="${escapeHTML(fav.item.image_url)}" loading="lazy" onerror="this.src='./icons/icon-60.png'" alt="img">
             <div class="recent-name">${escapeHTML(fav.item.name)}</div>
             <div class="recent-stars">${escapeHTML(fav.stars)} ★</div>
@@ -131,14 +156,18 @@ export const updateRecentlyRated = () => {
 
 // ─── Tab Navigation ───────────────────────────────────────────────────────────
 
+/**
+ * Switches between tabs with iOS-style animation.
+ * @param {string} tabName - Target tab name
+ */
 export const switchTab = (tabName) => {
     if (state.currentTab === tabName) return;
     haptics.light();
 
     const currentEl = state.el.tabs[state.currentTab];
-    const nextEl    = state.el.tabs[tabName];
+    const nextEl = state.el.tabs[tabName];
 
-    state.el.navItems.forEach(btn => {
+    state.el.navItems.forEach((btn) => {
         btn.classList.toggle('active', btn.dataset.tab === tabName);
     });
 
@@ -151,7 +180,7 @@ export const switchTab = (tabName) => {
         setTimeout(() => {
             currentEl.classList.remove('tab-exit');
             currentEl.style.display = 'none';
-        }, 300);
+        }, 350);
     }
 
     if (nextEl) {
@@ -165,7 +194,7 @@ export const switchTab = (tabName) => {
     document.querySelector('.content-area').scrollTo({ top: 0, behavior: 'smooth' });
 
     if (tabName === 'favorites') renderFavorites(document.querySelector('.filter-chip.active')?.dataset.filter);
-    if (tabName === 'start')     updateDashboard();
+    if (tabName === 'start') updateDashboard();
 };
 
 // ─── Favorites ────────────────────────────────────────────────────────────────
@@ -183,19 +212,28 @@ const TRASH_SVG = `
         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
     </svg>`;
 
+/**
+ * Generates HTML for alcohol badge.
+ * @param {string} alcohol - Alcohol percentage
+ * @returns {string} HTML string
+ */
 const alcoholBadgeHTML = (alcohol) => {
     if (!alcohol) return '';
     const val = alcohol.includes('%') ? alcohol : alcohol + '%';
     return `<span class="separator">·</span><span class="alcohol-badge">${escapeHTML(val)}</span>`;
 };
 
+/**
+ * Renders the favorites list with staggered animations.
+ * @param {string} filter - Active filter category
+ */
 export const renderFavorites = (filter = 'wszystkie') => {
-    const container  = state.el.favoritesList;
+    const container = state.el.favoritesList;
     container.innerHTML = '';
     const activeFilter = (filter || 'wszystkie').toLowerCase();
     const list = activeFilter === 'wszystkie'
         ? state.favorites
-        : state.favorites.filter(f => f.tag.toLowerCase() === activeFilter);
+        : state.favorites.filter((f) => f.tag.toLowerCase() === activeFilter);
 
     if (list.length === 0) {
         container.innerHTML = `
@@ -206,35 +244,42 @@ export const renderFavorites = (filter = 'wszystkie') => {
         return;
     }
 
-    container.innerHTML = list.map(fav => `
-        <div id="fav-${fav.id}" class="favorite-card" data-item-name="${escapeHTML(fav.item.name)}">
+    container.innerHTML = list.map((fav, idx) => `
+        <div id="fav-${fav.id}" class="favorite-card animate-fade-in" data-item-name="${escapeHTML(fav.item.name)}" style="animation-delay: ${idx * 30}ms">
             <img src="${escapeHTML(fav.item.image_url)}" loading="lazy" onerror="this.src='./icons/icon-60.png'" alt="${escapeHTML(fav.item.name)}">
             <div class="item-info">
                 <div class="item-name">${escapeHTML(fav.item.name)}${alcoholBadgeHTML(fav.item.alcohol)}</div>
                 <div class="item-meta">${escapeHTML(fav.tag)}</div>
             </div>
             <div class="item-stars">${escapeHTML(fav.stars)} <span style="font-size:12px;margin-left:1px;">★</span></div>
-            <button class="delete-btn" data-delete-id="${fav.id}">${TRASH_SVG}</button>
+            <button class="delete-btn" data-delete-id="${fav.id}" aria-label="Usuń">${TRASH_SVG}</button>
         </div>
     `).join('');
 };
 
+/**
+ * Filters favorites by category.
+ * @param {string} type - Filter type
+ */
 export const filterFavorites = (type) => {
     haptics.light();
-    document.querySelectorAll('.filter-chip').forEach(btn => {
+    document.querySelectorAll('.filter-chip').forEach((btn) => {
         btn.classList.toggle('active', btn.dataset.filter === type);
     });
     renderFavorites(type);
 };
 
+/**
+ * Deletes a favorite item with slide-out animation.
+ * @param {string|number} id - Item ID to delete
+ */
 export const deleteFavorite = (id) => {
     haptics.light();
     const el = document.getElementById(`fav-${id}`);
     if (el) el.classList.add('slide-out-left');
 
     setTimeout(() => {
-        // Use String() comparison so both old numeric IDs and new string IDs work
-        state.favorites = state.favorites.filter(f => String(f.id) !== String(id));
+        state.favorites = state.favorites.filter((f) => String(f.id) !== String(id));
         saveFavorites();
         const activeFilter = document.querySelector('.filter-chip.active')?.dataset.filter || 'wszystkie';
         renderFavorites(activeFilter);
@@ -246,16 +291,30 @@ export const deleteFavorite = (id) => {
 
 // ─── Search ───────────────────────────────────────────────────────────────────
 
+const stopWords = ['piwo', 'wódka', 'wino', 'vodka', 'beer', 'wine'];
+
+/**
+ * Cleans search query by removing stop words.
+ * @param {string} raw - Raw search query
+ * @returns {string} Cleaned query
+ */
 const cleanQuery = (raw) => {
-    const stopWords = ['piwo', 'wódka', 'wino', 'vodka', 'beer', 'wine'];
-    const cleaned = raw.toLowerCase().split(/\s+/).filter(w => !stopWords.includes(w));
+    const cleaned = raw.toLowerCase().split(/\s+/).filter((w) => !stopWords.includes(w));
     return cleaned.join(' ');
 };
 
+/**
+ * Handles search input changes.
+ * @param {Event} e - Input event
+ */
 export const handleSearch = (e) => {
-    const raw     = e.target.value.trim();
+    const raw = e.target.value.trim();
     const clearBtn = document.getElementById('clearSearch');
-    if (clearBtn) clearBtn.style.display = raw ? 'flex' : 'none';
+
+    // Toggle iOS-style clear button
+    if (clearBtn) {
+        clearBtn.classList.toggle('visible', raw.length > 0);
+    }
 
     if (raw.length < 2) {
         state.el.searchResults.innerHTML = '';
@@ -264,7 +323,7 @@ export const handleSearch = (e) => {
     }
 
     const effectiveQuery = cleanQuery(raw) || raw.toLowerCase();
-    const results = state.appData.filter(item => {
+    const results = state.appData.filter((item) => {
         const name = item.name.toLowerCase();
         const type = (item.type || '').toLowerCase();
         return name.includes(effectiveQuery) || type.includes(effectiveQuery);
@@ -273,6 +332,10 @@ export const handleSearch = (e) => {
     renderResults(results);
 };
 
+/**
+ * Renders search results with staggered animations.
+ * @param {Array} list - Array of matching items
+ */
 export const renderResults = (list) => {
     const container = state.el.searchResults;
     container.innerHTML = '';
@@ -283,8 +346,8 @@ export const renderResults = (list) => {
     }
     state.el.noResults.style.display = 'none';
 
-    container.innerHTML = list.map(item => `
-        <div class="search-item" data-item-name="${escapeHTML(item.name)}">
+    container.innerHTML = list.map((item, idx) => `
+        <div class="search-item animate-fade-in" data-item-name="${escapeHTML(item.name)}" style="animation-delay: ${idx * 25}ms">
             <img src="${escapeHTML(item.image_url)}" loading="lazy" onerror="this.src='./icons/icon-60.png'" alt="img">
             <div class="item-info">
                 <div class="item-name">${escapeHTML(item.name)}${alcoholBadgeHTML(item.alcohol)}</div>
@@ -296,11 +359,15 @@ export const renderResults = (list) => {
 
 // ─── Modal ────────────────────────────────────────────────────────────────────
 
+/**
+ * Opens the rating modal with iOS sheet animation.
+ * @param {Object} item - Product item to rate
+ */
 export const openRateModal = (item) => {
     haptics.light();
     state.currentItem = item;
     const strictCategory = item.category || 'Nieznane';
-    const existing       = state.favorites.find(f => f.item.name === item.name);
+    const existing = state.favorites.find((f) => f.item.name === item.name);
 
     if (existing) {
         state.ratingConfig = { stars: existing.stars, tag: strictCategory, note: existing.note || '' };
@@ -318,28 +385,40 @@ export const openRateModal = (item) => {
     document.querySelector('.app-container').classList.add('scale-back');
     document.querySelector('.bottom-nav').classList.add('tab-bar-hidden');
     state.el.modal.style.display = 'block';
-    setTimeout(() => state.el.modal.classList.add('active'), 10);
+
+    // Trigger reflow for animation
+    requestAnimationFrame(() => {
+        state.el.modal.classList.add('active');
+    });
 
     renderModalState();
 };
 
+/**
+ * Re-renders the modal state (stars, validation).
+ */
 export const renderModalState = () => {
-    document.querySelectorAll('.star').forEach(s => {
+    document.querySelectorAll('.star').forEach((s) => {
         s.classList.toggle('active', parseInt(s.dataset.value) <= state.ratingConfig.stars);
     });
 
+    // Star pop animation for 5-star rating
     if (state.ratingConfig.stars === 5) {
         document.querySelectorAll('.star').forEach((s, idx) => {
             setTimeout(() => s.classList.add('star-pop'), idx * 50);
         });
         setTimeout(() => {
-            document.querySelectorAll('.star').forEach(s => s.classList.remove('star-pop'));
+            document.querySelectorAll('.star').forEach((s) => s.classList.remove('star-pop'));
         }, 800);
     }
 
     validateSave();
 };
 
+/**
+ * Sets the current rating.
+ * @param {number} val - Rating value (1-5)
+ */
 export const setRating = (val) => {
     state.ratingConfig.stars = val;
     haptics.light();
@@ -347,29 +426,40 @@ export const setRating = (val) => {
     renderModalState();
 };
 
+/**
+ * Validates whether the save button should be enabled.
+ */
 export const validateSave = () => {
     document.getElementById('saveButton').disabled = state.ratingConfig.stars < 1;
 };
 
+/**
+ * Closes the rating modal with reverse animation.
+ */
 export const closeModal = () => {
     document.querySelector('.app-container').classList.remove('scale-back');
     document.querySelector('.bottom-nav').classList.remove('tab-bar-hidden');
     state.el.modal.classList.remove('active');
-    setTimeout(() => state.el.modal.style.display = 'none', 400);
+    setTimeout(() => {
+        state.el.modal.style.display = 'none';
+    }, 400);
 };
 
+/**
+ * Saves the rating to favorites.
+ */
 export const saveRating = () => {
     if (!state.currentItem) return;
     state.ratingConfig.note = document.getElementById('noteInput').value;
 
     const record = {
-        id:   `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+        id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
         item: state.currentItem,
         ...state.ratingConfig,
         date: new Date().toISOString(),
     };
 
-    const existingIndex = state.favorites.findIndex(f => f.item.name === state.currentItem.name);
+    const existingIndex = state.favorites.findIndex((f) => f.item.name === state.currentItem.name);
     if (existingIndex >= 0) {
         state.favorites = state.favorites.map((f, i) => i === existingIndex ? record : f);
         showToast('Zaktualizowano ocenę!');
@@ -389,6 +479,9 @@ export const saveRating = () => {
 
 // ─── Share & Backup ───────────────────────────────────────────────────────────
 
+/**
+ * Shares the current item using Web Share API.
+ */
 export const shareCurrentItem = async () => {
     haptics.light();
     if (!state.currentItem) return;
@@ -401,8 +494,8 @@ export const shareCurrentItem = async () => {
         if (navigator.share) {
             await navigator.share({
                 title: `Alko Rater: ${state.currentItem.name}`,
-                text:  `${state.currentItem.name} - ${ratingText}`,
-                url:   window.location.origin + window.location.pathname,
+                text: `${state.currentItem.name} - ${ratingText}`,
+                url: window.location.origin + window.location.pathname,
             });
         } else {
             showToast('Udostępnianie niedostępne na tym urządzeniu.');
@@ -412,12 +505,15 @@ export const shareCurrentItem = async () => {
     }
 };
 
+/**
+ * Exports favorites as JSON file with Web Share API fallback.
+ */
 export const exportBackup = () => {
     haptics.light();
     if (state.favorites.length === 0) { showToast('Baza jest pusta!'); return; }
 
     const blob = new Blob([JSON.stringify(state.favorites, null, 2)], { type: 'application/json' });
-    const url  = URL.createObjectURL(blob);
+    const url = URL.createObjectURL(blob);
 
     try {
         if (navigator.share && navigator.canShare) {
@@ -434,9 +530,13 @@ export const exportBackup = () => {
     downloadBlob(url);
 };
 
+/**
+ * Triggers a file download.
+ * @param {string} url - Object URL
+ */
 export const downloadBlob = (url) => {
     const a = document.createElement('a');
-    a.href     = url;
+    a.href = url;
     a.download = `alko-rater-backup-${new Date().toISOString().split('T')[0]}.json`;
     document.body.appendChild(a);
     a.click();
@@ -445,6 +545,10 @@ export const downloadBlob = (url) => {
     showToast('Wyeksportowano!');
 };
 
+/**
+ * Imports favorites from a JSON file.
+ * @param {Event} e - File input change event
+ */
 export const importBackup = (e) => {
     haptics.light();
     const file = e.target.files[0];
@@ -456,7 +560,7 @@ export const importBackup = (e) => {
             const data = JSON.parse(event.target.result);
             if (!Array.isArray(data)) throw new Error('Not an array');
 
-            const valid = data.every(f =>
+            const valid = data.every((f) =>
                 f.id &&
                 f.item &&
                 typeof f.item.name === 'string' &&
