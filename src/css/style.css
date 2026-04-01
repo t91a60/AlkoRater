@@ -100,7 +100,7 @@ body {
 
 .app-container {
     height: 100%;
-    height: 100dvh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     background: var(--bg-color);
@@ -120,10 +120,11 @@ body {
 
 .content-area {
     flex: 1;
+    min-height: 0;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: contain;
-    padding-bottom: calc(var(--nav-height) + var(--sab) + 16px);
+    padding-bottom: 24px;
     scroll-behavior: smooth;
 }
 
@@ -190,10 +191,8 @@ body {
 /* ─── Bottom Navigation (Fixed to bottom, iOS safe-area) ────────────────────── */
 
 .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    flex-shrink: 0;
+    margin-top: auto;
     width: 100%;
     height: calc(var(--nav-height) + var(--sab));
     padding-bottom: var(--sab);
@@ -211,11 +210,14 @@ body {
     transition: transform 0.35s var(--ease-ios), opacity 0.35s var(--ease-ios);
 }
 
-.bottom-nav.tab-bar-hidden,
-body.keyboard-open .bottom-nav {
+.bottom-nav.tab-bar-hidden {
     transform: translate3d(0, 100%, 0);
     opacity: 0;
     pointer-events: none;
+}
+
+body.keyboard-open .bottom-nav {
+    display: none;
 }
 
 .nav-item {
