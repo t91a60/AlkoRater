@@ -32,13 +32,14 @@
             <section id="tab-start" class="tab-view active">
                 <div class="large-title-spacer"></div>
 
-                <div class="section-container">
-                    <div id="dashboardGrid" class="dashboard-grid"></div>
-                </div>
+                <div id="dashboardGrid" class="dashboard-wrapper"></div>
 
                 <div class="section-container">
-                    <h3 class="section-title">Ostatnio Ocenione</h3>
-                    <div id="recentlyRated" class="recent-scroll"></div>
+                    <div class="section-header-flex">
+                        <h3 class="section-title" style="margin:0;">Ostatnio Ocenione</h3>
+                        <button class="link-btn" onclick="document.querySelector('.nav-item[data-tab=\'favorites\']').click()">Wszystkie ></button>
+                    </div>
+                    <div id="recentlyRated" class="recent-scroll" style="margin-top: 12px;"></div>
                 </div>
 
                 <div class="info-block glass">

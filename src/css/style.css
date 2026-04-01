@@ -311,45 +311,177 @@ body.keyboard-open .bottom-nav {
     letter-spacing: -0.2px;
 }
 
-/* ─── Dashboard Grid ────────────────────────────────────────────────────────── */
+/* ─── Dashboard Grid & Hero Layout (Start Tab) ──────────────────────────────── */
 
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-}
-
-.stat-card {
-    background: var(--card-bg);
-    padding: 16px;
-    border-radius: 16px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+.dashboard-wrapper {
     display: flex;
     flex-direction: column;
-    transition: transform 0.2s var(--ease-ios), box-shadow 0.2s var(--ease-ios);
+    gap: 16px;
+    margin-bottom: 24px;
 }
 
-.stat-card:active {
-    transform: scale(0.96);
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+.hero-card {
+    position: relative;
+    background: linear-gradient(135deg, var(--accent) 0%, #0056B3 100%);
+    border-radius: 20px;
+    padding: 24px 20px;
+    color: #FFFFFF;
+    box-shadow: 0 8px 24px rgba(0, 122, 255, 0.25);
+    overflow: hidden;
+    transition: transform 0.2s var(--ease-ios);
 }
 
-.stat-value {
-    font-size: 24px;
+.hero-decorative-circle {
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-greeting h2 {
+    font-size: 22px;
     font-weight: 700;
-    margin-bottom: 4px;
+    margin: 0 0 6px 0;
     letter-spacing: -0.5px;
 }
 
-.stat-label {
-    font-size: 13px;
-    color: var(--text-secondary);
-    font-weight: 500;
+.hero-greeting p {
+    font-size: 14px;
+    margin: 0 0 20px 0;
+    opacity: 0.9;
+    line-height: 1.4;
 }
 
-.stat-icon {
-    font-size: 22px;
-    margin-bottom: 8px;
+.hero-stats-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 14px;
+    padding: 16px 12px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.hero-stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+}
+
+.hero-stat-val {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    white-space: nowrap;
+}
+
+.hero-stat-val.category-truncate {
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.hero-star {
+    font-size: 14px;
+    color: #FFD700;
+}
+
+.hero-stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.8;
+}
+
+.hero-divider {
+    width: 1px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* ─── Quick Actions Grid ────────────────────────────────────────────────────── */
+
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 12px;
+    border-radius: 16px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.15s var(--ease-ios), filter 0.2s var(--ease-ios);
+}
+
+.action-btn:active {
+    transform: scale(0.96);
+    filter: brightness(0.95);
+}
+
+.action-btn.primary {
+    background: var(--card-bg);
+    color: var(--accent);
+}
+
+.action-btn.secondary {
+    background: var(--card-bg);
+    color: var(--text-primary);
+}
+
+.action-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ─── Section Header ────────────────────────────────────────────────────────── */
+
+.section-header-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.link-btn {
+    background: transparent;
+    border: none;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: opacity 0.2s var(--ease-ios);
+}
+
+.link-btn:active {
+    opacity: 0.5;
 }
 
 /* ─── Recently Rated Scroll ─────────────────────────────────────────────────── */
