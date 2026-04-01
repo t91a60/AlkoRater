@@ -142,6 +142,19 @@
             </button>
         </nav>
 
+        <!-- Update Banner -->
+        <div id="update-banner" class="update-banner" role="status" aria-live="polite" style="display:none;">
+            <div class="update-banner-inner">
+                <svg class="update-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+                    <polyline points="1 4 1 10 7 10"></polyline>
+                    <path d="M3.51 15a9 9 0 1 0 .49-3.27"></path>
+                </svg>
+                <span class="update-text">Nowa wersja dostępna</span>
+                <button id="update-btn" class="update-btn">Aktualizuj</button>
+                <button id="update-dismiss" class="update-dismiss" aria-label="Zamknij">✕</button>
+            </div>
+        </div>
+
         <!-- Modal -->
         <div id="modal-wrapper" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1" style="display: none;">
             <div class="modal-overlay"></div>
@@ -177,8 +190,40 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
+                let refreshing = false;
+                let isFirstInstall = !navigator.serviceWorker.controller;
+                
+                // When SW skips waiting and claims clients, this event fires
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    if (isFirstInstall) {
+                        isFirstInstall = false;
+                        return;
+                    }
+                    if (refreshing) return;
+                    
+                    const banner = document.getElementById('update-banner');
+                    if (banner) {
+                        banner.style.display = 'block';
+                        requestAnimationFrame(() => banner.classList.add('visible'));
+
+                        document.getElementById('update-btn').addEventListener('click', () => {
+                            refreshing = true;
+                            window.location.reload();
+                        });
+
+                        document.getElementById('update-dismiss').addEventListener('click', () => {
+                            banner.classList.remove('visible');
+                            setTimeout(() => { banner.style.display = 'none'; }, 400);
+                        });
+                    }
+                });
+
                 navigator.serviceWorker.register('./service-worker.js')
-                    .then(reg => console.log('[SW] Registered:', reg.scope))
+                    .then(reg => {
+                        console.log('[SW] Registered:', reg.scope);
+                        // Periodically check for updates (every hour) inside the active PWA
+                        setInterval(() => reg.update(), 60 * 60 * 1000);
+                    })
                     .catch(err => console.error('[SW] Registration failed:', err));
             });
         }

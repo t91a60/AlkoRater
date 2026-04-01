@@ -168,7 +168,7 @@ export const updateRecentlyRated = () => {
 
     container.innerHTML = recent.map((fav, idx) => `
         <div class="recent-card animate-fade-in" data-item-name="${escapeHTML(fav.item.name)}" style="animation-delay: ${idx * 40}ms">
-            <img src="${escapeHTML(fav.item.image_url)}" loading="lazy" onerror="this.src='./icons/icon-60.png'" alt="img">
+            <img src="${escapeHTML(fav.item.image_url || './icons/icon-60.png')}" loading="lazy" onerror="this.src='./icons/icon-60.png'" alt="img">
             <div class="recent-name">${escapeHTML(fav.item.name)}</div>
             <div class="recent-stars">${escapeHTML(fav.stars)} ★</div>
         </div>
@@ -267,7 +267,7 @@ export const renderFavorites = (filter = 'wszystkie') => {
 
     container.innerHTML = list.map((fav, idx) => `
         <div id="fav-${fav.id}" class="favorite-card animate-fade-in" data-item-name="${escapeHTML(fav.item.name)}" style="animation-delay: ${idx * 30}ms">
-            <img src="${escapeHTML(fav.item.image_url)}" loading="lazy" onerror="this.src='./icons/icon-60.png'" alt="${escapeHTML(fav.item.name)}">
+            <img src="${escapeHTML(fav.item.image_url || './icons/icon-60.png')}" loading="lazy" onerror="this.src='./icons/icon-60.png'" alt="${escapeHTML(fav.item.name)}">
             <div class="item-info">
                 <div class="item-name">${escapeHTML(fav.item.name)}${alcoholBadgeHTML(fav.item.alcohol)}</div>
                 <div class="item-meta">${escapeHTML(fav.tag)}</div>
@@ -369,7 +369,7 @@ export const renderResults = (list) => {
 
     container.innerHTML = list.map((item, idx) => `
         <div class="search-item animate-fade-in" data-item-name="${escapeHTML(item.name)}" style="animation-delay: ${idx * 25}ms">
-            <img src="${escapeHTML(item.image_url)}" loading="lazy" onerror="this.src='./icons/icon-60.png'" alt="img">
+            <img src="${escapeHTML(item.image_url || './icons/icon-60.png')}" loading="lazy" onerror="this.src='./icons/icon-60.png'" alt="img">
             <div class="item-info">
                 <div class="item-name">${escapeHTML(item.name)}${alcoholBadgeHTML(item.alcohol)}</div>
                 <div class="item-meta">${escapeHTML(item.category)}</div>

@@ -26,7 +26,8 @@ export const deriveCategory = (type = '') => {
 
     if (
         t.includes('piwo') || t.includes('lager') || t.includes('porter') ||
-        t.includes('stout') || t.includes('ipa') || t.includes('weizen') ||
+        t.includes('stout') || t.includes('ipa') || t.includes('pilsner') ||
+        t.includes('weizen') ||
         t.includes('pszeniczn') || t.includes(' ale')
     ) return 'Piwo';
 
