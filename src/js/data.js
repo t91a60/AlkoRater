@@ -34,6 +34,37 @@ export const buildSearchIndex = (item) => normalizeSearchText([
     item?.country,
 ].filter(Boolean).join(' '));
 
+/**
+ * Normalizes a raw record from any supported alcohol source.
+ * Accepts common field aliases so the search layer can stay source-agnostic.
+ *
+ * @param {Object} item - Raw source item
+ * @param {string} source - Source name used for fallback IDs
+ * @param {number} index - Zero-based item index
+ * @returns {Object} Normalized item
+ */
+export const normalizeLoadedItem = (item = {}, source = 'source', index = 0) => {
+    const normalized = {
+        id: item.id ?? `${source}-${index + 1}`,
+        name: item.name ?? item.title ?? item.productName ?? '',
+        brand: item.brand ?? item.brewery ?? item.manufacturer ?? '',
+        type: item.type ?? item.style ?? item.category ?? '',
+        alcohol: item.alcohol ?? item.abv ?? item.abvPercent ?? '',
+        volume: item.volume ?? item.ml ?? item.size ?? '',
+        country: item.country ?? item.origin ?? item.countryOfOrigin ?? '',
+        price: item.price,
+        rating: item.rating,
+        image_url: item.image_url ?? item.image ?? item.imageUrl ?? '',
+    };
+
+    return {
+        ...item,
+        ...normalized,
+        category: deriveCategory(normalized.type),
+        searchText: item.searchText ? normalizeSearchText(item.searchText) : buildSearchIndex(normalized),
+    };
+};
+
 // ─── Category Helper ──────────────────────────────────────────────────────────
 
 /**
@@ -87,9 +118,9 @@ export const loadAllData = async () => {
     ]);
 
     state.appData = [
-        ...beerData.map((item) => ({ ...item, category: deriveCategory(item.type), searchText: buildSearchIndex(item) })),
-        ...vodkaData.map((item) => ({ ...item, category: deriveCategory(item.type), searchText: buildSearchIndex(item) })),
-        ...wineData.map((item) => ({ ...item, category: deriveCategory(item.type), searchText: buildSearchIndex(item) })),
+        ...beerData.map((item, index) => normalizeLoadedItem(item, 'beer', index)),
+        ...vodkaData.map((item, index) => normalizeLoadedItem(item, 'vodka', index)),
+        ...wineData.map((item, index) => normalizeLoadedItem(item, 'wine', index)),
     ];
 
     const dbCountEl = document.getElementById('dbCount');

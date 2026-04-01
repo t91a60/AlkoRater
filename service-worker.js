@@ -1,10 +1,10 @@
 /**
  * @fileoverview Service Worker for AlkoRater PWA
- * Version: v2.3 — Stale-While-Revalidate for JSON, Cache-First for static assets
+ * Version: v2.4 — Stale-While-Revalidate for JSON, Cache-First for static assets
  * Optimized for iOS Safari — eliminates layout shifts, ensures smooth 60 FPS
  */
 
-const CACHE_VERSION = "v4.1";
+const CACHE_VERSION = "v4.2";
 const CACHE_NAME = `alko-rater-static-${CACHE_VERSION}`;
 const DATA_CACHE_NAME = `alko-rater-data-${CACHE_VERSION}`;
 

@@ -110,6 +110,17 @@ Aplikacja automatycznie dostosowuje się do preferencji systemowych:
 - **Light mode**: `#F2F2F7` background, `#FFFFFF` karty
 - **Dark mode**: `#000000` background, `#1C1C1E` karty
 
+## 🔎 Search Extensibility
+
+Wyszukiwanie jest oparte na normalizacji tekstu i jednym wspólnym indeksie `searchText` budowanym podczas ładowania danych.
+
+To rozszerzyć wyszukiwanie na inną bazę:
+- Dodaj rekordy z polami `name`, `brand`, `type` i opcjonalnie `country`, `image_url`, `price`, `rating`.
+- Jeśli źródło używa innych nazw pól, `loadAllData()` mapuje popularne aliasy, takie jak `title`, `brewery`, `style`, `abv`, `imageUrl`.
+- Możesz też dostarczyć własne `searchText`; loader je znormalizuje i użyje bez dodatkowej pracy.
+- Wyszukiwanie ignoruje wielkość liter, spacje oraz polskie znaki, więc `zywiec` pasuje do `Żywiec`.
+- Jeśli dodajesz nowe źródło, wystarczy dopisać je do `Promise.all()` i przekazać do `normalizeLoadedItem()`.
+
 ## 📄 Licencja
 
 MIT

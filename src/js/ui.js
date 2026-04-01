@@ -338,7 +338,7 @@ export const handleSearch = (e) => {
         clearBtn.classList.toggle('visible', raw.length > 0);
     }
 
-    if (raw.length < 2) {
+    if (raw.length === 0) {
         state.el.searchResults.innerHTML = '';
         state.el.noResults.style.display = 'none';
         return;
