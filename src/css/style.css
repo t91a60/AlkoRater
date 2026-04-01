@@ -598,40 +598,7 @@ body.keyboard-open .bottom-nav {
     font-weight: 600;
 }
 
-/* ─── Backup Actions ────────────────────────────────────────────────────────── */
 
-.backup-actions {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 16px;
-    padding: 10px;
-    border-radius: 12px;
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
-
-.backup-btn {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: rgba(142, 142, 147, 0.15);
-    border: none;
-    padding: 12px;
-    border-radius: 10px;
-    color: var(--text-primary);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.15s var(--ease-ios), background 0.2s var(--ease-ios);
-}
-
-.backup-btn:active {
-    transform: scale(0.95);
-    background: rgba(142, 142, 147, 0.25);
-}
 
 /* ─── Results List ──────────────────────────────────────────────────────────── */
 
@@ -1009,29 +976,7 @@ body.keyboard-open .bottom-nav {
     background: rgba(142, 142, 147, 0.25);
 }
 
-.share-btn-left {
-    position: absolute;
-    top: 9px;
-    left: 9px;
-    background: rgba(142, 142, 147, 0.15);
-    background-clip: padding-box;
-    border: 7px solid transparent;
-    box-sizing: content-box;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform 0.15s var(--ease-ios), background 0.2s var(--ease-ios);
-}
 
-.share-btn-left:active {
-    transform: scale(0.9);
-    background: rgba(142, 142, 147, 0.25);
-}
 
 .modal-title {
     margin: 0 0 8px 0;
