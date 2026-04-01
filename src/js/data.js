@@ -7,6 +7,33 @@
 
 import { state } from './state.js';
 
+// ─── Search Normalization ────────────────────────────────────────────────────
+
+/**
+ * Normalizes text for case-insensitive, diacritic-insensitive search.
+ * @param {string} value - Raw text value
+ * @returns {string} Normalized search string
+ */
+export const normalizeSearchText = (value = '') => String(value)
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/ł/g, 'l')
+    .replace(/ß/g, 'ss');
+
+/**
+ * Builds a compact searchable index for an item.
+ * @param {Object} item - Product item
+ * @returns {string} Combined normalized search text
+ */
+export const buildSearchIndex = (item) => normalizeSearchText([
+    item?.name,
+    item?.brand,
+    item?.type,
+    item?.country,
+].filter(Boolean).join(' '));
+
 // ─── Category Helper ──────────────────────────────────────────────────────────
 
 /**
@@ -60,9 +87,9 @@ export const loadAllData = async () => {
     ]);
 
     state.appData = [
-        ...beerData.map((item) => ({ ...item, category: deriveCategory(item.type) })),
-        ...vodkaData.map((item) => ({ ...item, category: deriveCategory(item.type) })),
-        ...wineData.map((item) => ({ ...item, category: deriveCategory(item.type) })),
+        ...beerData.map((item) => ({ ...item, category: deriveCategory(item.type), searchText: buildSearchIndex(item) })),
+        ...vodkaData.map((item) => ({ ...item, category: deriveCategory(item.type), searchText: buildSearchIndex(item) })),
+        ...wineData.map((item) => ({ ...item, category: deriveCategory(item.type), searchText: buildSearchIndex(item) })),
     ];
 
     const dbCountEl = document.getElementById('dbCount');

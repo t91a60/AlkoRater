@@ -7,6 +7,7 @@
 
 import { CONSTANTS, state } from './state.js';
 import { saveFavorites } from './storage.js';
+import { normalizeSearchText } from './data.js';
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
 
@@ -343,12 +344,21 @@ export const handleSearch = (e) => {
         return;
     }
 
-    const effectiveQuery = cleanQuery(raw) || raw.toLowerCase();
+    const effectiveQuery = normalizeSearchText(cleanQuery(raw) || raw);
     const results = state.appData.filter((item) => {
-        const name = item.name.toLowerCase();
-        const type = (item.type || '').toLowerCase();
-        return name.includes(effectiveQuery) || type.includes(effectiveQuery);
+        const searchable = item.searchText || normalizeSearchText([
+            item.name,
+            item.brand,
+            item.type,
+            item.country,
+        ].filter(Boolean).join(' '));
+        return searchable.includes(effectiveQuery);
     }).slice(0, 50);
+
+    const noResultsText = state.el.noResults.querySelector('p');
+    if (noResultsText) {
+        noResultsText.textContent = 'Brak wyników.';
+    }
 
     renderResults(results);
 };
