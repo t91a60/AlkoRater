@@ -313,52 +313,76 @@ export const deleteFavorite = (id) => {
 
 // ─── Search ───────────────────────────────────────────────────────────────────
 
-const stopWords = ['piwo', 'wódka', 'wino', 'vodka', 'beer', 'wine'];
-
 /**
- * Cleans search query by removing stop words.
- * @param {string} raw - Raw search query
- * @returns {string} Cleaned query
+ * Scores a result item for relevance against a normalized query.
+ * Higher = better. Items scoring 0 are excluded.
+ *
+ * Scoring tiers:
+ *   3 – name starts with query  ("tysk" → "Tyskie")   — best
+ *   2 – brand starts with query                        — good
+ *   1 – query appears anywhere in searchText           — ok
+ *   0 – no match                                       — excluded
+ *
+ * @param {Object} item - Normalized data item
+ * @param {string} normQuery - Already-normalized query string
+ * @returns {number} Score 0–3
  */
-const cleanQuery = (raw) => {
-    const cleaned = raw.toLowerCase().split(/\s+/).filter((w) => !stopWords.includes(w));
-    return cleaned.join(' ');
+const scoreResult = (item, normQuery) => {
+    const st = item.searchText || '';
+    if (!st.includes(normQuery)) return 0;
+
+    const normName = item.normalized_name || '';
+    
+    if (normName.startsWith(normQuery)) return 3;
+    return 1;
 };
 
 /**
  * Handles search input changes.
+ *
+ * Design decisions:
+ * - NO stop-word removal: removing "piwo"/"wino" would suppress category queries
+ * - searchText (built in data.js) already includes category name (Piwo/Wino/Wódka)
+ *   so typing "piw" or "wod" returns items from those categories
+ * - Results sorted by relevance score desc, then alphabetically (no type bias)
+ * - Works from the FIRST character typed
+ *
  * @param {Event} e - Input event
  */
 export const handleSearch = (e) => {
-    const raw = e.target.value.trim();
-    const clearBtn = document.getElementById('clearSearch');
+    const raw = e.target.value;
 
-    // Toggle iOS-style clear button
-    if (clearBtn) {
-        clearBtn.classList.toggle('visible', raw.length > 0);
-    }
-
-    if (raw.length === 0) {
+    if (!raw || !raw.trim()) {
         state.el.searchResults.innerHTML = '';
         state.el.noResults.style.display = 'none';
         return;
     }
 
-    const effectiveQuery = normalizeSearchText(cleanQuery(raw) || raw);
-    const results = state.appData.filter((item) => {
-        const searchable = item.searchText || normalizeSearchText([
-            item.name,
-            item.brand,
-            item.type,
-            item.country,
-        ].filter(Boolean).join(' '));
-        return searchable.includes(effectiveQuery);
-    }).slice(0, 50);
+    const normQuery = normalizeSearchText(raw);
+    if (!normQuery) {
+        state.el.searchResults.innerHTML = '';
+        state.el.noResults.style.display = 'none';
+        // Note: Skeletons handle visibility via HTML structure
+        return;
+    }
+
+    // Score every item; exclude score=0
+    const scored = [];
+    for (const item of state.appData) {
+        const score = scoreResult(item, normQuery);
+        if (score > 0) scored.push({ item, score });
+    }
+
+    // Best score first, then Polish alphabetical order by name
+    scored.sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        return (a.item.name || '').localeCompare(b.item.name || '', 'pl');
+    });
+
+    const results = scored.slice(0, 50).map((s) => s.item);
 
     const noResultsText = state.el.noResults.querySelector('p');
-    if (noResultsText) {
-        noResultsText.textContent = 'Brak wyników.';
-    }
+    if (noResultsText) noResultsText.textContent = 'Brak wyników.';
 
     renderResults(results);
 };
@@ -509,111 +533,4 @@ export const saveRating = () => {
 };
 
 // ─── Share & Backup ───────────────────────────────────────────────────────────
-
-/**
- * Shares the current item using Web Share API.
- */
-export const shareCurrentItem = async () => {
-    haptics.light();
-    if (!state.currentItem) return;
-
-    const ratingText = state.ratingConfig.stars > 0
-        ? `Oceniłem to na ${state.ratingConfig.stars}★ w Alko-Rater! Polecam!`
-        : 'Sprawdź ten alkohol w Alko-Rater!';
-
-    try {
-        if (navigator.share) {
-            await navigator.share({
-                title: `Alko Rater: ${state.currentItem.name}`,
-                text: `${state.currentItem.name} - ${ratingText}`,
-                url: window.location.origin + window.location.pathname,
-            });
-        } else {
-            showToast('Udostępnianie niedostępne na tym urządzeniu.');
-        }
-    } catch (err) {
-        console.log('[Share] failed or cancelled:', err);
-    }
-};
-
-/**
- * Exports favorites as JSON file with Web Share API fallback.
- */
-export const exportBackup = () => {
-    haptics.light();
-    if (state.favorites.length === 0) { showToast('Baza jest pusta!'); return; }
-
-    const blob = new Blob([JSON.stringify(state.favorites, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-
-    try {
-        if (navigator.share && navigator.canShare) {
-            const file = new File([blob], 'alko-rater-backup.json', { type: 'application/json' });
-            if (navigator.canShare({ files: [file] })) {
-                navigator.share({ files: [file], title: 'Backup Alko-Rater', text: 'Mój backup ulubionych alkoholi' })
-                    .then(() => URL.revokeObjectURL(url))
-                    .catch(() => downloadBlob(url));
-                return;
-            }
-        }
-    } catch (e) { console.error(e); }
-
-    downloadBlob(url);
-};
-
-/**
- * Triggers a file download.
- * @param {string} url - Object URL
- */
-export const downloadBlob = (url) => {
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `alko-rater-backup-${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-    showToast('Wyeksportowano!');
-};
-
-/**
- * Imports favorites from a JSON file.
- * @param {Event} e - File input change event
- */
-export const importBackup = (e) => {
-    haptics.light();
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-        try {
-            const data = JSON.parse(event.target.result);
-            if (!Array.isArray(data)) throw new Error('Not an array');
-
-            const valid = data.every((f) =>
-                f.id &&
-                f.item &&
-                typeof f.item.name === 'string' &&
-                f.item.name.trim().length > 0 &&
-                Number(f.stars) >= 1 &&
-                Number(f.stars) <= 5
-            );
-            if (!valid) throw new Error('Invalid format');
-
-            state.favorites = data;
-            saveFavorites();
-            showToast(`Zaimportowano ${data.length} ocen!`);
-            haptics.success();
-            updateDashboard();
-            if (state.currentTab === 'favorites') {
-                renderFavorites(document.querySelector('.filter-chip.active')?.dataset.filter);
-            }
-        } catch (err) {
-            showToast('Błąd parsowania pliku.');
-            haptics.warning();
-        }
-    };
-    reader.readAsText(file);
-    e.target.value = '';
-};
+// Features completely removed to streamline the static application.

@@ -21,9 +21,6 @@ import {
     setRating,
     closeModal,
     saveRating,
-    shareCurrentItem,
-    exportBackup,
-    importBackup,
 } from './ui.js';
 
 // ─── DOM Reference Init ───────────────────────────────────────────────────────
@@ -82,16 +79,7 @@ const setupListeners = () => {
         }
     });
 
-    // ── Backup / Import ───────────────────────────────────────────────────────
-    const btnExport = document.getElementById('btnExport');
-    const btnImport = document.getElementById('btnImport');
-    const fileImport = document.getElementById('fileImport');
-    const modalShare = document.getElementById('modalShare');
-
-    if (btnExport) btnExport.addEventListener('click', exportBackup);
-    if (btnImport) btnImport.addEventListener('click', () => fileImport?.click());
-    if (fileImport) fileImport.addEventListener('change', importBackup);
-    if (modalShare) modalShare.addEventListener('click', shareCurrentItem);
+    // ── Backup / Share (Removed) ──────────────────────────────────────────────
 
     // ── iOS keyboard body class ───────────────────────────────────────────────
     document.querySelectorAll('input, textarea').forEach((input) => {

@@ -99,6 +99,7 @@ body {
 /* ─── App Container ─────────────────────────────────────────────────────────── */
 
 .app-container {
+    position: relative;
     height: 100%;
     min-height: 100dvh;
     display: flex;
@@ -217,7 +218,11 @@ body {
 }
 
 body.keyboard-open .bottom-nav {
-    display: none;
+    position: absolute;
+    bottom: 0;
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
 }
 
 .nav-item {
@@ -637,10 +642,7 @@ body.keyboard-open .bottom-nav {
     padding-top: 4px;
 }
 
-/* Minimal gap between search bar and results */
-#tab-search .results-list {
-    padding-top: var(--search-gap);
-}
+/* Minimal gap between search bar and results removed as it caused layout tearing */
 
 /* ─── Search Item / Favorite Card ───────────────────────────────────────────── */
 
@@ -840,12 +842,19 @@ body.keyboard-open .bottom-nav {
     cursor: pointer;
     opacity: 0;
     pointer-events: none;
-    transition: transform 0.15s var(--ease-ios), opacity 0.15s var(--ease-ios), background 0.15s var(--ease-ios);
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     padding: 0;
     line-height: 1;
 }
 
-.clear-btn.visible {
+.clear-btn::before {
+    content: '';
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+}
+
+.search-wrapper:has(input:not(:placeholder-shown)) .clear-btn {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(-50%) scale(1);
