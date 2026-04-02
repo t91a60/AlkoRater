@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#000000">
     <meta name="description" content="AlkoRater - aplikacja do oceniania alkoholi. Offline-first PWA z iOS feel.">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://dummyimage.com; font-src 'self'; connect-src 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://dummyimage.com; font-src 'self'; connect-src 'self';">
     <title>Alko Rater</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="src/css/style.css">
@@ -37,7 +37,7 @@
                 <div class="section-container">
                     <div class="section-header-flex">
                         <h3 class="section-title" style="margin:0;">Ostatnio Ocenione</h3>
-                        <button class="link-btn" onclick="document.querySelector('.nav-item[data-tab=\'favorites\']').click()">Wszystkie ></button>
+                        <button id="showAllFavoritesBtn" class="link-btn">Wszystkie ></button>
                     </div>
                     <div id="recentlyRated" class="recent-scroll" style="margin-top: 12px;"></div>
                 </div>
@@ -160,46 +160,6 @@
     </div>
 
     <script type="module" src="src/js/main.js"></script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                let refreshing = false;
-                let isFirstInstall = !navigator.serviceWorker.controller;
-                
-                // When SW skips waiting and claims clients, this event fires
-                navigator.serviceWorker.addEventListener('controllerchange', () => {
-                    if (isFirstInstall) {
-                        isFirstInstall = false;
-                        return;
-                    }
-                    if (refreshing) return;
-                    
-                    const banner = document.getElementById('update-banner');
-                    if (banner) {
-                        banner.style.display = 'block';
-                        requestAnimationFrame(() => banner.classList.add('visible'));
-
-                        document.getElementById('update-btn').addEventListener('click', () => {
-                            refreshing = true;
-                            window.location.reload();
-                        });
-
-                        document.getElementById('update-dismiss').addEventListener('click', () => {
-                            banner.classList.remove('visible');
-                            setTimeout(() => { banner.style.display = 'none'; }, 400);
-                        });
-                    }
-                });
-
-                navigator.serviceWorker.register('./service-worker.js')
-                    .then(reg => {
-                        console.log('[SW] Registered:', reg.scope);
-                        // Periodically check for updates (every hour) inside the active PWA
-                        setInterval(() => reg.update(), 60 * 60 * 1000);
-                    })
-                    .catch(err => console.error('[SW] Registration failed:', err));
-            });
-        }
-    </script>
+    <script type="module" src="src/js/sw-register.js"></script>
 </body>
 </html>

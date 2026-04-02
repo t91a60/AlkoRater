@@ -48,6 +48,20 @@ const initEl = () => {
 // ─── Event Listeners ──────────────────────────────────────────────────────────
 
 const setupListeners = () => {
+    // ── Global image fallback (replaces inline onerror handlers) ─────────────
+    document.addEventListener(
+        'error',
+        (e) => {
+            const target = e.target;
+            if (!(target instanceof HTMLImageElement)) return;
+            if (target.dataset.fallbackApplied === 'true') return;
+
+            target.dataset.fallbackApplied = 'true';
+            target.src = './icons/icon-60.png';
+        },
+        true,
+    );
+
     // ── Event delegation: Recently Rated ──────────────────────────────────────
     state.el.recentlyRated.addEventListener('click', (e) => {
         const card = e.target.closest('.recent-card');
@@ -78,6 +92,20 @@ const setupListeners = () => {
             if (fav) openRateModal(fav.item);
         }
     });
+
+    // ── Dashboard actions (replaces inline onclick) ───────────────────────────
+    state.el.dashboardGrid.addEventListener('click', (e) => {
+        const actionBtn = e.target.closest('[data-action]');
+        if (!actionBtn) return;
+
+        if (actionBtn.dataset.action === 'open-search') switchTab('search');
+        if (actionBtn.dataset.action === 'open-favorites') switchTab('favorites');
+    });
+
+    const showAllFavoritesBtn = document.getElementById('showAllFavoritesBtn');
+    if (showAllFavoritesBtn) {
+        showAllFavoritesBtn.addEventListener('click', () => switchTab('favorites'));
+    }
 
     // ── Backup / Share (Removed) ──────────────────────────────────────────────
 

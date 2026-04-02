@@ -19,10 +19,10 @@ import { normalizeSearchText } from './data.js';
 export const escapeHTML = (str) => {
     if (str === null || str === undefined || str === '') return '';
     return String(str)
-        .replace(/&/g, '&')
-        .replace(/</g, '<')
-        .replace(/>/g, '>')
-        .replace(/"/g, '"')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
 };
 
@@ -137,13 +137,13 @@ export const updateDashboard = () => {
         </div>
 
         <div class="quick-actions-grid">
-            <button class="action-btn primary animate-fade-in" onclick="document.querySelector('.nav-item[data-tab=&quot;search&quot;]').click()" style="animation-delay: 50ms;">
+            <button class="action-btn primary animate-fade-in" data-action="open-search" style="animation-delay: 50ms;">
                 <div class="action-icon">
                     <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                 </div>
                 <span>Szukaj i Oceń</span>
             </button>
-            <button class="action-btn secondary animate-fade-in" onclick="document.querySelector('.nav-item[data-tab=&quot;favorites&quot;]').click()" style="animation-delay: 100ms;">
+            <button class="action-btn secondary animate-fade-in" data-action="open-favorites" style="animation-delay: 100ms;">
                 <div class="action-icon">
                     <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                 </div>
@@ -169,7 +169,7 @@ export const updateRecentlyRated = () => {
 
     container.innerHTML = recent.map((fav, idx) => `
         <div class="recent-card animate-fade-in" data-item-name="${escapeHTML(fav.item.name)}" style="animation-delay: ${idx * 40}ms">
-            <img src="${escapeHTML(fav.item.image_url || './icons/icon-60.png')}" loading="lazy" onerror="this.src='./icons/icon-60.png'" alt="img">
+            <img src="${escapeHTML(fav.item.image_url || './icons/icon-60.png')}" loading="lazy" alt="img">
             <div class="recent-name">${escapeHTML(fav.item.name)}</div>
             <div class="recent-stars">${escapeHTML(fav.stars)} ★</div>
         </div>
@@ -268,7 +268,7 @@ export const renderFavorites = (filter = 'wszystkie') => {
 
     container.innerHTML = list.map((fav, idx) => `
         <div id="fav-${fav.id}" class="favorite-card animate-fade-in" data-item-name="${escapeHTML(fav.item.name)}" style="animation-delay: ${idx * 30}ms">
-            <img src="${escapeHTML(fav.item.image_url || './icons/icon-60.png')}" loading="lazy" onerror="this.src='./icons/icon-60.png'" alt="${escapeHTML(fav.item.name)}">
+            <img src="${escapeHTML(fav.item.image_url || './icons/icon-60.png')}" loading="lazy" alt="${escapeHTML(fav.item.name)}">
             <div class="item-info">
                 <div class="item-name">${escapeHTML(fav.item.name)}${alcoholBadgeHTML(fav.item.alcohol)}</div>
                 <div class="item-meta">${escapeHTML(fav.tag)}</div>
@@ -403,7 +403,7 @@ export const renderResults = (list) => {
 
     container.innerHTML = list.map((item, idx) => `
         <div class="search-item animate-fade-in" data-item-name="${escapeHTML(item.name)}" style="animation-delay: ${idx * 25}ms">
-            <img src="${escapeHTML(item.image_url || './icons/icon-60.png')}" loading="lazy" onerror="this.src='./icons/icon-60.png'" alt="img">
+            <img src="${escapeHTML(item.image_url || './icons/icon-60.png')}" loading="lazy" alt="img">
             <div class="item-info">
                 <div class="item-name">${escapeHTML(item.name)}${alcoholBadgeHTML(item.alcohol)}</div>
                 <div class="item-meta">${escapeHTML(item.category)}</div>

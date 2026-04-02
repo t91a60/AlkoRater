@@ -42,7 +42,7 @@ self.addEventListener("install", (event) => {
     Promise.all([
       caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE)),
       caches.open(DATA_CACHE_NAME).then((cache) => cache.addAll(DATA_TO_CACHE)),
-    ]).then(() => self.skipWaiting()),
+    ]),
   );
 });
 
@@ -75,7 +75,10 @@ self.addEventListener("activate", (event) => {
 // ─── Fetch ────────────────────────────────────────────────────────────────────
 
 self.addEventListener("fetch", (event) => {
+  if (event.request.method !== "GET") return;
+
   const url = new URL(event.request.url);
+  if (url.origin !== self.location.origin) return;
 
   // Stale-While-Revalidate for JSON data files
   if (url.pathname.includes("/data/") && url.pathname.endsWith(".json")) {

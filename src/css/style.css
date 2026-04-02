@@ -36,6 +36,7 @@
     --nav-height: 50px;
     --header-height: 60px;
     --search-gap: 8px;
+    --content-bottom-inset: calc(var(--nav-height) + var(--sab) + 12px);
 
     /* Font */
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", system-ui, sans-serif;
@@ -125,7 +126,7 @@ body {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: contain;
-    padding-bottom: 24px;
+    padding-bottom: var(--content-bottom-inset);
     scroll-behavior: smooth;
 }
 
@@ -192,8 +193,10 @@ body {
 /* ─── Bottom Navigation (Fixed to bottom, iOS safe-area) ────────────────────── */
 
 .bottom-nav {
-    flex-shrink: 0;
-    margin-top: auto;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100%;
     height: calc(var(--nav-height) + var(--sab));
     padding-bottom: var(--sab);
@@ -737,6 +740,10 @@ body.keyboard-open .bottom-nav {
     z-index: 90;
     padding: 8px 0;
     background: var(--bg-color);
+}
+
+#tab-search .large-title-spacer {
+    display: none;
 }
 
 .search-wrapper {

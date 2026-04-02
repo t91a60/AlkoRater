@@ -1076,8 +1076,8 @@
     "rating": null,
     "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Jarzebiak",
     "normalized_name": "jarzebiak",
-    "category": "Piwo",
-    "searchText": "jarzebiak jarzebiak nalewka smakowa piwo"
+    "category": "Wódka",
+    "searchText": "jarzebiak jarzebiak nalewka smakowa wodka"
   },
   {
     "id": "vodka-73",
@@ -1091,8 +1091,8 @@
     "rating": null,
     "image_url": "https://dummyimage.com/600x600/1abc9c/ffffff?text=Wisniowka",
     "normalized_name": "wisniowka",
-    "category": "Piwo",
-    "searchText": "wisniowka wisniowka nalewka smakowa piwo"
+    "category": "Wódka",
+    "searchText": "wisniowka wisniowka nalewka smakowa wodka"
   },
   {
     "id": "vodka-74",
@@ -1586,8 +1586,8 @@
     "rating": null,
     "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Mickiewicz",
     "normalized_name": "mickiewicz",
-    "category": "Piwo",
-    "searchText": "mickiewicz mickiewicz wodka premium (pszeniczna) piwo"
+    "category": "Wódka",
+    "searchText": "mickiewicz mickiewicz wodka premium (pszeniczna) wodka"
   },
   {
     "id": "vodka-107",
@@ -1991,8 +1991,8 @@
     "rating": null,
     "image_url": "https://dummyimage.com/600x600/bdc3c7/000000?text=Ostoya",
     "normalized_name": "ostoya",
-    "category": "Piwo",
-    "searchText": "ostoya ostoya pszeniczna premium piwo"
+    "category": "Wódka",
+    "searchText": "ostoya ostoya pszeniczna premium wodka"
   },
   {
     "id": "vodka-134",

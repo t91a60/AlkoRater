@@ -38,9 +38,26 @@ const buildSearchIndex = (item) => normalizeSearchText([
     item?.country,
 ].filter(Boolean).join(' '));
 
+const expectedCategoryForFile = (filename) => {
+    if (filename === 'piwa.json') return 'Piwo';
+    if (filename === 'wina.json') return 'Wino';
+    return 'Wódka';
+};
+
+const assertExpectedCategory = (filename, data) => {
+    const expectedCategory = expectedCategoryForFile(filename);
+    const invalid = data.filter((item) => item.category !== expectedCategory);
+    if (invalid.length > 0) {
+        const sample = invalid.slice(0, 5).map((item) => item.id).join(', ');
+        throw new Error(`${filename}: invalid category values for ${invalid.length} items. Sample IDs: ${sample}`);
+    }
+};
+
 const rewriteData = (filename, sourcePrefix) => {
     const filePath = path.join(root, 'data', filename);
     const data = JSON.parse(readFileSync(filePath, 'utf8'));
+
+    const expectedCategory = expectedCategoryForFile(filename);
 
     const standardizedData = data.map((item, index) => {
         const rawName = item.name ?? item.title ?? item.productName ?? '';
@@ -67,11 +84,13 @@ const rewriteData = (filename, sourcePrefix) => {
             normalized_name: normalizeSearchText(rawName)
         };
         
-        normalized.category = deriveCategory(normalized.type);
+        normalized.category = expectedCategory;
         normalized.searchText = buildSearchIndex(normalized);
         
         return normalized;
     });
+
+    assertExpectedCategory(filename, standardizedData);
 
     writeFileSync(filePath, JSON.stringify(standardizedData, null, 2), 'utf8');
     console.log(`Standardized ${filename}`);
