@@ -5,6 +5,12 @@
 
 import { state } from './state.js';
 
+const SOURCE_CATEGORIES = {
+    beer: 'Piwo',
+    vodka: 'Wódka',
+    wine: 'Wino',
+};
+
 // ─── Search Normalization ────────────────────────────────────────────────────
 
 /**
@@ -28,6 +34,25 @@ const fetchJSON = (url) =>
             return [];
         });
 
+const normalizeLoadedItem = (item = {}, source = 'beer', index = 0) => {
+    const rawName = item.name ?? item.title ?? item.productName ?? '';
+    const rawAlcohol = item.alcohol ?? item.abv ?? item.abvPercent ?? '';
+    const alcoholDisplay = rawAlcohol === '' ? ''
+        : typeof rawAlcohol === 'number' ? `${rawAlcohol}%`
+        : String(rawAlcohol).includes('%') ? String(rawAlcohol)
+        : `${rawAlcohol}%`;
+
+    return {
+        id: item.id ?? `${source}-${index + 1}`,
+        name: rawName,
+        alcohol: alcoholDisplay,
+        image_url: item.image_url ?? item.image ?? item.imageUrl ?? '',
+        category: SOURCE_CATEGORIES[source] ?? 'Piwo',
+        normalized_name: normalizeSearchText(rawName),
+        searchText: normalizeSearchText(rawName),
+    };
+};
+
 // ─── Load All Data ────────────────────────────────────────────────────────────
 
 /**
@@ -40,8 +65,11 @@ export const loadAllData = async () => {
         fetchJSON('./data/wina.json'),
     ]);
 
-    // Data is merged purely natively (all structural mapping moved to build scripts)
-    state.appData = [...beerData, ...vodkaData, ...wineData];
+    state.appData = [
+        ...beerData.map((item, index) => normalizeLoadedItem(item, 'beer', index)),
+        ...vodkaData.map((item, index) => normalizeLoadedItem(item, 'vodka', index)),
+        ...wineData.map((item, index) => normalizeLoadedItem(item, 'wine', index)),
+    ];
 
     const dbCountEl = document.getElementById('dbCount');
     if (dbCountEl) dbCountEl.textContent = state.appData.length;

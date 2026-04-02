@@ -317,22 +317,14 @@ export const deleteFavorite = (id) => {
  * Scores a result item for relevance against a normalized query.
  * Higher = better. Items scoring 0 are excluded.
  *
- * Scoring tiers:
- *   3 – name starts with query  ("tysk" → "Tyskie")   — best
- *   2 – brand starts with query                        — good
- *   1 – query appears anywhere in searchText           — ok
- *   0 – no match                                       — excluded
- *
  * @param {Object} item - Normalized data item
  * @param {string} normQuery - Already-normalized query string
  * @returns {number} Score 0–3
  */
 const scoreResult = (item, normQuery) => {
-    const st = item.searchText || '';
-    if (!st.includes(normQuery)) return 0;
+    const normName = normalizeSearchText(item.name || '');
+    if (!normName.includes(normQuery)) return 0;
 
-    const normName = item.normalized_name || '';
-    
     if (normName.startsWith(normQuery)) return 3;
     return 1;
 };
@@ -341,9 +333,7 @@ const scoreResult = (item, normQuery) => {
  * Handles search input changes.
  *
  * Design decisions:
- * - NO stop-word removal: removing "piwo"/"wino" would suppress category queries
- * - searchText (built in data.js) already includes category name (Piwo/Wino/Wódka)
- *   so typing "piw" or "wod" returns items from those categories
+ * - NO stop-word removal: search is purely name-driven and should stay predictable
  * - Results sorted by relevance score desc, then alphabetically (no type bias)
  * - Works from the FIRST character typed
  *
