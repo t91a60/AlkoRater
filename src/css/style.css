@@ -552,44 +552,40 @@ input, textarea {
   -webkit-backdrop-filter: blur(14px);
 }
 
-/* ─── Filter Chips (clean) ──────────────────────────────────────────────────── */
+/* ─── Filter Chips ──────────────────────────────────────────────────────────── */
 
 .filters-container {
   display: flex;
-  background: var(--chip-bg);
-  padding: 0px;
+  gap: 6px;
+  background: rgba(118, 118, 128, 0.14);
+  padding: 3px;
   border-radius: 10px;
-  margin: 12px 0;
+  margin: 14px 0;
 }
 
 .filter-chip {
-  flex: 1;
-  background: transparent;
+  flex: 1 1 auto;
+  min-width: 0;
   border: none;
+  background: transparent;
+  color: var(--fg-secondary);
   padding: 10px 0;
   min-height: 44px;
   border-radius: 8px;
   font-size: 13px;
-  font-weight: 500;
-  color: var(--fg);
-  transition: all 0.2s var(--ease-out);
+  font-weight: 600;
   cursor: pointer;
-}
-
-.filter-chip:active {
-  transform: scale(0.96);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.14s ease;
 }
 
 .filter-chip.active {
   background: var(--card);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.10);
-  font-weight: 650;
+  color: var(--fg);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
-/* Remove stray separators or pseudo noise */
-.filters-container .filter-chip::before,
-.filters-container .filter-chip::after {
-  content: none;
+.filter-chip:active {
+  transform: scale(0.96);
 }
 
 /* ─── Results & Lists ───────────────────────────────────────────────────────── */
