@@ -150,6 +150,19 @@ input, textarea {
   user-select: text !important;
 }
 
+/* Screen-reader only utility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
 /* Hardware acceleration */
 .gpu,
 .app-container,
@@ -322,6 +335,30 @@ input, textarea {
   }
 }
 
+@keyframes tabExit {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+}
+
+.tab-exit {
+  animation: tabExit 0.3s var(--ease-out) forwards;
+}
+
+.empty-state-text {
+  opacity: 0.6;
+  font-weight: 500;
+}
+
+.recent-scroll--spaced {
+  margin-top: 12px;
+}
+
 /* ─── Cards & Glass ─────────────────────────────────────────────────────────── */
 
 .glass {
@@ -350,13 +387,17 @@ input, textarea {
 
 .hero-card {
   position: relative;
-  background: linear-gradient(145deg, #0071e3, #005bb5);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  color: #fff;
-  overflow: hidden;
-  box-shadow: 0 18px 40px rgba(0, 113, 227, 0.28);
-  transition: transform 0.18s var(--ease-out), box-shadow 0.18s var(--ease-out);
+  background: linear-gradient(165deg, rgba(255,255,255,0.98), rgba(240,242,245,0.96));
+  color: #1d1d1f;
+  border-radius: 24px;
+  padding: 22px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.9);
+  transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease;
+}
+.hero-card:active {
+  transform: translateY(2px) scale(0.98);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.10);
 }
 
 .hero-decorative-circle {
@@ -500,6 +541,10 @@ input, textarea {
   margin: 0;
   color: var(--fg);
   letter-spacing: -0.2px;
+}
+
+.section-title--flush {
+  margin: 0;
 }
 
 .link-btn {

@@ -33,3 +33,5 @@ Desktop.ini
 # Optional: Keep icons folder empty until generated
 # public/icons/*.png
 # public/splash/*.png
+/.agents
+todo.md
