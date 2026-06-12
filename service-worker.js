@@ -5,7 +5,7 @@
  * obsługa aktualizacji z pełnym flow przepowiadania wersji.
  */
 
-const CACHE_VERSION = 'v5.0';
+const CACHE_VERSION = 'v5.1';
 const CACHE_NAME = `alko-rater-static-${CACHE_VERSION}`;
 const DATA_CACHE_NAME = `alko-rater-data-${CACHE_VERSION}`;
 
@@ -172,15 +172,20 @@ self.addEventListener('fetch', (event) => {
             }
 
             const cache = await caches.open(CACHE_NAME);
-            const cached = await cache.match(event.request).catch(() => null);
-
-            if (cached) return cached;
-
-            const networkResponse = await fetch(event.request);
-            if (networkResponse && networkResponse.ok) {
-                cache.put(event.request, networkResponse.clone());
+            try {
+                const networkResponse = await fetch(event.request);
+                if (networkResponse && networkResponse.ok) {
+                    cache.put(event.request, networkResponse.clone());
+                }
+                return networkResponse;
+            } catch {
+                const cached = await cache.match(event.request).catch(() => null);
+                if (cached) return cached;
+                return new Response('Offline', {
+                    status: 503,
+                    statusText: 'Service Unavailable',
+                });
             }
-            return networkResponse;
         } catch (error) {
             if (isNavigateOrHtml) {
                 return caches.match('./index.html').catch(() => null);
