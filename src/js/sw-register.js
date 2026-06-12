@@ -8,7 +8,7 @@
 const UPDATE_CHECK_INTERVAL_MS = 60 * 60 * 1000;
 
 const notifyClientIfUpdateReady = (registration) => {
-    if (!registration?.waiting) return;
+    if (!registration?.waiting) {return;}
 
     const port = registration.waiting;
 
@@ -22,7 +22,7 @@ const notifyClientIfUpdateReady = (registration) => {
     const updateBtn = document.getElementById('update-btn');
     const dismissBtn = document.getElementById('update-dismiss');
 
-    if (!banner || !updateBtn || !dismissBtn) return;
+    if (!banner || !updateBtn || !dismissBtn) {return;}
 
     banner.style.display = 'block';
     requestAnimationFrame(() => banner.classList.add('visible'));
@@ -48,7 +48,7 @@ if ('serviceWorker' in navigator) {
         let refreshing = false;
 
         navigator.serviceWorker.addEventListener('controllerchange', () => {
-            if (refreshing) return;
+            if (refreshing) {return;}
             refreshing = true;
             window.location.reload();
         });
@@ -78,10 +78,10 @@ if ('serviceWorker' in navigator) {
 
             registration.addEventListener('updatefound', () => {
                 const newWorker = registration.installing;
-                if (!newWorker) return;
+                if (!newWorker) {return;}
 
                 const reportInstalledUpdate = () => {
-                    if (!navigator.serviceWorker.controller) return;
+                    if (!navigator.serviceWorker.controller) {return;}
                     notifyClientIfUpdateReady(registration);
                 };
 

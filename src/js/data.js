@@ -110,5 +110,5 @@ export const loadAllData = async () => {
     ];
 
     const dbCountEl = document.getElementById('dbCount');
-    if (dbCountEl) dbCountEl.textContent = state.appData.length;
+    if (dbCountEl) {dbCountEl.textContent = state.appData.length;}
 };

@@ -34,7 +34,7 @@ export const saveFavorites = () => {
 // Optional cross-tab notifications (non-fatal if api missing)
 const notifyStorageChanged = () => {
     try {
-        if (typeof window === 'undefined') return;
+        if (typeof window === 'undefined') {return;}
         window.dispatchEvent(
             new window.CustomEvent('alkorater:storage', { detail: { favorites: state.favorites } }),
         );

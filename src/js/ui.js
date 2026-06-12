@@ -17,7 +17,7 @@ import { normalizeSearchText } from './data.js';
  * @returns {string} Escaped string
  */
 export const escapeHTML = (str) => {
-    if (str === null || str === undefined || str === '') return '';
+    if (str === null || str === undefined || str === '') {return '';}
     return String(str)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -43,32 +43,40 @@ export const debounce = (func, delay) => {
 // ─── Haptics ──────────────────────────────────────────────────────────────────
 
 export const haptics = {
-    light: () => { if (navigator.vibrate) navigator.vibrate(10); },
-    success: () => { if (navigator.vibrate) navigator.vibrate([10, 30, 10]); },
-    warning: () => { if (navigator.vibrate) navigator.vibrate([50, 50, 50, 50]); },
+    light: () => { if (navigator.vibrate) {navigator.vibrate(10);} },
+    success: () => { if (navigator.vibrate) {navigator.vibrate([10, 30, 10]);} },
+    warning: () => { if (navigator.vibrate) {navigator.vibrate([50, 50, 50, 50]);} },
 };
 
 // ─── Toast ────────────────────────────────────────────────────────────────────
 
+const TOAST_ICONS = {
+    success: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34c759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+    update: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36"/></svg>',
+    warning: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff9f0a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+};
+
 /**
- * Shows a toast notification with iOS-style animation.
+ * Shows a toast notification with iOS-style animation and optional icon.
  * @param {string} msg - Toast message
+ * @param {string} [type] - Icon type: 'success' | 'update' | 'warning'
  */
-export const showToast = (msg) => {
+export const showToast = (msg, type) => {
     const existing = document.querySelector('.toast');
-    if (existing) existing.remove();
+    if (existing) {existing.remove();}
 
     const t = document.createElement('div');
     t.className = 'toast';
-    const span = document.createElement('span');
-    span.textContent = msg; // textContent — XSS safe
-    t.appendChild(span);
+    t.innerHTML = `${TOAST_ICONS[type] || ''  }<span>${escapeHTML(msg)}</span>`;
+    t.style.display = 'flex';
+    t.style.alignItems = 'center';
+    t.style.gap = '8px';
     document.body.appendChild(t);
 
     setTimeout(() => {
-        t.style.animation = 'toastSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) reverse forwards';
-        setTimeout(() => t.remove(), 400);
-    }, 2000);
+        t.style.animation = 'toastSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) reverse forwards';
+        setTimeout(() => t.remove(), 420);
+    }, 2200);
 };
 
 // ─── Skeletons ────────────────────────────────────────────────────────────────
@@ -183,7 +191,7 @@ export const updateRecentlyRated = () => {
  * @param {string} tabName - Target tab name
  */
 export const switchTab = (tabName) => {
-    if (state.currentTab === tabName) return;
+    if (state.currentTab === tabName) {return;}
     haptics.light();
 
     const currentEl = state.el.tabs[state.currentTab];
@@ -215,8 +223,8 @@ export const switchTab = (tabName) => {
     state.currentTab = tabName;
     document.querySelector('.content-area').scrollTo({ top: 0, behavior: 'smooth' });
 
-    if (tabName === 'favorites') renderFavorites(document.querySelector('.filter-chip.active')?.dataset.filter);
-    if (tabName === 'start') updateDashboard();
+    if (tabName === 'favorites') {renderFavorites(document.querySelector('.filter-chip.active')?.dataset.filter);}
+    if (tabName === 'start') {updateDashboard();}
 };
 
 // ─── Favorites ────────────────────────────────────────────────────────────────
@@ -240,8 +248,8 @@ const TRASH_SVG = `
  * @returns {string} HTML string
  */
 const alcoholBadgeHTML = (alcohol) => {
-    if (!alcohol) return '';
-    const val = alcohol.includes('%') ? alcohol : alcohol + '%';
+    if (!alcohol) {return '';}
+    const val = alcohol.includes('%') ? alcohol : `${alcohol  }%`;
     return `<span class="separator">·</span><span class="alcohol-badge">${escapeHTML(val)}</span>`;
 };
 
@@ -298,7 +306,7 @@ export const filterFavorites = (type) => {
 export const deleteFavorite = (id) => {
     haptics.light();
     const el = document.getElementById(`fav-${id}`);
-    if (el) el.classList.add('slide-out-left');
+    if (el) {el.classList.add('slide-out-left');}
 
     setTimeout(() => {
         state.favorites = state.favorites.filter((f) => String(f.id) !== String(id));
@@ -306,7 +314,7 @@ export const deleteFavorite = (id) => {
         const activeFilter = document.querySelector('.filter-chip.active')?.dataset.filter || 'wszystkie';
         renderFavorites(activeFilter);
         updateDashboard();
-        showToast('Usunięto z ulubionych');
+        showToast('Usunięto z ulubionych', 'warning');
         haptics.warning();
     }, 300);
 };
@@ -323,9 +331,9 @@ export const deleteFavorite = (id) => {
  */
 const scoreResult = (item, normQuery) => {
     const normName = normalizeSearchText(item.name || '');
-    if (!normName.includes(normQuery)) return 0;
+    if (!normName.includes(normQuery)) {return 0;}
 
-    if (normName.startsWith(normQuery)) return 3;
+    if (normName.startsWith(normQuery)) {return 3;}
     return 1;
 };
 
@@ -360,19 +368,19 @@ export const handleSearch = (e) => {
     const scored = [];
     for (const item of state.appData) {
         const score = scoreResult(item, normQuery);
-        if (score > 0) scored.push({ item, score });
+        if (score > 0) {scored.push({ item, score });}
     }
 
     // Best score first, then Polish alphabetical order by name
     scored.sort((a, b) => {
-        if (b.score !== a.score) return b.score - a.score;
+        if (b.score !== a.score) {return b.score - a.score;}
         return (a.item.name || '').localeCompare(b.item.name || '', 'pl');
     });
 
     const results = scored.slice(0, 50).map((s) => s.item);
 
     const noResultsText = state.el.noResults.querySelector('p');
-    if (noResultsText) noResultsText.textContent = 'Brak wyników.';
+    if (noResultsText) {noResultsText.textContent = 'Brak wyników.';}
 
     renderResults(results);
 };
@@ -408,6 +416,25 @@ export const renderResults = (list) => {
  * Opens the rating modal with iOS sheet animation.
  * @param {Object} item - Product item to rate
  */
+const CATEGORY_ACCENTS = {
+    Piwo: { hue: '42', sat: '58', lit: '52', hex: '#d4a054' },
+    Wódka: { hue: '203', sat: '88', lit: '71', hex: '#6bc5f7' },
+    Wino: { hue: '346', sat: '44', lit: '51', hex: '#b84a62' },
+};
+
+const setCategoryAccent = (category) => {
+    const accent = CATEGORY_ACCENTS[category] || { hue: '211', sat: '100', lit: '50', hex: '#007aff' };
+    const root = document.querySelector('.modal-content');
+    root.style.setProperty('--modal-accent', accent.hex);
+    root.style.setProperty('--modal-accent-dim', `hsla(${accent.hue}, ${accent.sat}%, ${accent.lit}%, 0.12)`);
+    const badge = document.getElementById('modalCategoryTag');
+    badge.style.background = `hsla(${accent.hue}, ${accent.sat}%, ${accent.lit}%, 0.12)`;
+    badge.style.color = accent.hex;
+    const btn = document.getElementById('saveButton');
+    btn.style.background = accent.hex;
+    btn.style.setProperty('--btn-accent', accent.hex);
+};
+
 export const openRateModal = (item) => {
     haptics.light();
     state.currentItem = item;
@@ -427,11 +454,12 @@ export const openRateModal = (item) => {
     document.getElementById('modalCategoryTag').textContent = `Kategoria: ${strictCategory}`;
     document.getElementById('noteInput').value = state.ratingConfig.note;
 
+    setCategoryAccent(strictCategory);
+
     document.querySelector('.app-container').classList.add('scale-back');
     document.querySelector('.bottom-nav').classList.add('tab-bar-hidden');
     state.el.modal.style.display = 'block';
 
-    // Trigger reflow for animation
     requestAnimationFrame(() => {
         state.el.modal.classList.add('active');
     });
@@ -467,7 +495,7 @@ export const renderModalState = () => {
 export const setRating = (val) => {
     state.ratingConfig.stars = val;
     haptics.light();
-    if (val === 5) haptics.success();
+    if (val === 5) {haptics.success();}
     renderModalState();
 };
 
@@ -481,20 +509,33 @@ export const validateSave = () => {
 /**
  * Closes the rating modal with reverse animation.
  */
+const resetCategoryAccent = () => {
+    const root = document.querySelector('.modal-content');
+    root.style.removeProperty('--modal-accent');
+    root.style.removeProperty('--modal-accent-dim');
+    const badge = document.getElementById('modalCategoryTag');
+    badge.style.background = '';
+    badge.style.color = '';
+    const btn = document.getElementById('saveButton');
+    btn.style.background = '';
+    btn.style.removeProperty('--btn-accent');
+};
+
 export const closeModal = () => {
     document.querySelector('.app-container').classList.remove('scale-back');
     document.querySelector('.bottom-nav').classList.remove('tab-bar-hidden');
     state.el.modal.classList.remove('active');
     setTimeout(() => {
         state.el.modal.style.display = 'none';
-    }, 400);
+        resetCategoryAccent();
+    }, 420);
 };
 
 /**
  * Saves the rating to favorites.
  */
 export const saveRating = () => {
-    if (!state.currentItem) return;
+    if (!state.currentItem) {return;}
     state.ratingConfig.note = document.getElementById('noteInput').value;
 
     const record = {
@@ -507,10 +548,10 @@ export const saveRating = () => {
     const existingIndex = state.favorites.findIndex((f) => f.item.name === state.currentItem.name);
     if (existingIndex >= 0) {
         state.favorites = state.favorites.map((f, i) => i === existingIndex ? record : f);
-        showToast('Zaktualizowano ocenę!');
+        showToast('Zaktualizowano ocenę!', 'update');
     } else {
         state.favorites = [record, ...state.favorites];
-        showToast('Zapisano ocenę!');
+        showToast('Zapisano ocenę!', 'success');
     }
 
     saveFavorites();

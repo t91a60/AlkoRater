@@ -58,8 +58,8 @@ const setupListeners = () => {
         'error',
         (e) => {
             const target = e.target;
-            if (!(target instanceof HTMLImageElement)) return;
-            if (target.dataset.fallbackApplied === 'true') return;
+            if (!(target instanceof HTMLImageElement)) {return;}
+            if (target.dataset.fallbackApplied === 'true') {return;}
 
             target.dataset.fallbackApplied = 'true';
             target.src = './icons/icon-60.png';
@@ -70,17 +70,17 @@ const setupListeners = () => {
     // ── Event delegation: Recently Rated ──────────────────────────────────────
     state.el.recentlyRated.addEventListener('click', (e) => {
         const card = e.target.closest('.recent-card');
-        if (!card) return;
+        if (!card) {return;}
         const fav = state.favorites.find((f) => f.item.name === card.dataset.itemName);
-        if (fav) openRateModal(fav.item);
+        if (fav) {openRateModal(fav.item);}
     });
 
     // ── Event delegation: Search Results ──────────────────────────────────────
     state.el.searchResults.addEventListener('click', (e) => {
         const card = e.target.closest('.search-item');
-        if (!card) return;
+        if (!card) {return;}
         const item = state.appData.find((i) => i.name === card.dataset.itemName);
-        if (item) openRateModal(item);
+        if (item) {openRateModal(item);}
     });
 
     // ── Event delegation: Favorites List (card click + delete) ────────────────
@@ -94,17 +94,17 @@ const setupListeners = () => {
         const card = e.target.closest('.favorite-card');
         if (card) {
             const fav = state.favorites.find((f) => f.item.name === card.dataset.itemName);
-            if (fav) openRateModal(fav.item);
+            if (fav) {openRateModal(fav.item);}
         }
     });
 
     // ── Dashboard actions (replaces inline onclick) ───────────────────────────
     state.el.dashboardGrid.addEventListener('click', (e) => {
         const actionBtn = e.target.closest('[data-action]');
-        if (!actionBtn) return;
+        if (!actionBtn) {return;}
 
-        if (actionBtn.dataset.action === 'open-search') switchTab('search');
-        if (actionBtn.dataset.action === 'open-favorites') switchTab('favorites');
+        if (actionBtn.dataset.action === 'open-search') {switchTab('search');}
+        if (actionBtn.dataset.action === 'open-favorites') {switchTab('favorites');}
     });
 
     const showAllFavoritesBtn = document.getElementById('showAllFavoritesBtn');
@@ -164,7 +164,7 @@ const setupListeners = () => {
 
     document.querySelector('.stars-container').addEventListener('keydown', (e) => {
         const target = e.target;
-        if (!(target instanceof HTMLElement) || !target.classList.contains('star')) return;
+        if (!(target instanceof HTMLElement) || !target.classList.contains('star')) {return;}
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             setRating(parseInt(target.dataset.value, 10));
