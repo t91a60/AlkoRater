@@ -2,12 +2,12 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, interactive-widget=resizes-content">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#000000">
     <meta name="description" content="AlkoRater - aplikacja do oceniania alkoholi. Offline-first PWA z iOS feel.">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://dummyimage.com; font-src 'self'; connect-src 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self';">
     <title>Alko Rater</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="src/css/style.css">
@@ -27,7 +27,7 @@
         </header>
 
         <!-- Content Area -->
-        <div class="content-area">
+        <main class="content-area">
             <!-- Tab: Start -->
             <section id="tab-start" class="tab-view active">
                 <div class="large-title-spacer"></div>
@@ -36,10 +36,10 @@
 
                 <div class="section-container">
                     <div class="section-header-flex">
-                        <h3 class="section-title" style="margin:0;">Ostatnio Ocenione</h3>
+                        <h3 class="section-title section-title--flush">Ostatnio Ocenione</h3>
                         <button id="showAllFavoritesBtn" class="link-btn">Wszystkie ></button>
                     </div>
-                    <div id="recentlyRated" class="recent-scroll" style="margin-top: 12px;"></div>
+                    <div id="recentlyRated" class="recent-scroll recent-scroll--spaced"></div>
                 </div>
 
                 <div class="info-block glass">
@@ -58,7 +58,8 @@
                             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                         </svg>
                         <input type="text" id="searchInput" placeholder="Szukaj (np. wódka)..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-                        <button id="clearSearch" class="clear-btn" aria-label="Wyczyść wyszukiwanie">✕</button>
+                        <label for="searchInput" class="sr-only">Szukaj alkoholu</label>
+                        <button id="clearSearch" class="clear-btn" aria-label="Wyczyść wyszukiwanie"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
                     </div>
                 </div>
 
@@ -73,7 +74,7 @@
                             <circle cx="15" cy="10" r="1.2" fill="currentColor"></circle>
                         </svg>
                     </div>
-                    <p style="opacity: 0.6; font-weight: 500;">Nie znaleziono w naszej bazie danych.</p>
+                    <p class="empty-state-text">Nie znaleziono w naszej bazie danych.</p>
                 </div>
             </section>
 
@@ -92,7 +93,7 @@
 
                 <div id="favoritesList" class="results-list"></div>
             </section>
-        </div>
+        </main>
 
         <!-- Bottom Navigation -->
         <nav class="bottom-nav glass">
@@ -133,7 +134,7 @@
                 </svg>
                 <span class="update-text">Nowa wersja dostępna</span>
                 <button id="update-btn" class="update-btn">Aktualizuj</button>
-                <button id="update-dismiss" class="update-dismiss" aria-label="Zamknij">✕</button>
+                <button id="update-dismiss" class="update-dismiss" aria-label="Zamknij"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
             </div>
         </div>
 
@@ -142,15 +143,15 @@
             <div class="modal-overlay"></div>
             <div class="modal-content">
                 <div class="modal-grabber"></div>
-                <button id="modalClose" class="close-btn-right" aria-label="Zamknij">✕</button>
+                <button id="modalClose" class="close-btn-right" aria-label="Zamknij"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 5l10 10M15 5l-10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
                 <h3 id="modalTitle" class="modal-title">Nazwa Produktu</h3>
                 <div id="modalCategoryTag" class="category-badge">Kategoria: ...</div>
-                <div class="stars-container">
-                    <div class="star" data-value="1" role="button" aria-label="1 gwiazdka">★</div>
-                    <div class="star" data-value="2" role="button" aria-label="2 gwiazdki">★</div>
-                    <div class="star" data-value="3" role="button" aria-label="3 gwiazdki">★</div>
-                    <div class="star" data-value="4" role="button" aria-label="4 gwiazdki">★</div>
-                    <div class="star" data-value="5" role="button" aria-label="5 gwiazdek">★</div>
+                <div class="stars-container" id="starsContainer">
+                    <button type="button" class="star" data-value="1" aria-label="1 gwiazdka">★</button>
+                    <button type="button" class="star" data-value="2" aria-label="2 gwiazdki">★</button>
+                    <button type="button" class="star" data-value="3" aria-label="3 gwiazdki">★</button>
+                    <button type="button" class="star" data-value="4" aria-label="4 gwiazdki">★</button>
+                    <button type="button" class="star" data-value="5" aria-label="5 gwiazdek">★</button>
                 </div>
                 <label class="note-label" for="noteInput">Twoja notatka (opcjonalnie)</label>
                 <textarea id="noteInput" placeholder="Napisz coś..." rows="4"></textarea>

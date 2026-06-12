@@ -7,7 +7,18 @@
     "dev": "npx serve . -p 3000 --single",
     "dev:cache": "npx serve . -p 3000 --single",
     "build": "echo 'Statyczna PWA – nie ma builda'",
-    "preview": "npm run dev:cache"
+    "preview": "npm run dev:cache",
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint:js": "eslint src/js/",
+    "lint:css": "stylelint src/css/",
+    "format": "prettier --write \"src/**/*.{js,css}\"",
+    "format:check": "prettier --check \"src/**/*.{js,css}\""
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "stylelint": "^16.0.0",
+    "stylelint-config-standard": "^36.0.0",
+    "prettier": "^3.0.0"
   },
   "keywords": [
     "pwa",

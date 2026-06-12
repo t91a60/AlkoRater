@@ -261,7 +261,7 @@ export const renderFavorites = (filter = 'wszystkie') => {
         container.innerHTML = `
             <div class="empty-state-animated">
                 <div class="floating-ghost">${GHOST_SVG}</div>
-                <p style="opacity:0.6;font-weight:500;">Brak ulubionych</p>
+                <p class="empty-state-text">Brak ulubionych</p>
             </div>`;
         return;
     }
@@ -522,5 +522,3 @@ export const saveRating = () => {
     closeModal();
 };
 
-// ─── Share & Backup ───────────────────────────────────────────────────────────
-// Features completely removed to streamline the static application.

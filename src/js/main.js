@@ -48,6 +48,11 @@ const initEl = () => {
 // ─── Event Listeners ──────────────────────────────────────────────────────────
 
 const setupListeners = () => {
+    // ── Storage error → toast ─────────────────────────────────────────────────
+    document.addEventListener('alkorater:storage-error', (e) => {
+        showToast(e.detail?.message || 'Błąd zapisu');
+    });
+
     // ── Global image fallback (replaces inline onerror handlers) ─────────────
     document.addEventListener(
         'error',
@@ -107,12 +112,16 @@ const setupListeners = () => {
         showAllFavoritesBtn.addEventListener('click', () => switchTab('favorites'));
     }
 
-    // ── Backup / Share (Removed) ──────────────────────────────────────────────
-
-    // ── iOS keyboard body class ───────────────────────────────────────────────
-    document.querySelectorAll('input, textarea').forEach((input) => {
-        input.addEventListener('focus', () => document.body.classList.add('keyboard-open'));
-        input.addEventListener('blur', () => document.body.classList.remove('keyboard-open'));
+    // ── iOS keyboard body class
+    document.addEventListener('focusin', (e) => {
+        if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+            document.body.classList.add('keyboard-open');
+        }
+    });
+    document.addEventListener('focusout', (e) => {
+        if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+            document.body.classList.remove('keyboard-open');
+        }
     });
 
     // ── Bottom navigation tabs ────────────────────────────────────────────────
@@ -149,7 +158,16 @@ const setupListeners = () => {
 
     document.querySelector('.stars-container').addEventListener('click', (e) => {
         if (e.target.classList.contains('star')) {
-            setRating(parseInt(e.target.dataset.value));
+            setRating(parseInt(e.target.dataset.value, 10));
+        }
+    });
+
+    document.querySelector('.stars-container').addEventListener('keydown', (e) => {
+        const target = e.target;
+        if (!(target instanceof HTMLElement) || !target.classList.contains('star')) return;
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setRating(parseInt(target.dataset.value, 10));
         }
     });
 

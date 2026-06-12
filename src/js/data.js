@@ -26,13 +26,15 @@ export const normalizeSearchText = (value = '') => String(value)
 
 // ─── Fetch Helper ─────────────────────────────────────────────────────────────
 
-const fetchJSON = (url) =>
-    fetch(url)
-        .then((r) => (r.ok ? r.json() : []))
-        .catch((err) => {
-            console.error(`[Data] Error fetching ${url}:`, err);
-            return [];
-        });
+const fetchJSON = async (url) => {
+    try {
+        const r = await fetch(url);
+        return r.ok ? r.json() : [];
+    } catch (err) {
+        console.error(`[Data] Error fetching ${url}:`, err);
+        return [];
+    }
+};
 
 const normalizeLoadedItem = (item = {}, source = 'beer', index = 0) => {
     const rawName = item.name ?? item.title ?? item.productName ?? '';
@@ -42,14 +44,50 @@ const normalizeLoadedItem = (item = {}, source = 'beer', index = 0) => {
         : String(rawAlcohol).includes('%') ? String(rawAlcohol)
         : `${rawAlcohol}%`;
 
+    // Schemat może mieć różne klucze marki/typu/regionu; agregujemy je wszystkie,
+    // aby wyszukiwanie działało przy kolejnych wersjach plików danych.
+    const rawBrand = normalizeSearchText([
+        item.brand,
+        item.brand_name,
+        item.brandName,
+        item.manufacturer,
+        item.producer,
+    ]
+        .filter(Boolean)
+        .join(' '));
+    const rawType = normalizeSearchText([
+        item.type,
+        item.breweryType,
+        item.style,
+        item.subtype,
+    ]
+        .filter(Boolean)
+        .join(' '));
+
+    const rawCountry = normalizeSearchText([
+        item.country,
+        item.country_name,
+        item.origin,
+        item.region,
+    ]
+        .filter(Boolean)
+        .join(' '));
+
     return {
         id: item.id ?? `${source}-${index + 1}`,
         name: rawName,
         alcohol: alcoholDisplay,
         image_url: item.image_url ?? item.image ?? item.imageUrl ?? '',
         category: SOURCE_CATEGORIES[source] ?? 'Piwo',
+        country: rawCountry,
         normalized_name: normalizeSearchText(rawName),
-        searchText: normalizeSearchText(rawName),
+        searchText: normalizeSearchText([
+            rawName,
+            rawBrand,
+            rawType,
+            SOURCE_CATEGORIES[source] ?? 'Piwo',
+            rawCountry,
+        ].join(' ')),
     };
 };
 
