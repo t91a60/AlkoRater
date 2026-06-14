@@ -63,7 +63,10 @@ const TOAST_ICONS = {
  */
 export const showToast = (msg, type) => {
     const existing = document.querySelector('.toast');
-    if (existing) {existing.remove();}
+    if (existing) {
+        existing.classList.remove('visible');
+        existing.remove();
+    }
 
     const t = document.createElement('div');
     t.className = 'toast';
@@ -73,9 +76,16 @@ export const showToast = (msg, type) => {
     t.style.gap = '8px';
     document.body.appendChild(t);
 
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            t.classList.add('visible');
+        });
+    });
+
     setTimeout(() => {
-        t.style.animation = 'toastSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) reverse forwards';
-        setTimeout(() => t.remove(), 420);
+        t.classList.remove('visible');
+        t.classList.add('closing');
+        setTimeout(() => t.remove(), 250);
     }, 2200);
 };
 
@@ -205,7 +215,7 @@ export const switchTab = (tabName) => {
     state.el.headerTitle.textContent = titles[tabName];
 
     if (currentEl) {
-        currentEl.classList.remove('active', 'tab-enter');
+        currentEl.classList.remove('active');
         currentEl.classList.add('tab-exit');
         setTimeout(() => {
             currentEl.classList.remove('tab-exit');
@@ -215,9 +225,9 @@ export const switchTab = (tabName) => {
 
     if (nextEl) {
         nextEl.style.display = 'block';
+        void nextEl.offsetHeight;
         nextEl.classList.remove('tab-exit');
-        nextEl.classList.add('active', 'tab-enter');
-        setTimeout(() => nextEl.classList.remove('tab-enter'), 350);
+        nextEl.classList.add('active');
     }
 
     state.currentTab = tabName;
@@ -521,14 +531,24 @@ const resetCategoryAccent = () => {
     btn.style.removeProperty('--btn-accent');
 };
 
-export const closeModal = () => {
+export const closeModal = (instant) => {
     document.querySelector('.app-container').classList.remove('scale-back');
     document.querySelector('.bottom-nav').classList.remove('tab-bar-hidden');
+
+    if (instant) {
+        state.el.modal.classList.remove('active', 'closing');
+        state.el.modal.style.display = 'none';
+        resetCategoryAccent();
+        return;
+    }
+
+    state.el.modal.classList.add('closing');
     state.el.modal.classList.remove('active');
     setTimeout(() => {
         state.el.modal.style.display = 'none';
+        state.el.modal.classList.remove('closing');
         resetCategoryAccent();
-    }, 420);
+    }, 300);
 };
 
 /**

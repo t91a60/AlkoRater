@@ -13,7 +13,6 @@ import {
     toggleSkeletons,
     updateDashboard,
     switchTab,
-    renderFavorites,
     filterFavorites,
     deleteFavorite,
     handleSearch,
@@ -150,7 +149,7 @@ const setupListeners = () => {
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && state.el.modal.classList.contains('active')) {
-            closeModal();
+            closeModal(true);
         }
     });
 

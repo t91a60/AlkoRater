@@ -245,7 +245,7 @@ body::before {
 }
 
 .nav-item:active {
-  transform: scale(0.9);
+  transform: scale(0.95);
   transition: transform 0.12s var(--ease-snappy);
 }
 
@@ -283,25 +283,20 @@ body::before {
   display: none;
   padding: 0 16px;
   width: 100%;
+  opacity: 0;
+  transform: translateX(14px);
+  transition: opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);
 }
 
 .tab-view.active {
   display: block;
-  animation: tabEnter 0.38s var(--ease-out);
+  opacity: 1;
+  transform: translateX(0);
 }
 
-@keyframes tabEnter {
-  from { opacity: 0; transform: translateX(14px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes tabExit {
-  from { opacity: 1; transform: translateX(0); }
-  to { opacity: 0; transform: translateX(-14px); }
-}
-
-.tab-exit {
-  animation: tabExit 0.32s var(--ease-out) forwards;
+.tab-view.tab-exit {
+  opacity: 0;
+  transform: translateX(-14px);
 }
 
 .large-title-spacer {
@@ -481,26 +476,30 @@ body::before {
     box-shadow 0.2s var(--ease-out);
 }
 
-.action-btn:hover {
-  background: rgb(0 122 255 / 8%);
-}
-
 .action-btn:active {
   transform: scale(0.95);
   background: rgb(0 122 255 / 12%);
   box-shadow: 0 2px 8px rgb(0 0 0 / 25%);
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .action-btn:hover {
+    background: rgb(0 122 255 / 8%);
+  }
+}
+
 .action-btn.secondary {
   color: var(--fg);
 }
 
-.action-btn.secondary:hover {
-  background: rgb(255 255 255 / 4%);
-}
-
 .action-btn.secondary:active {
   background: rgb(255 255 255 / 7%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .action-btn.secondary:hover {
+    background: rgb(255 255 255 / 4%);
+  }
 }
 
 .action-icon {
@@ -676,7 +675,10 @@ body::before {
   box-shadow: 0 2px 8px rgb(0 0 0 / 25%);
 }
 
-.filter-chip:active { transform: scale(0.95); }
+.filter-chip:active {
+  transform: scale(0.95);
+  transition: transform 0.15s var(--ease-out);
+}
 
 /* ─── Results & Lists ─── */
 .results-list {
@@ -1042,6 +1044,11 @@ body::before {
   transform: translateY(0);
 }
 
+#modal-wrapper.closing .modal-content {
+  transition: transform 0.25s var(--ease-out);
+  transform: translateY(104%);
+}
+
 .modal-grabber {
   width: 36px;
   height: 4px;
@@ -1239,7 +1246,7 @@ body::before {
   position: fixed;
   top: calc(env(safe-area-inset-top, 0px) + 12px);
   left: 50%;
-  transform: translateX(-50%) translateY(-16px);
+  z-index: 10000;
   background: rgb(30 30 32 / 94%);
   backdrop-filter: blur(28px) saturate(180%);
   backdrop-filter: blur(28px) saturate(180%);
@@ -1249,22 +1256,23 @@ body::before {
   font-size: 13.5px;
   font-weight: 600;
   letter-spacing: -0.15px;
-  z-index: 10000;
   border: 0.5px solid rgb(255 255 255 / 10%);
   box-shadow: 0 10px 30px rgb(0 0 0 / 30%), 0 0 0 0.5px rgb(255 255 255 / 4%);
-  animation: toastSlideIn 0.4s var(--ease-spring) forwards;
   pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -40px) scale(0.85);
+  transition: opacity 0.35s var(--ease-out), transform 0.35s var(--ease-spring);
 }
 
-@keyframes toastSlideIn {
-  0% {
-    transform: translate(-50%, -40px) scale(0.85);
-    opacity: 0;
-  }
-  100% {
-    transform: translate(-50%, 0) scale(1);
-    opacity: 1;
-  }
+.toast.visible {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.toast.closing {
+  opacity: 0;
+  transform: translate(-50%, -16px) scale(0.92);
+  transition: opacity 0.2s var(--ease-out), transform 0.2s var(--ease-out);
 }
 
 /* ─── Utility Animations ─── */
@@ -1389,7 +1397,48 @@ body::before {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .tab-view,
+  .toast,
+  .modal-content {
+    transition: opacity 0.2s ease, background-color 0.2s ease !important;
+  }
+
+  .tab-view {
+    transform: none !important;
+  }
+
+  .toast {
+    transform: translate(-50%, 0) !important;
+  }
+
+  .toast.closing {
+    opacity: 0 !important;
+  }
+
+  .nav-icon,
+  .star {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .hero-card:active,
+  .recent-card:active,
+  .search-item:active,
+  .favorite-card:active,
+  .action-btn:active,
+  .nav-item:active,
+  .btn-primary:active {
+    transform: none !important;
+  }
+
+  .modal-content {
+    transform: translateY(0) !important;
+  }
+
+  #modal-wrapper.closing .modal-content {
+    transform: translateY(100%) !important;
   }
 }
