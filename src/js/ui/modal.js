@@ -60,7 +60,7 @@ export function openRateModal(item) {
     document.getElementById('modalTitle').innerHTML =
         `${escapeHTML(item.name)}${alcoholBadgeHTML(item.alcohol)}`;
     document.getElementById('modalCategoryTag').textContent = `Kategoria: ${strictCategory}`;
-    document.getElementById('noteInput').value = state.ratingConfig.note;
+    document.getElementById('note-input').value = state.ratingConfig.note;
 
     setCategoryAccent(strictCategory);
 
@@ -125,7 +125,7 @@ export function closeModal(instant) {
 
 export async function saveRating() {
     if (!state.currentItem) {return;}
-    state.ratingConfig.note = document.getElementById('noteInput').value;
+    state.ratingConfig.note = document.getElementById('note-input').value;
 
     const record = createRecord(state.currentItem, state.ratingConfig);
 
