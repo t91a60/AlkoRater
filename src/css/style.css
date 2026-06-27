@@ -69,7 +69,6 @@ html, body {
   height: 100dvh;
   overflow: hidden;
   user-select: none;
-  user-select: none;
 }
 
 body {
@@ -81,7 +80,6 @@ body {
 }
 
 input, textarea {
-  user-select: text !important;
   user-select: text !important;
 }
 
@@ -173,7 +171,6 @@ body::before {
   padding-top: env(safe-area-inset-top, 0);
   background: rgb(10 10 12 / 82%);
   backdrop-filter: blur(32px) saturate(180%);
-  backdrop-filter: blur(32px) saturate(180%);
   border-bottom: 0.5px solid var(--separator);
 }
 
@@ -221,7 +218,6 @@ body::before {
   z-index: 1000;
   border-top: 0.5px solid var(--separator);
   background: rgb(10 10 12 / 85%);
-  backdrop-filter: blur(32px) saturate(180%) contrast(105%);
   backdrop-filter: blur(32px) saturate(180%) contrast(105%);
   transition: transform 0.38s var(--ease-out), opacity 0.38s var(--ease-out);
 }
@@ -347,7 +343,6 @@ body.keyboard-open .bottom-nav {
 .glass {
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
   border: 0.5px solid var(--glass-border);
 }
 
@@ -404,7 +399,6 @@ body.keyboard-open .bottom-nav {
   margin: 0 0 3px;
   letter-spacing: -0.5px;
   background: linear-gradient(135deg, var(--fg), rgb(255 255 255 / 70%));
-  background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
@@ -666,7 +660,6 @@ body.keyboard-open .bottom-nav {
   background: var(--glass-bg);
   border: 0.5px solid var(--glass-border);
   backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
 }
 
 /* ─── Filter Chips (iOS segmented control style) ─── */
@@ -718,7 +711,7 @@ body.keyboard-open .bottom-nav {
   padding-top: 4px;
 }
 
-#favoritesList {
+#favorites-list {
   flex: 1;
 }
 
@@ -890,7 +883,7 @@ body.keyboard-open .bottom-nav {
   align-items: center;
 }
 
-#searchInput {
+#search-input {
   width: 100%;
   height: 100%;
   background-color: var(--input-bg);
@@ -906,12 +899,12 @@ body.keyboard-open .bottom-nav {
     box-shadow 0.25s var(--ease-out);
 }
 
-#searchInput::placeholder {
+#search-input::placeholder {
   color: var(--fg-tertiary);
   font-weight: 400;
 }
 
-#searchInput:focus {
+#search-input:focus {
   background-color: rgb(84 84 88 / 28%);
   box-shadow: 0 0 0 3px rgb(0 122 255 / 15%);
 }
@@ -928,7 +921,7 @@ body.keyboard-open .bottom-nav {
   height: 17px;
 }
 
-#searchInput:focus ~ .search-icon {
+#search-input:focus ~ .search-icon {
   color: var(--accent);
 }
 
@@ -1048,7 +1041,6 @@ body.keyboard-open .bottom-nav {
   inset: 0;
   background: rgb(0 0 0 / 45%);
   backdrop-filter: blur(18px) saturate(140%);
-  backdrop-filter: blur(18px) saturate(140%);
   opacity: 0;
   transition: opacity 0.4s var(--ease-out);
 }
@@ -1063,7 +1055,6 @@ body.keyboard-open .bottom-nav {
   left: 0;
   width: 100%;
   background: rgb(22 22 24 / 96%);
-  backdrop-filter: blur(40px) saturate(180%) contrast(105%);
   backdrop-filter: blur(40px) saturate(180%) contrast(105%);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   padding: 24px 22px calc(26px + env(safe-area-inset-bottom, 0px));
@@ -1166,7 +1157,7 @@ body.keyboard-open .bottom-nav {
   letter-spacing: -0.05px;
 }
 
-#noteInput {
+#note-input {
   background: var(--input-bg);
   color: var(--fg);
   border: 0.5px solid rgb(255 255 255 / 6%);
@@ -1181,13 +1172,13 @@ body.keyboard-open .bottom-nav {
   transition: background 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
 }
 
-#noteInput:focus {
+#note-input:focus {
   background: rgb(84 84 88 / 28%);
   box-shadow: 0 0 0 3px rgb(0 122 255 / 15%);
   outline: none;
 }
 
-#noteInput::placeholder {
+#note-input::placeholder {
   color: var(--fg-tertiary);
 }
 
@@ -1232,17 +1223,38 @@ body.keyboard-open .bottom-nav {
 }
 
 @keyframes starFill {
-  0% { transform: scale(0.4); opacity: 0; }
-  55% { transform: scale(1.25); opacity: 1; }
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  55% {
+    transform: scale(1.25);
+    opacity: 1;
+  }
   75% { transform: scale(0.92); }
-  100% { transform: scale(1); opacity: 1; }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes starPop {
-  0% { transform: scale(1); text-shadow: 0 0 8px var(--gold-glow); }
-  40% { transform: scale(1.4); text-shadow: 0 0 20px var(--gold-glow), 0 0 40px rgb(255 214 10 / 15%); }
-  70% { transform: scale(0.88); text-shadow: 0 0 10px var(--gold-glow); }
-  100% { transform: scale(1); text-shadow: 0 0 8px var(--gold-glow); }
+  0% {
+    transform: scale(1);
+    text-shadow: 0 0 8px var(--gold-glow);
+  }
+  40% {
+    transform: scale(1.4);
+    text-shadow: 0 0 20px var(--gold-glow), 0 0 40px rgb(255 214 10 / 15%);
+  }
+  70% {
+    transform: scale(0.88);
+    text-shadow: 0 0 10px var(--gold-glow);
+  }
+  100% {
+    transform: scale(1);
+    text-shadow: 0 0 8px var(--gold-glow);
+  }
 }
 
 /* ─── Primary Button ─── */
@@ -1286,7 +1298,6 @@ body.keyboard-open .bottom-nav {
   z-index: 10000;
   background: rgb(30 30 32 / 94%);
   backdrop-filter: blur(28px) saturate(180%);
-  backdrop-filter: blur(28px) saturate(180%);
   color: #fff;
   padding: 10px 20px;
   border-radius: 24px;
@@ -1318,8 +1329,14 @@ body.keyboard-open .bottom-nav {
 }
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade-in:nth-child(1) { animation-delay: 0ms; }
@@ -1362,7 +1379,6 @@ body.keyboard-open .bottom-nav {
   padding: 12px 14px;
   border-radius: var(--radius-md);
   background: rgb(28 28 30 / 94%);
-  backdrop-filter: blur(28px) saturate(180%);
   backdrop-filter: blur(28px) saturate(180%);
   border: 0.5px solid rgb(255 255 255 / 8%);
   box-shadow:
