@@ -39,6 +39,7 @@
   --radius-lg: 20px;
   --radius-xl: 28px;
   --font-stack: -apple-system, blinkmacsystemfont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", system-ui, sans-serif;
+  --vh: 1vh;
 
   font-family: var(--font-stack);
   -webkit-font-smoothing: antialiased;
@@ -60,6 +61,10 @@
 html, body {
   margin: 0;
   padding: 0;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  min-height: calc(var(--vh, 1vh) * 100);
+  min-height: 100dvh;
   height: 100%;
   height: 100dvh;
   overflow: hidden;
@@ -71,7 +76,7 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-family: var(--font-stack);
-  overscroll-behavior-y: none;
+  overscroll-behavior: none;
   -webkit-overflow-scrolling: auto;
 }
 
@@ -113,8 +118,11 @@ body::after {
 /* ─── App Shell ─── */
 .app-container {
   position: relative;
-  height: 100%;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  min-height: calc(var(--vh, 1vh) * 100);
   min-height: 100dvh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background: var(--bg);
@@ -224,6 +232,12 @@ body::before {
   pointer-events: none;
 }
 
+body.keyboard-open .bottom-nav {
+  transform: translate3d(0, 100%, 0);
+  opacity: 0;
+  pointer-events: none;
+}
+
 .nav-item {
   background: none;
   border: none;
@@ -294,19 +308,35 @@ body::before {
   transform: translateX(0);
 }
 
+#tab-start.active {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+#tab-start.active .info-block {
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+.tab-flex-content {
+  flex: 1;
+}
+
 .tab-view.tab-exit {
   opacity: 0;
   transform: translateX(-14px);
 }
 
 .large-title-spacer {
-  height: 4px;
+  height: max(14px, env(safe-area-inset-top, 0px));
+  flex-shrink: 0;
 }
 
 .empty-state-text {
   opacity: 0.5;
   font-weight: 500;
-  font-size: 15px;
+  font-size: 18px;
 }
 
 .recent-scroll--spaced {
@@ -688,6 +718,10 @@ body::before {
   padding-top: 4px;
 }
 
+#favoritesList {
+  flex: 1;
+}
+
 .search-item, .favorite-card {
   display: flex;
   align-items: center;
@@ -835,11 +869,12 @@ body::before {
   top: 0;
   z-index: 90;
   padding: 8px 0;
+  padding-top: max(8px, env(safe-area-inset-top, 0px));
   background: var(--bg);
 }
 
 #tab-search .large-title-spacer {
-  display: none;
+  height: max(8px, env(safe-area-inset-top, 0px));
 }
 
 .search-bar-container {
@@ -942,6 +977,8 @@ body::before {
   padding: 50px 20px;
   text-align: center;
   animation: fadeInUp 0.45s var(--ease-out);
+  min-height: 40dvh;
+  flex: 1;
 }
 
 .floating-ghost {

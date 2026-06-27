@@ -33,14 +33,16 @@
             <section id="tab-start" class="tab-view active">
                 <div class="large-title-spacer"></div>
 
-                <div id="dashboardGrid" class="dashboard-wrapper"></div>
+                <div class="tab-flex-content">
+                    <div id="dashboardGrid" class="dashboard-wrapper"></div>
 
-                <div class="section-container">
-                    <div class="section-header-flex">
-                        <h3 class="section-title section-title--flush">Ostatnio Ocenione</h3>
-                        <button id="showAllFavoritesBtn" class="link-btn">Wszystkie ></button>
+                    <div class="section-container">
+                        <div class="section-header-flex">
+                            <h3 class="section-title section-title--flush">Ostatnio Ocenione</h3>
+                            <button id="showAllFavoritesBtn" class="link-btn">Wszystkie ></button>
+                        </div>
+                        <div id="recentlyRated" class="recent-scroll recent-scroll--spaced"></div>
                     </div>
-                    <div id="recentlyRated" class="recent-scroll recent-scroll--spaced"></div>
                 </div>
 
                 <div class="info-block glass">
@@ -162,6 +164,5 @@
     </div>
 
     <script type="module" src="src/js/main.js"></script>
-    <script type="module" src="src/js/sw-register.js"></script>
 </body>
 </html>

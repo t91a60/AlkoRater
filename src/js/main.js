@@ -1,14 +1,9 @@
-/**
- * @module main
- * Entry point — wires up DOM refs, event listeners, and kicks off init().
- * This is the only file referenced from index.html (type="module").
- */
-
-import { CONSTANTS, state } from './state.js';
-import { loadFavorites } from './storage.js';
-import { loadAllData } from './data.js';
+import { state } from './app/state.js';
+import { debounce } from './utils/debounce.js';
+import { loadFavorites as restoreFavorites } from './data/favorite-repo.js';
+import { loadAllData } from './services/data-loader.js';
+import { registerSW } from './services/sw-service.js';
 import {
-    debounce,
     showToast,
     toggleSkeletons,
     updateDashboard,
@@ -20,9 +15,7 @@ import {
     setRating,
     closeModal,
     saveRating,
-} from './ui.js';
-
-// ─── DOM Reference Init ───────────────────────────────────────────────────────
+} from './ui/index.js';
 
 const initEl = () => {
     state.el = {
@@ -44,29 +37,23 @@ const initEl = () => {
     };
 };
 
-// ─── Event Listeners ──────────────────────────────────────────────────────────
-
 const setupListeners = () => {
-    // ── Storage error → toast ─────────────────────────────────────────────────
     document.addEventListener('alkorater:storage-error', (e) => {
         showToast(e.detail?.message || 'Błąd zapisu');
     });
 
-    // ── Global image fallback (replaces inline onerror handlers) ─────────────
     document.addEventListener(
         'error',
         (e) => {
             const target = e.target;
             if (!(target instanceof HTMLImageElement)) {return;}
             if (target.dataset.fallbackApplied === 'true') {return;}
-
             target.dataset.fallbackApplied = 'true';
             target.src = './icons/icon-60.png';
         },
         true,
     );
 
-    // ── Event delegation: Recently Rated ──────────────────────────────────────
     state.el.recentlyRated.addEventListener('click', (e) => {
         const card = e.target.closest('.recent-card');
         if (!card) {return;}
@@ -74,7 +61,6 @@ const setupListeners = () => {
         if (fav) {openRateModal(fav.item);}
     });
 
-    // ── Event delegation: Search Results ──────────────────────────────────────
     state.el.searchResults.addEventListener('click', (e) => {
         const card = e.target.closest('.search-item');
         if (!card) {return;}
@@ -82,7 +68,6 @@ const setupListeners = () => {
         if (item) {openRateModal(item);}
     });
 
-    // ── Event delegation: Favorites List (card click + delete) ────────────────
     state.el.favoritesList.addEventListener('click', (e) => {
         const deleteBtn = e.target.closest('.delete-btn');
         if (deleteBtn) {
@@ -97,11 +82,9 @@ const setupListeners = () => {
         }
     });
 
-    // ── Dashboard actions (replaces inline onclick) ───────────────────────────
     state.el.dashboardGrid.addEventListener('click', (e) => {
         const actionBtn = e.target.closest('[data-action]');
         if (!actionBtn) {return;}
-
         if (actionBtn.dataset.action === 'open-search') {switchTab('search');}
         if (actionBtn.dataset.action === 'open-favorites') {switchTab('favorites');}
     });
@@ -111,25 +94,11 @@ const setupListeners = () => {
         showAllFavoritesBtn.addEventListener('click', () => switchTab('favorites'));
     }
 
-    // ── iOS keyboard body class
-    document.addEventListener('focusin', (e) => {
-        if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
-            document.body.classList.add('keyboard-open');
-        }
-    });
-    document.addEventListener('focusout', (e) => {
-        if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
-            document.body.classList.remove('keyboard-open');
-        }
-    });
-
-    // ── Bottom navigation tabs ────────────────────────────────────────────────
     state.el.navItems.forEach((btn) =>
         btn.addEventListener('click', () => switchTab(btn.dataset.tab))
     );
 
-    // ── Search input + clear button ───────────────────────────────────────────
-    state.el.searchInput.addEventListener('input', debounce(handleSearch, CONSTANTS.SEARCH_DEBOUNCE_MS));
+    state.el.searchInput.addEventListener('input', debounce(handleSearch, 300));
     const clearBtn = document.getElementById('clearSearch');
     if (clearBtn) {
         clearBtn.addEventListener('click', () => {
@@ -139,7 +108,6 @@ const setupListeners = () => {
         });
     }
 
-    // ── Modal: close, overlay, save, stars, keyboard ────────────────────────
     document.getElementById('modalClose').addEventListener('click', closeModal);
     state.el.modal.addEventListener('click', (e) => {
         if (e.target === state.el.modal || e.target.classList.contains('modal-overlay')) {
@@ -170,31 +138,74 @@ const setupListeners = () => {
         }
     });
 
-    // ── Filter chips ──────────────────────────────────────────────────────────
     document.querySelectorAll('.filter-chip').forEach((chip) => {
         chip.addEventListener('click', () => filterFavorites(chip.dataset.filter));
     });
 };
 
-// ─── Application Init ─────────────────────────────────────────────────────────
+const setVH = () => {
+    const vh = window.visualViewport?.height || window.innerHeight;
+    document.documentElement.style.setProperty('--vh', `${vh * 0.01}px`);
+    document.documentElement.style.setProperty('--window-height', `${vh}px`);
+};
+
+const initViewport = () => {
+    setVH();
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', setVH);
+        window.visualViewport.addEventListener('scroll', setVH);
+    }
+    window.addEventListener('resize', setVH);
+    window.addEventListener('orientationchange', () => setTimeout(setVH, 150));
+};
+
+const setupKeyboardHandlers = () => {
+    document.addEventListener('focusin', () => {
+        document.body.classList.add('keyboard-open');
+    });
+    document.addEventListener('focusout', () => {
+        setTimeout(() => {
+            document.body.classList.remove('keyboard-open');
+            setVH();
+        }, 100);
+    });
+};
+
+const setupPageVisibility = () => {
+    window.addEventListener('pageshow', (e) => {
+        if (e.persisted) {
+            document.querySelector('.content-area')?.scrollTo(0, 0);
+            setVH();
+        }
+    });
+};
 
 const init = async () => {
     initEl();
-    loadFavorites();
+
+    try {
+        await restoreFavorites();
+    } catch {
+        showToast('Błąd wczytywania danych');
+    }
+
     setupListeners();
+    setupKeyboardHandlers();
+    initViewport();
+    setupPageVisibility();
     toggleSkeletons(true);
 
     try {
         await loadAllData();
-    } catch (error) {
+    } catch {
         showToast('Błąd ładowania bazy danych');
-        console.error('[Init] loadAllData failed:', error);
     }
 
     toggleSkeletons(false);
     updateDashboard();
 
-    // Handle PWA shortcut: ?action=search
+    registerSW();
+
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('action') === 'search') {
         switchTab('search');
