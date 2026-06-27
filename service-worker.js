@@ -5,7 +5,7 @@
  * obsługa aktualizacji z pełnym flow przepowiadania wersji.
  */
 
-const CACHE_VERSION = 'v5.1';
+const CACHE_VERSION = 'v6.0';
 const CACHE_NAME = `alko-rater-static-${CACHE_VERSION}`;
 const DATA_CACHE_NAME = `alko-rater-data-${CACHE_VERSION}`;
 
@@ -14,11 +14,30 @@ const ASSETS_TO_CACHE = [
     './index.html',
     './manifest.json',
     './src/js/main.js',
-    './src/js/state.js',
-    './src/js/data.js',
-    './src/js/ui.js',
-    './src/js/storage.js',
-    './src/js/sw-register.js',
+    './src/js/app/state.js',
+    './src/js/app/constants.js',
+    './src/js/app/event-bus.js',
+    './src/js/data/index.js',
+    './src/js/data/favorite-repo.js',
+    './src/js/data/product-repo.js',
+    './src/js/services/index.js',
+    './src/js/services/storage.js',
+    './src/js/services/data-loader.js',
+    './src/js/services/search.js',
+    './src/js/services/sw-service.js',
+    './src/js/ui/index.js',
+    './src/js/ui/haptics.js',
+    './src/js/ui/toast.js',
+    './src/js/ui/tabs.js',
+    './src/js/ui/renderer.js',
+    './src/js/ui/dashboard.js',
+    './src/js/ui/favorites.js',
+    './src/js/ui/search-ui.js',
+    './src/js/ui/modal.js',
+    './src/js/utils/index.js',
+    './src/js/utils/dom.js',
+    './src/js/utils/logger.js',
+    './src/js/utils/debounce.js',
     './src/css/style.css',
     './icons/icon-60.png',
     './icons/icon-180.png',
