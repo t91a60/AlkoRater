@@ -44,7 +44,9 @@ function notifyIfUpdateReady(registration) {
 
     try {
         registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-    } catch {} // eslint-disable-line no-empty
+    } catch (e) {
+        logger.warn('[SW] postMessage failed:', e);
+    }
 
     showUpdateBanner(registration);
 }
@@ -52,16 +54,20 @@ function notifyIfUpdateReady(registration) {
 async function getSWVersion(registration) {
     try {
         const mc = new MessageChannel();
-        const response = await new Promise((resolve) => {
-            registration.active?.postMessage({ type: 'GET_VERSION' }, [mc.port2]);
-            mc.port1.onmessage = (event) => resolve(event.data);
-        });
+        const response = await Promise.race([
+            new Promise((resolve) => {
+                registration.active?.postMessage({ type: 'GET_VERSION' }, [mc.port2]);
+                mc.port1.onmessage = (event) => resolve(event.data);
+            }),
+            new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 3000)),
+        ]);
         return response?.version || null;
     } catch {
         return null;
     }
 }
 
+/** Register service worker and setup update flow. */
 export async function registerSW() {
     if (!('serviceWorker' in navigator)) {
         logger.info('[SW] Service Worker not supported');

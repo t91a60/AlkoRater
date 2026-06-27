@@ -1,11 +1,11 @@
 /**
  * @fileoverview Service Worker dla AlkoRater PWA
- * v6.1 — SEO metadata, README, manifest improvements.
+ * v6.2 — Beer types, shared badges, code quality improvements.
  * Pre-caching offline, czyszczenie starego cache za pomocą wersji oraz
  * obsługa aktualizacji z pełnym flow przepowiadania wersji.
  */
 
-const CACHE_VERSION = 'v6.1';
+const CACHE_VERSION = 'v6.2';
 const CACHE_NAME = `alko-rater-static-${CACHE_VERSION}`;
 const DATA_CACHE_NAME = `alko-rater-data-${CACHE_VERSION}`;
 
@@ -81,44 +81,6 @@ self.addEventListener('message', (event) => {
         event.port.postMessage({ version: CACHE_VERSION });
     }
 });
-
-// ─── Auth/Update Handshake (MessageChannel) ───────────────────────────────────
-
-const handleUpdateClientMessage = (event) => {
-    const data = event.data;
-    if (!data || typeof data !== 'object') return;
-
-    if (data.type === 'REGISTER_UPDATE_HANDLER') {
-        const { port } = event;
-        if (!port) return;
-
-        const notify = () => {
-            port.postMessage({
-                type: 'UPDATE_AVAILABLE',
-                version: CACHE_VERSION,
-                isUpdateAvailable: true,
-            });
-        };
-
-        self.clients.matchAll().then((clients) => {
-            clients.forEach((client) => {
-                const current = client;
-                current.postMessage({
-                    type: 'SUBSCRIBE_UPDATES',
-                });
-            });
-        });
-
-        port.onmessage = (messageEvent) => {
-            const inner = messageEvent.data;
-            if (!inner || typeof inner !== 'object') return;
-
-            if (inner.type === 'CLIENT_READY') {
-                notify();
-            }
-        };
-    }
-};
 
 // ─── Activate — czyszczenie starego cache'a + policy-based prefix ─────────────
 

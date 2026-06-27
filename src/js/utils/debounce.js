@@ -1,3 +1,4 @@
+/** @param {Function} func @param {number} delay @returns {Function} */
 export const debounce = (func, delay) => {
     let timeoutId;
     return (...args) => {

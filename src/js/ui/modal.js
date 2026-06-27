@@ -5,17 +5,12 @@ import { showToast } from './toast.js';
 import { updateDashboard } from './dashboard.js';
 import { renderFavorites } from './favorites.js';
 import { createRecord, upsertFavorite } from '../data/favorite-repo.js';
+import { alcoholBadgeHTML, typeBadgeHTML } from './badges.js';
 
 const CATEGORY_ACCENTS = {
     Piwo: { hue: '42', sat: '58', lit: '52', hex: '#d4a054' },
     Wódka: { hue: '203', sat: '88', lit: '71', hex: '#6bc5f7' },
     Wino: { hue: '346', sat: '44', lit: '51', hex: '#b84a62' },
-};
-
-const alcoholBadgeHTML = (alcohol) => {
-    if (!alcohol) {return '';}
-    const val = alcohol.includes('%') ? alcohol : `${alcohol}%`;
-    return `<span class="separator">·</span><span class="alcohol-badge">${escapeHTML(val)}</span>`;
 };
 
 function setCategoryAccent(category) {
@@ -43,6 +38,7 @@ function resetCategoryAccent() {
     btn.style.removeProperty('--btn-accent');
 }
 
+/** @param {Object} item */
 export function openRateModal(item) {
     haptics.light();
     state.currentItem = item;
@@ -59,7 +55,7 @@ export function openRateModal(item) {
 
     document.getElementById('modalTitle').innerHTML =
         `${escapeHTML(item.name)}${alcoholBadgeHTML(item.alcohol)}`;
-    document.getElementById('modalCategoryTag').textContent = `Kategoria: ${strictCategory}`;
+    document.getElementById('modalCategoryTag').innerHTML = `Kategoria: ${escapeHTML(strictCategory)}${typeBadgeHTML(item.type)}`;
     document.getElementById('note-input').value = state.ratingConfig.note;
 
     setCategoryAccent(strictCategory);
@@ -123,6 +119,7 @@ export function closeModal(instant) {
     }, 300);
 }
 
+/** Persist current rating to storage. */
 export async function saveRating() {
     if (!state.currentItem) {return;}
     state.ratingConfig.note = document.getElementById('note-input').value;

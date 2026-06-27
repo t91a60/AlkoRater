@@ -1,206 +1,401 @@
-﻿[
+[
     {
-        "id":  1,
-        "name":  "Tyskie Gronie",
-        "alcohol":  "5.2%",
-        "image_url":  ""
+        "id": 18,
+        "name": "Budweiser Budvar Original",
+        "alcohol": "5%",
+        "type": "Lager",
+        "image_url": ""
     },
     {
-        "id":  2,
-        "name":  "Ĺ»ywiec Jasne PeĹ‚ne",
-        "alcohol":  "5.5%",
-        "image_url":  ""
+        "id": 16,
+        "name": "Carlsberg Pilsner",
+        "alcohol": "5%",
+        "type": "Lager",
+        "image_url": ""
     },
     {
-        "id":  3,
-        "name":  "Lech Premium",
-        "alcohol":  "5%",
-        "image_url":  ""
+        "id": 26,
+        "name": "Desperados Original",
+        "alcohol": "5.9%",
+        "type": "Specjalne",
+        "image_url": ""
     },
     {
-        "id":  4,
-        "name":  "Warka Classic",
-        "alcohol":  "5%",
-        "image_url":  ""
+        "id": 27,
+        "name": "Desperados Red",
+        "alcohol": "5.9%",
+        "type": "Specjalne",
+        "image_url": ""
     },
     {
-        "id":  5,
-        "name":  "Warka Strong",
-        "alcohol":  "6.3%",
-        "image_url":  ""
+        "id": 8,
+        "name": "Harnaś",
+        "alcohol": "5.8%",
+        "type": "Lager",
+        "image_url": ""
     },
     {
-        "id":  6,
-        "name":  "Ĺ»ubr",
-        "alcohol":  "6%",
-        "image_url":  ""
+        "id": 17,
+        "name": "Heineken",
+        "alcohol": "5%",
+        "type": "Lager",
+        "image_url": ""
     },
     {
-        "id":  7,
-        "name":  "Tatra Jasne PeĹ‚ne",
-        "alcohol":  "5.6%",
-        "image_url":  ""
+        "id": 30,
+        "name": "Karmi Classic",
+        "alcohol": "0.5%",
+        "type": "0.0%",
+        "image_url": ""
     },
     {
-        "id":  8,
-        "name":  "HarnaĹ›",
-        "alcohol":  "5.8%",
-        "image_url":  ""
+        "id": 12,
+        "name": "Kasztelan Niepasteryzowane",
+        "alcohol": "5%",
+        "type": "Lager",
+        "image_url": ""
     },
     {
-        "id":  9,
-        "name":  "PerĹ‚a Chmielowa",
-        "alcohol":  "6%",
-        "image_url":  ""
+        "id": 20,
+        "name": "Kozel Premium Lager",
+        "alcohol": "4.6%",
+        "type": "Lager",
+        "image_url": ""
     },
     {
-        "id":  10,
-        "name":  "ĹomĹĽa Jasne",
-        "alcohol":  "5.7%",
-        "image_url":  ""
+        "id": 21,
+        "name": "Krušovice Imperial",
+        "alcohol": "5%",
+        "type": "Lager",
+        "image_url": ""
     },
     {
-        "id":  11,
-        "name":  "Okocim Jasne Okocimskie",
-        "alcohol":  "5.6%",
-        "image_url":  ""
+        "id": 15,
+        "name": "Książęce IPA",
+        "alcohol": "5.4%",
+        "type": "IPA",
+        "image_url": ""
     },
     {
-        "id":  12,
-        "name":  "Kasztelan Niepasteryzowane",
-        "alcohol":  "5%",
-        "image_url":  ""
+        "id": 14,
+        "name": "Książęce Złote Pszeniczne",
+        "alcohol": "5.4%",
+        "type": "Pszeniczne",
+        "image_url": ""
     },
     {
-        "id":  13,
-        "name":  "NamysĹ‚Ăłw Pils",
-        "alcohol":  "5.8%",
-        "image_url":  ""
+        "id": 22,
+        "name": "Lech Free 0.0",
+        "alcohol": "0.0%",
+        "type": "0.0%",
+        "image_url": ""
     },
     {
-        "id":  14,
-        "name":  "KsiÄ…ĹĽÄ™ce ZĹ‚ote Pszeniczne",
-        "alcohol":  "5.4%",
-        "image_url":  ""
+        "id": 32,
+        "name": "Lech Free Lemon",
+        "alcohol": "0.0%",
+        "type": "0.0%",
+        "image_url": ""
     },
     {
-        "id":  15,
-        "name":  "KsiÄ…ĹĽÄ™ce IPA",
-        "alcohol":  "5.4%",
-        "image_url":  ""
+        "id": 3,
+        "name": "Lech Premium",
+        "alcohol": "5%",
+        "type": "Lager",
+        "image_url": ""
     },
     {
-        "id":  16,
-        "name":  "Carlsberg Pilsner",
-        "alcohol":  "5%",
-        "image_url":  ""
+        "id": 13,
+        "name": "Namysłów Pils",
+        "alcohol": "5.8%",
+        "type": "Lager",
+        "image_url": ""
     },
     {
-        "id":  17,
-        "name":  "Heineken",
-        "alcohol":  "5%",
-        "image_url":  ""
+        "id": 11,
+        "name": "Okocim Jasne Okocimskie",
+        "alcohol": "5.6%",
+        "type": "Lager",
+        "image_url": ""
     },
     {
-        "id":  18,
-        "name":  "Budweiser Budvar Original",
-        "alcohol":  "5%",
-        "image_url":  ""
+        "id": 9,
+        "name": "Perła Chmielowa",
+        "alcohol": "6%",
+        "type": "Mocne",
+        "image_url": ""
     },
     {
-        "id":  19,
-        "name":  "Pilsner Urquell",
-        "alcohol":  "4.4%",
-        "image_url":  ""
+        "id": 19,
+        "name": "Pilsner Urquell",
+        "alcohol": "4.4%",
+        "type": "Lager",
+        "image_url": ""
     },
     {
-        "id":  20,
-        "name":  "Kozel Premium Lager",
-        "alcohol":  "4.6%",
-        "image_url":  ""
+        "id": 28,
+        "name": "Somersby Apple",
+        "alcohol": "4.5%",
+        "type": "Cydr",
+        "image_url": ""
     },
     {
-        "id":  21,
-        "name":  "KruĹˇovice Imperial",
-        "alcohol":  "5%",
-        "image_url":  ""
+        "id": 29,
+        "name": "Somersby Blackberry",
+        "alcohol": "4.5%",
+        "type": "Cydr",
+        "image_url": ""
     },
     {
-        "id":  22,
-        "name":  "Lech Free 0.0",
-        "alcohol":  "0.0%",
-        "image_url":  ""
+        "id": 34,
+        "name": "Tatra 0.0",
+        "alcohol": "0.0%",
+        "type": "0.0%",
+        "image_url": ""
     },
     {
-        "id":  23,
-        "name":  "Ĺ»ywiec 0.0",
-        "alcohol":  "0.0%",
-        "image_url":  ""
+        "id": 7,
+        "name": "Tatra Jasne Pełne",
+        "alcohol": "5.6%",
+        "type": "Lager",
+        "image_url": ""
     },
     {
-        "id":  24,
-        "name":  "Tyskie 0.0",
-        "alcohol":  "0.0%",
-        "image_url":  ""
+        "id": 24,
+        "name": "Tyskie 0.0",
+        "alcohol": "0.0%",
+        "type": "0.0%",
+        "image_url": ""
     },
     {
-        "id":  25,
-        "name":  "Ĺ»ubr 0.0",
-        "alcohol":  "0.0%",
-        "image_url":  ""
+        "id": 1,
+        "name": "Tyskie Gronie",
+        "alcohol": "5.2%",
+        "type": "Lager",
+        "image_url": ""
     },
     {
-        "id":  26,
-        "name":  "Desperados Original",
-        "alcohol":  "5.9%",
-        "image_url":  ""
+        "id": 4,
+        "name": "Warka Classic",
+        "alcohol": "5%",
+        "type": "Lager",
+        "image_url": ""
     },
     {
-        "id":  27,
-        "name":  "Desperados Red",
-        "alcohol":  "5.9%",
-        "image_url":  ""
+        "id": 31,
+        "name": "Warka Radler Cytryna",
+        "alcohol": "2%",
+        "type": "Radler",
+        "image_url": ""
     },
     {
-        "id":  28,
-        "name":  "Somersby Apple",
-        "alcohol":  "4.5%",
-        "image_url":  ""
+        "id": 5,
+        "name": "Warka Strong",
+        "alcohol": "6.3%",
+        "type": "Mocne",
+        "image_url": ""
     },
     {
-        "id":  29,
-        "name":  "Somersby Blackberry",
-        "alcohol":  "4.5%",
-        "image_url":  ""
+        "id": 6,
+        "name": "Żubr",
+        "alcohol": "6%",
+        "type": "Mocne",
+        "image_url": ""
     },
     {
-        "id":  30,
-        "name":  "Karmi Classic",
-        "alcohol":  "0.5%",
-        "image_url":  ""
+        "id": 25,
+        "name": "Żubr 0.0",
+        "alcohol": "0.0%",
+        "type": "0.0%",
+        "image_url": ""
     },
     {
-        "id":  31,
-        "name":  "Warka Radler Cytryna",
-        "alcohol":  "2%",
-        "image_url":  ""
+        "id": 23,
+        "name": "Żywiec 0.0",
+        "alcohol": "0.0%",
+        "type": "0.0%",
+        "image_url": ""
     },
     {
-        "id":  32,
-        "name":  "Lech Free Lemon",
-        "alcohol":  "0.0%",
-        "image_url":  ""
+        "id": 2,
+        "name": "Żywiec Jasne Pełne",
+        "alcohol": "5.5%",
+        "type": "Lager",
+        "image_url": ""
     },
     {
-        "id":  33,
-        "name":  "ĹomĹĽa Jasne 0.0",
-        "alcohol":  "0.0%",
-        "image_url":  ""
+        "id": 10,
+        "name": "Łomża Jasne",
+        "alcohol": "5.7%",
+        "type": "Lager",
+        "image_url": ""
     },
     {
-        "id":  34,
-        "name":  "Tatra 0.0",
-        "alcohol":  "0.0%",
-        "image_url":  ""
+        "id": 33,
+        "name": "Łomża Jasne 0.0",
+        "alcohol": "0.0%",
+        "type": "0.0%",
+        "image_url": ""
+    },
+    {
+        "id": 35,
+        "name": "Dębowe Jasne Pełne",
+        "alcohol": "5.2%",
+        "type": "Lager",
+        "image_url": ""
+    },
+    {
+        "id": 36,
+        "name": "Perła Export",
+        "alcohol": "5.6%",
+        "type": "Lager",
+        "image_url": ""
+    },
+    {
+        "id": 37,
+        "name": "Królewskie",
+        "alcohol": "5.5%",
+        "type": "Lager",
+        "image_url": ""
+    },
+    {
+        "id": 38,
+        "name": "Noteckie",
+        "alcohol": "5.5%",
+        "type": "Lager",
+        "image_url": ""
+    },
+    {
+        "id": 39,
+        "name": "Goolman",
+        "alcohol": "5.2%",
+        "type": "Lager",
+        "image_url": ""
+    },
+    {
+        "id": 40,
+        "name": "Dębowe Mocne",
+        "alcohol": "6.5%",
+        "type": "Mocne",
+        "image_url": ""
+    },
+    {
+        "id": 41,
+        "name": "Kasztelan Mocne",
+        "alcohol": "6.2%",
+        "type": "Mocne",
+        "image_url": ""
+    },
+    {
+        "id": 42,
+        "name": "Żubr Mocne",
+        "alcohol": "7%",
+        "type": "Mocne",
+        "image_url": ""
+    },
+    {
+        "id": 43,
+        "name": "Perła Mocna",
+        "alcohol": "6.2%",
+        "type": "Mocne",
+        "image_url": ""
+    },
+    {
+        "id": 44,
+        "name": "Harnaś Mocne",
+        "alcohol": "6%",
+        "type": "Mocne",
+        "image_url": ""
+    },
+    {
+        "id": 45,
+        "name": "Tatra Mocne",
+        "alcohol": "6%",
+        "type": "Mocne",
+        "image_url": ""
+    },
+    {
+        "id": 46,
+        "name": "Birbant IPA",
+        "alcohol": "5.5%",
+        "type": "IPA",
+        "image_url": ""
+    },
+    {
+        "id": 47,
+        "name": "Kormoran IPA",
+        "alcohol": "5.8%",
+        "type": "IPA",
+        "image_url": ""
+    },
+    {
+        "id": 48,
+        "name": "Ciechan Pszeniczne",
+        "alcohol": "5.2%",
+        "type": "Pszeniczne",
+        "image_url": ""
+    },
+    {
+        "id": 49,
+        "name": "Żywiec Porter",
+        "alcohol": "9.5%",
+        "type": "Porter",
+        "image_url": ""
+    },
+    {
+        "id": 50,
+        "name": "Lech Radler Grejpfrut",
+        "alcohol": "2%",
+        "type": "Radler",
+        "image_url": ""
+    },
+    {
+        "id": 51,
+        "name": "Tyskie Radler",
+        "alcohol": "2%",
+        "type": "Radler",
+        "image_url": ""
+    },
+    {
+        "id": 52,
+        "name": "Warka 0.0",
+        "alcohol": "0.0%",
+        "type": "0.0%",
+        "image_url": ""
+    },
+    {
+        "id": 53,
+        "name": "Harnaś 0.0",
+        "alcohol": "0.0%",
+        "type": "0.0%",
+        "image_url": ""
+    },
+    {
+        "id": 54,
+        "name": "Carlsberg 0.0",
+        "alcohol": "0.0%",
+        "type": "0.0%",
+        "image_url": ""
+    },
+    {
+        "id": 55,
+        "name": "Guinness",
+        "alcohol": "4.2%",
+        "type": "Specjalne",
+        "image_url": ""
+    },
+    {
+        "id": 56,
+        "name": "Corona Extra",
+        "alcohol": "4.5%",
+        "type": "Specjalne",
+        "image_url": ""
+    },
+    {
+        "id": 57,
+        "name": "Paulaner Weissbier",
+        "alcohol": "5.5%",
+        "type": "Specjalne",
+        "image_url": ""
     }
 ]

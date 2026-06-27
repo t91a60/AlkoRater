@@ -171,7 +171,7 @@ const setupKeyboardHandlers = () => {
     });
 };
 
-const setupPageVisibility = () => {
+const setupPageShow = () => {
     window.addEventListener('pageshow', (e) => {
         if (e.persisted) {
             document.querySelector('.content-area')?.scrollTo(0, 0);
@@ -192,7 +192,7 @@ const init = async () => {
     setupListeners();
     setupKeyboardHandlers();
     initViewport();
-    setupPageVisibility();
+    setupPageShow();
     toggleSkeletons(true);
 
     try {

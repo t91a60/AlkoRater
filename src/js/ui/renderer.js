@@ -1,5 +1,6 @@
 import { state } from '../app/state.js';
 
+/** @param {boolean} show */
 export function toggleSkeletons(show) {
     const container = state.el.skeletons;
     if (show) {

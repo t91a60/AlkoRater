@@ -6,6 +6,7 @@ const TOAST_ICONS = {
     warning: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff9f0a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
 };
 
+/** @param {string} msg @param {'success'|'update'|'warning'} type */
 export function showToast(msg, type) {
     const existing = document.querySelector('.toast');
     if (existing) {
@@ -20,12 +21,8 @@ export function showToast(msg, type) {
     t.style.alignItems = 'center';
     t.style.gap = '8px';
     document.body.appendChild(t);
-
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            t.classList.add('visible');
-        });
-    });
+    t.offsetHeight;
+    t.classList.add('visible');
 
     setTimeout(() => {
         t.classList.remove('visible');

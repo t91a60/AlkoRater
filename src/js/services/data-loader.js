@@ -46,12 +46,15 @@ const normalizeLoadedItem = (item = {}, source = 'beer', index = 0) => {
         item.country, item.country_name, item.origin, item.region,
     ].filter(Boolean).join(' '));
 
+    const beerType = item.type || null;
+
     return {
         id: item.id ?? `${source}-${index + 1}`,
         name: rawName,
         alcohol: alcoholDisplay,
         image_url: item.image_url ?? item.image ?? item.imageUrl ?? '',
         category: CATEGORIES[source] ?? 'Piwo',
+        type: beerType,
         country: rawCountry,
         normalized_name: normalizeSearchText(rawName),
         searchText: normalizeSearchText([
@@ -61,6 +64,7 @@ const normalizeLoadedItem = (item = {}, source = 'beer', index = 0) => {
     };
 };
 
+/** Fetch all JSON data files, normalize, and set app-wide products. */
 export async function loadAllData() {
     const [beerData, vodkaData, wineData] = await Promise.all([
         fetchJSON('./data/piwa.json'),

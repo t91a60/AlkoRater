@@ -4,6 +4,7 @@ import { haptics } from './haptics.js';
 import { showToast } from './toast.js';
 import { updateDashboard } from './dashboard.js';
 import { saveFavorites } from '../data/favorite-repo.js';
+import { alcoholBadgeHTML, typeBadgeHTML } from './badges.js';
 
 const GHOST_SVG = `
     <svg class="ghost-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
@@ -17,12 +18,6 @@ const TRASH_SVG = `
         <polyline points="3 6 5 6 21 6"></polyline>
         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
     </svg>`;
-
-const alcoholBadgeHTML = (alcohol) => {
-    if (!alcohol) {return '';}
-    const val = alcohol.includes('%') ? alcohol : `${alcohol}%`;
-    return `<span class="separator">·</span><span class="alcohol-badge">${escapeHTML(val)}</span>`;
-};
 
 export function renderFavorites(filter = 'wszystkie') {
     const container = state.el.favoritesList;
@@ -46,9 +41,9 @@ export function renderFavorites(filter = 'wszystkie') {
             <img src="${escapeHTML(fav.item.image_url || './icons/icon-60.png')}" loading="lazy" alt="${escapeHTML(fav.item.name)}">
             <div class="item-info">
                 <div class="item-name">${escapeHTML(fav.item.name)}${alcoholBadgeHTML(fav.item.alcohol)}</div>
-                <div class="item-meta">${escapeHTML(fav.tag)}</div>
+                <div class="item-meta">${escapeHTML(fav.tag)}${typeBadgeHTML(fav.item.type)}</div>
             </div>
-            <div class="item-stars">${escapeHTML(fav.stars)} <span style="font-size:12px;margin-left:1px;">★</span></div>
+            <div class="item-stars">${escapeHTML(fav.stars)} <span class="star-icon">★</span></div>
             <button class="delete-btn" data-delete-id="${fav.id}" aria-label="Usuń">${TRASH_SVG}</button>
         </div>
     `).join('');
@@ -65,9 +60,16 @@ export function filterFavorites(type) {
 export function deleteFavorite(id) {
     haptics.light();
     const el = document.getElementById(`fav-${id}`);
-    if (el) {el.classList.add('slide-out-left');}
 
-    setTimeout(async () => {
+    const finish = new Promise((resolve) => {
+        if (el) {
+            el.classList.add('slide-out-left');
+            el.addEventListener('animationend', resolve, { once: true });
+        }
+        setTimeout(resolve, 350);
+    });
+
+    finish.then(async () => {
         state.favorites = state.favorites.filter((f) => String(f.id) !== String(id));
         await saveFavorites(state.favorites);
         const activeFilter = document.querySelector('.filter-chip.active')?.dataset.filter || 'wszystkie';
@@ -75,5 +77,5 @@ export function deleteFavorite(id) {
         updateDashboard();
         showToast('Usunięto z ulubionych', 'warning');
         haptics.warning();
-    }, 300);
+    });
 }

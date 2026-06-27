@@ -3,6 +3,7 @@ import { haptics } from './haptics.js';
 import { renderFavorites } from './favorites.js';
 import { updateDashboard } from './dashboard.js';
 
+/** @param {string} tabName */
 export function switchTab(tabName) {
     if (state.currentTab === tabName) {return;}
     haptics.light();
@@ -28,12 +29,10 @@ export function switchTab(tabName) {
 
     if (nextEl) {
         nextEl.style.display = 'block';
-        void nextEl.offsetHeight;
+        nextEl.offsetHeight;
         nextEl.classList.remove('tab-exit');
         nextEl.classList.add('active');
-        requestAnimationFrame(() => {
-            nextEl.style.display = '';
-        });
+        nextEl.style.display = '';
     }
 
     state.currentTab = tabName;

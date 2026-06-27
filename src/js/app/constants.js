@@ -26,6 +26,18 @@ export const CONSTANTS = {
         Wino: { hue: '346', sat: '44', lit: '51', hex: '#b84a62' },
     },
 
+    BEER_TYPES: {
+        lager: { label: 'Lager', hex: '#4a9eff' },
+        mocne: { label: 'Mocne', hex: '#ff6b6b' },
+        ipa: { label: 'IPA', hex: '#ff9f43' },
+        pszeniczne: { label: 'Pszeniczne', hex: '#feca57' },
+        porter: { label: 'Porter', hex: '#2d3436' },
+        radler: { label: 'Radler', hex: '#00d2d3' },
+        '0.0%': { label: '0.0%', hex: '#a29bfe' },
+        cydr: { label: 'Cydr', hex: '#fd79a8' },
+        specjalne: { label: 'Specjalne', hex: '#636e72' },
+    },
+
     MAX_SEARCH_RESULTS: 50,
     TOAST_DURATION: 2200,
     TOAST_FADE: 250,

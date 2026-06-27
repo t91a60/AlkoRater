@@ -54,6 +54,7 @@ function openDB() {
     });
 }
 
+/** @returns {Promise<Array>} */
 export async function getFavorites() {
     try {
         const db = await openDB();
@@ -71,6 +72,7 @@ export async function getFavorites() {
     }
 }
 
+/** @param {Array} favorites @returns {Promise<boolean>} */
 export async function saveFavorites(favorites) {
     try {
         const db = await openDB();
@@ -78,27 +80,25 @@ export async function saveFavorites(favorites) {
         const store = tx.objectStore(FAVORITES_STORE);
 
         await new Promise((resolve, reject) => {
-                const clearReq = store.clear();
+            const clearReq = store.clear();
+            clearReq.onerror = () => reject(clearReq.error);
             clearReq.onsuccess = () => {
                 if (favorites.length === 0) {resolve(); return;}
-                let completed = 0;
-                favorites.forEach((fav) => {
+                Promise.all(favorites.map((fav) => new Promise((res, rej) => {
                     const putReq = store.put(fav);
-                    putReq.onsuccess = () => {
-                        completed++;
-                        if (completed === favorites.length) {resolve();}
-                    };
-                    putReq.onerror = () => reject(putReq.error);
-                });
+                    putReq.onsuccess = res;
+                    putReq.onerror = () => rej(putReq.error);
+                }))).then(resolve).catch(reject);
             };
-            clearReq.onerror = () => reject(clearReq.error);
         });
 
         await setMetadata('last_updated', new Date().toISOString());
 
         try {
             localStorage.setItem(LS_KEY, JSON.stringify(favorites));
-        } catch {} // eslint-disable-line no-empty
+        } catch (e) {
+            logger.warn('[Storage] localStorage sync failed:', e);
+        }
 
     return true;
     } catch (err) {
@@ -131,7 +131,9 @@ async function setMetadata(key, value) {
         const tx = db.transaction(METADATA_STORE, 'readwrite');
         const store = tx.objectStore(METADATA_STORE);
         store.put({ key, value });
-    } catch {} // eslint-disable-line no-empty
+    } catch (e) {
+        logger.warn('[Storage] setMetadata failed:', e);
+    }
 }
 
 async function getMetadata(key) {
@@ -149,6 +151,7 @@ async function getMetadata(key) {
     }
 }
 
+/** @returns {Promise<Array>} */
 export async function migrateFromLocalStorage() {
     const lsFavorites = getFavoritesLS();
     if (lsFavorites.length === 0) {return [];}
@@ -164,14 +167,17 @@ export async function migrateFromLocalStorage() {
     return lsFavorites;
 }
 
+/** @returns {Promise<number>} */
 export async function getSchemaVersion() {
     return await getMetadata('schema_version') || 1;
 }
 
+/** @param {number} version */
 export async function setSchemaVersion(version) {
     await setMetadata('schema_version', version);
 }
 
+/** @returns {Promise<boolean>} */
 export async function healthCheck() {
     try {
         const db = await openDB();

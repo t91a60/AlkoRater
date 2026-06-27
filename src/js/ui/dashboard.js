@@ -2,6 +2,7 @@ import { state } from '../app/state.js';
 import { CONSTANTS } from '../app/constants.js';
 import { escapeHTML } from '../utils/dom.js';
 
+/** Re-render the dashboard hero, stats, and recently rated. */
 export function updateDashboard() {
     const total = state.favorites.length;
     const categoryCount = {};
@@ -65,6 +66,7 @@ export function updateDashboard() {
     updateRecentlyRated();
 }
 
+/** Re-render the horizontal recently-rated scroll strip. */
 export function updateRecentlyRated() {
     const container = state.el.recentlyRated;
     const recent = state.favorites.slice(0, CONSTANTS.MAX_RECENT_ITEMS);

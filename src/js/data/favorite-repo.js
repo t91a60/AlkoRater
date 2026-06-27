@@ -1,6 +1,7 @@
 import { setFavorites } from '../app/state.js';
 import * as storage from '../services/storage.js';
 
+/** @returns {Promise<Array>} */
 export async function loadFavorites() {
     let favorites;
 
@@ -22,20 +23,18 @@ export async function loadFavorites() {
     return favorites;
 }
 
+/** @param {Array} favorites @returns {Promise} */
 export async function saveFavorites(favorites) {
     setFavorites(favorites);
     return await storage.saveFavorites(favorites);
 }
 
-export async function deleteFavorite(favorites, id) {
-    const updated = favorites.filter((f) => String(f.id) !== String(id));
-    return await saveFavorites(updated);
-}
-
+/** @param {Array} favorites @param {string} itemName @returns {Object|null} */
 export function findFavorite(favorites, itemName) {
     return favorites.find((f) => f.item?.name === itemName) || null;
 }
 
+/** @param {Object} item @param {Object} ratingConfig @returns {Object} */
 export function createRecord(item, ratingConfig) {
     return {
         id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
@@ -45,6 +44,7 @@ export function createRecord(item, ratingConfig) {
     };
 }
 
+/** @param {Array} favorites @param {Object} newRecord @returns {Promise<string>} */
 export async function upsertFavorite(favorites, newRecord) {
     const existingIndex = favorites.findIndex(
         (f) => f.item?.name === newRecord.item?.name,

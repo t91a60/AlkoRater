@@ -74,7 +74,6 @@ html, body {
 body {
   background: var(--bg);
   color: var(--fg);
-  font-family: var(--font-stack);
   overscroll-behavior: none;
   -webkit-overflow-scrolling: auto;
 }
@@ -107,10 +106,9 @@ body::after {
   mix-blend-mode: overlay;
 }
 
-.gpu, .app-container, .bottom-nav, .tab-view,
+.app-container, .bottom-nav, .tab-view,
 .modal-content, .hero-card, .search-item, .favorite-card {
   transform: translateZ(0);
-  will-change: transform;
 }
 
 /* ─── App Shell ─── */
@@ -395,7 +393,7 @@ body.keyboard-open .bottom-nav {
 
 .hero-greeting h2 {
   font-size: 23px;
-  font-weight: 720;
+  font-weight: 700;
   margin: 0 0 3px;
   letter-spacing: -0.5px;
   background: linear-gradient(135deg, var(--fg), rgb(255 255 255 / 70%));
@@ -431,7 +429,7 @@ body.keyboard-open .bottom-nav {
 
 .hero-stat-val {
   font-size: 22px;
-  font-weight: 720;
+  font-weight: 700;
   margin-bottom: 2px;
   display: flex;
   align-items: center;
@@ -487,7 +485,7 @@ body.keyboard-open .bottom-nav {
   border-radius: var(--radius-md);
   border: 0.5px solid var(--card-border);
   font-size: 14px;
-  font-weight: 620;
+  font-weight: 600;
   letter-spacing: -0.1px;
   background: var(--card);
   color: var(--accent);
@@ -552,7 +550,7 @@ body.keyboard-open .bottom-nav {
 
 .section-title {
   font-size: 16px;
-  font-weight: 660;
+  font-weight: 600;
   margin: 0;
   color: var(--fg);
   letter-spacing: -0.2px;
@@ -567,7 +565,7 @@ body.keyboard-open .bottom-nav {
   border: none;
   color: var(--accent);
   font-size: 14px;
-  font-weight: 580;
+  font-weight: 500;
   padding: 4px 8px;
   cursor: pointer;
   opacity: 0.8;
@@ -632,7 +630,7 @@ body.keyboard-open .bottom-nav {
 
 .recent-name {
   font-size: 12.5px;
-  font-weight: 620;
+  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -683,7 +681,7 @@ body.keyboard-open .bottom-nav {
   min-height: 36px;
   border-radius: 7px;
   font-size: 12.5px;
-  font-weight: 580;
+  font-weight: 500;
   cursor: pointer;
   transition: background 0.25s var(--ease-out),
     color 0.25s var(--ease-out),
@@ -764,7 +762,7 @@ body.keyboard-open .bottom-nav {
 }
 
 .item-name {
-  font-weight: 620;
+  font-weight: 600;
   font-size: 15.5px;
   letter-spacing: -0.2px;
   white-space: nowrap;
@@ -788,7 +786,7 @@ body.keyboard-open .bottom-nav {
 
 .alcohol-badge {
   font-size: 10.5px;
-  font-weight: 620;
+  font-weight: 600;
   color: var(--fg-secondary);
   background: rgb(84 84 88 / 22%);
   padding: 2px 6px;
@@ -801,6 +799,22 @@ body.keyboard-open .bottom-nav {
   font-size: 12.5px;
   color: var(--fg-secondary);
   font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.type-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 4px;
+  color: var(--type-color);
+  background: var(--type-bg);
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
 }
 
 .item-stars {
@@ -813,6 +827,11 @@ body.keyboard-open .bottom-nav {
   margin-right: 2px;
   letter-spacing: -0.1px;
   filter: drop-shadow(0 0 4px var(--gold-glow));
+}
+
+.star-icon {
+  font-size: 12px;
+  margin-left: 1px;
 }
 
 /* ─── Delete Button ─── */
@@ -892,7 +911,7 @@ body.keyboard-open .bottom-nav {
   padding: 8px 36px;
   color: var(--fg);
   font-size: 16px;
-  font-weight: 450;
+  font-weight: 400;
   letter-spacing: -0.15px;
   outline: none;
   transition: background-color 0.25s var(--ease-out),
@@ -1266,7 +1285,7 @@ body.keyboard-open .bottom-nav {
   border-radius: var(--radius-md);
   border: none;
   font-size: 16px;
-  font-weight: 620;
+  font-weight: 600;
   letter-spacing: -0.2px;
   margin-top: 18px;
   cursor: pointer;

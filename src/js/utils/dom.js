@@ -1,3 +1,4 @@
+/** @param {*} str @returns {string} */
 export const escapeHTML = (str) => {
     if (str === null || str === undefined || str === '') {return '';}
     return String(str)
