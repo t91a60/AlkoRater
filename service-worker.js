@@ -1,11 +1,11 @@
 /**
  * @fileoverview Service Worker dla AlkoRater PWA
- * v5.0 — Cache-First dla zasobów statycznych, Stale-While-Revalidate dla JSON.
+ * v6.1 — SEO metadata, README, manifest improvements.
  * Pre-caching offline, czyszczenie starego cache za pomocą wersji oraz
  * obsługa aktualizacji z pełnym flow przepowiadania wersji.
  */
 
-const CACHE_VERSION = 'v6.0';
+const CACHE_VERSION = 'v6.1';
 const CACHE_NAME = `alko-rater-static-${CACHE_VERSION}`;
 const DATA_CACHE_NAME = `alko-rater-data-${CACHE_VERSION}`;
 

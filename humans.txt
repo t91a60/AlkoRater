@@ -1,0 +1,18 @@
+/* TEAM */
+Author: t91a60
+GitHub: https://github.com/t91a60
+Site: https://t91a60.github.io/AlkoRater/
+
+/* THANKS */
+Built with love for the Polish alcohol-rating community.
+
+/* TOOLS */
+Editor: VS Code
+Version Control: Git, GitHub
+CI/CD: GitHub Actions
+Linting: ESLint, Stylelint
+Formatter: Prettier
+Icon Generation: ImageMagick
+
+/* STANDARDS */
+HTML5, CSS3, ES2024, WAI-ARIA, PWA, Schema.org, Open Graph, Twitter Cards

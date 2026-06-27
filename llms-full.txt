@@ -1,0 +1,87 @@
+# AlkoRater — Full Project Description
+
+AlkoRater is an offline-first Progressive Web App (PWA) for rating and tracking alcohol consumption. It targets the Polish market with a catalog of hundreds of beers, vodkas, and wines stored in offline JSON files.
+
+## Architecture
+
+- **Static SPA** — single `index.html` entry point, no build step, no frameworks
+- **Module-based JavaScript** — ES modules under `src/js/` organized into `app/`, `data/`, `services/`, `ui/`, `utils/`
+- **Offline-first** — all assets pre-cached via Service Worker; product data served stale-while-revalidate
+- **IndexedDB** — user ratings and favorites persisted locally via `idb` wrapper
+
+## Key Features
+
+- Offline alcohol rating (1–5 stars + notes)
+- Search with debounce across product database
+- Dashboard with stats, recently rated, favorites
+- Category filtering (beer, vodka, wine)
+- PWA installable (manifest.json + Service Worker)
+- iOS-style dark mode design with glassmorphism
+
+## Data Model
+
+Each rating record:
+- `id` (auto-generated)
+- `name` — product name
+- `category` — Piwo / Wódka / Wino
+- `alcohol` — ABV percentage
+- `rating` — 1–5 integer
+- `note` — optional text note
+- `timestamp` — ISO date
+
+## PWA Capabilities
+
+| Feature | Implementation |
+|---------|---------------|
+| Service Worker | Cache-first for static, stale-while-revalidate for JSON data |
+| Manifest | Standalone display, portrait orientation, maskable icons |
+| Offline | Full offline operation — cached assets + JSON + IndexedDB |
+| Installable | `beforeinstallprompt` + manifest links |
+| Update Flow | SKIP_WAITING + MessageChannel handshake with update banner |
+
+## Deployment
+
+- Hosted on GitHub Pages: https://t91a60.github.io/AlkoRater/
+- CI/CD via GitHub Actions (lint + deploy on push to main)
+- Zero build step — static files served directly
+
+## Repository Structure
+
+```
+/
+├── index.html          # Entry point (SPA shell)
+├── manifest.json       # Web App Manifest
+├── service-worker.js   # Offline cache & update logic
+├── favicon.ico
+├── robots.txt
+├── sitemap.xml
+├── humans.txt
+├── llms.txt
+├── llms-full.txt
+├── README.md
+├── data/               # Product JSON files (beer, vodka, wine)
+├── icons/              # PWA icons (60, 180, 192, 512)
+├── src/
+│   ├── css/style.css   # All styles (no CSS frameworks)
+│   └── js/
+│       ├── main.js     # App entry point
+│       ├── app/        # Constants, state manager, event bus
+│       ├── data/       # Data access layer (repositories)
+│       ├── services/   # Storage, search, data loader, SW service
+│       ├── ui/         # Dashboard, search, favorites, modal, tabs, toast, haptics, renderer
+│       └── utils/      # DOM helpers, debounce, logger
+├── .github/workflows/  # CI + deploy pipelines
+├── package.json
+├── .eslintrc.json
+├── .stylelintrc.json
+└── .prettierrc.json
+```
+
+## Technologies
+
+- Vanilla HTML5 / CSS3 / JavaScript (ES2024)
+- IndexedDB (via `idb` wrapper in storage.js)
+- Service Worker API
+- Web App Manifest
+- ESLint + Stylelint + Prettier
+- GitHub Actions (CI + GitHub Pages deploy)

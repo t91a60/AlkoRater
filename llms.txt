@@ -1,0 +1,6 @@
+# AlkoRater
+
+AlkoRater is an offline-first Progressive Web App for tracking and rating alcohol consumption. Built with vanilla HTML, CSS, and JavaScript. No frameworks, no build step — purely static PWA deployed via GitHub Pages.
+
+Website: https://t91a60.github.io/AlkoRater/
+GitHub: https://github.com/t91a60/AlkoRater

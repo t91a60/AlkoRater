@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" itemscope itemtype="https://schema.org/WebApplication">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
@@ -7,13 +7,81 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#000000">
-    <meta name="description" content="AlkoRater - aplikacja do oceniania alkoholi. Offline-first PWA z iOS feel.">
+    <meta name="description" content="AlkoRater — Progressive Web App do oceniania alkoholi. Offline-first, mobile-first. Śledź i oceniaj piwo, wódkę i wino bez internetu.">
+    <meta name="robots" content="index, follow">
+    <meta name="application-name" content="AlkoRater">
+    <meta name="google" content="notranslate">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self';">
-    <title>Alko Rater</title>
+    <title>AlkoRater — Offline-first PWA do oceniania alkoholi</title>
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://t91a60.github.io/AlkoRater/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="AlkoRater — Offline-first PWA do oceniania alkoholi">
+    <meta property="og:description" content="Progressive Web App do oceniania alkoholi. Offline-first, mobile-first. Śledź i oceniaj piwo, wódkę i wino bez internetu.">
+    <meta property="og:url" content="https://t91a60.github.io/AlkoRater/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AlkoRater">
+    <meta property="og:image" content="https://t91a60.github.io/AlkoRater/logo.png">
+    <meta property="og:locale" content="pl_PL">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AlkoRater — Offline-first PWA do oceniania alkoholi">
+    <meta name="twitter:description" content="Progressive Web App do oceniania alkoholi. Offline-first, mobile-first. Śledź i oceniaj piwo, wódkę i wino bez internetu.">
+    <meta name="twitter:image" content="https://t91a60.github.io/AlkoRater/logo.png">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "AlkoRater",
+        "url": "https://t91a60.github.io/AlkoRater/",
+        "description": "Offline-first Progressive Web App do oceniania i śledzenia alkoholi."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "AlkoRater",
+        "description": "Progressive Web App do oceniania alkoholi. Offline-first, mobile-first.",
+        "url": "https://t91a60.github.io/AlkoRater/",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "AlkoRater",
+            "url": "https://t91a60.github.io/AlkoRater/"
+        }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "MobileApplication",
+        "name": "AlkoRater",
+        "operatingSystem": "Web",
+        "description": "Offline-first Progressive Web App for tracking and rating alcohol consumption. Works entirely offline.",
+        "applicationCategory": "Multimedia",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "PLN"
+        },
+        "author": {
+            "@type": "Person",
+            "name": "t91a60",
+            "url": "https://github.com/t91a60"
+        }
+    }
+    </script>
+
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="src/css/style.css">
-    <link rel="apple-touch-icon" href="icons/icon-180.png">
+    <link rel="icon" href="favicon.ico" sizes="any">
     <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-180.png">
 </head>
 <body>
     <div class="app-container">
@@ -21,7 +89,7 @@
         <header class="app-header glass">
             <div class="header-main">
                 <div class="nav-logo">
-                    <img src="logo.png" alt="Alko Rater" class="app-logo" width="32" height="32">
+                    <img src="logo.png" alt="AlkoRater" class="app-logo" width="32" height="32">
                     <h1 id="headerTitle">Start</h1>
                 </div>
             </div>
@@ -38,7 +106,7 @@
 
                     <div class="section-container">
                         <div class="section-header-flex">
-                            <h3 class="section-title section-title--flush">Ostatnio Ocenione</h3>
+                            <h2 class="section-title section-title--flush">Ostatnio Ocenione</h2>
                             <button id="showAllFavoritesBtn" class="link-btn">Wszystkie ></button>
                         </div>
                         <div id="recentlyRated" class="recent-scroll recent-scroll--spaced"></div>
@@ -99,7 +167,7 @@
         </main>
 
         <!-- Bottom Navigation -->
-        <nav class="bottom-nav glass">
+        <nav class="bottom-nav glass" role="navigation" aria-label="Nawigacja">
             <button class="nav-item active" data-tab="start" aria-label="Start">
                 <div class="nav-icon">
                     <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">

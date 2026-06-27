@@ -1,7 +1,7 @@
 {
-    "name": "Alko Rater - Oceniaj Alkohole",
+    "name": "AlkoRater — Oceniaj Alkohole",
     "short_name": "AlkoRater",
-    "description": "Aplikacja do oceniania i klasyfikowania alkoholi",
+    "description": "AlkoRater to offline-first Progressive Web App do śledzenia i oceniania alkoholi. Działa bez internetu — oceniaj piwo, wódkę i wino w każdym miejscu.",
     "start_url": "./index.html",
     "scope": ".",
     "display": "standalone",
@@ -12,6 +12,7 @@
     "dir": "ltr",
     "categories": [
         "lifestyle",
+        "food-drink",
         "utilities"
     ],
     "icons": [
