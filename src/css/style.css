@@ -1,9 +1,9 @@
 :root {
-  --bg: #0a0a0c;
-  --bg-secondary: #121214;
-  --fg: #f5f5f7;
-  --fg-secondary: #98989d;
-  --fg-tertiary: #636366;
+  --bg: #0c0a09;
+  --bg-secondary: #141110;
+  --fg: #f5f0eb;
+  --fg-secondary: #a09890;
+  --fg-tertiary: #70645a;
   --accent-blue: #007aff;
   --accent-green: #34c759;
   --accent-red: #ff453a;
@@ -16,19 +16,19 @@
   --burgundy-dim: rgb(184 74 98 / 18%);
   --gold: #ffd60a;
   --gold-glow: rgb(255 214 10 / 35%);
-  --separator: rgb(255 255 255 / 8%);
-  --separator-thick: rgb(255 255 255 / 14%);
-  --glass-bg: rgb(28 28 30 / 72%);
-  --glass-border: rgb(255 255 255 / 8%);
-  --glass-edge: rgb(255 255 255 / 4%);
-  --glass-heavy: rgb(22 22 24 / 88%);
+  --separator: rgb(255 235 215 / 8%);
+  --separator-thick: rgb(255 235 215 / 14%);
+  --glass-bg: rgb(26 23 20 / 72%);
+  --glass-border: rgb(255 235 215 / 8%);
+  --glass-edge: rgb(255 235 215 / 4%);
+  --glass-heavy: rgb(20 17 15 / 88%);
   --glass-blur: blur(32px) saturate(160%) contrast(108%);
-  --card: #1c1c1e;
-  --card-border: rgb(255 255 255 / 6%);
-  --card-highlight: rgb(255 255 255 / 3%);
-  --card-shadow: 0 8px 28px rgb(0 0 0 / 45%), 0 0 0 1px rgb(255 255 255 / 4%);
-  --input-bg: rgb(84 84 88 / 20%);
-  --chip-bg: rgb(74 74 80 / 30%);
+  --card: #1a1714;
+  --card-border: rgb(255 235 215 / 6%);
+  --card-highlight: rgb(255 235 215 / 3%);
+  --card-shadow: 0 8px 28px rgb(0 0 0 / 45%), 0 0 0 1px rgb(255 235 215 / 4%);
+  --input-bg: rgb(120 110 100 / 20%);
+  --chip-bg: rgb(100 90 80 / 30%);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-snappy: cubic-bezier(0.2, 0.9, 0.3, 1.2);
@@ -38,19 +38,18 @@
   --radius-md: 14px;
   --radius-lg: 20px;
   --radius-xl: 28px;
-  --font-stack: -apple-system, blinkmacsystemfont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", system-ui, sans-serif;
+  --font-stack: 'Outfit', -apple-system, blinkmacsystemfont, system-ui, sans-serif;
+  --font-display: 'DM Serif Display', georgia, serif;
   --vh: 1vh;
 
   font-family: var(--font-stack);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --accent: var(--accent-blue);
+  --accent: var(--amber);
 }
 
-@supports (font: -apple-system-body) {
-  :root { font-family: -apple-system, sans-serif; }
-}
+
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -155,9 +154,10 @@ body::before {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(900px 500px at 15% -8%, rgb(0 122 255 / 7%), transparent 55%),
-    radial-gradient(700px 400px at 88% 12%, rgb(212 160 84 / 4%), transparent 50%),
-    radial-gradient(600px 600px at 72% 80%, rgb(184 74 98 / 5%), transparent 50%),
+    radial-gradient(900px 500px at 15% -8%, rgb(212 160 84 / 8%), transparent 55%),
+    radial-gradient(700px 400px at 88% 12%, rgb(212 160 84 / 5%), transparent 50%),
+    radial-gradient(600px 600px at 72% 80%, rgb(184 74 98 / 6%), transparent 50%),
+    radial-gradient(500px 400px at 50% 100%, rgb(212 160 84 / 3%), transparent 60%),
     linear-gradient(180deg, rgb(0 0 0 / 30%), rgb(0 0 0 / 0%));
 }
 
@@ -167,7 +167,7 @@ body::before {
   top: 0;
   z-index: 120;
   padding-top: env(safe-area-inset-top, 0);
-  background: rgb(10 10 12 / 82%);
+  background: rgb(12 10 9 / 82%);
   backdrop-filter: blur(32px) saturate(180%);
   border-bottom: 0.5px solid var(--separator);
 }
@@ -199,6 +199,7 @@ body::before {
   font-weight: 700;
   letter-spacing: -0.4px;
   margin: 0;
+  font-family: var(--font-display);
 }
 
 /* ─── Bottom Navigation ─── */
@@ -215,7 +216,7 @@ body::before {
   padding-top: 5px;
   z-index: 1000;
   border-top: 0.5px solid var(--separator);
-  background: rgb(10 10 12 / 85%);
+  background: rgb(12 10 9 / 85%);
   backdrop-filter: blur(32px) saturate(180%) contrast(105%);
   transition: transform 0.38s var(--ease-out), opacity 0.38s var(--ease-out);
 }
@@ -263,7 +264,7 @@ body.keyboard-open .bottom-nav {
 
 .nav-item.active .nav-icon svg {
   stroke-width: 2.5;
-  filter: drop-shadow(0 0 6px rgb(0 122 255 / 25%));
+  filter: drop-shadow(0 0 6px rgb(212 160 84 / 30%));
 }
 
 .nav-icon {
@@ -286,20 +287,19 @@ body.keyboard-open .bottom-nav {
   opacity: 0.85;
 }
 
-/* ─── Tabs ─── */
+/* ─── Tabs (iOS crossfade) ─── */
 .tab-view {
   display: none;
   padding: 0 16px;
   width: 100%;
   opacity: 0;
-  transform: translateX(14px);
-  transition: opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);
+  transition: opacity 0.25s var(--ease-out);
+  will-change: opacity;
 }
 
 .tab-view.active {
   display: block;
   opacity: 1;
-  transform: translateX(0);
 }
 
 #tab-start.active {
@@ -319,7 +319,7 @@ body.keyboard-open .bottom-nav {
 
 .tab-view.tab-exit {
   opacity: 0;
-  transform: translateX(-14px);
+  transition: opacity 0.15s var(--ease-out);
 }
 
 .large-title-spacer {
@@ -347,7 +347,7 @@ body.keyboard-open .bottom-nav {
 /* ─── Hero Card (Dashboard) ─── */
 .hero-card {
   position: relative;
-  background: linear-gradient(165deg, rgb(28 28 30 / 96%), rgb(36 36 40 / 92%));
+  background: linear-gradient(165deg, rgb(26 23 20 / 96%), rgb(36 32 28 / 92%));
   border-radius: var(--radius-xl);
   padding: 24px 22px 22px;
   border: 0.5px solid var(--card-border);
@@ -371,7 +371,7 @@ body.keyboard-open .bottom-nav {
   width: 180px;
   height: 180px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgb(0 122 255 / 12%), rgb(0 122 255 / 0%) 70%);
+  background: radial-gradient(circle at 30% 30%, rgb(212 160 84 / 12%), rgb(212 160 84 / 0%) 70%);
   pointer-events: none;
 }
 
@@ -396,9 +396,10 @@ body.keyboard-open .bottom-nav {
   font-weight: 700;
   margin: 0 0 3px;
   letter-spacing: -0.5px;
-  background: linear-gradient(135deg, var(--fg), rgb(255 255 255 / 70%));
+  background: linear-gradient(135deg, var(--fg), rgb(245 240 235 / 70%));
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  font-family: var(--font-display);
 }
 
 .hero-greeting p {
@@ -453,6 +454,7 @@ body.keyboard-open .bottom-nav {
   text-transform: uppercase;
   letter-spacing: 0.8px;
   opacity: 0.55;
+  font-family: var(--font-stack);
 }
 
 .hero-divider {
@@ -500,13 +502,13 @@ body.keyboard-open .bottom-nav {
 
 .action-btn:active {
   transform: scale(0.95);
-  background: rgb(0 122 255 / 12%);
+  background: rgb(212 160 84 / 12%);
   box-shadow: 0 2px 8px rgb(0 0 0 / 25%);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .action-btn:hover {
-    background: rgb(0 122 255 / 8%);
+    background: rgb(212 160 84 / 8%);
   }
 }
 
@@ -554,6 +556,7 @@ body.keyboard-open .bottom-nav {
   margin: 0;
   color: var(--fg);
   letter-spacing: -0.2px;
+  font-family: var(--font-display);
 }
 
 .section-title--flush {
@@ -664,11 +667,11 @@ body.keyboard-open .bottom-nav {
 .filters-container {
   display: flex;
   gap: 0;
-  background: rgb(84 84 88 / 22%);
+  background: rgb(120 110 100 / 22%);
   padding: 2px;
   border-radius: 9px;
   margin: 14px 0;
-  border: 0.5px solid rgb(255 255 255 / 4%);
+  border: 0.5px solid rgb(255 235 215 / 4%);
 }
 
 .filter-chip {
@@ -713,7 +716,7 @@ body.keyboard-open .bottom-nav {
   flex: 1;
 }
 
-.search-item, .favorite-card {
+.search-item {
   display: flex;
   align-items: center;
   background: var(--card);
@@ -723,11 +726,38 @@ body.keyboard-open .bottom-nav {
   box-shadow: var(--card-shadow);
   border: 0.5px solid var(--card-border);
   position: relative;
-  overflow: hidden;
   transition: transform 0.2s var(--ease-spring), box-shadow 0.2s var(--ease-out);
 }
 
-.search-item::before, .favorite-card::before {
+.favorite-card {
+  display: flex;
+  align-items: stretch;
+  background: var(--card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--card-shadow);
+  border: 0.5px solid var(--card-border);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s var(--ease-spring), box-shadow 0.2s var(--ease-out);
+  padding: 0;
+}
+
+.fav-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  transition: transform 0.35s var(--ease-out);
+  will-change: transform;
+}
+
+.fav-main.swiped {
+  transform: translateX(-60px);
+}
+
+.search-item::before {
   content: "";
   position: absolute;
   top: 0; left: 0; right: 0;
@@ -736,12 +766,12 @@ body.keyboard-open .bottom-nav {
   pointer-events: none;
 }
 
-.search-item:active, .favorite-card:active {
+.search-item:active {
   transform: scale(0.975);
   box-shadow: 0 3px 10px rgb(0 0 0 / 30%);
 }
 
-.search-item img, .favorite-card img {
+.search-item img, .fav-main img {
   width: 46px;
   height: 46px;
   object-fit: contain;
@@ -788,7 +818,7 @@ body.keyboard-open .bottom-nav {
   font-size: 10.5px;
   font-weight: 600;
   color: var(--fg-secondary);
-  background: rgb(84 84 88 / 22%);
+  background: rgb(120 110 100 / 22%);
   padding: 2px 6px;
   border-radius: 4px;
   letter-spacing: -0.05px;
@@ -835,29 +865,25 @@ body.keyboard-open .bottom-nav {
 }
 
 /* ─── Delete Button ─── */
-.delete-btn {
-  background: transparent;
+.favorite-card .delete-btn {
+  background: rgb(255 69 58 / 90%);
   border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-left: 2px;
+  width: 60px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent-red);
+  color: #fff;
   cursor: pointer;
-  flex-shrink: 0;
-  opacity: 0.55;
-  transition: transform 0.18s var(--ease-spring),
-    background 0.2s var(--ease-out),
-    opacity 0.2s var(--ease-out);
+  transition: background 0.2s var(--ease-out), transform 0.12s var(--ease-snappy);
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  min-height: 100%;
 }
 
-.delete-btn:active {
-  transform: scale(0.82);
-  background: rgb(255 69 58 / 12%);
-  opacity: 1;
+.favorite-card .delete-btn:active {
+  background: rgb(255 69 58);
 }
 
 .slide-out-left {
@@ -924,8 +950,8 @@ body.keyboard-open .bottom-nav {
 }
 
 #search-input:focus {
-  background-color: rgb(84 84 88 / 28%);
-  box-shadow: 0 0 0 3px rgb(0 122 255 / 15%);
+  background-color: rgb(120 110 100 / 28%);
+  box-shadow: 0 0 0 3px rgb(212 160 84 / 18%);
 }
 
 .search-icon {
@@ -952,9 +978,9 @@ body.keyboard-open .bottom-nav {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: rgb(84 84 88 / 40%);
+  background: rgb(120 110 100 / 40%);
   border: none;
-  color: rgb(255 255 255 / 70%);
+  color: rgb(255 235 215 / 70%);
   font-size: 10px;
   font-weight: 700;
   display: flex;
@@ -977,7 +1003,7 @@ body.keyboard-open .bottom-nav {
 
 .clear-btn:active {
   transform: translateY(-50%) scale(0.85);
-  background: rgb(84 84 88 / 60%);
+  background: rgb(120 110 100 / 60%);
 }
 
 /* ─── Empty State ─── */
@@ -1073,7 +1099,7 @@ body.keyboard-open .bottom-nav {
   bottom: 0;
   left: 0;
   width: 100%;
-  background: rgb(22 22 24 / 96%);
+  background: rgb(20 17 15 / 96%);
   backdrop-filter: blur(40px) saturate(180%) contrast(105%);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   padding: 24px 22px calc(26px + env(safe-area-inset-bottom, 0px));
@@ -1099,7 +1125,7 @@ body.keyboard-open .bottom-nav {
 .modal-grabber {
   width: 36px;
   height: 4px;
-  background: rgb(84 84 88 / 50%);
+  background: rgb(120 110 100 / 50%);
   border-radius: 2px;
   margin: 4px auto 18px;
 }
@@ -1108,7 +1134,7 @@ body.keyboard-open .bottom-nav {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: rgb(84 84 88 / 25%);
+  background: rgb(120 110 100 / 25%);
   border: 5px solid transparent;
   box-sizing: content-box;
   width: 28px;
@@ -1127,7 +1153,7 @@ body.keyboard-open .bottom-nav {
 
 .close-btn-right:active {
   transform: scale(0.85);
-  background: rgb(84 84 88 / 35%);
+  background: rgb(120 110 100 / 35%);
   color: var(--fg);
 }
 
@@ -1140,6 +1166,7 @@ body.keyboard-open .bottom-nav {
   line-height: 1.25;
   padding-right: 40px;
   padding-left: 40px;
+  font-family: var(--font-display);
 }
 
 .modal-title .separator {
@@ -1159,7 +1186,7 @@ body.keyboard-open .bottom-nav {
   color: var(--accent);
   font-weight: 600;
   margin: 0 auto 18px;
-  background: rgb(0 122 255 / 10%);
+  background: rgb(212 160 84 / 10%);
   padding: 5px 14px;
   border-radius: 20px;
   letter-spacing: -0.05px;
@@ -1192,8 +1219,8 @@ body.keyboard-open .bottom-nav {
 }
 
 #note-input:focus {
-  background: rgb(84 84 88 / 28%);
-  box-shadow: 0 0 0 3px rgb(0 122 255 / 15%);
+  background: rgb(120 110 100 / 28%);
+  box-shadow: 0 0 0 3px rgb(212 160 84 / 18%);
   outline: none;
 }
 
@@ -1212,7 +1239,7 @@ body.keyboard-open .bottom-nav {
 
 .star {
   font-size: 36px;
-  color: rgb(84 84 88 / 45%);
+  color: rgb(120 110 100 / 45%);
   cursor: pointer;
   transition: transform 0.18s var(--ease-spring),
     color 0.25s var(--ease-out),
@@ -1279,7 +1306,7 @@ body.keyboard-open .bottom-nav {
 /* ─── Primary Button ─── */
 .btn-primary {
   width: 100%;
-  background: linear-gradient(135deg, var(--accent-blue), #0066d6);
+  background: linear-gradient(135deg, var(--amber), #c08838);
   color: #fff;
   padding: 15px;
   border-radius: var(--radius-md);
@@ -1302,8 +1329,8 @@ body.keyboard-open .bottom-nav {
 }
 
 .btn-primary:disabled {
-  background: rgb(84 84 88 / 35%);
-  color: rgb(255 255 255 / 45%);
+  background: rgb(120 110 100 / 35%);
+  color: rgb(255 235 215 / 45%);
   cursor: not-allowed;
   transform: none;
   filter: none;
@@ -1315,7 +1342,7 @@ body.keyboard-open .bottom-nav {
   top: calc(env(safe-area-inset-top, 0px) + 12px);
   left: 50%;
   z-index: 10000;
-  background: rgb(30 30 32 / 94%);
+  background: rgb(26 23 20 / 94%);
   backdrop-filter: blur(28px) saturate(180%);
   color: #fff;
   padding: 10px 20px;
@@ -1370,6 +1397,109 @@ body.keyboard-open .bottom-nav {
 .animate-fade-in:nth-child(10) { animation-delay: 270ms; }
 .animate-fade-in:nth-child(n+11) { animation-delay: 290ms; }
 
+/* ─── Haptic Touch Context Menu ─── */
+.context-menu {
+  position: fixed;
+  z-index: 3000;
+  background: rgb(26 23 20 / 92%);
+  backdrop-filter: blur(40px) saturate(180%) contrast(105%);
+  border: 0.5px solid var(--separator);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  box-shadow: 0 8px 40px rgb(0 0 0 / 50%), 0 0 0 0.5px rgb(255 235 215 / 4%);
+  min-width: 160px;
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.18s var(--ease-out), transform 0.22s var(--ease-spring);
+  transform-origin: top left;
+  pointer-events: none;
+}
+
+.context-menu.visible {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.context-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: none;
+  background: transparent;
+  color: var(--fg);
+  font-size: 14px;
+  font-weight: 500;
+  width: 100%;
+  text-align: left;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.12s var(--ease-out);
+}
+
+.context-menu-item.destructive {
+  color: var(--accent-red);
+}
+
+.context-menu-item:active {
+  background: rgb(255 255 255 / 6%);
+}
+
+.context-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2999;
+  background: transparent;
+}
+
+/* ─── Pull to Refresh ─── */
+.ptr-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.25s var(--ease-out);
+  will-change: height;
+}
+
+.ptr-container.active {
+  height: 56px;
+}
+
+.ptr-spinner {
+  width: 22px;
+  height: 22px;
+  border: 2.5px solid rgb(212 160 84 / 25%);
+  border-top-color: var(--amber);
+  border-radius: 50%;
+  animation: ptrSpin 0.7s linear infinite;
+  opacity: 0;
+  transition: opacity 0.2s var(--ease-out);
+}
+
+.ptr-container.loading .ptr-spinner {
+  opacity: 1;
+}
+
+.ptr-container.pulling .ptr-spinner {
+  opacity: 0.6;
+  border-top-color: rgb(212 160 84 / 50%);
+  animation: none;
+}
+
+@keyframes ptrSpin {
+  to { transform: rotate(360deg); }
+}
+
+.ptr-label {
+  font-size: 12px;
+  color: var(--fg-secondary);
+  margin-left: 10px;
+  font-weight: 500;
+}
+
 /* ─── Update Banner ─── */
 .update-banner {
   position: fixed;
@@ -1397,7 +1527,7 @@ body.keyboard-open .bottom-nav {
   gap: 10px;
   padding: 12px 14px;
   border-radius: var(--radius-md);
-  background: rgb(28 28 30 / 94%);
+  background: rgb(26 23 20 / 94%);
   backdrop-filter: blur(28px) saturate(180%);
   border: 0.5px solid rgb(255 255 255 / 8%);
   box-shadow:
@@ -1425,7 +1555,7 @@ body.keyboard-open .bottom-nav {
 
 .update-btn {
   flex-shrink: 0;
-  background: var(--accent-blue);
+  background: var(--amber);
   color: #fff;
   border: none;
   border-radius: 9px;

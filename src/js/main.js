@@ -3,6 +3,8 @@ import { debounce } from './utils/debounce.js';
 import { loadFavorites as restoreFavorites } from './data/favorite-repo.js';
 import { loadAllData } from './services/data-loader.js';
 import { registerSW } from './services/sw-service.js';
+import { setupContextMenus } from './ui/context-menu.js';
+import { setupPullToRefresh } from './ui/pull-to-refresh.js';
 import {
     showToast,
     toggleSkeletons,
@@ -77,6 +79,12 @@ const setupListeners = () => {
         }
         const card = e.target.closest('.favorite-card');
         if (card) {
+            const main = card.querySelector('.fav-main');
+            if (main && main.classList.contains('swiped')) {
+                main.classList.remove('swiped');
+                main.style.transform = '';
+                return;
+            }
             const fav = state.favorites.find((f) => f.item.name === card.dataset.itemName);
             if (fav) {openRateModal(fav.item);}
         }
@@ -180,6 +188,58 @@ const setupPageShow = () => {
     });
 };
 
+function setupSwipeDelete(container) {
+    let startX = 0;
+    let currentTranslate = 0;
+    let isSwiping = false;
+    let activeCard = null;
+    const REVEAL_WIDTH = 60;
+
+    container.addEventListener('touchstart', (e) => {
+        const card = e.target.closest('.favorite-card');
+        if (!card) {return;}
+        if (e.target.closest('.delete-btn')) {return;}
+        const main = card.querySelector('.fav-main');
+        if (!main) {return;}
+        document.querySelectorAll('.fav-main.swiped').forEach((el) => {
+            if (el !== main) {el.classList.remove('swiped'); el.style.transform = '';}
+        });
+        startX = e.touches[0].clientX;
+        isSwiping = true;
+        activeCard = { card, main };
+        currentTranslate = main.classList.contains('swiped') ? -REVEAL_WIDTH : 0;
+    }, { passive: true });
+
+    container.addEventListener('touchmove', (e) => {
+        if (!isSwiping || !activeCard) {return;}
+        const delta = e.touches[0].clientX - startX;
+        if (delta > 0 && currentTranslate >= 0) {return;}
+        const newTranslate = Math.max(-REVEAL_WIDTH - 10, Math.min(0, currentTranslate + delta));
+        activeCard.main.style.transform = `translateX(${newTranslate}px)`;
+        activeCard.main.style.transition = 'none';
+    }, { passive: true });
+
+    const resetSwipe = () => {
+        if (!activeCard) {return;}
+        const main = activeCard.main;
+        const style = getComputedStyle(main);
+        const matrix = new DOMMatrixReadOnly(style.transform);
+        const x = matrix.m41 || 0;
+        if (x < -40) {
+            main.classList.add('swiped');
+        } else {
+            main.classList.remove('swiped');
+        }
+        main.style.transform = '';
+        main.style.transition = '';
+        isSwiping = false;
+        activeCard = null;
+    };
+
+    container.addEventListener('touchend', resetSwipe);
+    container.addEventListener('touchcancel', resetSwipe);
+}
+
 const init = async () => {
     initEl();
 
@@ -190,6 +250,33 @@ const init = async () => {
     }
 
     setupListeners();
+    setupContextMenus(state.el.searchResults, {
+        onRate: (itemName) => {
+            const item = state.appData.find((i) => i.name === itemName);
+            if (item) {openRateModal(item);}
+        },
+    });
+    setupSwipeDelete(state.el.favoritesList);
+    setupContextMenus(state.el.favoritesList, {
+        onRate: (itemName) => {
+            const fav = state.favorites.find((f) => f.item.name === itemName);
+            if (fav) {openRateModal(fav.item);}
+        },
+        onDelete: (itemName) => {
+            const fav = state.favorites.find((f) => f.item.name === itemName);
+            if (fav) {deleteFavorite(fav.id);}
+        },
+    });
+    setupPullToRefresh(document.querySelector('.content-area'), async () => {
+        await loadAllData();
+        updateDashboard();
+        if (state.currentTab === 'favorites') {
+            const activeChip = document.querySelector('.filter-chip.active');
+            const { renderFavorites } = await import('./ui/index.js');
+            renderFavorites(activeChip?.dataset.filter);
+        }
+        showToast('Odświeżono', 'success');
+    });
     setupKeyboardHandlers();
     initViewport();
     setupPageShow();

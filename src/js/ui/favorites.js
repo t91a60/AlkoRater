@@ -38,12 +38,14 @@ export function renderFavorites(filter = 'wszystkie') {
 
     container.innerHTML = list.map((fav, idx) => `
         <div id="fav-${fav.id}" class="favorite-card animate-fade-in" data-item-name="${escapeHTML(fav.item.name)}" style="animation-delay: ${idx * 30}ms">
-            <img src="${escapeHTML(fav.item.image_url || './icons/icon-60.png')}" loading="lazy" alt="${escapeHTML(fav.item.name)}">
-            <div class="item-info">
-                <div class="item-name">${escapeHTML(fav.item.name)}${alcoholBadgeHTML(fav.item.alcohol)}</div>
-                <div class="item-meta">${escapeHTML(fav.tag)}${typeBadgeHTML(fav.item.type)}</div>
+            <div class="fav-main">
+                <img src="${escapeHTML(fav.item.image_url || './icons/icon-60.png')}" loading="lazy" alt="${escapeHTML(fav.item.name)}">
+                <div class="item-info">
+                    <div class="item-name">${escapeHTML(fav.item.name)}${alcoholBadgeHTML(fav.item.alcohol)}</div>
+                    <div class="item-meta">${escapeHTML(fav.tag)}${typeBadgeHTML(fav.item.type)}</div>
+                </div>
+                <div class="item-stars">${escapeHTML(fav.stars)} <span class="star-icon">★</span></div>
             </div>
-            <div class="item-stars">${escapeHTML(fav.stars)} <span class="star-icon">★</span></div>
             <button class="delete-btn" data-delete-id="${fav.id}" aria-label="Usuń">${TRASH_SVG}</button>
         </div>
     `).join('');

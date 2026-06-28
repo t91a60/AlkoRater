@@ -18,13 +18,13 @@ export function switchTab(tabName) {
     const titles = { start: 'Start', search: 'Szukaj', favorites: 'Ulubione' };
     state.el.headerTitle.textContent = titles[tabName];
 
-    if (currentEl) {
+    if (currentEl && currentEl !== nextEl) {
         currentEl.classList.remove('active');
         currentEl.classList.add('tab-exit');
         setTimeout(() => {
             currentEl.classList.remove('tab-exit');
             currentEl.style.display = 'none';
-        }, 350);
+        }, 180);
     }
 
     if (nextEl) {
@@ -33,6 +33,13 @@ export function switchTab(tabName) {
         nextEl.classList.remove('tab-exit');
         nextEl.classList.add('active');
         nextEl.style.display = '';
+        state.el.navItems.forEach((btn) => {
+            if (btn.dataset.tab === tabName) {
+                btn.style.transition = 'transform 0.28s var(--ease-spring)';
+                btn.style.transform = 'scale(1.05)';
+                setTimeout(() => { btn.style.transform = ''; }, 280);
+            }
+        });
     }
 
     state.currentTab = tabName;

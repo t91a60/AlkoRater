@@ -14,7 +14,7 @@ const CATEGORY_ACCENTS = {
 };
 
 function setCategoryAccent(category) {
-    const accent = CATEGORY_ACCENTS[category] || { hue: '211', sat: '100', lit: '50', hex: '#007aff' };
+    const accent = CATEGORY_ACCENTS[category] || { hue: '42', sat: '58', lit: '52', hex: '#d4a054' };
     const root = document.querySelector('.modal-content');
     root.style.setProperty('--modal-accent', accent.hex);
     root.style.setProperty('--modal-accent-dim', `hsla(${accent.hue}, ${accent.sat}%, ${accent.lit}%, 0.12)`);
