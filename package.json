@@ -1,7 +1,7 @@
 {
   "name": "alko-rater",
-  "version": "2.3.0",
-  "description": "Progressive Web App do oceniania alkoholi — iOS feel, offline-first, mobile-first. v2.3: UI polish, 50 nowych wódek, poprawki layoutu",
+  "version": "2.4.0",
+  "description": "Progressive Web App do oceniania alkoholi — iOS feel, offline-first, mobile-first. v2.4: duch wyszukiwania, spójne karty, poprawki UI",
   "main": "index.html",
   "scripts": {
     "dev": "npx serve . -p 3000 --single",
