@@ -142,3 +142,45 @@ export async function saveRating() {
     haptics.success();
     closeModal();
 }
+
+/** iOS-style pull-down to dismiss the rating modal. */
+export function setupModalDismiss() {
+    const content = document.querySelector('.modal-content');
+    let startY = 0;
+    let dragging = false;
+
+    content.addEventListener('touchstart', (e) => {
+        const touchY = e.touches[0].clientY;
+        const rect = content.getBoundingClientRect();
+        if (touchY > rect.top + 60) {return;}
+        startY = touchY;
+        dragging = true;
+    }, { passive: true });
+
+    content.addEventListener('touchmove', (e) => {
+        if (!dragging) {return;}
+        const delta = e.touches[0].clientY - startY;
+        if (delta < 0) {dragging = false; return;}
+        content.style.transition = 'none';
+        content.style.transform = `translateY(${Math.min(delta, 200)}px)`;
+    }, { passive: true });
+
+    content.addEventListener('touchend', (e) => {
+        if (!dragging) {return;}
+        dragging = false;
+        content.style.transition = '';
+        const delta = e.changedTouches[0].clientY - startY;
+        if (delta > 100) {
+            closeModal();
+        } else {
+            content.style.transform = '';
+        }
+    });
+
+    content.addEventListener('touchcancel', () => {
+        if (!dragging) {return;}
+        dragging = false;
+        content.style.transition = '';
+        content.style.transform = '';
+    });
+}

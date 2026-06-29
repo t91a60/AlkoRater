@@ -134,6 +134,7 @@
                         <input type="text" id="search-input" placeholder="Szukaj (np. wódka)..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
                         <label for="search-input" class="sr-only">Szukaj alkoholu</label>
                         <button id="clearSearch" class="clear-btn" aria-label="Wyczyść wyszukiwanie"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+                        <button id="searchCancel" class="search-cancel-btn">Anuluj</button>
                     </div>
                 </div>
 
@@ -232,6 +233,11 @@
                 <button id="saveButton" class="btn-primary" disabled>Zapisz Ocenę</button>
             </div>
         </div>
+    </div>
+
+    <!-- Keyboard Toolbar -->
+    <div id="keyboardToolbar" class="keyboard-toolbar" style="display:none;">
+        <button id="keyboardDone" class="keyboard-done-btn">Gotowe</button>
     </div>
 
     <script type="module" src="src/js/main.js"></script>

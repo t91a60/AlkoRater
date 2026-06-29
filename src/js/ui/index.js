@@ -12,4 +12,5 @@ export {
     validateSave,
     closeModal,
     saveRating,
+    setupModalDismiss,
 } from './modal.js';

@@ -17,6 +17,7 @@ import {
     setRating,
     closeModal,
     saveRating,
+    setupModalDismiss,
 } from './ui/index.js';
 
 const initEl = () => {
@@ -116,6 +117,38 @@ const setupListeners = () => {
         });
     }
 
+    const cancelBtn = document.getElementById('searchCancel');
+    if (cancelBtn) {
+        state.el.searchInput.addEventListener('focus', () => {
+            cancelBtn.classList.add('visible');
+        });
+        state.el.searchInput.addEventListener('blur', () => {
+            setTimeout(() => cancelBtn.classList.remove('visible'), 100);
+        });
+        cancelBtn.addEventListener('click', () => {
+            state.el.searchInput.value = '';
+            state.el.searchInput.blur();
+            handleSearch({ target: { value: '' } });
+        });
+    }
+
+    const noteInput = document.getElementById('note-input');
+    const toolbar = document.getElementById('keyboardToolbar');
+    const kbDone = document.getElementById('keyboardDone');
+    if (noteInput && toolbar && kbDone) {
+        noteInput.addEventListener('focus', () => {
+            toolbar.style.display = 'flex';
+            requestAnimationFrame(() => toolbar.classList.add('visible'));
+        });
+        noteInput.addEventListener('blur', () => {
+            toolbar.classList.remove('visible');
+            setTimeout(() => { toolbar.style.display = 'none'; }, 300);
+        });
+        kbDone.addEventListener('click', () => {
+            noteInput.blur();
+        });
+    }
+
     document.getElementById('modalClose').addEventListener('click', closeModal);
     state.el.modal.addEventListener('click', (e) => {
         if (e.target === state.el.modal || e.target.classList.contains('modal-overlay')) {
@@ -188,6 +221,42 @@ const setupPageShow = () => {
     });
 };
 
+function setupSwipeTabs(container) {
+    const tabs = ['start', 'search', 'favorites'];
+    let startX = 0;
+    let swiping = false;
+
+    container.addEventListener('touchstart', (e) => {
+        if (container.scrollTop > 0) {return;}
+        const target = e.target;
+        if (target.closest('.search-item, .favorite-card, .recent-card, .action-btn, .filter-chip, .nav-item')) {return;}
+        startX = e.touches[0].clientX;
+        swiping = true;
+    }, { passive: true });
+
+    container.addEventListener('touchmove', (e) => {
+        if (!swiping) {return;}
+        const delta = e.touches[0].clientX - startX;
+        if (Math.abs(delta) > 10) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    container.addEventListener('touchend', (e) => {
+        if (!swiping) {return;}
+        swiping = false;
+        const delta = e.changedTouches[0].clientX - startX;
+        if (Math.abs(delta) > 70) {
+            const idx = tabs.indexOf(state.currentTab);
+            if (delta < 0 && idx < tabs.length - 1) {
+                switchTab(tabs[idx + 1]);
+            } else if (delta > 0 && idx > 0) {
+                switchTab(tabs[idx - 1]);
+            }
+        }
+    });
+}
+
 function setupSwipeDelete(container) {
     let startX = 0;
     let currentTranslate = 0;
@@ -257,6 +326,8 @@ const init = async () => {
         },
     });
     setupSwipeDelete(state.el.favoritesList);
+    setupModalDismiss();
+    setupSwipeTabs(document.querySelector('.content-area'));
     setupContextMenus(state.el.favoritesList, {
         onRate: (itemName) => {
             const fav = state.favorites.find((f) => f.item.name === itemName);
