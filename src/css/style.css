@@ -142,7 +142,6 @@ body::after {
   overflow: hidden auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
-  padding-bottom: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px) + 24px);
   scroll-behavior: smooth;
 }
 
@@ -209,17 +208,13 @@ body::before {
 
 /* ─── Bottom Navigation ─── */
 .bottom-nav {
-  position: fixed;
-  left: 0; right: 0;
-  bottom: 0;
-  width: 100%;
   height: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px));
   padding-bottom: max(12px, env(safe-area-inset-bottom));
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
   padding-top: 5px;
-  z-index: 1000;
+  flex-shrink: 0;
   border-top: 0.5px solid var(--separator);
   background: rgb(12 10 9 / 85%);
   backdrop-filter: blur(32px) saturate(180%) contrast(105%);
