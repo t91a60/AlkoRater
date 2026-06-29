@@ -1,5 +1,6 @@
 import { state } from '../app/state.js';
 import { CONSTANTS } from '../app/constants.js';
+import { alcoholBadgeHTML, typeBadgeHTML } from './badges.js';
 import { escapeHTML } from '../utils/dom.js';
 
 /** Re-render the dashboard hero, stats, and recently rated. */
@@ -76,12 +77,11 @@ export function updateRecentlyRated() {
         return;
     }
 
-    container.classList.toggle('recent-scroll--center', recent.length <= 2);
-
     container.innerHTML = recent.map((fav, idx) => `
         <div class="recent-card animate-fade-in" data-item-name="${escapeHTML(fav.item.name)}" style="animation-delay: ${idx * 40}ms">
             <img src="${escapeHTML(fav.item.image_url || './icons/icon-60.png')}" loading="lazy" alt="img">
-            <div class="recent-name">${escapeHTML(fav.item.name)}</div>
+            <div class="recent-name">${escapeHTML(fav.item.name)}${alcoholBadgeHTML(fav.item.alcohol)}</div>
+            <div class="recent-meta">${escapeHTML(fav.tag)}${typeBadgeHTML(fav.item.type)}</div>
             <div class="recent-stars">${escapeHTML(fav.stars)} ★</div>
         </div>
     `).join('');

@@ -336,14 +336,6 @@ body.keyboard-open .bottom-nav {
   margin-top: 10px;
 }
 
-.recent-scroll--center {
-  justify-content: center;
-}
-
-.recent-scroll--center .recent-card {
-  flex: 0 0 160px;
-}
-
 /* ─── Glass Utility ─── */
 .glass {
   background: var(--glass-bg);
@@ -648,6 +640,10 @@ body.keyboard-open .bottom-nav {
   width: 100%;
   margin-bottom: 3px;
   letter-spacing: -0.1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
 }
 
 .recent-stars {
@@ -656,6 +652,19 @@ body.keyboard-open .bottom-nav {
   font-weight: 700;
   letter-spacing: -0.1px;
   filter: drop-shadow(0 0 4px var(--gold-glow));
+}
+
+.recent-meta {
+  font-size: 11px;
+  color: var(--fg-secondary);
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 /* ─── Info Block ─── */
@@ -691,7 +700,7 @@ body.keyboard-open .bottom-nav {
   min-width: 0;
   border: none;
   background: transparent;
-  color: var(--fg-secondary);
+  color: rgb(245 240 235 / 45%);
   padding: 8px 0;
   min-height: 36px;
   border-radius: 7px;
@@ -890,7 +899,7 @@ body.keyboard-open .bottom-nav {
   transition: background 0.2s var(--ease-out), transform 0.12s var(--ease-snappy);
   padding: 0;
   margin: 0;
-  border-radius: 0;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
   min-height: 100%;
 }
 

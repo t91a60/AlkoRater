@@ -9,7 +9,9 @@ export function handleSearch(e) {
 
     if (!raw || !raw.trim()) {
         state.el.searchResults.innerHTML = '';
-        state.el.noResults.style.display = 'none';
+        state.el.noResults.style.display = 'block';
+        const noResultsText = state.el.noResults.querySelector('p');
+        if (noResultsText) {noResultsText.textContent = '';}
         return;
     }
 
