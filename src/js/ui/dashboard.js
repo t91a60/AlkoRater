@@ -82,7 +82,7 @@ export function updateRecentlyRated() {
             <img src="${escapeHTML(fav.item.image_url || './icons/icon-60.png')}" loading="lazy" alt="img">
             <div class="recent-name">${escapeHTML(fav.item.name)}${alcoholBadgeHTML(fav.item.alcohol)}</div>
             <div class="recent-meta">${escapeHTML(fav.tag)}${typeBadgeHTML(fav.item.type)}</div>
-            <div class="recent-stars">${escapeHTML(fav.stars)} ★</div>
+            <div class="recent-stars">★ ${escapeHTML(fav.stars)}</div>
         </div>
     `).join('');
 }

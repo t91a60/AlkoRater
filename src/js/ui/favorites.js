@@ -14,7 +14,7 @@ const GHOST_SVG = `
     </svg>`;
 
 const TRASH_SVG = `
-    <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none">
+    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.8" fill="none">
         <polyline points="3 6 5 6 21 6"></polyline>
         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
     </svg>`;
@@ -44,7 +44,7 @@ export function renderFavorites(filter = 'wszystkie') {
                     <div class="item-name">${escapeHTML(fav.item.name)}${alcoholBadgeHTML(fav.item.alcohol)}</div>
                     <div class="item-meta">${escapeHTML(fav.tag)}${typeBadgeHTML(fav.item.type)}</div>
                 </div>
-                <div class="item-stars">${escapeHTML(fav.stars)} <span class="star-icon">★</span></div>
+                <div class="item-stars">★ ${escapeHTML(fav.stars)}</div>
             </div>
             <button class="delete-btn" data-delete-id="${fav.id}" aria-label="Usuń">${TRASH_SVG}</button>
         </div>
