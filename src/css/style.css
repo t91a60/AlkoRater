@@ -214,7 +214,7 @@ body::before {
   bottom: 0;
   width: 100%;
   height: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px));
-  padding-bottom: env(safe-area-inset-bottom, 0);
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
@@ -310,12 +310,6 @@ body.keyboard-open .bottom-nav {
 #tab-start.active {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
-}
-
-#tab-start.active .info-block {
-  margin-top: auto;
-  flex-shrink: 0;
 }
 
 .tab-flex-content {
@@ -340,6 +334,14 @@ body.keyboard-open .bottom-nav {
 
 .recent-scroll--spaced {
   margin-top: 10px;
+}
+
+.recent-scroll--center {
+  justify-content: center;
+}
+
+.recent-scroll--center .recent-card {
+  flex: 0 0 160px;
 }
 
 /* ─── Glass Utility ─── */
@@ -545,6 +547,7 @@ body.keyboard-open .bottom-nav {
 /* ─── Section Header ─── */
 .section-container {
   margin-bottom: 20px;
+  margin-top: 24px;
 }
 
 .section-header-flex {
@@ -660,12 +663,16 @@ body.keyboard-open .bottom-nav {
   text-align: center;
   font-size: 12px;
   color: var(--fg-secondary);
-  padding: 10px 14px;
+  padding: 8px 12px;
   border-radius: var(--radius-sm);
   margin-top: 18px;
   background: var(--glass-bg);
   border: 0.5px solid var(--glass-border);
   backdrop-filter: blur(18px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 /* ─── Filter Chips (iOS segmented control style) ─── */
@@ -912,7 +919,7 @@ body.keyboard-open .bottom-nav {
   top: 0;
   z-index: 90;
   padding: 8px 0;
-  padding-top: max(8px, env(safe-area-inset-top, 0px));
+  padding-top: max(12px, env(safe-area-inset-top));
   background: var(--bg);
 }
 
@@ -1004,8 +1011,9 @@ body.keyboard-open .bottom-nav {
 .clear-btn {
   position: absolute;
   right: 6px;
-  top: 50%;
-  transform: translateY(-50%) scale(0.7);
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
   width: 22px;
   height: 22px;
   border-radius: 50%;
@@ -1024,16 +1032,17 @@ body.keyboard-open .bottom-nav {
     opacity 0.22s var(--ease-out),
     background 0.2s var(--ease-out);
   padding: 0;
+  transform: scale(0.7);
 }
 
 .search-wrapper:has(input:not(:placeholder-shown)) .clear-btn {
   opacity: 1;
   pointer-events: auto;
-  transform: translateY(-50%) scale(1);
+  transform: scale(1);
 }
 
 .clear-btn:active {
-  transform: translateY(-50%) scale(0.85);
+  transform: scale(0.85);
   background: rgb(120 110 100 / 60%);
 }
 
@@ -1109,14 +1118,16 @@ body.keyboard-open .bottom-nav {
 }
 
 #modal-wrapper.active {
-  display: block;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
 
 .modal-overlay {
   position: fixed;
   inset: 0;
   background: rgb(0 0 0 / 45%);
-  backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(8px) saturate(140%);
   opacity: 0;
   transition: opacity 0.4s var(--ease-out);
 }
@@ -1126,10 +1137,9 @@ body.keyboard-open .bottom-nav {
 }
 
 .modal-content {
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  position: relative;
   width: 100%;
+  max-width: 500px;
   background: rgb(20 17 15 / 96%);
   backdrop-filter: blur(40px) saturate(180%) contrast(105%);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
