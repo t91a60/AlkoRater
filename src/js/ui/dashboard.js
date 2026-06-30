@@ -85,7 +85,7 @@ export function updateRecentlyRated() {
     container.innerHTML = recent.map((fav, idx) => `
         <div class="recent-card animate-fade-in" data-item-name="${escapeHTML(fav.item.name)}" style="animation-delay:${idx * 40}ms">
             ${productThumbHTML(fav.item.image_url, fav.tag, 86)}
-            <div class="recent-name">${escapeHTML(fav.item.name)}</div>
+            <div class="recent-name">${escapeHTML(fav.item.name)}${alcoholBadgeHTML(fav.item.alcohol)}</div>
             <div class="recent-meta">${escapeHTML(fav.tag)}${typeBadgeHTML(fav.item.type)}</div>
             <div class="recent-stars">★ ${escapeHTML(String(fav.stars))}</div>
         </div>
