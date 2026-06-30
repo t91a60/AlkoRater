@@ -33,7 +33,7 @@ export const CONSTANTS = {
         pszeniczne: { label: 'Pszeniczne', hex: '#feca57' },
         porter: { label: 'Porter', hex: '#2d3436' },
         radler: { label: 'Radler', hex: '#00d2d3' },
-        '0.0%': { label: '0.0%', hex: '#a29bfe' },
+        '0.0%': { label: '0.0%', hex: '#30d158' },
         cydr: { label: 'Cydr', hex: '#fd79a8' },
         specjalne: { label: 'Specjalne', hex: '#636e72' },
     },

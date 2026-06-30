@@ -16,6 +16,8 @@ export function showToast(msg, type) {
 
     const t = document.createElement('div');
     t.className = 'toast';
+    t.setAttribute('role', 'status');
+    t.setAttribute('aria-live', 'polite');
     t.innerHTML = `${TOAST_ICONS[type] || ''}<span>${escapeHTML(msg)}</span>`;
     t.style.display = 'flex';
     t.style.alignItems = 'center';

@@ -1,9 +1,9 @@
 import { state } from '../app/state.js';
 import { CONSTANTS } from '../app/constants.js';
-import { alcoholBadgeHTML, typeBadgeHTML, productThumbHTML } from './badges.js';
+import { alcoholBadgeHTML, typeBadgeHTML, productThumbHTML, renderBadgeSection } from './badges.js';
 import { escapeHTML } from '../utils/dom.js';
 
-/** Re-render the dashboard hero, stats, and recently rated. */
+/** Re-render the dashboard hero, stats, badges, and recently rated. */
 export function updateDashboard() {
     const total = state.favorites.length;
     const categoryCount = {};
@@ -21,53 +21,62 @@ export function updateDashboard() {
         : 'Brak';
 
     state.el.dashboardGrid.innerHTML = `
-        <div class="hero-card animate-fade-in glass">
-            <div class="hero-decorative-circle"></div>
-            <div class="hero-content">
-                <div class="hero-greeting">
-                    <h2>Twoje Podsumowanie</h2>
-                    <p>Śledź i oceniaj swoją kolekcję trunków.</p>
-                </div>
+        <div class="premium-hero animate-fade-in">
+            <div class="bokeh-spot bokeh-spot--1"></div>
+            <div class="bokeh-spot bokeh-spot--2"></div>
 
-                <div class="hero-stats-row">
-                    <div class="hero-stat-item">
-                        <span class="hero-stat-val">${escapeHTML(String(total))}</span>
-                        <span class="hero-stat-label">Oceniono</span>
-                    </div>
-                    <div class="hero-divider"></div>
-                    <div class="hero-stat-item">
-                        <span class="hero-stat-val">${escapeHTML(avgScore)}&thinsp;<span class="hero-star">★</span></span>
-                        <span class="hero-stat-label">Średnia</span>
-                    </div>
-                    <div class="hero-divider"></div>
-                    <div class="hero-stat-item">
-                        <span class="hero-stat-val category-truncate" style="text-transform:capitalize;font-size:16px">${escapeHTML(topCategory)}</span>
-                        <span class="hero-stat-label">Ulubione</span>
-                    </div>
+            <div class="greeting-header">
+                <div class="profile-icon">
+                    <i data-lucide="wine" class="profile-icon-svg" aria-hidden="true"></i>
+                </div>
+                <div class="greeting-text">
+                    <h1 class="greeting-title">Cześć!</h1>
+                    <p class="greeting-sub">Twój Koneser Profil czeka.</p>
+                </div>
+            </div>
+
+            <div class="hero-stats-row">
+                <div class="hero-stat-item">
+                    <i data-lucide="layers" class="stat-icon" aria-hidden="true"></i>
+                    <span class="hero-stat-val">${escapeHTML(String(total))}</span>
+                    <span class="hero-stat-label">Kolekcja</span>
+                </div>
+                <div class="hero-divider"></div>
+                <div class="hero-stat-item">
+                    <i data-lucide="star" class="stat-icon stat-icon--star" aria-hidden="true"></i>
+                    <span class="hero-stat-val">${escapeHTML(avgScore)}</span>
+                    <span class="hero-stat-label">Średnia</span>
+                </div>
+                <div class="hero-divider"></div>
+                <div class="hero-stat-item">
+                    <i data-lucide="wine" class="stat-icon" aria-hidden="true"></i>
+                    <span class="hero-stat-val category-truncate" style="text-transform:capitalize;font-size:16px">${escapeHTML(topCategory)}</span>
+                    <span class="hero-stat-label">Ulubione</span>
                 </div>
             </div>
         </div>
 
+        ${renderBadgeSection(state.favorites)}
+
         <div class="quick-actions-grid">
             <button class="action-btn primary animate-fade-in" data-action="open-search" style="animation-delay:50ms">
                 <div class="action-icon-wrap">
-                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
+                    <i data-lucide="search" class="action-icon-svg" aria-hidden="true"></i>
                 </div>
-                <span>Szukaj i Oceń</span>
+                <span>Znajdź Nowy Trunek</span>
             </button>
             <button class="action-btn secondary animate-fade-in" data-action="open-favorites" style="animation-delay:100ms">
                 <div class="action-icon-wrap">
-                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                    </svg>
+                    <i data-lucide="folder-plus" class="action-icon-svg" aria-hidden="true"></i>
                 </div>
-                <span>Kolekcja</span>
+                <span>Moja Cała Kolekcja</span>
             </button>
         </div>
     `;
+
+    if (window.lucide) {
+        window.lucide.createIcons();
+    }
 
     updateRecentlyRated();
 }

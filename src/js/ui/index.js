@@ -4,7 +4,7 @@ export { toggleSkeletons } from './renderer.js';
 export { updateDashboard, updateRecentlyRated } from './dashboard.js';
 export { switchTab } from './tabs.js';
 export { renderFavorites, filterFavorites, deleteFavorite } from './favorites.js';
-export { handleSearch, renderResults } from './search-ui.js';
+export { handleSearch, renderSuggestions, renderResults } from './search-ui.js';
 export {
     openRateModal,
     renderModalState,

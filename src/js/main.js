@@ -13,6 +13,7 @@ import {
     filterFavorites,
     deleteFavorite,
     handleSearch,
+    renderSuggestions,
     openRateModal,
     setRating,
     closeModal,
@@ -65,6 +66,13 @@ const setupListeners = () => {
     });
 
     state.el.searchResults.addEventListener('click', (e) => {
+        const suggestion = e.target.closest('.suggestion-chip');
+        if (suggestion) {
+            const query = suggestion.dataset.query;
+            state.el.searchInput.value = query;
+            handleSearch({ target: { value: query } });
+            return;
+        }
         const card = e.target.closest('.search-item');
         if (!card) {return;}
         const item = state.appData.find((i) => i.name === card.dataset.itemName);
@@ -361,6 +369,8 @@ const init = async () => {
 
     toggleSkeletons(false);
     updateDashboard();
+    renderSuggestions();
+    window.lucide?.createIcons();
 
     registerSW();
 

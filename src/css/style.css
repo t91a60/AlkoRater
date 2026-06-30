@@ -1,53 +1,56 @@
 :root {
-  --bg: #0c0a09;
-  --bg-secondary: #141110;
-  --fg: #f5f0eb;
-  --fg-secondary: #a09890;
-  --fg-tertiary: #70645a;
+  --bg: #000;
+  --bg-secondary: #0a0a0a;
+  --surface-1: #1c1c1e;
+  --surface-2: #2c2c2e;
+  --surface-3: #3a3a3c;
+  --fg: #fff;
+  --fg-secondary: rgb(235 235 245 / 60%);
+  --fg-tertiary: rgb(235 235 245 / 30%);
+  --accent: #d4a017;
   --accent-blue: #007aff;
-  --accent-green: #34c759;
-  --accent-red: #ff453a;
+  --accent-green: #30d158;
+  --accent-red: #ff3b30;
   --accent-orange: #ff9f0a;
-  --amber: #d4a054;
-  --amber-dim: rgb(212 160 84 / 18%);
+  --amber: #d4a017;
+  --amber-dim: rgb(212 160 23 / 18%);
   --ice: #6bc5f7;
   --ice-dim: rgb(107 197 247 / 18%);
   --burgundy: #b84a62;
   --burgundy-dim: rgb(184 74 98 / 18%);
   --gold: #ffd60a;
   --gold-glow: rgb(255 214 10 / 35%);
-  --separator: rgb(255 235 215 / 8%);
-  --separator-thick: rgb(255 235 215 / 14%);
-  --glass-bg: rgb(26 23 20 / 70%);
-  --glass-border: rgb(255 235 215 / 8%);
-  --glass-edge: rgb(255 235 215 / 4%);
-  --glass-heavy: rgb(20 17 15 / 88%);
-  --glass-blur: blur(36px) saturate(170%) contrast(108%);
-  --card: #1a1714;
-  --card-border: rgb(255 235 215 / 6%);
-  --card-highlight: rgb(255 235 215 / 3%);
-  --card-shadow: 0 6px 22px rgb(0 0 0 / 38%), 0 0 0 1px rgb(255 235 215 / 4%);
-  --input-bg: rgb(120 110 100 / 20%);
-  --chip-bg: rgb(100 90 80 / 30%);
+  --separator: rgb(84 84 88 / 65%);
+  --separator-thick: rgb(84 84 88 / 80%);
+  --glass-bg: rgb(28 28 30 / 72%);
+  --glass-border: rgb(255 255 255 / 8%);
+  --glass-edge: rgb(255 255 255 / 4%);
+  --glass-heavy: rgb(10 10 10 / 88%);
+  --glass-blur: blur(48px) saturate(180%) contrast(110%);
+  --card: #1c1c1e;
+  --card-border: rgb(255 255 255 / 6%);
+  --card-highlight: rgb(255 255 255 / 3%);
+  --card-shadow: 0 8px 32px rgb(0 0 0 / 44%), 0 0 0 0.5px rgb(255 255 255 / 4%);
+  --input-bg: rgb(118 118 128 / 12%);
+  --chip-bg: rgb(118 118 128 / 24%);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-snappy: cubic-bezier(0.2, 0.9, 0.3, 1.2);
   --nav-h: 50px;
-  --header-h: 60px;
+  --header-h: 52px;
   --radius-sm: 10px;
   --radius-md: 13px;
   --radius-lg: 16px;
   --radius-xl: 26px;
+  --radius-xxl: 44px;
   --thumb-radius: 12px;
-  --font-stack: 'Outfit', -apple-system, blinkmacsystemfont, system-ui, sans-serif;
-  --font-display: 'DM Serif Display', georgia, serif;
+  --font-stack: -apple-system, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif;
+  --font-display: -apple-system, 'SF Pro Display', 'Helvetica Neue', system-ui, sans-serif;
   --vh: 1vh;
 
   font-family: var(--font-stack);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  --accent: var(--amber);
 }
 
 *, *::before, *::after {
@@ -157,10 +160,10 @@ body::before {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(900px 500px at 15% -8%, rgb(212 160 84 / 7%), transparent 55%),
-    radial-gradient(700px 400px at 88% 12%, rgb(212 160 84 / 4%), transparent 50%),
-    radial-gradient(600px 600px at 72% 80%, rgb(184 74 98 / 5%), transparent 50%),
-    radial-gradient(500px 400px at 50% 100%, rgb(212 160 84 / 3%), transparent 60%),
+    radial-gradient(900px 500px at 15% -8%, rgb(212 160 23 / 5%), transparent 55%),
+    radial-gradient(700px 400px at 88% 12%, rgb(212 160 23 / 3%), transparent 50%),
+    radial-gradient(600px 600px at 72% 80%, rgb(184 74 98 / 4%), transparent 50%),
+    radial-gradient(500px 400px at 50% 100%, rgb(212 160 23 / 2%), transparent 60%),
     linear-gradient(180deg, rgb(0 0 0 / 25%), rgb(0 0 0 / 0%));
 }
 
@@ -170,9 +173,9 @@ body::before {
   top: 0;
   z-index: 120;
   padding-top: env(safe-area-inset-top, 0);
-  background: rgb(14 12 10 / 78%);
+  background: rgb(10 10 10 / 78%);
   backdrop-filter: blur(52px) saturate(180%);
-  border-bottom: 0.5px solid var(--separator);
+  border-bottom: 0.5px solid rgb(84 84 88 / 50%);
 }
 
 .header-main {
@@ -205,18 +208,18 @@ body::before {
   font-family: var(--font-display);
 }
 
-/* ─── Bottom Navigation ─── */
+/* ─── Bottom Navigation — iOS 18 ─── */
 .bottom-nav {
   height: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px));
-  padding-bottom: max(12px, env(safe-area-inset-bottom));
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
-  padding-top: 5px;
+  padding-top: 6px;
   flex-shrink: 0;
-  border-top: 0.5px solid var(--separator);
-  background: rgb(10 9 8 / 88%);
-  backdrop-filter: blur(40px) saturate(180%) contrast(105%);
+  border-top: 0.5px solid rgb(84 84 88 / 50%);
+  background: rgb(10 10 10 / 78%);
+  backdrop-filter: blur(48px) saturate(180%) contrast(110%);
   transition: transform 0.38s var(--ease-out), opacity 0.38s var(--ease-out);
 }
 
@@ -242,28 +245,41 @@ body.keyboard-open .bottom-nav {
   min-width: 64px;
   min-height: 44px;
   padding: 0 8px;
-  color: var(--fg-tertiary);
+  color: rgb(235 235 245 / 30%);
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.1px;
   cursor: pointer;
   position: relative;
-  transition: color 0.18s var(--ease-out);
+  transition: color 0.2s var(--ease-out);
   gap: 2px;
 }
 
 .nav-item:active {
-  transform: scale(0.94);
-  transition: transform 0.1s var(--ease-snappy);
+  transform: scale(0.95);
+  transition: transform 0.12s var(--ease-snappy);
 }
 
 .nav-item.active {
   color: var(--accent);
 }
 
+.nav-item.active::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--accent);
+  opacity: 0.6;
+}
+
 .nav-item.active .nav-icon svg {
   stroke-width: 2.5;
-  filter: drop-shadow(0 0 6px rgb(212 160 84 / 30%));
+  filter: drop-shadow(0 0 8px rgb(212 160 23 / 35%));
 }
 
 .nav-icon {
@@ -272,7 +288,12 @@ body.keyboard-open .bottom-nav {
   justify-content: center;
   width: 24px;
   height: 24px;
-  transition: transform 0.28s var(--ease-spring);
+  transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.nav-icon svg {
+  width: 24px;
+  height: 24px;
 }
 
 .nav-item.active .nav-icon {
@@ -283,7 +304,7 @@ body.keyboard-open .bottom-nav {
   font-size: 9.5px;
   font-weight: 500;
   letter-spacing: 0.2px;
-  opacity: 0.85;
+  opacity: 0.8;
 }
 
 /* ─── Tabs (iOS crossfade) ─── */
@@ -337,81 +358,124 @@ body.keyboard-open .bottom-nav {
   border: 0.5px solid var(--glass-border);
 }
 
-/* ─── Hero Card (Dashboard) — REDESIGNED ─── */
-.hero-card {
+/* ─── Premium Hero Card (Dashboard) — iOS Premium ─── */
+.premium-hero {
   position: relative;
-  background: linear-gradient(160deg, rgb(22 19 16 / 68%), rgb(30 27 23 / 62%));
-  border-radius: 14px;
-  padding: 20px 18px 18px;
-  border: 0.5px solid rgb(255 235 215 / 7%);
-  backdrop-filter: blur(28px) saturate(160%) contrast(106%);
+  background: linear-gradient(160deg, rgb(28 28 30 / 72%), rgb(44 44 46 / 66%));
+  border-radius: var(--radius-xxl);
+  padding: 24px 20px 20px;
+  border: 0.5px solid rgb(255 255 255 / 8%);
+  backdrop-filter: blur(48px) saturate(170%) contrast(110%);
   box-shadow:
-    0 6px 24px rgb(0 0 0 / 32%),
-    0 0 0 0.5px rgb(255 255 255 / 3%),
-    inset 0 0.5px 0 rgb(255 255 255 / 5%);
+    0 12px 48px rgb(0 0 0 / 40%),
+    0 0 0 0.5px rgb(255 255 255 / 4%),
+    inset 0 1px 0 rgb(255 255 255 / 6%);
   overflow: hidden;
   transition: transform 0.3s var(--ease-spring), box-shadow 0.25s var(--ease-out);
 }
 
-.hero-card:active {
+.premium-hero:active {
   transform: translateY(1px) scale(0.988);
-  box-shadow: 0 3px 14px rgb(0 0 0 / 28%);
+  box-shadow: 0 6px 24px rgb(0 0 0 / 32%);
 }
 
-.hero-decorative-circle {
+/* Bokeh light spots */
+.bokeh-spot {
   position: absolute;
-  top: -45px;
-  right: -45px;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(60px);
+  opacity: 0.5;
+}
+
+.bokeh-spot--1 {
+  top: -30px;
+  right: -20px;
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, rgb(212 160 23 / 15%), transparent 70%);
+}
+
+.bokeh-spot--2 {
+  bottom: -40px;
+  left: -30px;
   width: 140px;
   height: 140px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgb(212 160 84 / 9%), rgb(212 160 84 / 0%) 70%);
-  pointer-events: none;
+  background: radial-gradient(circle, rgb(184 74 98 / 10%), transparent 70%);
 }
 
-.hero-decorative-circle::after {
-  content: "";
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 40%, rgb(212 160 84 / 5%), transparent 65%);
-}
-
-.hero-content {
+/* Greeting header */
+.greeting-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
   position: relative;
   z-index: 1;
 }
 
-.hero-greeting h2 {
-  font-size: 17px;
+.profile-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #1c1c1e, #0a0a0a);
+  border: 1.5px solid rgb(48 209 88 / 30%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow:
+    0 0 0 3px rgb(48 209 88 / 8%),
+    0 0 16px rgb(48 209 88 / 15%),
+    inset 0 1px 0 rgb(255 255 255 / 8%);
+  transition: box-shadow 0.3s var(--ease-out);
+}
+
+.profile-icon:active {
+  box-shadow:
+    0 0 0 4px rgb(48 209 88 / 14%),
+    0 0 24px rgb(48 209 88 / 20%);
+}
+
+.profile-icon-svg,
+.profile-icon svg {
+  width: 26px;
+  height: 26px;
+  color: var(--accent-green);
+  stroke-width: 1.8;
+  filter: drop-shadow(0 0 6px rgb(48 209 88 / 35%));
+}
+
+.greeting-title {
+  font-size: 26px;
   font-weight: 700;
-  margin: 0 0 2px;
-  letter-spacing: -0.3px;
-  background: linear-gradient(135deg, var(--fg), rgb(245 240 235 / 68%));
+  margin: 0;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, var(--fg), rgb(255 255 255 / 72%));
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-family: var(--font-display);
 }
 
-.hero-greeting p {
-  font-size: 12px;
-  margin: 0 0 14px;
+.greeting-sub {
+  font-size: 13px;
+  margin: 1px 0 0;
   opacity: 0.44;
-  line-height: 1.4;
   font-weight: 400;
+  letter-spacing: -0.1px;
 }
 
+/* Hero stats row */
 .hero-stats-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: rgb(255 255 255 / 3.5%);
-  border-radius: 11px;
+  border-radius: 16px;
   padding: 14px 10px;
-  border: none;
+  border: 0.5px solid rgb(255 255 255 / 4%);
+  position: relative;
+  z-index: 1;
 }
 
 .hero-stat-item {
@@ -420,40 +484,46 @@ body.keyboard-open .bottom-nav {
   align-items: center;
   flex: 1;
   min-width: 0;
+  gap: 2px;
 }
 
-.hero-stat-val {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 1px;
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  white-space: nowrap;
-  letter-spacing: -0.5px;
+.stat-icon,
+.hero-stat-item svg {
+  width: 18px;
+  height: 18px;
+  opacity: 0.5;
+  margin-bottom: 2px;
+  stroke-width: 1.8;
 }
 
-.hero-stat-val .hero-star {
-  font-size: 15px;
-}
-
-.hero-star {
+.stat-icon--star,
+[data-lucide="star"] {
   color: var(--gold);
+  opacity: 0.9;
   filter: drop-shadow(0 0 6px var(--gold-glow));
 }
 
+.hero-stat-val {
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  white-space: nowrap;
+  letter-spacing: -0.3px;
+}
+
 .hero-stat-label {
-  font-size: 9px;
+  font-size: 8.5px;
   font-weight: 650;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  opacity: 0.48;
-  font-family: var(--font-stack);
+  letter-spacing: 1.2px;
+  opacity: 0.42;
 }
 
 .hero-divider {
   width: 1px;
-  height: 20px;
+  height: 24px;
   background: rgb(255 255 255 / 5%);
   opacity: 0.5;
 }
@@ -464,6 +534,123 @@ body.keyboard-open .bottom-nav {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* ─── Badges Section ─── */
+.badges-section {
+  margin-top: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.badges-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  color: var(--fg);
+  letter-spacing: -0.2px;
+  font-family: var(--font-display);
+}
+
+.badges-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.badge-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 10px 10px 12px;
+  border-radius: 16px;
+  background: rgb(255 255 255 / 3%);
+  border: 0.5px solid rgb(255 255 255 / 5%);
+  backdrop-filter: blur(12px);
+  transition: transform 0.15s var(--ease-spring), background 0.15s var(--ease-out);
+}
+
+.badge-card:active {
+  transform: scale(0.96);
+  background: rgb(255 255 255 / 5%);
+}
+
+.badge-pin {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow:
+    0 2px 8px rgb(0 0 0 / 30%),
+    inset 0 1px 0 rgb(255 255 255 / 20%);
+}
+
+.badge-pin:empty {
+  background: linear-gradient(145deg, #3a3a3c, #2c2c2e);
+}
+
+.badge-icon-svg,
+.badge-pin svg {
+  width: 20px;
+  height: 20px;
+  color: rgb(10 10 10 / 90%);
+  stroke-width: 2.2;
+}
+
+.badge-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.badge-name {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge-progress-track {
+  height: 4px;
+  border-radius: 2px;
+  background: rgb(255 255 255 / 8%);
+  overflow: hidden;
+  margin-bottom: 3px;
+}
+
+.badge-progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), rgb(212 160 23 / 60%));
+  transition: width 0.6s var(--ease-out);
+}
+
+.badge-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.badge-count {
+  font-size: 10px;
+  font-weight: 500;
+  opacity: 0.5;
+  letter-spacing: -0.05px;
+}
+
+.badge-tier {
+  font-size: 8.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  opacity: 0.35;
+}
+
+/* ─── Quick Actions — iOS Premium ─── */
 
 /* ─── Quick Actions — REDESIGNED ─── */
 .quick-actions-grid {
@@ -490,23 +677,23 @@ body.keyboard-open .bottom-nav {
   cursor: pointer;
   min-height: 62px;
   box-shadow:
-    0 3px 14px rgb(0 0 0 / 24%),
+    0 4px 20px rgb(0 0 0 / 28%),
     inset 0 0.5px 0 rgb(255 255 255 / 4%);
   transition:
-    transform 0.22s var(--ease-spring),
-    background 0.2s var(--ease-out),
-    box-shadow 0.2s var(--ease-out);
+    transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.15s var(--ease-out),
+    box-shadow 0.15s var(--ease-out);
 }
 
 .action-btn:active {
   transform: scale(0.97);
-  background: rgb(212 160 84 / 10%);
-  box-shadow: 0 1px 6px rgb(0 0 0 / 18%);
+  background: rgb(212 160 23 / 10%);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 20%);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .action-btn:hover {
-    background: rgb(212 160 84 / 7%);
+    background: rgb(212 160 23 / 7%);
   }
 }
 
@@ -529,7 +716,7 @@ body.keyboard-open .bottom-nav {
   width: 34px;
   height: 34px;
   border-radius: 9px;
-  background: rgb(212 160 84 / 14%);
+  background: rgb(212 160 23 / 14%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -540,10 +727,17 @@ body.keyboard-open .bottom-nav {
   background: rgb(255 255 255 / 5%);
 }
 
-.action-icon-wrap svg {
+.action-icon-wrap svg,
+.action-icon-svg {
   width: 18px;
   height: 18px;
   stroke-width: 2.5;
+}
+
+.action-icon-svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ─── Section Header ─── */
@@ -551,7 +745,7 @@ body.keyboard-open .bottom-nav {
   margin-bottom: 24px;
   margin-top: 30px;
   padding-top: 24px;
-  border-top: 0.5px solid var(--separator);
+  border-top: 0.5px solid rgb(84 84 88 / 50%);
 }
 
 .section-header-flex {
@@ -583,13 +777,13 @@ body.keyboard-open .bottom-nav {
   font-weight: 500;
   padding: 4px 8px;
   cursor: pointer;
-  opacity: 0.8;
+  opacity: 0.7;
   transition: opacity 0.2s var(--ease-out);
 }
 
 .link-btn:active { opacity: 0.4; }
 
-/* ─── Recently Rated — REDESIGNED ─── */
+/* ─── Recently Rated — iOS Premium ─── */
 .recent-scroll {
   display: flex;
   gap: 10px;
@@ -605,12 +799,12 @@ body.keyboard-open .bottom-nav {
 .recent-card {
   flex: 0 0 170px;
   background: var(--card);
-  border-radius: 16px;
+  border-radius: 20px;
   padding: 18px 14px 14px;
   scroll-snap-align: start;
   box-shadow:
-    0 4px 18px rgb(0 0 0 / 28%),
-    0 0 0 0.5px rgb(255 235 215 / 4%);
+    0 8px 28px rgb(0 0 0 / 35%),
+    0 0 0 0.5px rgb(255 255 255 / 4%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -618,28 +812,40 @@ body.keyboard-open .bottom-nav {
   border: 0.5px solid var(--card-border);
   position: relative;
   overflow: hidden;
-  transition: transform 0.28s var(--ease-spring), box-shadow 0.25s var(--ease-out);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s var(--ease-out);
 }
 
 .recent-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgb(255 255 255 / 2%), transparent 55%);
+  background: linear-gradient(180deg, rgb(255 255 255 / 3%), transparent 55%);
   pointer-events: none;
   border-radius: inherit;
 }
 
+.recent-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 6%), transparent);
+  border-radius: 20px 20px 0 0;
+  pointer-events: none;
+}
+
 .recent-card:active {
-  transform: scale(0.93);
-  box-shadow: 0 2px 10px rgb(0 0 0 / 28%);
+  transform: scale(0.95);
+  box-shadow: 0 3px 12px rgb(0 0 0 / 28%);
 }
 
 /* Recent card product thumb */
 .recent-card .product-thumb {
   margin-bottom: 12px;
-  border-radius: 14px;
-  box-shadow: 0 3px 12px rgb(0 0 0 / 22%);
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 25%);
 }
 
 .recent-name {
@@ -683,30 +889,32 @@ body.keyboard-open .bottom-nav {
 .info-block {
   text-align: center;
   font-size: 11.5px;
-  color: var(--fg-secondary);
+  color: rgb(235 235 245 / 50%);
   padding: 8px 14px;
   border-radius: 10px;
   margin-top: 16px;
   margin-bottom: 20px;
-  background: var(--glass-bg);
-  border: 0.5px solid var(--glass-border);
-  backdrop-filter: blur(20px);
+  background: rgb(28 28 30 / 60%);
+  border: 0.5px solid rgb(255 255 255 / 5%);
+  backdrop-filter: blur(24px);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
 }
 
-/* ─── Filter Chips — iOS Segmented Control ─── */
+/* ─── Filter Chips — iOS 18 Segmented Control ─── */
 .filters-container {
   display: flex;
   gap: 0;
-  background: rgb(90 82 74 / 18%);
+  background: rgb(118 118 128 / 12%);
   padding: 2px;
-  border-radius: 9px;
+  border-radius: 10px;
   margin: 12px 0 16px;
-  border: 0.5px solid rgb(255 235 215 / 5%);
-  backdrop-filter: blur(4px);
+  border: 0.5px solid rgb(255 255 255 / 5%);
+  backdrop-filter: blur(8px);
+  position: relative;
+  overflow: hidden;
 }
 
 .filter-chip {
@@ -714,28 +922,32 @@ body.keyboard-open .bottom-nav {
   min-width: 0;
   border: none;
   background: transparent;
-  color: rgb(245 240 235 / 42%);
-  padding: 8px 0;
-  min-height: 34px;
-  border-radius: 7px;
+  color: rgb(235 235 245 / 42%);
+  padding: 7px 0;
+  min-height: 44px;
+  border-radius: 8px;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   transition:
-    background 0.25s var(--ease-out),
-    color 0.25s var(--ease-out);
-  letter-spacing: -0.05px;
+    background 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+    color 0.15s var(--ease-out);
+  letter-spacing: -0.2px;
+  position: relative;
+  z-index: 1;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .filter-chip.active {
-  background: rgb(255 255 255 / 8%);
+  background: rgb(255 255 255 / 12%);
   color: var(--fg);
   font-weight: 600;
-  box-shadow: 0 1px 3px rgb(0 0 0 / 20%);
+  box-shadow: 0 1px 4px rgb(0 0 0 / 25%);
+  backdrop-filter: blur(16px);
 }
 
 .filter-chip:active {
-  background: rgb(255 255 255 / 3%);
+  background: rgb(255 255 255 / 4%);
 }
 
 /* ─── Product Thumbnails — NEW ─── */
@@ -788,11 +1000,11 @@ body.keyboard-open .bottom-nav {
   display: flex;
   align-items: center;
   background: transparent;
-  padding: 8px 0;
-  border-radius: 10px;
+  padding: 10px 0;
+  border-radius: 12px;
   gap: 12px;
   position: relative;
-  transition: background 0.18s var(--ease-out), transform 0.18s var(--ease-out);
+  transition: background 0.2s var(--ease-out), transform 0.2s var(--ease-out);
   cursor: pointer;
 }
 
@@ -800,20 +1012,30 @@ body.keyboard-open .bottom-nav {
   display: flex;
   align-items: stretch;
   background: var(--card);
-  border-radius: 11px;
+  border-radius: 14px;
   box-shadow:
-    0 2px 10px rgb(0 0 0 / 22%),
-    0 0 0 0.5px rgb(255 235 215 / 3%);
+    0 6px 24px rgb(0 0 0 / 32%),
+    0 0 0 0.5px rgb(255 255 255 / 4%);
   border: 0.5px solid var(--card-border);
   position: relative;
   overflow: hidden;
-  transition: transform 0.25s var(--ease-spring), box-shadow 0.25s var(--ease-out);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s var(--ease-out);
   padding: 0;
+  margin-bottom: 8px;
+}
+
+.favorite-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(255 255 255 / 3%), transparent 55%);
+  pointer-events: none;
+  border-radius: inherit;
 }
 
 .favorite-card:active {
   transform: scale(0.985);
-  box-shadow: 0 1px 6px rgb(0 0 0 / 18%);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 22%);
 }
 
 .fav-main {
@@ -882,10 +1104,10 @@ body.keyboard-open .bottom-nav {
 .alcohol-badge {
   font-size: 9px;
   font-weight: 600;
-  color: var(--fg-secondary);
-  background: rgb(120 110 100 / 14%);
-  padding: 1px 5px;
-  border-radius: 3px;
+  color: rgb(235 235 245 / 50%);
+  background: rgb(118 118 128 / 16%);
+  padding: 1px 6px;
+  border-radius: 4px;
   letter-spacing: -0.05px;
   white-space: nowrap;
 }
@@ -928,7 +1150,7 @@ body.keyboard-open .bottom-nav {
 
 /* ─── Delete Button ─── */
 .favorite-card .delete-btn {
-  background: rgb(255 69 58 / 78%);
+  background: rgb(255 59 48 / 78%);
   border: none;
   width: 52px;
   flex-shrink: 0;
@@ -970,7 +1192,7 @@ body.keyboard-open .bottom-nav {
   z-index: 90;
   padding: 8px 0;
   padding-top: max(12px, env(safe-area-inset-top));
-  background: rgb(10 9 8 / 62%);
+  background: rgb(10 10 10 / 62%);
   backdrop-filter: blur(80px) saturate(200%);
   border-bottom: 0.5px solid rgb(255 255 255 / 8%);
   box-shadow: 0 4px 24px rgb(0 0 0 / 35%);
@@ -996,8 +1218,8 @@ body.keyboard-open .bottom-nav {
 #search-input {
   width: 100%;
   height: 100%;
-  background-color: rgb(110 100 90 / 18%);
-  border: 0.5px solid rgb(255 255 255 / 7%);
+  background-color: rgb(118 118 128 / 12%);
+  border: 0.5px solid rgb(255 255 255 / 6%);
   border-radius: 13px;
   padding: 8px 38px;
   color: var(--fg);
@@ -1011,14 +1233,14 @@ body.keyboard-open .bottom-nav {
     box-shadow 0.25s var(--ease-out);
 }
 
-#search-input::placeholder {
-  color: var(--fg-tertiary);
-  font-weight: 400;
+#search-input:focus {
+  background-color: rgb(118 118 128 / 18%);
+  box-shadow: 0 0 0 2px rgb(212 160 23 / 20%);
 }
 
-#search-input:focus {
-  background-color: rgb(110 100 90 / 25%);
-  box-shadow: 0 0 0 3px rgb(212 160 84 / 15%);
+#search-input::placeholder {
+  color: rgb(235 235 245 / 30%);
+  font-weight: 400;
 }
 
 .search-icon {
@@ -1026,7 +1248,7 @@ body.keyboard-open .bottom-nav {
   left: 11px;
   top: 50%;
   transform: translateY(-50%);
-  color: rgb(120 110 100 / 55%);
+  color: rgb(118 118 128 / 55%);
   pointer-events: none;
   transition: color 0.2s var(--ease-out);
   width: 18px;
@@ -1072,9 +1294,9 @@ body.keyboard-open .bottom-nav {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: rgb(120 110 100 / 40%);
+  background: rgb(118 118 128 / 40%);
   border: none;
-  color: rgb(255 235 215 / 70%);
+  color: rgb(255 255 255 / 70%);
   font-size: 10px;
   font-weight: 700;
   display: flex;
@@ -1099,7 +1321,57 @@ body.keyboard-open .bottom-nav {
 
 .clear-btn:active {
   transform: scale(0.85);
-  background: rgb(120 110 100 / 60%);
+  background: rgb(118 118 128 / 60%);
+}
+
+/* ─── Search Suggestions ─── */
+.search-suggestions {
+  padding: 20px 0;
+  animation: fadeInUp 0.4s var(--ease-out);
+}
+
+.suggestions-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgb(235 235 245 / 40%);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin: 0 0 14px;
+}
+
+.suggestions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.suggestion-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 8px;
+  border-radius: 14px;
+  background: rgb(28 28 30 / 60%);
+  border: 0.5px solid rgb(255 255 255 / 6%);
+  color: rgb(235 235 245 / 70%);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.22s var(--ease-out), transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  backdrop-filter: blur(8px);
+  letter-spacing: -0.1px;
+}
+
+.suggestion-chip:active {
+  background: rgb(255 255 255 / 8%);
+  transform: scale(0.95);
+}
+
+.suggestion-icon {
+  width: 22px;
+  height: 22px;
+  opacity: 0.5;
 }
 
 /* ─── Empty State ─── */
@@ -1185,7 +1457,7 @@ body.keyboard-open .bottom-nav {
   background: rgb(0 0 0 / 45%);
   backdrop-filter: blur(10px) saturate(140%);
   opacity: 0;
-  transition: opacity 0.4s var(--ease-out);
+  transition: opacity 0.3s var(--ease-out);
 }
 
 #modal-wrapper.active .modal-overlay {
@@ -1196,7 +1468,7 @@ body.keyboard-open .bottom-nav {
   position: relative;
   width: 100%;
   max-width: 500px;
-  background: rgb(18 16 14 / 96%);
+  background: rgb(28 28 30 / 96%);
   backdrop-filter: blur(48px) saturate(180%) contrast(105%);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   padding: 24px 22px calc(26px + env(safe-area-inset-bottom, 0px));
@@ -1222,7 +1494,7 @@ body.keyboard-open .bottom-nav {
 .modal-grabber {
   width: 36px;
   height: 4px;
-  background: rgb(120 110 100 / 50%);
+  background: rgb(118 118 128 / 50%);
   border-radius: 2px;
   margin: 4px auto 18px;
 }
@@ -1231,7 +1503,7 @@ body.keyboard-open .bottom-nav {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: rgb(120 110 100 / 25%);
+  background: rgb(118 118 128 / 25%);
   border: 5px solid transparent;
   box-sizing: content-box;
   width: 28px;
@@ -1250,8 +1522,8 @@ body.keyboard-open .bottom-nav {
 }
 
 .close-btn-right:active {
-  transform: scale(0.85);
-  background: rgb(120 110 100 / 35%);
+  transform: scale(0.92);
+  background: rgb(118 118 128 / 35%);
   color: var(--fg);
 }
 
@@ -1284,7 +1556,7 @@ body.keyboard-open .bottom-nav {
   color: var(--accent);
   font-weight: 600;
   margin: 0 auto 18px;
-  background: rgb(212 160 84 / 10%);
+  background: rgb(212 160 23 / 10%);
   padding: 5px 14px;
   border-radius: 20px;
   letter-spacing: -0.05px;
@@ -1317,8 +1589,8 @@ body.keyboard-open .bottom-nav {
 }
 
 #note-input:focus {
-  background: rgb(120 110 100 / 28%);
-  box-shadow: 0 0 0 3px rgb(212 160 84 / 18%);
+  background: rgb(118 118 128 / 28%);
+  box-shadow: 0 0 0 3px rgb(212 160 23 / 18%);
   outline: none;
 }
 
@@ -1337,7 +1609,7 @@ body.keyboard-open .bottom-nav {
 
 .star {
   font-size: 38px;
-  color: rgb(120 110 100 / 42%);
+  color: rgb(118 118 128 / 42%);
   cursor: pointer;
   transition:
     transform 0.18s var(--ease-spring),
@@ -1352,7 +1624,7 @@ body.keyboard-open .bottom-nav {
 }
 
 .star:active {
-  transform: scale(0.82);
+  transform: scale(0.92);
 }
 
 .star.active {
@@ -1416,9 +1688,9 @@ body.keyboard-open .bottom-nav {
   margin-top: 18px;
   cursor: pointer;
   transition:
-    transform 0.18s var(--ease-spring),
-    filter 0.2s var(--ease-out),
-    opacity 0.2s var(--ease-out);
+    transform 0.15s var(--ease-spring),
+    filter 0.15s var(--ease-out),
+    opacity 0.15s var(--ease-out);
   position: relative;
   overflow: hidden;
 }
@@ -1429,8 +1701,8 @@ body.keyboard-open .bottom-nav {
 }
 
 .btn-primary:disabled {
-  background: rgb(120 110 100 / 35%);
-  color: rgb(255 235 215 / 45%);
+  background: rgb(118 118 128 / 35%);
+  color: rgb(255 255 255 / 45%);
   cursor: not-allowed;
   transform: none;
   filter: none;
@@ -1442,7 +1714,7 @@ body.keyboard-open .bottom-nav {
   top: calc(env(safe-area-inset-top, 0px) + 12px);
   left: 50%;
   z-index: 10000;
-  background: rgb(26 23 20 / 94%);
+  background: rgb(28 28 30 / 94%);
   backdrop-filter: blur(28px) saturate(180%);
   color: #fff;
   padding: 10px 20px;
@@ -1501,12 +1773,12 @@ body.keyboard-open .bottom-nav {
 .context-menu {
   position: fixed;
   z-index: 3000;
-  background: rgb(24 22 19 / 93%);
+  background: rgb(28 28 30 / 93%);
   backdrop-filter: blur(44px) saturate(180%) contrast(106%);
   border: 0.5px solid var(--separator);
   border-radius: var(--radius-md);
   padding: 4px;
-  box-shadow: 0 8px 40px rgb(0 0 0 / 50%), 0 0 0 0.5px rgb(255 235 215 / 4%);
+  box-shadow: 0 8px 40px rgb(0 0 0 / 50%), 0 0 0 0.5px rgb(255 255 255 / 4%);
   min-width: 160px;
   opacity: 0;
   transform: scale(0.92);
@@ -1571,7 +1843,7 @@ body.keyboard-open .bottom-nav {
 .ptr-spinner {
   width: 22px;
   height: 22px;
-  border: 2.5px solid rgb(212 160 84 / 25%);
+  border: 2.5px solid rgb(212 160 23 / 25%);
   border-top-color: var(--amber);
   border-radius: 50%;
   animation: ptrSpin 0.7s linear infinite;
@@ -1585,7 +1857,7 @@ body.keyboard-open .bottom-nav {
 
 .ptr-container.pulling .ptr-spinner {
   opacity: 0.6;
-  border-top-color: rgb(212 160 84 / 50%);
+  border-top-color: rgb(212 160 23 / 50%);
   animation: none;
 }
 
@@ -1627,7 +1899,7 @@ body.keyboard-open .bottom-nav {
   gap: 10px;
   padding: 12px 14px;
   border-radius: var(--radius-md);
-  background: rgb(26 23 20 / 94%);
+  background: rgb(28 28 30 / 94%);
   backdrop-filter: blur(28px) saturate(180%);
   border: 0.5px solid rgb(255 255 255 / 8%);
   box-shadow:
@@ -1702,7 +1974,7 @@ body.keyboard-open .bottom-nav {
   bottom: 0;
   z-index: 2500;
   height: 44px;
-  background: rgb(22 20 18 / 93%);
+  background: rgb(28 28 30 / 93%);
   backdrop-filter: blur(44px) saturate(180%);
   border-top: 0.5px solid var(--separator);
   display: flex;
@@ -1749,7 +2021,7 @@ body.keyboard-open .bottom-nav {
 .activity-spinner {
   width: 24px;
   height: 24px;
-  border: 2.5px solid rgb(212 160 84 / 20%);
+  border: 2.5px solid rgb(212 160 23 / 20%);
   border-top-color: var(--amber);
   border-radius: 50%;
   animation: activitySpin 0.75s linear infinite;
