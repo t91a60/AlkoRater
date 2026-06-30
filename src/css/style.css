@@ -822,7 +822,7 @@ body.keyboard-open .bottom-nav {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 8px;
+  padding: 8px;
   transition: transform 0.35s var(--ease-out);
   will-change: transform;
 }
