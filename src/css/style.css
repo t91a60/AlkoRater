@@ -18,15 +18,15 @@
   --gold-glow: rgb(255 214 10 / 35%);
   --separator: rgb(255 235 215 / 8%);
   --separator-thick: rgb(255 235 215 / 14%);
-  --glass-bg: rgb(26 23 20 / 72%);
+  --glass-bg: rgb(26 23 20 / 70%);
   --glass-border: rgb(255 235 215 / 8%);
   --glass-edge: rgb(255 235 215 / 4%);
   --glass-heavy: rgb(20 17 15 / 88%);
-  --glass-blur: blur(32px) saturate(160%) contrast(108%);
+  --glass-blur: blur(36px) saturate(170%) contrast(108%);
   --card: #1a1714;
   --card-border: rgb(255 235 215 / 6%);
   --card-highlight: rgb(255 235 215 / 3%);
-  --card-shadow: 0 8px 28px rgb(0 0 0 / 45%), 0 0 0 1px rgb(255 235 215 / 4%);
+  --card-shadow: 0 6px 22px rgb(0 0 0 / 38%), 0 0 0 1px rgb(255 235 215 / 4%);
   --input-bg: rgb(120 110 100 / 20%);
   --chip-bg: rgb(100 90 80 / 30%);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -35,9 +35,10 @@
   --nav-h: 50px;
   --header-h: 60px;
   --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
+  --radius-md: 13px;
+  --radius-lg: 16px;
+  --radius-xl: 26px;
+  --thumb-radius: 12px;
   --font-stack: 'Outfit', -apple-system, blinkmacsystemfont, system-ui, sans-serif;
   --font-display: 'DM Serif Display', georgia, serif;
   --vh: 1vh;
@@ -48,8 +49,6 @@
 
   --accent: var(--amber);
 }
-
-
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -103,7 +102,7 @@ body::after {
   inset: 0;
   pointer-events: none;
   z-index: 99999;
-  opacity: 0.035;
+  opacity: 0.028;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 256px 256px;
@@ -158,11 +157,11 @@ body::before {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(900px 500px at 15% -8%, rgb(212 160 84 / 8%), transparent 55%),
-    radial-gradient(700px 400px at 88% 12%, rgb(212 160 84 / 5%), transparent 50%),
-    radial-gradient(600px 600px at 72% 80%, rgb(184 74 98 / 6%), transparent 50%),
+    radial-gradient(900px 500px at 15% -8%, rgb(212 160 84 / 7%), transparent 55%),
+    radial-gradient(700px 400px at 88% 12%, rgb(212 160 84 / 4%), transparent 50%),
+    radial-gradient(600px 600px at 72% 80%, rgb(184 74 98 / 5%), transparent 50%),
     radial-gradient(500px 400px at 50% 100%, rgb(212 160 84 / 3%), transparent 60%),
-    linear-gradient(180deg, rgb(0 0 0 / 30%), rgb(0 0 0 / 0%));
+    linear-gradient(180deg, rgb(0 0 0 / 25%), rgb(0 0 0 / 0%));
 }
 
 /* ─── Header ─── */
@@ -171,8 +170,8 @@ body::before {
   top: 0;
   z-index: 120;
   padding-top: env(safe-area-inset-top, 0);
-  background: rgb(20 20 20 / 75%);
-  backdrop-filter: blur(48px) saturate(180%);
+  background: rgb(14 12 10 / 78%);
+  backdrop-filter: blur(52px) saturate(180%);
   border-bottom: 0.5px solid var(--separator);
 }
 
@@ -216,8 +215,8 @@ body::before {
   padding-top: 5px;
   flex-shrink: 0;
   border-top: 0.5px solid var(--separator);
-  background: rgb(12 10 9 / 85%);
-  backdrop-filter: blur(32px) saturate(180%) contrast(105%);
+  background: rgb(10 9 8 / 88%);
+  backdrop-filter: blur(40px) saturate(180%) contrast(105%);
   transition: transform 0.38s var(--ease-out), opacity 0.38s var(--ease-out);
 }
 
@@ -249,13 +248,13 @@ body.keyboard-open .bottom-nav {
   letter-spacing: 0.1px;
   cursor: pointer;
   position: relative;
-  transition: color var(--duration-fast) var(--ease-out);
+  transition: color 0.18s var(--ease-out);
   gap: 2px;
 }
 
 .nav-item:active {
-  transform: scale(0.95);
-  transition: transform 0.12s var(--ease-snappy);
+  transform: scale(0.94);
+  transition: transform 0.1s var(--ease-snappy);
 }
 
 .nav-item.active {
@@ -338,47 +337,47 @@ body.keyboard-open .bottom-nav {
   border: 0.5px solid var(--glass-border);
 }
 
-/* ─── Hero Card (Dashboard) ─── */
+/* ─── Hero Card (Dashboard) — REDESIGNED ─── */
 .hero-card {
   position: relative;
-  background: linear-gradient(160deg, rgb(26 23 20 / 82%), rgb(32 28 24 / 78%));
-  border-radius: 16px;
-  padding: 18px 16px;
-  border: 0.5px solid var(--card-border);
-  backdrop-filter: blur(16px);
+  background: linear-gradient(160deg, rgb(22 19 16 / 68%), rgb(30 27 23 / 62%));
+  border-radius: 14px;
+  padding: 20px 18px 18px;
+  border: 0.5px solid rgb(255 235 215 / 7%);
+  backdrop-filter: blur(28px) saturate(160%) contrast(106%);
   box-shadow:
-    0 12px 40px rgb(0 0 0 / 40%),
-    0 0 0 0.5px rgb(255 255 255 / 4%),
+    0 6px 24px rgb(0 0 0 / 32%),
+    0 0 0 0.5px rgb(255 255 255 / 3%),
     inset 0 0.5px 0 rgb(255 255 255 / 5%);
   overflow: hidden;
   transition: transform 0.3s var(--ease-spring), box-shadow 0.25s var(--ease-out);
 }
 
 .hero-card:active {
-  transform: translateY(1px) scale(0.985);
-  box-shadow: 0 4px 16px rgb(0 0 0 / 35%);
+  transform: translateY(1px) scale(0.988);
+  box-shadow: 0 3px 14px rgb(0 0 0 / 28%);
 }
 
 .hero-decorative-circle {
   position: absolute;
-  top: -40px;
-  right: -40px;
-  width: 130px;
-  height: 130px;
+  top: -45px;
+  right: -45px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgb(212 160 84 / 12%), rgb(212 160 84 / 0%) 70%);
+  background: radial-gradient(circle at 30% 30%, rgb(212 160 84 / 9%), rgb(212 160 84 / 0%) 70%);
   pointer-events: none;
 }
 
 .hero-decorative-circle::after {
   content: "";
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 18px;
+  right: 18px;
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  background: radial-gradient(circle at 40% 40%, rgb(212 160 84 / 6%), transparent 65%);
+  background: radial-gradient(circle at 40% 40%, rgb(212 160 84 / 5%), transparent 65%);
 }
 
 .hero-content {
@@ -387,20 +386,20 @@ body.keyboard-open .bottom-nav {
 }
 
 .hero-greeting h2 {
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 700;
   margin: 0 0 2px;
-  letter-spacing: -0.4px;
-  background: linear-gradient(135deg, var(--fg), rgb(245 240 235 / 70%));
+  letter-spacing: -0.3px;
+  background: linear-gradient(135deg, var(--fg), rgb(245 240 235 / 68%));
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-family: var(--font-display);
 }
 
 .hero-greeting p {
-  font-size: 13px;
-  margin: 0 0 12px;
-  opacity: 0.55;
+  font-size: 12px;
+  margin: 0 0 14px;
+  opacity: 0.44;
   line-height: 1.4;
   font-weight: 400;
 }
@@ -409,10 +408,10 @@ body.keyboard-open .bottom-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgb(255 255 255 / 3%);
-  border-radius: 10px;
-  padding: 14px 8px;
-  border: 0.5px solid rgb(255 255 255 / 5%);
+  background: rgb(255 255 255 / 3.5%);
+  border-radius: 11px;
+  padding: 14px 10px;
+  border: none;
 }
 
 .hero-stat-item {
@@ -424,14 +423,14 @@ body.keyboard-open .bottom-nav {
 }
 
 .hero-stat-val {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
   margin-bottom: 1px;
   display: flex;
   align-items: center;
   gap: 3px;
   white-space: nowrap;
-  letter-spacing: -0.4px;
+  letter-spacing: -0.5px;
 }
 
 .hero-stat-val .hero-star {
@@ -448,7 +447,7 @@ body.keyboard-open .bottom-nav {
   font-weight: 650;
   text-transform: uppercase;
   letter-spacing: 1px;
-  opacity: 0.5;
+  opacity: 0.48;
   font-family: var(--font-stack);
 }
 
@@ -466,46 +465,48 @@ body.keyboard-open .bottom-nav {
   white-space: nowrap;
 }
 
-/* ─── Quick Actions ─── */
+/* ─── Quick Actions — REDESIGNED ─── */
 .quick-actions-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-top: 14px;
+  margin-top: 12px;
 }
 
 .action-btn {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 16px 14px;
-  border-radius: 16px;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 17px 16px;
+  border-radius: 14px;
   border: 0.5px solid var(--card-border);
-  font-size: 15.5px;
+  font-size: 15px;
   font-weight: 600;
-  letter-spacing: -0.1px;
+  letter-spacing: -0.15px;
   background: var(--card);
   backdrop-filter: blur(8px);
   color: var(--accent);
   cursor: pointer;
+  min-height: 62px;
   box-shadow:
-    0 4px 16px rgb(0 0 0 / 28%),
+    0 3px 14px rgb(0 0 0 / 24%),
     inset 0 0.5px 0 rgb(255 255 255 / 4%);
-  transition: transform 0.22s var(--ease-spring),
+  transition:
+    transform 0.22s var(--ease-spring),
     background 0.2s var(--ease-out),
     box-shadow 0.2s var(--ease-out);
 }
 
 .action-btn:active {
-  transform: scale(0.975);
-  background: rgb(212 160 84 / 12%);
-  box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+  transform: scale(0.97);
+  background: rgb(212 160 84 / 10%);
+  box-shadow: 0 1px 6px rgb(0 0 0 / 18%);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .action-btn:hover {
-    background: rgb(212 160 84 / 8%);
+    background: rgb(212 160 84 / 7%);
   }
 }
 
@@ -514,7 +515,7 @@ body.keyboard-open .bottom-nav {
 }
 
 .action-btn.secondary:active {
-  background: rgb(255 255 255 / 7%);
+  background: rgb(255 255 255 / 6%);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -523,22 +524,32 @@ body.keyboard-open .bottom-nav {
   }
 }
 
-.action-icon {
+/* Action icon — colored circle background */
+.action-icon-wrap {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: rgb(212 160 84 / 14%);
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
-.action-icon svg {
-  width: 20px;
-  height: 20px;
-  stroke-width: 2;
+.action-btn.secondary .action-icon-wrap {
+  background: rgb(255 255 255 / 5%);
+}
+
+.action-icon-wrap svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.5;
 }
 
 /* ─── Section Header ─── */
 .section-container {
   margin-bottom: 24px;
-  margin-top: 28px;
+  margin-top: 30px;
   padding-top: 24px;
   border-top: 0.5px solid var(--separator);
 }
@@ -578,13 +589,13 @@ body.keyboard-open .bottom-nav {
 
 .link-btn:active { opacity: 0.4; }
 
-/* ─── Recently Rated ─── */
+/* ─── Recently Rated — REDESIGNED ─── */
 .recent-scroll {
   display: flex;
   gap: 10px;
   overflow-x: auto;
   overscroll-behavior-x: contain;
-  padding: 4px 0 12px;
+  padding: 4px 0 14px;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
 }
@@ -592,12 +603,14 @@ body.keyboard-open .bottom-nav {
 .recent-scroll::-webkit-scrollbar { display: none; }
 
 .recent-card {
-  flex: 0 0 155px;
+  flex: 0 0 170px;
   background: var(--card);
-  border-radius: 14px;
-  padding: 16px 12px;
+  border-radius: 16px;
+  padding: 18px 14px 14px;
   scroll-snap-align: start;
-  box-shadow: 0 4px 16px rgb(0 0 0 / 30%);
+  box-shadow:
+    0 4px 18px rgb(0 0 0 / 28%),
+    0 0 0 0.5px rgb(255 235 215 / 4%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -612,28 +625,25 @@ body.keyboard-open .bottom-nav {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgb(255 255 255 / 2%), transparent 60%);
+  background: linear-gradient(180deg, rgb(255 255 255 / 2%), transparent 55%);
   pointer-events: none;
   border-radius: inherit;
 }
 
 .recent-card:active {
   transform: scale(0.93);
-  box-shadow: 0 2px 10px rgb(0 0 0 / 30%);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 28%);
 }
 
-.recent-card img {
-  width: 76px;
-  height: 76px;
-  object-fit: contain;
-  margin-bottom: 10px;
+/* Recent card product thumb */
+.recent-card .product-thumb {
+  margin-bottom: 12px;
   border-radius: 14px;
-  box-shadow: 0 3px 10px rgb(0 0 0 / 25%);
-  background: rgb(255 255 255 / 3%);
+  box-shadow: 0 3px 12px rgb(0 0 0 / 22%);
 }
 
 .recent-name {
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
@@ -648,11 +658,12 @@ body.keyboard-open .bottom-nav {
 }
 
 .recent-stars {
-  font-size: 16px;
+  font-size: 18px;
   color: var(--gold);
   font-weight: 700;
   letter-spacing: -0.1px;
   filter: drop-shadow(0 0 6px var(--gold-glow));
+  margin-top: 5px;
 }
 
 .recent-meta {
@@ -662,7 +673,7 @@ body.keyboard-open .bottom-nav {
   display: flex;
   align-items: center;
   gap: 4px;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
   white-space: nowrap;
   overflow: hidden;
   max-width: 100%;
@@ -673,26 +684,27 @@ body.keyboard-open .bottom-nav {
   text-align: center;
   font-size: 11.5px;
   color: var(--fg-secondary);
-  padding: 7px 12px;
-  border-radius: 8px;
-  margin-top: 18px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  margin-top: 16px;
+  margin-bottom: 20px;
   background: var(--glass-bg);
   border: 0.5px solid var(--glass-border);
-  backdrop-filter: blur(18px);
+  backdrop-filter: blur(20px);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
 }
 
-/* ─── Filter Chips (iOS segmented control style) ─── */
+/* ─── Filter Chips — iOS Segmented Control ─── */
 .filters-container {
   display: flex;
   gap: 0;
-  background: rgb(120 110 100 / 18%);
-  padding: 2px;
-  border-radius: 8px;
-  margin: 14px 0;
+  background: rgb(90 82 74 / 28%);
+  padding: 3px;
+  border-radius: 11px;
+  margin: 12px 0 16px;
   border: 0.5px solid rgb(255 235 215 / 4%);
 }
 
@@ -701,36 +713,75 @@ body.keyboard-open .bottom-nav {
   min-width: 0;
   border: none;
   background: transparent;
-  color: rgb(245 240 235 / 45%);
+  color: rgb(245 240 235 / 42%);
   padding: 9px 0;
-  min-height: 36px;
-  border-radius: 6px;
-  font-size: 13px;
+  min-height: 38px;
+  border-radius: 8px;
+  font-size: 13.5px;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.25s var(--ease-out),
-    color 0.25s var(--ease-out),
-    box-shadow 0.25s var(--ease-out);
+  transition:
+    background 0.22s var(--ease-out),
+    color 0.22s var(--ease-out),
+    box-shadow 0.22s var(--ease-out),
+    font-weight 0.1s linear;
   letter-spacing: -0.05px;
 }
 
 .filter-chip.active {
-  background: rgb(255 255 255 / 9%);
+  background: rgb(255 255 255 / 11%);
   color: var(--fg);
-  box-shadow: none;
+  font-weight: 600;
+  box-shadow:
+    0 1px 4px rgb(0 0 0 / 30%),
+    0 0 0 0.5px rgb(255 255 255 / 7%);
 }
 
 .filter-chip:active {
-  background: rgb(255 255 255 / 3%);
-  transition: background 0.12s var(--ease-out);
+  background: rgb(255 255 255 / 4%);
+  transition: background 0.1s var(--ease-out);
+}
+
+/* ─── Product Thumbnails — NEW ─── */
+.product-thumb {
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: var(--thumb-radius);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 22%);
+}
+
+.product-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 5px;
+  display: block;
+}
+
+/* Emoji fallback when image fails */
+.product-thumb.thumb-broken::after {
+  content: attr(data-emoji);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  line-height: 1;
+}
+
+/* Recent card thumb gets a bigger emoji */
+.recent-card .product-thumb.thumb-broken::after {
+  font-size: 38px;
 }
 
 /* ─── Results & Lists ─── */
 .results-list {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  padding-top: 8px;
+  gap: 0;
+  padding-top: 6px;
 }
 
 #favorites-list {
@@ -741,11 +792,11 @@ body.keyboard-open .bottom-nav {
   display: flex;
   align-items: center;
   background: transparent;
-  padding: 8px 0;
+  padding: 10px 0;
   border-radius: 10px;
-  gap: 10px;
+  gap: 12px;
   position: relative;
-  transition: background 0.2s var(--ease-out);
+  transition: background 0.18s var(--ease-out);
   cursor: pointer;
 }
 
@@ -753,8 +804,10 @@ body.keyboard-open .bottom-nav {
   display: flex;
   align-items: stretch;
   background: var(--card);
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgb(0 0 0 / 30%), 0 0 0 0.5px rgb(255 235 215 / 3%);
+  border-radius: 13px;
+  box-shadow:
+    0 3px 12px rgb(0 0 0 / 26%),
+    0 0 0 0.5px rgb(255 235 215 / 3%);
   border: 0.5px solid var(--card-border);
   position: relative;
   overflow: hidden;
@@ -767,20 +820,20 @@ body.keyboard-open .bottom-nav {
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
+  gap: 12px;
+  padding: 10px 12px;
   transition: transform 0.35s var(--ease-out);
   will-change: transform;
 }
 
 .fav-main.swiped {
-  transform: translateX(-60px);
+  transform: translateX(-62px);
 }
 
 .search-item::after {
   content: "";
   position: absolute;
-  left: 54px;
+  left: 62px;
   right: 0;
   bottom: 0;
   height: 0.5px;
@@ -796,16 +849,6 @@ body.keyboard-open .bottom-nav {
   background: rgb(255 255 255 / 3%);
 }
 
-.search-item img, .fav-main img {
-  width: 44px;
-  height: 44px;
-  object-fit: contain;
-  border-radius: 10px;
-  flex-shrink: 0;
-  box-shadow: 0 2px 6px rgb(0 0 0 / 20%);
-  background: rgb(255 255 255 / 3%);
-}
-
 .item-info {
   flex: 1;
   display: flex;
@@ -817,12 +860,12 @@ body.keyboard-open .bottom-nav {
 
 .item-name {
   font-weight: 650;
-  font-size: 16px;
+  font-size: 15.5px;
   letter-spacing: -0.3px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
   color: var(--fg);
   display: flex;
   align-items: center;
@@ -867,8 +910,9 @@ body.keyboard-open .bottom-nav {
   text-transform: uppercase;
 }
 
+/* Stars in list items — bigger & brighter */
 .item-stars {
-  font-size: 16px;
+  font-size: 18px;
   color: #ffd60a;
   font-weight: 700;
   display: flex;
@@ -876,30 +920,32 @@ body.keyboard-open .bottom-nav {
   gap: 2px;
   margin-right: 2px;
   letter-spacing: -0.1px;
-  filter: drop-shadow(0 0 6px rgb(255 214 10 / 35%));
+  filter: drop-shadow(0 0 6px rgb(255 214 10 / 40%));
+  flex-shrink: 0;
 }
 
-/* ─── Delete Button ─── */
+/* ─── Delete Button — REDESIGNED ─── */
 .favorite-card .delete-btn {
   background: rgb(255 69 58 / 85%);
   border: none;
-  width: 56px;
+  width: 62px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
   cursor: pointer;
-  transition: background 0.2s var(--ease-out), filter 0.12s var(--ease-snappy);
+  transition: background 0.18s var(--ease-out), filter 0.12s var(--ease-snappy);
   padding: 0;
   margin: 0;
-  border-radius: 0 10px 10px 0;
+  border-radius: 0 12px 12px 0;
   min-height: 100%;
+  backdrop-filter: blur(4px);
 }
 
 .favorite-card .delete-btn:active {
-  background: rgb(255 69 58);
-  filter: brightness(1.1);
+  background: rgb(255 59 48);
+  filter: brightness(1.08);
 }
 
 .slide-out-left {
@@ -924,8 +970,8 @@ body.keyboard-open .bottom-nav {
   z-index: 90;
   padding: 8px 0;
   padding-top: max(12px, env(safe-area-inset-top));
-  background: rgb(12 10 9 / 60%);
-  backdrop-filter: blur(64px) saturate(180%);
+  background: rgb(10 9 8 / 65%);
+  backdrop-filter: blur(72px) saturate(200%);
   border-bottom: 0.5px solid var(--separator);
 }
 
@@ -941,7 +987,7 @@ body.keyboard-open .bottom-nav {
 .search-wrapper {
   position: relative;
   width: 100%;
-  height: 40px;
+  height: 42px;
   display: flex;
   align-items: center;
 }
@@ -949,17 +995,18 @@ body.keyboard-open .bottom-nav {
 #search-input {
   width: 100%;
   height: 100%;
-  background-color: rgb(120 110 100 / 15%);
-  border: 0.5px solid rgb(255 255 255 / 6%);
-  border-radius: 12px;
-  padding: 8px 36px;
+  background-color: rgb(110 100 90 / 18%);
+  border: 0.5px solid rgb(255 255 255 / 7%);
+  border-radius: 13px;
+  padding: 8px 38px;
   color: var(--fg);
   font-size: 16px;
   font-weight: 400;
   letter-spacing: -0.15px;
   outline: none;
-  backdrop-filter: blur(4px);
-  transition: background-color 0.25s var(--ease-out),
+  backdrop-filter: blur(8px);
+  transition:
+    background-color 0.25s var(--ease-out),
     box-shadow 0.25s var(--ease-out);
 }
 
@@ -969,16 +1016,16 @@ body.keyboard-open .bottom-nav {
 }
 
 #search-input:focus {
-  background-color: rgb(120 110 100 / 22%);
-  box-shadow: 0 0 0 3px rgb(212 160 84 / 14%);
+  background-color: rgb(110 100 90 / 25%);
+  box-shadow: 0 0 0 3px rgb(212 160 84 / 15%);
 }
 
 .search-icon {
   position: absolute;
-  left: 10px;
+  left: 11px;
   top: 50%;
   transform: translateY(-50%);
-  color: rgb(120 110 100 / 60%);
+  color: rgb(120 110 100 / 55%);
   pointer-events: none;
   transition: color 0.2s var(--ease-out);
   width: 18px;
@@ -1003,7 +1050,7 @@ body.keyboard-open .bottom-nav {
   transition: opacity 0.22s var(--ease-out), transform 0.25s var(--ease-spring);
   pointer-events: none;
   white-space: nowrap;
-  height: 40px;
+  height: 42px;
   display: flex;
   align-items: center;
   letter-spacing: -0.1px;
@@ -1035,7 +1082,8 @@ body.keyboard-open .bottom-nav {
   cursor: pointer;
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.22s var(--ease-spring),
+  transition:
+    transform 0.22s var(--ease-spring),
     opacity 0.22s var(--ease-out),
     background 0.2s var(--ease-out);
   padding: 0;
@@ -1092,7 +1140,7 @@ body.keyboard-open .bottom-nav {
 }
 
 .skeleton-row {
-  height: 58px;
+  height: 62px;
   background: var(--card);
   border-radius: var(--radius-md);
   position: relative;
@@ -1134,7 +1182,7 @@ body.keyboard-open .bottom-nav {
   position: fixed;
   inset: 0;
   background: rgb(0 0 0 / 45%);
-  backdrop-filter: blur(8px) saturate(140%);
+  backdrop-filter: blur(10px) saturate(140%);
   opacity: 0;
   transition: opacity 0.4s var(--ease-out);
 }
@@ -1147,8 +1195,8 @@ body.keyboard-open .bottom-nav {
   position: relative;
   width: 100%;
   max-width: 500px;
-  background: rgb(20 17 15 / 96%);
-  backdrop-filter: blur(40px) saturate(180%) contrast(105%);
+  background: rgb(18 16 14 / 96%);
+  backdrop-filter: blur(48px) saturate(180%) contrast(105%);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   padding: 24px 22px calc(26px + env(safe-area-inset-bottom, 0px));
   transform: translateY(104%);
@@ -1193,7 +1241,8 @@ body.keyboard-open .bottom-nav {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.18s var(--ease-spring),
+  transition:
+    transform 0.18s var(--ease-spring),
     background 0.2s var(--ease-out),
     color 0.2s var(--ease-out);
   z-index: 10;
@@ -1286,10 +1335,11 @@ body.keyboard-open .bottom-nav {
 }
 
 .star {
-  font-size: 36px;
-  color: rgb(120 110 100 / 45%);
+  font-size: 38px;
+  color: rgb(120 110 100 / 42%);
   cursor: pointer;
-  transition: transform 0.18s var(--ease-spring),
+  transition:
+    transform 0.18s var(--ease-spring),
     color 0.25s var(--ease-out),
     text-shadow 0.25s var(--ease-out);
   -webkit-tap-highlight-color: transparent;
@@ -1364,7 +1414,8 @@ body.keyboard-open .bottom-nav {
   letter-spacing: -0.2px;
   margin-top: 18px;
   cursor: pointer;
-  transition: transform 0.18s var(--ease-spring),
+  transition:
+    transform 0.18s var(--ease-spring),
     filter 0.2s var(--ease-out),
     opacity 0.2s var(--ease-out);
   position: relative;
@@ -1449,8 +1500,8 @@ body.keyboard-open .bottom-nav {
 .context-menu {
   position: fixed;
   z-index: 3000;
-  background: rgb(26 23 20 / 92%);
-  backdrop-filter: blur(40px) saturate(180%) contrast(105%);
+  background: rgb(24 22 19 / 93%);
+  backdrop-filter: blur(44px) saturate(180%) contrast(106%);
   border: 0.5px solid var(--separator);
   border-radius: var(--radius-md);
   padding: 4px;
@@ -1650,8 +1701,8 @@ body.keyboard-open .bottom-nav {
   bottom: 0;
   z-index: 2500;
   height: 44px;
-  background: rgb(26 23 20 / 92%);
-  backdrop-filter: blur(40px) saturate(180%);
+  background: rgb(22 20 18 / 93%);
+  backdrop-filter: blur(44px) saturate(180%);
   border-top: 0.5px solid var(--separator);
   display: flex;
   align-items: center;

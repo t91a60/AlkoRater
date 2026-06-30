@@ -1,7 +1,7 @@
 import { state } from '../app/state.js';
 import { escapeHTML } from '../utils/dom.js';
 import { search } from '../services/search.js';
-import { alcoholBadgeHTML, typeBadgeHTML } from './badges.js';
+import { alcoholBadgeHTML, typeBadgeHTML, productThumbHTML } from './badges.js';
 
 /** @param {Event} e */
 export function handleSearch(e) {
@@ -11,14 +11,14 @@ export function handleSearch(e) {
         state.el.searchResults.innerHTML = '';
         state.el.noResults.style.display = 'block';
         const noResultsText = state.el.noResults.querySelector('p');
-        if (noResultsText) {noResultsText.textContent = '';}
+        if (noResultsText) { noResultsText.textContent = ''; }
         return;
     }
 
     const results = search(raw);
 
     const noResultsText = state.el.noResults.querySelector('p');
-    if (noResultsText) {noResultsText.textContent = 'Brak wyników.';}
+    if (noResultsText) { noResultsText.textContent = 'Brak wyników.'; }
 
     renderResults(results);
 }
@@ -35,8 +35,8 @@ export function renderResults(list) {
     state.el.noResults.style.display = 'none';
 
     container.innerHTML = list.map((item, idx) => `
-        <div class="search-item animate-fade-in" data-item-name="${escapeHTML(item.name)}" style="animation-delay: ${idx * 25}ms">
-            <img src="${escapeHTML(item.image_url || './icons/icon-60.png')}" loading="lazy" alt="img">
+        <div class="search-item animate-fade-in" data-item-name="${escapeHTML(item.name)}" style="animation-delay:${idx * 25}ms">
+            ${productThumbHTML(item.image_url, item.category, 50)}
             <div class="item-info">
                 <div class="item-name">${escapeHTML(item.name)}${alcoholBadgeHTML(item.alcohol)}</div>
                 <div class="item-meta">${escapeHTML(item.category)}${typeBadgeHTML(item.type)}</div>

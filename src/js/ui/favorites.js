@@ -4,7 +4,7 @@ import { haptics } from './haptics.js';
 import { showToast } from './toast.js';
 import { updateDashboard } from './dashboard.js';
 import { saveFavorites } from '../data/favorite-repo.js';
-import { alcoholBadgeHTML, typeBadgeHTML } from './badges.js';
+import { alcoholBadgeHTML, typeBadgeHTML, productThumbHTML } from './badges.js';
 
 const GHOST_SVG = `
     <svg class="ghost-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
@@ -14,7 +14,7 @@ const GHOST_SVG = `
     </svg>`;
 
 const TRASH_SVG = `
-    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.8" fill="none">
+    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
         <polyline points="3 6 5 6 21 6"></polyline>
         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
     </svg>`;
@@ -37,14 +37,14 @@ export function renderFavorites(filter = 'wszystkie') {
     }
 
     container.innerHTML = list.map((fav, idx) => `
-        <div id="fav-${fav.id}" class="favorite-card animate-fade-in" data-item-name="${escapeHTML(fav.item.name)}" style="animation-delay: ${idx * 30}ms">
+        <div id="fav-${fav.id}" class="favorite-card animate-fade-in" data-item-name="${escapeHTML(fav.item.name)}" style="animation-delay:${idx * 30}ms">
             <div class="fav-main">
-                <img src="${escapeHTML(fav.item.image_url || './icons/icon-60.png')}" loading="lazy" alt="${escapeHTML(fav.item.name)}">
+                ${productThumbHTML(fav.item.image_url, fav.tag, 50)}
                 <div class="item-info">
                     <div class="item-name">${escapeHTML(fav.item.name)}${alcoholBadgeHTML(fav.item.alcohol)}</div>
                     <div class="item-meta">${escapeHTML(fav.tag)}${typeBadgeHTML(fav.item.type)}</div>
                 </div>
-                <div class="item-stars">★ ${escapeHTML(fav.stars)}</div>
+                <div class="item-stars">★ ${escapeHTML(String(fav.stars))}</div>
             </div>
             <button class="delete-btn" data-delete-id="${fav.id}" aria-label="Usuń">${TRASH_SVG}</button>
         </div>
