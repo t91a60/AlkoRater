@@ -1,7 +1,7 @@
 {
   "name": "alko-rater",
-  "version": "2.9.0",
-  "description": "Progressive Web App do oceniania alkoholi — iOS feel, offline-first, mobile-first. v2.9: przeprojektowane ekrany Start i Ulubione (iOS 18/19 style)",
+  "version": "2.11.0",
+  "description": "Progressive Web App do oceniania alkoholi — iOS feel, offline-first, mobile-first. v2.11: Ulubione — lżejsze karty, iOS segmented control, węższy kosz",
   "main": "index.html",
   "scripts": {
     "dev": "npx serve . -p 3000 --single",

@@ -48,11 +48,14 @@ const normalizeLoadedItem = (item = {}, source = 'beer', index = 0) => {
 
     const beerType = item.type || null;
 
+    const rawImage = item.image_url ?? item.image ?? item.imageUrl ?? '';
+    const hasRealImage = rawImage && !rawImage.includes('dummyimage.com');
+
     return {
         id: item.id ?? `${source}-${index + 1}`,
         name: rawName,
         alcohol: alcoholDisplay,
-        image_url: item.image_url ?? item.image ?? item.imageUrl ?? '',
+        image_url: hasRealImage ? rawImage : '',
         category: CATEGORIES[source] ?? 'Piwo',
         type: beerType,
         country: rawCountry,
