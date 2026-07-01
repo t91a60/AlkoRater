@@ -80,15 +80,15 @@ export async function saveFavorites(favorites) {
         const store = tx.objectStore(FAVORITES_STORE);
 
         await new Promise((resolve, reject) => {
+            tx.oncomplete = () => resolve();
+            tx.onerror = () => reject(tx.error);
+            
             const clearReq = store.clear();
-            clearReq.onerror = () => reject(clearReq.error);
             clearReq.onsuccess = () => {
-                if (favorites.length === 0) {resolve(); return;}
-                Promise.all(favorites.map((fav) => new Promise((res, rej) => {
-                    const putReq = store.put(fav);
-                    putReq.onsuccess = res;
-                    putReq.onerror = () => rej(putReq.error);
-                }))).then(resolve).catch(reject);
+                if (favorites.length === 0) return;
+                for (let i = 0; i < favorites.length; i++) {
+                    store.put(favorites[i]);
+                }
             };
         });
 

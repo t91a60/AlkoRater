@@ -1068,48 +1068,53 @@ body.keyboard-open .bottom-nav {
   display: flex;
   flex-direction: column;
   gap: 0;
-  padding-top: 4px;
+  background: var(--surface-1);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 0.5px solid rgb(255 255 255 / 8%);
+  margin-top: 12px;
 }
 
 #favorites-list {
   flex: 1;
 }
 
-.search-card {
+.search-card, .favorite-card {
   display: flex;
   align-items: stretch;
-  background: var(--card);
-  border-radius: 18px;
-  box-shadow:
-    0 12px 30px rgb(0 0 0 / 24%),
-    0 0 0 0.5px rgb(255 255 255 / 4%);
-  border: 0.5px solid var(--card-border);
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  border-bottom: 0.5px solid rgb(255 255 255 / 6%);
   position: relative;
   overflow: hidden;
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s var(--ease-out);
-  margin-bottom: 8px;
+  transition: background 0.15s ease;
+  margin-bottom: 0;
   cursor: pointer;
   will-change: transform, opacity;
+  padding: 0;
 }
 
-.search-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgb(255 255 255 / 5%), transparent 55%);
-  pointer-events: none;
-  border-radius: inherit;
+.search-card:last-child, .favorite-card:last-child {
+  border-bottom: none;
 }
 
-.search-card:active {
-  transform: scale(0.985);
-  box-shadow: 0 2px 10px rgb(0 0 0 / 20%);
+.search-card::before, .favorite-card::before {
+  display: none;
+}
+
+.search-card:active, .favorite-card:active {
+  background: rgb(255 255 255 / 8%);
+  transform: none;
+  box-shadow: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .search-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 18px 36px rgb(0 0 0 / 26%), 0 0 0 0.5px rgb(255 255 255 / 5%);
+  .search-card:hover, .favorite-card:hover {
+    background: rgb(255 255 255 / 4%);
+    transform: none;
+    box-shadow: none;
   }
 }
 
@@ -1150,43 +1155,7 @@ body.keyboard-open .bottom-nav {
   color: var(--fg);
 }
 
-.favorite-card {
-  display: flex;
-  align-items: stretch;
-  background: var(--card);
-  border-radius: 18px;
-  box-shadow:
-    0 12px 30px rgb(0 0 0 / 24%),
-    0 0 0 0.5px rgb(255 255 255 / 4%);
-  border: 0.5px solid var(--card-border);
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s var(--ease-out);
-  padding: 0;
-  margin-bottom: 8px;
-  will-change: transform, opacity;
-}
 
-.favorite-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgb(255 255 255 / 5%), transparent 55%);
-  pointer-events: none;
-  border-radius: inherit;
-}
-
-.favorite-card:active {
-  transform: scale(0.985);
-  box-shadow: 0 2px 10px rgb(0 0 0 / 20%);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .favorite-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 18px 36px rgb(0 0 0 / 26%), 0 0 0 0.5px rgb(255 255 255 / 5%);
-  }
-}
 
 .fav-main {
   flex: 1;
@@ -1341,11 +1310,18 @@ body.keyboard-open .bottom-nav {
 .search-bar-container {
   background: transparent;
   padding: 0;
+  overflow: hidden;
+}
+
+.search-flex {
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
 .search-wrapper {
   position: relative;
-  width: 100%;
+  flex-grow: 1;
   height: 42px;
   display: flex;
   align-items: center;
@@ -1402,11 +1378,12 @@ body.keyboard-open .bottom-nav {
   color: var(--accent);
   font-size: 15px;
   font-weight: 500;
-  padding: 0 6px 0 10px;
+  padding: 0;
   cursor: pointer;
   opacity: 0;
-  transform: translateX(8px);
-  transition: opacity 0.22s var(--ease-out), transform 0.25s var(--ease-spring);
+  max-width: 0;
+  overflow: hidden;
+  transition: all 0.25s var(--ease-out);
   pointer-events: none;
   white-space: nowrap;
   height: 42px;
@@ -1417,7 +1394,8 @@ body.keyboard-open .bottom-nav {
 
 .search-cancel-btn.visible {
   opacity: 1;
-  transform: translateX(0);
+  max-width: 100px;
+  padding: 0 6px 0 10px;
   pointer-events: auto;
 }
 

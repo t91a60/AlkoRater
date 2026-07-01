@@ -1,6 +1,6 @@
 import { state } from '../app/state.js';
 import { CONSTANTS } from '../app/constants.js';
-import { alcoholBadgeHTML, typeBadgeHTML, productThumbHTML, renderBadgeSection } from './badges.js';
+import { alcoholBadgeHTML, typeBadgeHTML, productThumbHTML } from './badges.js';
 import { escapeHTML } from '../utils/dom.js';
 import { renderSuggestions } from './search-ui.js';
 
@@ -59,7 +59,6 @@ export function updateDashboard() {
             </div>
         </div>
 
-        ${renderBadgeSection(state.favorites)}
 
         <div class="quick-actions-grid">
             <button class="action-btn primary animate-fade-in" data-action="open-search" style="animation-delay:50ms">
