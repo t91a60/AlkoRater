@@ -191,13 +191,26 @@ const setupListeners = () => {
 };
 
 const setVH = () => {
-    const vh = window.visualViewport?.height || window.innerHeight;
+    // Na iOS Safari standalone, visualViewport.height jest jedynym wiarygodnym zrodlem wysokosci
+    const vh = window.visualViewport?.height ?? window.innerHeight;
     document.documentElement.style.setProperty('--vh', `${vh * 0.01}px`);
     document.documentElement.style.setProperty('--window-height', `${vh}px`);
 };
 
 const initViewport = () => {
+    // Pierwsze wywołanie — od razu
     setVH();
+
+    // Podwójny rAF: daje przeglądarce czas na obliczenie safe-area-inset-bottom
+    // przed pierwszym renderem. To jest rekomendacja Apple dla iOS PWA.
+    requestAnimationFrame(() => {
+        requestAnimationFrame(setVH);
+    });
+
+    // Dodatkowe wywołanie po 300ms jako siatka bezpieczeństwa
+    // (iOS standalone może potrzebować czasu na raportowanie safe-area)
+    setTimeout(setVH, 300);
+
     if (window.visualViewport) {
         window.visualViewport.addEventListener('resize', setVH);
         window.visualViewport.addEventListener('scroll', setVH);

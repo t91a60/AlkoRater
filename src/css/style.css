@@ -124,14 +124,14 @@ body::after {
 /* ─── App Shell ─── */
 .app-container {
   position: relative;
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
-  min-height: calc(var(--vh, 1vh) * 100);
-  min-height: 100dvh;
-  height: 100%;
+  /* Na iOS Safari standalone, 100dvh jest ok. Usuwamy height:100% które
+     na iOS standalone mode może przeciąż minimalną wysokość i zepsuć flex. */
+  height: 100dvh;
+  height: calc(var(--vh, 1svh) * 100);
   display: flex;
   flex-direction: column;
   background: var(--bg);
+  overflow: hidden;
   transition: transform 0.4s var(--ease-out), filter 0.4s var(--ease-out);
 }
 
@@ -214,13 +214,17 @@ body::before {
 
 /* ─── Bottom Navigation — iOS 18 ─── */
 .bottom-nav {
-  height: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px));
-  padding-bottom: max(8px, env(safe-area-inset-bottom));
+  /* Sticky bottom — flex-shrink:0 + flex-direction:column na .app-container
+     automatycznie umieszcza pasek na dole bez potrzeby position:fixed.
+     To eliminuje błąd iOS gdzie env(safe-area-inset-bottom) = 0 przy cold start. */
+  flex-shrink: 0;
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+  /* Fallback dla starszych iOS bez wsparcia env() */
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 8px);
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
   padding-top: 6px;
-  flex-shrink: 0;
   border-top: 0.5px solid rgb(173 186 205 / 16%);
   background: rgb(9 16 24 / 78%);
   backdrop-filter: blur(42px) saturate(165%) contrast(108%);
