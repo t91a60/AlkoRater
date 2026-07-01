@@ -2,6 +2,7 @@ import { state } from '../app/state.js';
 import { CONSTANTS } from '../app/constants.js';
 import { alcoholBadgeHTML, typeBadgeHTML, productThumbHTML, renderBadgeSection } from './badges.js';
 import { escapeHTML } from '../utils/dom.js';
+import { renderSuggestions } from './search-ui.js';
 
 /** Re-render the dashboard hero, stats, badges, and recently rated. */
 export function updateDashboard() {
@@ -24,14 +25,16 @@ export function updateDashboard() {
         <div class="premium-hero animate-fade-in">
             <div class="bokeh-spot bokeh-spot--1"></div>
             <div class="bokeh-spot bokeh-spot--2"></div>
+            <div class="hero-halo hero-halo--amber"></div>
+            <div class="hero-halo hero-halo--blue"></div>
 
             <div class="greeting-header">
                 <div class="profile-icon">
                     <i data-lucide="wine" class="profile-icon-svg" aria-hidden="true"></i>
                 </div>
                 <div class="greeting-text">
-                    <h1 class="greeting-title">Cześć!</h1>
-                    <p class="greeting-sub">Twój Koneser Profil czeka.</p>
+                    <h1 class="greeting-title">Przegląd</h1>
+                    <p class="greeting-sub">Twoje oceny, ulubione i ostatnie trunki w jednym miejscu.</p>
                 </div>
             </div>
 
@@ -39,7 +42,7 @@ export function updateDashboard() {
                 <div class="hero-stat-item">
                     <i data-lucide="layers" class="stat-icon" aria-hidden="true"></i>
                     <span class="hero-stat-val">${escapeHTML(String(total))}</span>
-                    <span class="hero-stat-label">Kolekcja</span>
+                    <span class="hero-stat-label">Oceny</span>
                 </div>
                 <div class="hero-divider"></div>
                 <div class="hero-stat-item">
@@ -51,7 +54,7 @@ export function updateDashboard() {
                 <div class="hero-stat-item">
                     <i data-lucide="wine" class="stat-icon" aria-hidden="true"></i>
                     <span class="hero-stat-val category-truncate" style="text-transform:capitalize;font-size:16px">${escapeHTML(topCategory)}</span>
-                    <span class="hero-stat-label">Ulubione</span>
+                    <span class="hero-stat-label">Top</span>
                 </div>
             </div>
         </div>
@@ -63,19 +66,23 @@ export function updateDashboard() {
                 <div class="action-icon-wrap">
                     <i data-lucide="search" class="action-icon-svg" aria-hidden="true"></i>
                 </div>
-                <span>Znajdź Nowy Trunek</span>
+                <span>Szukaj trunku</span>
             </button>
             <button class="action-btn secondary animate-fade-in" data-action="open-favorites" style="animation-delay:100ms">
                 <div class="action-icon-wrap">
                     <i data-lucide="folder-plus" class="action-icon-svg" aria-hidden="true"></i>
                 </div>
-                <span>Moja Cała Kolekcja</span>
+                <span>Ulubione</span>
             </button>
         </div>
     `;
 
     if (window.lucide) {
         window.lucide.createIcons();
+    }
+
+    if (state.currentTab === 'search' && !state.el.searchInput?.value?.trim()) {
+        renderSuggestions();
     }
 
     updateRecentlyRated();

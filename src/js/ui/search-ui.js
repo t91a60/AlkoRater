@@ -18,11 +18,15 @@ const SUGGESTIONS = [
 /* ─── Highlight ─── */
 
 function highlightText(text, query) {
-    if (!query || !query.trim()) return escapeHTML(text);
+    if (!query || !query.trim()) {
+        return escapeHTML(text);
+    }
     const words = query.trim().split(/\s+/).filter(Boolean)
-        .map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+        .map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
         .join('|');
-    if (!words) return escapeHTML(text);
+    if (!words) {
+        return escapeHTML(text);
+    }
     const escaped = escapeHTML(text);
     const regex = new RegExp(`(${words})`, 'gi');
     return escaped.replace(regex, '<mark class="search-highlight">$1</mark>');
@@ -37,21 +41,25 @@ function getRecentSearches() {
 }
 
 function saveRecentQuery(query) {
-    const recent = getRecentSearches().filter(s => s !== query);
+    const recent = getRecentSearches().filter((s) => s !== query);
     recent.unshift(query);
-    if (recent.length > MAX_RECENT) recent.pop();
+    if (recent.length > MAX_RECENT) {
+        recent.pop();
+    }
     localStorage.setItem(RECENT_KEY, JSON.stringify(recent));
 }
 
 export function removeRecentSearch(query) {
-    const recent = getRecentSearches().filter(s => s !== query);
+    const recent = getRecentSearches().filter((s) => s !== query);
     localStorage.setItem(RECENT_KEY, JSON.stringify(recent));
     renderSuggestions();
 }
 
 function renderRecentSearchesHTML() {
     const recent = getRecentSearches();
-    if (recent.length === 0) return '';
+    if (recent.length === 0) {
+        return '';
+    }
     return `
         <div class="recent-searches">
             <p class="recent-searches-label">Ostatnio szukane</p>
@@ -68,12 +76,74 @@ function renderRecentSearchesHTML() {
     `;
 }
 
+function renderSearchIntroHTML() {
+    const recentCount = getRecentSearches().length;
+
+    return `
+        <div class="search-intro-card animate-fade-in">
+            <div class="search-intro-top">
+                <div class="search-intro-copy">
+                    <p class="search-intro-kicker">Wyszukiwanie</p>
+                    <h2 class="search-intro-title">Szukaj po nazwie, stylu i mocy.</h2>
+                    <p class="search-intro-sub">Baza działa offline. Wyniki, ostatnie zapytania i sugestie są zawsze pod ręką.</p>
+                </div>
+                <div class="search-intro-orb" aria-hidden="true"></div>
+            </div>
+            <div class="search-intro-stats">
+                <div class="search-metric">
+                    <span class="search-metric-value">${escapeHTML(String(state.appData.length))}</span>
+                    <span class="search-metric-label">W bazie</span>
+                </div>
+                <div class="search-metric">
+                    <span class="search-metric-value">${escapeHTML(String(state.favorites.length))}</span>
+                    <span class="search-metric-label">Ulubione</span>
+                </div>
+                <div class="search-metric">
+                    <span class="search-metric-value">${escapeHTML(String(recentCount))}</span>
+                    <span class="search-metric-label">Ostatnie</span>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function renderResultsSummaryHTML(query, count) {
+    return `
+        <div class="results-summary-card animate-fade-in">
+            <div class="results-summary-copy">
+                <p class="results-summary-kicker">Wyniki</p>
+                <h3 class="results-summary-title">${escapeHTML(String(count))} ${count === 1 ? 'wynik' : 'wyników'} dla</h3>
+            </div>
+            <div class="results-summary-chip">${escapeHTML(query.trim())}</div>
+        </div>
+    `;
+}
+
+function renderNoResultsHTML(query) {
+    const safeQuery = query.trim();
+    return `
+        <div class="search-empty-card animate-fade-in">
+            <div class="search-empty-orb" aria-hidden="true">
+                <i data-lucide="search-x" aria-hidden="true"></i>
+            </div>
+            <h3 class="search-empty-title">Brak wyników</h3>
+            <p class="search-empty-copy">Nie znaleźliśmy nic dla „${escapeHTML(safeQuery)}”. Spróbuj krótszej nazwy, kategorii albo mocy.</p>
+            <div class="search-empty-actions">
+                ${SUGGESTIONS.slice(0, 3).map((item) => `
+                    <button class="search-empty-chip" data-query="${escapeHTML(item.query)}">${escapeHTML(item.label)}</button>
+                `).join('')}
+            </div>
+        </div>
+    `;
+}
+
 /* ─── Render suggestions ─── */
 
 export function renderSuggestions() {
     const container = state.el.searchResults;
     container.innerHTML = `
         <div class="search-suggestions">
+            ${renderSearchIntroHTML()}
             <p class="suggestions-label">Popularne kategorie</p>
             <div class="suggestions-grid">
                 ${SUGGESTIONS.map((s) => `
@@ -105,9 +175,6 @@ export function handleSearch(e) {
     saveRecentQuery(raw.trim());
     const results = search(raw);
 
-    const noResultsText = state.el.noResults.querySelector('p');
-    if (noResultsText) { noResultsText.textContent = 'Brak wyników.'; }
-
     renderResults(results, raw);
 }
 
@@ -118,7 +185,11 @@ export function renderResults(list, query) {
     container.innerHTML = '';
 
     if (list.length === 0) {
+        state.el.noResults.innerHTML = renderNoResultsHTML(query);
         state.el.noResults.style.display = 'block';
+        if (window.lucide) {
+            window.lucide.createIcons();
+        }
         return;
     }
     state.el.noResults.style.display = 'none';
@@ -141,6 +212,8 @@ export function renderResults(list, query) {
             </div>
         `;
     }).join('');
+
+    container.insertAdjacentHTML('afterbegin', renderResultsSummaryHTML(query, list.length));
 
     if (window.lucide) {
         window.lucide.createIcons();

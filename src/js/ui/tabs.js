@@ -15,7 +15,7 @@ export function switchTab(tabName) {
         btn.classList.toggle('active', btn.dataset.tab === tabName);
     });
 
-    const titles = { start: 'Start', search: 'Szukaj', favorites: 'Ulubione' };
+    const titles = { start: 'Przegląd', search: 'Szukaj', favorites: 'Ulubione' };
     state.el.headerTitle.textContent = titles[tabName];
 
     if (currentEl && currentEl !== nextEl) {

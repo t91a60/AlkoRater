@@ -43,6 +43,26 @@ const initEl = () => {
 };
 
 const setupListeners = () => {
+    const handleSearchAreaClick = (e) => {
+        const removeBtn = e.target.closest('.recent-chip-remove');
+        if (removeBtn) {
+            e.stopPropagation();
+            removeRecentSearch(removeBtn.dataset.query);
+            return;
+        }
+        const chip = e.target.closest('.recent-chip, .suggestion-chip, .search-empty-chip');
+        if (chip) {
+            const query = chip.dataset.query;
+            state.el.searchInput.value = query;
+            handleSearch({ target: { value: query } });
+            return;
+        }
+        const card = e.target.closest('.search-card');
+        if (!card) {return;}
+        const item = state.appData.find((i) => i.name === card.dataset.itemName);
+        if (item) {openRateModal(item);}
+    };
+
     document.addEventListener('alkorater:storage-error', (e) => {
         showToast(e.detail?.message || 'Błąd zapisu');
     });
@@ -66,25 +86,8 @@ const setupListeners = () => {
         if (fav) {openRateModal(fav.item);}
     });
 
-    state.el.searchResults.addEventListener('click', (e) => {
-        const removeBtn = e.target.closest('.recent-chip-remove');
-        if (removeBtn) {
-            e.stopPropagation();
-            removeRecentSearch(removeBtn.dataset.query);
-            return;
-        }
-        const chip = e.target.closest('.recent-chip, .suggestion-chip');
-        if (chip) {
-            const query = chip.dataset.query;
-            state.el.searchInput.value = query;
-            handleSearch({ target: { value: query } });
-            return;
-        }
-        const card = e.target.closest('.search-card');
-        if (!card) {return;}
-        const item = state.appData.find((i) => i.name === card.dataset.itemName);
-        if (item) {openRateModal(item);}
-    });
+    state.el.searchResults.addEventListener('click', handleSearchAreaClick);
+    state.el.noResults.addEventListener('click', handleSearchAreaClick);
 
     state.el.favoritesList.addEventListener('click', (e) => {
         const deleteBtn = e.target.closest('.delete-btn');

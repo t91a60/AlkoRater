@@ -6,19 +6,19 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#000000">
+    <meta name="theme-color" content="#071019">
     <meta name="description" content="AlkoRater — Progressive Web App do oceniania alkoholi. Offline-first, mobile-first. Śledź i oceniaj piwo, wódkę i wino bez internetu.">
     <meta name="robots" content="index, follow">
     <meta name="application-name" content="AlkoRater">
     <meta name="google" content="notranslate">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self';">
-    <title>AlkoRater — Offline-first PWA do oceniania alkoholi</title>
+    <title>AlkoRater — iOS-owe PWA do oceniania alkoholi</title>
 
     <!-- Canonical -->
     <link rel="canonical" href="https://t91a60.github.io/AlkoRater/">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="AlkoRater — Offline-first PWA do oceniania alkoholi">
+    <meta property="og:title" content="AlkoRater — iOS-owe PWA do oceniania alkoholi">
     <meta property="og:description" content="Progressive Web App do oceniania alkoholi. Offline-first, mobile-first. Śledź i oceniaj piwo, wódkę i wino bez internetu.">
     <meta property="og:url" content="https://t91a60.github.io/AlkoRater/">
     <meta property="og:type" content="website">
@@ -28,7 +28,7 @@
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="AlkoRater — Offline-first PWA do oceniania alkoholi">
+    <meta name="twitter:title" content="AlkoRater — iOS-owe PWA do oceniania alkoholi">
     <meta name="twitter:description" content="Progressive Web App do oceniania alkoholi. Offline-first, mobile-first. Śledź i oceniaj piwo, wódkę i wino bez internetu.">
     <meta name="twitter:image" content="https://t91a60.github.io/AlkoRater/logo.png">
 
@@ -90,7 +90,7 @@
             <div class="header-main">
                 <div class="nav-logo">
                     <img src="logo.png" alt="AlkoRater" class="app-logo" width="32" height="32">
-                    <h1 id="headerTitle">Start</h1>
+                    <h1 id="headerTitle">Przegląd</h1>
                 </div>
             </div>
         </header>
@@ -128,7 +128,7 @@
                             <circle cx="11" cy="11" r="8"></circle>
                             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                         </svg>
-                        <input type="text" id="search-input" placeholder="Szukaj (np. wódka)..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Szukaj alkoholu">
+                        <input type="text" id="search-input" placeholder="Szukaj trunku, marki albo kategorii..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Szukaj alkoholu">
                         <button id="clearSearch" class="clear-btn" aria-label="Wyczyść wyszukiwanie"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
                         <button id="searchCancel" class="search-cancel-btn">Anuluj</button>
                     </div>
@@ -137,7 +137,7 @@
                 <div id="searchSkeletons" class="skeletons-container" style="display:none"></div>
                 <div id="searchResults" class="results-list" aria-live="polite"></div>
 
-                <div id="noResults" class="empty-state-animated" style="display: none;">
+                <div id="noResults" class="empty-state-animated" role="status" aria-live="polite" aria-atomic="true" style="display: none;">
                     <div class="floating-ghost" aria-hidden="true">
                         <svg class="ghost-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z"></path>

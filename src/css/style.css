@@ -1,51 +1,51 @@
 :root {
-  --bg: #000;
-  --bg-secondary: #0a0a0a;
-  --surface-1: #1c1c1e;
-  --surface-2: #2c2c2e;
-  --surface-3: #3a3a3c;
-  --fg: #fff;
-  --fg-secondary: rgb(235 235 245 / 60%);
-  --fg-tertiary: rgb(235 235 245 / 30%);
-  --accent: #d4a017;
-  --accent-blue: #007aff;
-  --accent-green: #30d158;
-  --accent-red: #ff3b30;
-  --accent-orange: #ff9f0a;
-  --amber: #d4a017;
-  --amber-dim: rgb(212 160 23 / 18%);
-  --ice: #6bc5f7;
-  --ice-dim: rgb(107 197 247 / 18%);
-  --burgundy: #b84a62;
-  --burgundy-dim: rgb(184 74 98 / 18%);
-  --gold: #ffd60a;
-  --gold-glow: rgb(255 214 10 / 35%);
-  --separator: rgb(84 84 88 / 65%);
-  --separator-thick: rgb(84 84 88 / 80%);
-  --glass-bg: rgb(28 28 30 / 72%);
+  --bg: #071019;
+  --bg-secondary: #0c1724;
+  --surface-1: #101b2a;
+  --surface-2: #172535;
+  --surface-3: #233548;
+  --fg: #f4f8fc;
+  --fg-secondary: rgb(236 242 248 / 72%);
+  --fg-tertiary: rgb(236 242 248 / 44%);
+  --accent: #f1b24f;
+  --accent-blue: #74c8ff;
+  --accent-green: #4ade80;
+  --accent-red: #ff6b6b;
+  --accent-orange: #ffb15a;
+  --amber: #f1b24f;
+  --amber-dim: rgb(241 178 79 / 18%);
+  --ice: #74c8ff;
+  --ice-dim: rgb(116 200 255 / 18%);
+  --burgundy: #cf6679;
+  --burgundy-dim: rgb(207 102 121 / 18%);
+  --gold: #ffd371;
+  --gold-glow: rgb(255 211 113 / 30%);
+  --separator: rgb(173 186 205 / 16%);
+  --separator-thick: rgb(173 186 205 / 24%);
+  --glass-bg: rgb(14 22 33 / 76%);
   --glass-border: rgb(255 255 255 / 8%);
-  --glass-edge: rgb(255 255 255 / 4%);
-  --glass-heavy: rgb(10 10 10 / 88%);
-  --glass-blur: blur(48px) saturate(180%) contrast(110%);
-  --card: #1c1c1e;
-  --card-border: rgb(255 255 255 / 6%);
-  --card-highlight: rgb(255 255 255 / 3%);
-  --card-shadow: 0 8px 32px rgb(0 0 0 / 44%), 0 0 0 0.5px rgb(255 255 255 / 4%);
-  --input-bg: rgb(118 118 128 / 12%);
-  --chip-bg: rgb(118 118 128 / 24%);
+  --glass-edge: rgb(255 255 255 / 5%);
+  --glass-heavy: rgb(8 12 18 / 90%);
+  --glass-blur: blur(34px) saturate(165%) contrast(110%);
+  --card: rgb(16 25 37 / 90%);
+  --card-border: rgb(255 255 255 / 7%);
+  --card-highlight: rgb(255 255 255 / 4%);
+  --card-shadow: 0 18px 50px rgb(2 6 12 / 34%), 0 0 0 1px rgb(255 255 255 / 3%);
+  --input-bg: rgb(118 130 150 / 12%);
+  --chip-bg: rgb(118 130 150 / 16%);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-snappy: cubic-bezier(0.2, 0.9, 0.3, 1.2);
   --nav-h: 50px;
   --header-h: 52px;
-  --radius-sm: 10px;
-  --radius-md: 13px;
-  --radius-lg: 16px;
-  --radius-xl: 26px;
-  --radius-xxl: 44px;
-  --thumb-radius: 12px;
-  --font-stack: -apple-system, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif;
-  --font-display: -apple-system, 'SF Pro Display', 'Helvetica Neue', system-ui, sans-serif;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-xxl: 36px;
+  --thumb-radius: 14px;
+  --font-stack: -apple-system, blinkmacsystemfont, 'SF Pro Text', 'SF Pro Display', system-ui, sans-serif;
+  --font-display: -apple-system, blinkmacsystemfont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
   --vh: 1vh;
 
   font-family: var(--font-stack);
@@ -78,7 +78,11 @@ html, body {
 }
 
 body {
-  background: var(--bg);
+  background:
+    radial-gradient(1200px 700px at 10% 0%, rgb(116 200 255 / 14%), transparent 55%),
+    radial-gradient(900px 600px at 90% 5%, rgb(241 178 79 / 12%), transparent 50%),
+    radial-gradient(900px 700px at 72% 90%, rgb(207 102 121 / 10%), transparent 55%),
+    linear-gradient(180deg, #071019 0%, #0a1320 55%, #071019 100%);
   color: var(--fg);
   overscroll-behavior: none;
   -webkit-overflow-scrolling: auto;
@@ -105,7 +109,7 @@ body::after {
   inset: 0;
   pointer-events: none;
   z-index: 99999;
-  opacity: 0.028;
+  opacity: 0.038;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 256px 256px;
@@ -159,11 +163,11 @@ body::before {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(900px 500px at 15% -8%, rgb(212 160 23 / 5%), transparent 55%),
-    radial-gradient(700px 400px at 88% 12%, rgb(212 160 23 / 3%), transparent 50%),
-    radial-gradient(600px 600px at 72% 80%, rgb(184 74 98 / 4%), transparent 50%),
-    radial-gradient(500px 400px at 50% 100%, rgb(212 160 23 / 2%), transparent 60%),
-    linear-gradient(180deg, rgb(0 0 0 / 25%), rgb(0 0 0 / 0%));
+    radial-gradient(900px 560px at 14% -8%, rgb(116 200 255 / 10%), transparent 58%),
+    radial-gradient(720px 420px at 88% 12%, rgb(241 178 79 / 8%), transparent 52%),
+    radial-gradient(620px 620px at 72% 82%, rgb(207 102 121 / 8%), transparent 54%),
+    radial-gradient(540px 420px at 50% 100%, rgb(116 200 255 / 5%), transparent 60%),
+    linear-gradient(180deg, rgb(0 0 0 / 18%), rgb(0 0 0 / 0%));
 }
 
 /* ─── Header ─── */
@@ -172,9 +176,10 @@ body::before {
   top: 0;
   z-index: 120;
   padding-top: env(safe-area-inset-top, 0);
-  background: rgb(10 10 10 / 78%);
-  backdrop-filter: blur(52px) saturate(180%);
-  border-bottom: 0.5px solid rgb(84 84 88 / 50%);
+  background: rgb(9 16 24 / 74%);
+  backdrop-filter: blur(42px) saturate(165%);
+  border-bottom: 0.5px solid rgb(173 186 205 / 16%);
+  box-shadow: 0 8px 28px rgb(0 0 0 / 18%);
 }
 
 .header-main {
@@ -201,8 +206,8 @@ body::before {
 
 .app-header h1 {
   font-size: 20px;
-  font-weight: 700;
-  letter-spacing: -0.4px;
+  font-weight: 720;
+  letter-spacing: -0.5px;
   margin: 0;
   font-family: var(--font-display);
 }
@@ -216,10 +221,11 @@ body::before {
   align-items: flex-start;
   padding-top: 6px;
   flex-shrink: 0;
-  border-top: 0.5px solid rgb(84 84 88 / 50%);
-  background: rgb(10 10 10 / 78%);
-  backdrop-filter: blur(48px) saturate(180%) contrast(110%);
+  border-top: 0.5px solid rgb(173 186 205 / 16%);
+  background: rgb(9 16 24 / 78%);
+  backdrop-filter: blur(42px) saturate(165%) contrast(108%);
   transition: transform 0.38s var(--ease-out), opacity 0.38s var(--ease-out);
+  box-shadow: 0 -10px 24px rgb(0 0 0 / 16%);
 }
 
 .bottom-nav.tab-bar-hidden {
@@ -244,7 +250,7 @@ body.keyboard-open .bottom-nav {
   min-width: 64px;
   min-height: 44px;
   padding: 0 8px;
-  color: rgb(235 235 245 / 30%);
+  color: rgb(236 242 248 / 38%);
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.1px;
@@ -271,9 +277,9 @@ body.keyboard-open .bottom-nav {
   transform: translateX(-50%);
   width: 20px;
   height: 2px;
-  border-radius: 1px;
+  border-radius: 999px;
   background: var(--accent);
-  opacity: 0.6;
+  opacity: 0.72;
 }
 
 .nav-item.active .nav-icon svg {
@@ -309,7 +315,7 @@ body.keyboard-open .bottom-nav {
 /* ─── Tabs (iOS crossfade) ─── */
 .tab-view {
   display: none;
-  padding: 0 16px;
+  padding: 0 18px;
   width: 100%;
   opacity: 0;
   transition: opacity 0.25s var(--ease-out);
@@ -351,7 +357,7 @@ body.keyboard-open .bottom-nav {
 }
 
 .large-title-spacer {
-  height: max(14px, env(safe-area-inset-top, 0px));
+  height: max(12px, env(safe-area-inset-top, 0px));
   flex-shrink: 0;
 }
 
@@ -375,15 +381,18 @@ body.keyboard-open .bottom-nav {
 /* ─── Premium Hero Card (Dashboard) — iOS Premium ─── */
 .premium-hero {
   position: relative;
-  background: linear-gradient(160deg, rgb(28 28 30 / 72%), rgb(44 44 46 / 66%));
+  background:
+    linear-gradient(155deg, rgb(16 25 37 / 94%), rgb(12 20 31 / 92%)),
+    radial-gradient(120% 90% at 0% 0%, rgb(116 200 255 / 10%), transparent 46%),
+    radial-gradient(120% 90% at 100% 0%, rgb(241 178 79 / 8%), transparent 42%);
   border-radius: var(--radius-xxl);
-  padding: clamp(10px, 2.5vh, 24px) clamp(16px, 3vw, 20px) clamp(12px, 2vh, 20px);
-  border: 0.5px solid rgb(255 255 255 / 8%);
-  backdrop-filter: blur(48px) saturate(170%) contrast(110%);
+  padding: clamp(14px, 2.8vh, 24px);
+  border: 1px solid rgb(255 255 255 / 8%);
+  backdrop-filter: blur(42px) saturate(160%) contrast(108%);
   box-shadow:
-    0 12px 48px rgb(0 0 0 / 40%),
+    0 20px 60px rgb(0 0 0 / 34%),
     0 0 0 0.5px rgb(255 255 255 / 4%),
-    inset 0 1px 0 rgb(255 255 255 / 6%);
+    inset 0 1px 0 rgb(255 255 255 / 7%);
   overflow: hidden;
   transition: transform 0.3s var(--ease-spring), box-shadow 0.25s var(--ease-out);
 }
@@ -398,24 +407,48 @@ body.keyboard-open .bottom-nav {
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
-  filter: blur(60px);
-  opacity: 0.5;
+  filter: blur(46px);
+  opacity: 0.65;
 }
 
 .bokeh-spot--1 {
-  top: -30px;
-  right: -20px;
-  width: 160px;
-  height: 160px;
-  background: radial-gradient(circle, rgb(212 160 23 / 15%), transparent 70%);
+  top: -28px;
+  right: -16px;
+  width: 170px;
+  height: 170px;
+  background: radial-gradient(circle, rgb(241 178 79 / 16%), transparent 70%);
 }
 
 .bokeh-spot--2 {
-  bottom: -40px;
-  left: -30px;
-  width: 140px;
-  height: 140px;
-  background: radial-gradient(circle, rgb(184 74 98 / 10%), transparent 70%);
+  bottom: -34px;
+  left: -28px;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgb(116 200 255 / 10%), transparent 70%);
+}
+
+.hero-halo {
+  position: absolute;
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0.95;
+  filter: blur(10px);
+}
+
+.hero-halo--amber {
+  top: 14px;
+  right: 14px;
+  width: 76px;
+  height: 76px;
+  background: radial-gradient(circle, rgb(241 178 79 / 24%), transparent 68%);
+}
+
+.hero-halo--blue {
+  left: 16px;
+  bottom: 18px;
+  width: 88px;
+  height: 88px;
+  background: radial-gradient(circle, rgb(116 200 255 / 18%), transparent 70%);
 }
 
 /* Greeting header */
@@ -423,7 +456,7 @@ body.keyboard-open .bottom-nav {
   display: flex;
   align-items: center;
   gap: clamp(10px, 2vh, 14px);
-  margin-bottom: clamp(6px, 1.5vh, 18px);
+  margin-bottom: clamp(12px, 2vh, 18px);
   position: relative;
   z-index: 1;
 }
@@ -431,16 +464,18 @@ body.keyboard-open .bottom-nav {
 .profile-icon {
   width: clamp(40px, 6vh, 52px);
   height: clamp(40px, 6vh, 52px);
-  border-radius: 50%;
-  background: linear-gradient(145deg, #1c1c1e, #0a0a0a);
-  border: 1.5px solid rgb(48 209 88 / 30%);
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, rgb(21 33 48 / 94%), rgb(12 20 31 / 96%)),
+    radial-gradient(circle at 20% 20%, rgb(116 200 255 / 12%), transparent 55%);
+  border: 1px solid rgb(116 200 255 / 18%);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   box-shadow:
-    0 0 0 3px rgb(48 209 88 / 8%),
-    0 0 16px rgb(48 209 88 / 15%),
+    0 0 0 3px rgb(116 200 255 / 7%),
+    0 0 18px rgb(116 200 255 / 12%),
     inset 0 1px 0 rgb(255 255 255 / 8%);
   transition: box-shadow 0.3s var(--ease-out);
 }
@@ -455,28 +490,29 @@ body.keyboard-open .bottom-nav {
 .profile-icon svg {
   width: 26px;
   height: 26px;
-  color: var(--accent-green);
+  color: var(--ice);
   stroke-width: 1.8;
-  filter: drop-shadow(0 0 6px rgb(48 209 88 / 35%));
+  filter: drop-shadow(0 0 6px rgb(116 200 255 / 28%));
 }
 
 .greeting-title {
-  font-size: clamp(20px, 3.5vh, 26px);
-  font-weight: 700;
+  font-size: clamp(22px, 3.8vh, 30px);
+  font-weight: 760;
   margin: 0;
-  letter-spacing: -0.5px;
-  background: linear-gradient(135deg, var(--fg), rgb(255 255 255 / 72%));
+  letter-spacing: -0.7px;
+  background: linear-gradient(135deg, var(--fg), rgb(255 255 255 / 74%));
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-family: var(--font-display);
 }
 
 .greeting-sub {
-  font-size: clamp(11px, 1.8vh, 13px);
-  margin: 1px 0 0;
-  opacity: 0.44;
-  font-weight: 400;
-  letter-spacing: -0.1px;
+  font-size: clamp(12px, 1.9vh, 14px);
+  margin: 2px 0 0;
+  opacity: 0.72;
+  font-weight: 420;
+  letter-spacing: -0.12px;
+  max-width: 42ch;
 }
 
 /* Hero stats row */
@@ -484,10 +520,10 @@ body.keyboard-open .bottom-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgb(255 255 255 / 3.5%);
-  border-radius: 16px;
-  padding: clamp(10px, 2vh, 14px) clamp(8px, 1.5vw, 10px);
-  border: 0.5px solid rgb(255 255 255 / 4%);
+  background: rgb(255 255 255 / 4%);
+  border-radius: 18px;
+  padding: clamp(10px, 2vh, 14px) clamp(10px, 2vw, 14px);
+  border: 1px solid rgb(255 255 255 / 5%);
   position: relative;
   z-index: 1;
 }
@@ -498,7 +534,7 @@ body.keyboard-open .bottom-nav {
   align-items: center;
   flex: 1;
   min-width: 0;
-  gap: clamp(1px, 0.3vh, 2px);
+  gap: clamp(2px, 0.35vh, 3px);
 }
 
 .stat-icon,
@@ -528,11 +564,11 @@ body.keyboard-open .bottom-nav {
 }
 
 .hero-stat-label {
-  font-size: 8.5px;
+  font-size: 9px;
   font-weight: 650;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
-  opacity: 0.42;
+  letter-spacing: 1px;
+  opacity: 0.54;
 }
 
 .hero-divider {
@@ -551,35 +587,35 @@ body.keyboard-open .bottom-nav {
 
 /* ─── Badges Section ─── */
 .badges-section {
-  margin-top: clamp(4px, 1.5vh, 20px);
+  margin-top: clamp(10px, 1.8vh, 20px);
   position: relative;
   z-index: 1;
 }
 
 .badges-section-title {
-  font-size: clamp(12px, 2vh, 16px);
-  font-weight: 600;
-  margin: 0 0 clamp(4px, 1vh, 10px);
+  font-size: clamp(13px, 2vh, 16px);
+  font-weight: 650;
+  margin: 0 0 clamp(8px, 1vh, 10px);
   color: var(--fg);
-  letter-spacing: -0.2px;
+  letter-spacing: -0.3px;
   font-family: var(--font-display);
 }
 
 .badges-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(4px, 0.8vh, 8px);
+  gap: clamp(8px, 0.8vh, 10px);
 }
 
 .badge-card {
   display: flex;
   align-items: center;
   gap: clamp(6px, 1vh, 10px);
-  padding: clamp(6px, 1.2vh, 10px) clamp(6px, 1.2vh, 10px) clamp(6px, 1.2vh, 10px) clamp(8px, 1.5vh, 12px);
-  border-radius: 16px;
-  background: rgb(255 255 255 / 3%);
-  border: 0.5px solid rgb(255 255 255 / 5%);
-  backdrop-filter: blur(12px);
+  padding: clamp(8px, 1.2vh, 12px) clamp(8px, 1.2vh, 12px) clamp(8px, 1.2vh, 12px) clamp(10px, 1.5vh, 14px);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgb(255 255 255 / 5%), rgb(255 255 255 / 2%));
+  border: 1px solid rgb(255 255 255 / 6%);
+  backdrop-filter: blur(14px);
   transition: transform 0.15s var(--ease-spring), background 0.15s var(--ease-out);
 }
 
@@ -620,9 +656,9 @@ body.keyboard-open .bottom-nav {
 
 .badge-name {
   font-size: clamp(10px, 1.6vh, 12px);
-  font-weight: 600;
-  letter-spacing: -0.1px;
-  margin-bottom: clamp(2px, 0.4vh, 4px);
+  font-weight: 650;
+  letter-spacing: -0.12px;
+  margin-bottom: clamp(3px, 0.4vh, 5px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -630,7 +666,7 @@ body.keyboard-open .bottom-nav {
 
 .badge-progress-track {
   height: clamp(3px, 0.6vh, 4px);
-  border-radius: 2px;
+  border-radius: 999px;
   background: rgb(255 255 255 / 8%);
   overflow: hidden;
   margin-bottom: 3px;
@@ -638,8 +674,8 @@ body.keyboard-open .bottom-nav {
 
 .badge-progress-fill {
   height: 100%;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--accent), rgb(212 160 23 / 60%));
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), rgb(241 178 79 / 58%));
   transition: width 0.6s var(--ease-out);
 }
 
@@ -670,8 +706,8 @@ body.keyboard-open .bottom-nav {
 .quick-actions-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(6px, 1vh, 10px);
-  margin-top: clamp(6px, 1vh, 12px);
+  gap: clamp(10px, 1vh, 12px);
+  margin-top: clamp(10px, 1vh, 14px);
 }
 
 .action-btn {
@@ -679,30 +715,31 @@ body.keyboard-open .bottom-nav {
   align-items: center;
   justify-content: flex-start;
   gap: clamp(8px, 1.5vh, 12px);
-  padding: clamp(12px, 1.8vh, 17px) clamp(12px, 2.5vw, 16px);
-  border-radius: 14px;
-  border: 0.5px solid var(--card-border);
+  padding: clamp(12px, 1.8vh, 18px) clamp(13px, 2.5vw, 16px);
+  border-radius: 18px;
+  border: 1px solid var(--card-border);
   font-size: clamp(13px, 2vh, 15px);
-  font-weight: 600;
-  letter-spacing: -0.15px;
-  background: var(--card);
-  backdrop-filter: blur(8px);
+  font-weight: 650;
+  letter-spacing: -0.18px;
+  background: linear-gradient(180deg, rgb(255 255 255 / 4%), rgb(255 255 255 / 2%));
+  backdrop-filter: blur(12px);
   color: var(--accent);
   cursor: pointer;
-  min-height: clamp(48px, 7vh, 62px);
+  min-height: clamp(52px, 7vh, 64px);
   box-shadow:
-    0 4px 20px rgb(0 0 0 / 28%),
+    0 10px 28px rgb(0 0 0 / 24%),
     inset 0 0.5px 0 rgb(255 255 255 / 4%);
   transition:
     transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
     background 0.15s var(--ease-out),
     box-shadow 0.15s var(--ease-out);
+  will-change: transform, opacity;
 }
 
 .action-btn:active {
   transform: scale(0.97);
-  background: rgb(212 160 23 / 10%);
-  box-shadow: 0 2px 10px rgb(0 0 0 / 20%);
+  background: rgb(241 178 79 / 10%);
+  box-shadow: 0 3px 12px rgb(0 0 0 / 18%);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -729,8 +766,8 @@ body.keyboard-open .bottom-nav {
 .action-icon-wrap {
   width: clamp(28px, 4.5vh, 34px);
   height: clamp(28px, 4.5vh, 34px);
-  border-radius: 9px;
-  background: rgb(212 160 23 / 14%);
+  border-radius: 12px;
+  background: rgb(241 178 79 / 14%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -738,7 +775,7 @@ body.keyboard-open .bottom-nav {
 }
 
 .action-btn.secondary .action-icon-wrap {
-  background: rgb(255 255 255 / 5%);
+  background: rgb(255 255 255 / 6%);
 }
 
 .action-icon-wrap svg,
@@ -757,10 +794,10 @@ body.keyboard-open .bottom-nav {
 /* ─── Section Header ─── */
 .section-container {
   flex-shrink: 0;
-  margin-bottom: clamp(4px, 2vh, 24px);
-  margin-top: clamp(4px, 2.5vh, 30px);
-  padding-top: clamp(4px, 2vh, 24px);
-  border-top: 0.5px solid rgb(84 84 88 / 50%);
+  margin-bottom: clamp(8px, 2vh, 24px);
+  margin-top: clamp(10px, 2.5vh, 30px);
+  padding-top: clamp(12px, 2vh, 24px);
+  border-top: 0.5px solid rgb(173 186 205 / 16%);
 }
 
 .section-header-flex {
@@ -773,7 +810,7 @@ body.keyboard-open .bottom-nav {
 
 .section-title {
   font-size: clamp(13px, 2vh, 16px);
-  font-weight: 600;
+  font-weight: 650;
   margin: 0;
   color: var(--fg);
   letter-spacing: -0.2px;
@@ -788,11 +825,11 @@ body.keyboard-open .bottom-nav {
   background: transparent;
   border: none;
   color: var(--accent);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   padding: 4px 8px;
   cursor: pointer;
-  opacity: 0.7;
+  opacity: 0.84;
   transition: opacity 0.2s var(--ease-out);
 }
 
@@ -804,7 +841,7 @@ body.keyboard-open .bottom-nav {
   gap: clamp(6px, 1vh, 10px);
   overflow-x: auto;
   overscroll-behavior-x: contain;
-  padding: 4px 0 clamp(8px, 1.5vh, 14px);
+  padding: 6px 0 clamp(10px, 1.5vh, 14px);
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
 }
@@ -813,12 +850,12 @@ body.keyboard-open .bottom-nav {
 
 .recent-card {
   flex: 0 0 clamp(110px, 20vw, 170px);
-  background: var(--card);
-  border-radius: 20px;
-  padding: clamp(6px, 1.5vh, 18px) clamp(10px, 1.5vw, 14px) clamp(6px, 1.2vh, 14px);
+  background: linear-gradient(180deg, rgb(255 255 255 / 4%), rgb(255 255 255 / 2%));
+  border-radius: 22px;
+  padding: clamp(8px, 1.5vh, 18px) clamp(10px, 1.5vw, 14px) clamp(8px, 1.2vh, 14px);
   scroll-snap-align: start;
   box-shadow:
-    0 8px 28px rgb(0 0 0 / 35%),
+    0 14px 34px rgb(0 0 0 / 26%),
     0 0 0 0.5px rgb(255 255 255 / 4%);
   display: flex;
   flex-direction: column;
@@ -828,13 +865,14 @@ body.keyboard-open .bottom-nav {
   position: relative;
   overflow: hidden;
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s var(--ease-out);
+  will-change: transform, opacity;
 }
 
 .recent-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgb(255 255 255 / 3%), transparent 55%);
+  background: linear-gradient(180deg, rgb(255 255 255 / 5%), transparent 55%);
   pointer-events: none;
   border-radius: inherit;
 }
@@ -853,13 +891,20 @@ body.keyboard-open .bottom-nav {
 
 .recent-card:active {
   transform: scale(0.95);
-  box-shadow: 0 3px 12px rgb(0 0 0 / 28%);
+  box-shadow: 0 4px 14px rgb(0 0 0 / 22%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .recent-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 38px rgb(0 0 0 / 28%), 0 0 0 0.5px rgb(255 255 255 / 5%);
+  }
 }
 
 /* Recent card product thumb */
 .recent-card .product-thumb {
   margin-bottom: clamp(8px, 1.5vh, 12px);
-  border-radius: 16px;
+  border-radius: 18px;
   box-shadow: 0 4px 14px rgb(0 0 0 / 25%);
   width: clamp(44px, 8vh, 80px) !important;
   height: clamp(44px, 8vh, 80px) !important;
@@ -923,14 +968,14 @@ body.keyboard-open .bottom-nav {
   flex-shrink: 0;
   text-align: center;
   font-size: clamp(9px, 1.5vh, 11.5px);
-  color: rgb(235 235 245 / 50%);
+  color: rgb(236 242 248 / 70%);
   padding: clamp(4px, 1vh, 8px) clamp(10px, 2vw, 14px);
-  border-radius: 10px;
-  margin-top: clamp(4px, 1vh, 16px);
+  border-radius: 14px;
+  margin-top: clamp(8px, 1vh, 16px);
   margin-bottom: clamp(8px, 1.5vh, 20px);
-  background: rgb(28 28 30 / 60%);
-  border: 0.5px solid rgb(255 255 255 / 5%);
-  backdrop-filter: blur(24px);
+  background: rgb(255 255 255 / 4%);
+  border: 1px solid rgb(255 255 255 / 5%);
+  backdrop-filter: blur(18px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -941,12 +986,12 @@ body.keyboard-open .bottom-nav {
 .filters-container {
   display: flex;
   gap: 0;
-  background: rgb(118 118 128 / 12%);
+  background: rgb(118 130 150 / 12%);
   padding: 2px;
-  border-radius: 10px;
+  border-radius: 16px;
   margin: 12px 0 16px;
-  border: 0.5px solid rgb(255 255 255 / 5%);
-  backdrop-filter: blur(8px);
+  border: 1px solid rgb(255 255 255 / 5%);
+  backdrop-filter: blur(12px);
   position: relative;
   overflow: hidden;
 }
@@ -956,10 +1001,10 @@ body.keyboard-open .bottom-nav {
   min-width: 0;
   border: none;
   background: transparent;
-  color: rgb(235 235 245 / 42%);
+  color: rgb(236 242 248 / 46%);
   padding: 7px 0;
   min-height: 44px;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -973,7 +1018,7 @@ body.keyboard-open .bottom-nav {
 }
 
 .filter-chip.active {
-  background: rgb(255 255 255 / 12%);
+  background: rgb(255 255 255 / 14%);
   color: var(--fg);
   font-weight: 600;
   box-shadow: 0 1px 4px rgb(0 0 0 / 25%);
@@ -1034,9 +1079,9 @@ body.keyboard-open .bottom-nav {
   display: flex;
   align-items: stretch;
   background: var(--card);
-  border-radius: 14px;
+  border-radius: 18px;
   box-shadow:
-    0 6px 24px rgb(0 0 0 / 32%),
+    0 12px 30px rgb(0 0 0 / 24%),
     0 0 0 0.5px rgb(255 255 255 / 4%);
   border: 0.5px solid var(--card-border);
   position: relative;
@@ -1044,20 +1089,28 @@ body.keyboard-open .bottom-nav {
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s var(--ease-out);
   margin-bottom: 8px;
   cursor: pointer;
+  will-change: transform, opacity;
 }
 
 .search-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgb(255 255 255 / 3%), transparent 55%);
+  background: linear-gradient(180deg, rgb(255 255 255 / 5%), transparent 55%);
   pointer-events: none;
   border-radius: inherit;
 }
 
 .search-card:active {
   transform: scale(0.985);
-  box-shadow: 0 2px 10px rgb(0 0 0 / 22%);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 20%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .search-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 36px rgb(0 0 0 / 26%), 0 0 0 0.5px rgb(255 255 255 / 5%);
+  }
 }
 
 .search-card-main {
@@ -1065,12 +1118,12 @@ body.keyboard-open .bottom-nav {
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px;
+  gap: 12px;
+  padding: 10px;
 }
 
 .search-card-rating {
-  color: #ffd60a;
+  color: var(--gold);
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -1079,19 +1132,19 @@ body.keyboard-open .bottom-nav {
   flex-shrink: 0;
   font-size: 14px;
   letter-spacing: -0.1px;
-  filter: drop-shadow(0 0 6px rgb(255 214 10 / 30%));
+  filter: drop-shadow(0 0 6px var(--gold-glow));
 }
 
 .search-card-rating .inline-star-icon svg {
   width: 14px;
   height: 14px;
-  fill: #ffd60a;
+  fill: var(--gold);
   stroke-width: 1.8;
   vertical-align: -2px;
 }
 
 .search-highlight {
-  background: rgb(212 160 23 / 20%);
+  background: rgb(241 178 79 / 20%);
   border-radius: 3px;
   padding: 0 2px;
   color: var(--fg);
@@ -1101,9 +1154,9 @@ body.keyboard-open .bottom-nav {
   display: flex;
   align-items: stretch;
   background: var(--card);
-  border-radius: 14px;
+  border-radius: 18px;
   box-shadow:
-    0 6px 24px rgb(0 0 0 / 32%),
+    0 12px 30px rgb(0 0 0 / 24%),
     0 0 0 0.5px rgb(255 255 255 / 4%);
   border: 0.5px solid var(--card-border);
   position: relative;
@@ -1111,20 +1164,28 @@ body.keyboard-open .bottom-nav {
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s var(--ease-out);
   padding: 0;
   margin-bottom: 8px;
+  will-change: transform, opacity;
 }
 
 .favorite-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgb(255 255 255 / 3%), transparent 55%);
+  background: linear-gradient(180deg, rgb(255 255 255 / 5%), transparent 55%);
   pointer-events: none;
   border-radius: inherit;
 }
 
 .favorite-card:active {
   transform: scale(0.985);
-  box-shadow: 0 2px 10px rgb(0 0 0 / 22%);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 20%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .favorite-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 36px rgb(0 0 0 / 26%), 0 0 0 0.5px rgb(255 255 255 / 5%);
+  }
 }
 
 .fav-main {
@@ -1132,14 +1193,14 @@ body.keyboard-open .bottom-nav {
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px;
+  gap: 12px;
+  padding: 10px;
   transition: transform 0.35s var(--ease-out);
   will-change: transform;
 }
 
 .fav-main.swiped {
-  transform: translateX(-62px);
+  transform: translateX(-64px);
 }
 
 .item-info {
@@ -1172,11 +1233,11 @@ body.keyboard-open .bottom-nav {
 
 .alcohol-badge {
   font-size: 9px;
-  font-weight: 600;
-  color: rgb(235 235 245 / 50%);
-  background: rgb(118 118 128 / 16%);
+  font-weight: 650;
+  color: rgb(236 242 248 / 58%);
+  background: rgb(118 130 150 / 16%);
   padding: 1px 6px;
-  border-radius: 4px;
+  border-radius: 999px;
   letter-spacing: -0.05px;
   white-space: nowrap;
 }
@@ -1196,7 +1257,7 @@ body.keyboard-open .bottom-nav {
   font-size: 9px;
   font-weight: 600;
   padding: 1px 5px;
-  border-radius: 3px;
+  border-radius: 999px;
   color: var(--type-color);
   background: var(--type-bg);
   letter-spacing: 0.15px;
@@ -1205,27 +1266,27 @@ body.keyboard-open .bottom-nav {
 
 /* Stars in list items — bigger & brighter */
 .item-stars {
-  color: #ffd60a;
+  color: var(--gold);
   font-weight: 700;
   display: flex;
   align-items: center;
   gap: 2px;
   margin-right: 2px;
   letter-spacing: -0.1px;
-  filter: drop-shadow(0 0 6px rgb(255 214 10 / 40%));
+  filter: drop-shadow(0 0 6px rgb(255 211 113 / 28%));
   flex-shrink: 0;
 }
 
 .item-stars .inline-star-icon svg {
   width: 16px;
   height: 16px;
-  fill: #ffd60a;
+  fill: var(--gold);
   stroke-width: 1.8;
 }
 
 /* ─── Delete Button ─── */
 .favorite-card .delete-btn {
-  background: rgb(255 59 48 / 78%);
+  background: rgb(255 107 107 / 78%);
   border: none;
   width: 52px;
   flex-shrink: 0;
@@ -1237,12 +1298,12 @@ body.keyboard-open .bottom-nav {
   transition: background 0.18s var(--ease-out);
   padding: 0;
   margin: 0;
-  border-radius: 0 11px 11px 0;
+  border-radius: 0 18px 18px 0;
   min-height: 100%;
 }
 
 .favorite-card .delete-btn:active {
-  background: rgb(255 59 48 / 92%);
+  background: rgb(255 107 107 / 92%);
 }
 
 .slide-out-left {
@@ -1267,10 +1328,10 @@ body.keyboard-open .bottom-nav {
   z-index: 90;
   padding: 8px 0;
   padding-top: max(12px, env(safe-area-inset-top));
-  background: rgb(10 10 10 / 62%);
-  backdrop-filter: blur(80px) saturate(200%);
+  background: rgb(9 16 24 / 72%);
+  backdrop-filter: blur(36px) saturate(165%);
   border-bottom: 0.5px solid rgb(255 255 255 / 8%);
-  box-shadow: 0 4px 24px rgb(0 0 0 / 35%);
+  box-shadow: 0 4px 24px rgb(0 0 0 / 22%);
 }
 
 #tab-search .large-title-spacer {
@@ -1293,9 +1354,9 @@ body.keyboard-open .bottom-nav {
 #search-input {
   width: 100%;
   height: 100%;
-  background-color: rgb(118 118 128 / 12%);
-  border: 0.5px solid rgb(255 255 255 / 6%);
-  border-radius: 13px;
+  background: rgb(118 130 150 / 12%);
+  border: 1px solid rgb(255 255 255 / 6%);
+  border-radius: 16px;
   padding: 8px 38px;
   color: var(--fg);
   font-size: 16px;
@@ -1309,12 +1370,12 @@ body.keyboard-open .bottom-nav {
 }
 
 #search-input:focus {
-  background-color: rgb(118 118 128 / 18%);
-  box-shadow: 0 0 0 2px rgb(212 160 23 / 20%);
+  background: rgb(118 130 150 / 18%);
+  box-shadow: 0 0 0 2px rgb(241 178 79 / 18%);
 }
 
 #search-input::placeholder {
-  color: rgb(235 235 245 / 30%);
+  color: rgb(236 242 248 / 34%);
   font-weight: 400;
 }
 
@@ -1338,7 +1399,7 @@ body.keyboard-open .bottom-nav {
   flex-shrink: 0;
   background: transparent;
   border: none;
-  color: var(--amber);
+  color: var(--accent);
   font-size: 15px;
   font-weight: 500;
   padding: 0 6px 0 10px;
@@ -1369,7 +1430,7 @@ body.keyboard-open .bottom-nav {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: rgb(118 118 128 / 40%);
+  background: rgb(118 130 150 / 40%);
   border: none;
   color: rgb(255 255 255 / 70%);
   font-size: 10px;
@@ -1396,19 +1457,257 @@ body.keyboard-open .bottom-nav {
 
 .clear-btn:active {
   transform: scale(0.85);
-  background: rgb(118 118 128 / 60%);
+  background: rgb(118 130 150 / 60%);
 }
 
 /* ─── Search Suggestions ─── */
 .search-suggestions {
-  padding: 20px 0;
-  animation: fadeInUp 0.4s var(--ease-out);
+  padding: 18px 0 8px;
+  animation: cardEnter 0.42s var(--ease-out) both;
+}
+
+.search-intro-card {
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+  margin-bottom: 16px;
+  border-radius: 28px;
+  background:
+    linear-gradient(155deg, rgb(16 25 37 / 96%), rgb(11 18 28 / 94%)),
+    radial-gradient(circle at 0% 0%, rgb(116 200 255 / 12%), transparent 45%),
+    radial-gradient(circle at 100% 0%, rgb(241 178 79 / 10%), transparent 42%);
+  border: 1px solid rgb(255 255 255 / 7%);
+  box-shadow:
+    0 18px 48px rgb(0 0 0 / 22%),
+    inset 0 1px 0 rgb(255 255 255 / 6%);
+}
+
+.search-intro-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -36px -42px auto;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(116 200 255 / 14%), transparent 68%);
+  pointer-events: none;
+}
+
+.search-intro-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.search-intro-copy {
+  min-width: 0;
+}
+
+.search-intro-kicker {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.3px;
+  color: rgb(236 242 248 / 42%);
+}
+
+.search-intro-title {
+  margin: 0;
+  font-size: clamp(20px, 3.2vh, 28px);
+  line-height: 1.08;
+  letter-spacing: -0.6px;
+  font-weight: 760;
+  color: var(--fg);
+  font-family: var(--font-display);
+}
+
+.search-intro-sub {
+  margin: 10px 0 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--fg-secondary);
+  max-width: 34ch;
+}
+
+.search-intro-orb {
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  flex-shrink: 0;
+  background:
+    linear-gradient(145deg, rgb(241 178 79 / 24%), rgb(116 200 255 / 18%)),
+    radial-gradient(circle at 30% 30%, rgb(255 255 255 / 20%), transparent 40%);
+  box-shadow:
+    0 10px 24px rgb(0 0 0 / 22%),
+    inset 0 1px 0 rgb(255 255 255 / 18%);
+}
+
+.search-intro-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.search-metric {
+  padding: 10px 10px 9px;
+  border-radius: 18px;
+  background: rgb(255 255 255 / 4%);
+  border: 1px solid rgb(255 255 255 / 5%);
+}
+
+.search-metric-value {
+  display: block;
+  font-size: 18px;
+  font-weight: 750;
+  letter-spacing: -0.4px;
+  color: var(--fg);
+}
+
+.search-metric-label {
+  display: block;
+  margin-top: 3px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  color: rgb(236 242 248 / 44%);
+}
+
+.results-summary-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 14px 16px;
+  border-radius: 22px;
+  background: rgb(255 255 255 / 4%);
+  border: 1px solid rgb(255 255 255 / 5%);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 16%);
+}
+
+.results-summary-copy {
+  min-width: 0;
+}
+
+.results-summary-kicker {
+  margin: 0 0 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.1px;
+  color: rgb(236 242 248 / 42%);
+}
+
+.results-summary-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: -0.2px;
+  color: var(--fg);
+}
+
+.results-summary-chip {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgb(241 178 79 / 10%);
+  border: 1px solid rgb(241 178 79 / 18%);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+  max-width: 44vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.search-empty-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 28px 20px 30px;
+  margin-top: 12px;
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 4%), rgb(255 255 255 / 2%)),
+    radial-gradient(circle at 50% 0%, rgb(241 178 79 / 8%), transparent 48%);
+  border: 1px solid rgb(255 255 255 / 5%);
+}
+
+.search-empty-orb {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, rgb(241 178 79 / 16%), rgb(116 200 255 / 10%)),
+    radial-gradient(circle at 30% 30%, rgb(255 255 255 / 20%), transparent 40%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg);
+  box-shadow: 0 12px 26px rgb(0 0 0 / 20%);
+}
+
+.search-empty-orb svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.8;
+}
+
+.search-empty-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.25px;
+  color: var(--fg);
+}
+
+.search-empty-copy {
+  margin: 0;
+  max-width: 34ch;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--fg-secondary);
+}
+
+.search-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.search-empty-chip {
+  border: 1px solid rgb(255 255 255 / 6%);
+  background: rgb(118 130 150 / 10%);
+  color: var(--fg);
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+  cursor: pointer;
+}
+
+.search-empty-chip:active {
+  transform: scale(0.98);
+}
+
+.search-suggestions .recent-searches {
+  margin-top: 16px;
 }
 
 .suggestions-label {
   font-size: 12px;
   font-weight: 600;
-  color: rgb(235 235 245 / 40%);
+  color: rgb(236 242 248 / 42%);
   text-transform: uppercase;
   letter-spacing: 1.2px;
   margin: 0 0 14px;
@@ -1417,7 +1716,7 @@ body.keyboard-open .bottom-nav {
 .suggestions-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
+  gap: 10px;
 }
 
 .suggestion-chip {
@@ -1426,20 +1725,21 @@ body.keyboard-open .bottom-nav {
   align-items: center;
   gap: 6px;
   padding: 16px 8px;
-  border-radius: 14px;
-  background: rgb(28 28 30 / 60%);
-  border: 0.5px solid color-mix(in srgb, var(--chip-accent, rgb(212 160 23)) 25%, transparent);
-  color: var(--chip-accent, rgb(235 235 245 / 70%));
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgb(255 255 255 / 4%), rgb(255 255 255 / 2%));
+  border: 1px solid color-mix(in srgb, var(--chip-accent, rgb(241 178 79)) 22%, transparent);
+  color: var(--chip-accent, rgb(236 242 248 / 70%));
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.22s var(--ease-out), transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.22s var(--ease-out);
   backdrop-filter: blur(8px);
   letter-spacing: -0.1px;
+  will-change: transform, opacity;
 }
 
 .suggestion-chip:active {
-  background: color-mix(in srgb, var(--chip-accent, rgb(212 160 23)) 12%, rgb(28 28 30 / 60%));
+  background: color-mix(in srgb, var(--chip-accent, rgb(241 178 79)) 12%, rgb(255 255 255 / 2%));
   transform: scale(0.95);
 }
 
@@ -1458,7 +1758,7 @@ body.keyboard-open .bottom-nav {
 .recent-searches-label {
   font-size: 11px;
   font-weight: 600;
-  color: rgb(235 235 245 / 30%);
+  color: rgb(236 242 248 / 36%);
   text-transform: uppercase;
   letter-spacing: 1px;
   margin: 0 0 8px;
@@ -1476,19 +1776,20 @@ body.keyboard-open .bottom-nav {
   gap: 6px;
   padding: 6px 12px;
   border-radius: 20px;
-  background: rgb(118 118 128 / 10%);
-  border: 0.5px solid rgb(255 255 255 / 4%);
-  color: rgb(235 235 245 / 55%);
+  background: rgb(118 130 150 / 10%);
+  border: 1px solid rgb(255 255 255 / 4%);
+  color: rgb(236 242 248 / 62%);
   font-size: 12px;
-  font-weight: 450;
+  font-weight: 500;
   cursor: pointer;
   transition: background 0.2s var(--ease-out);
   line-height: 1;
   letter-spacing: -0.1px;
+  will-change: transform, opacity;
 }
 
 .recent-chip:active {
-  background: rgb(118 118 128 / 18%);
+  background: rgb(118 130 150 / 18%);
 }
 
 .recent-chip-remove {
@@ -1510,7 +1811,7 @@ body.keyboard-open .bottom-nav {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 50px 20px;
+  padding: 52px 20px;
   text-align: center;
   animation: fadeInUp 0.45s var(--ease-out);
   min-height: 40dvh;
@@ -1521,7 +1822,7 @@ body.keyboard-open .bottom-nav {
   animation: float 3.4s ease-in-out infinite;
   margin-bottom: 16px;
   color: var(--fg-tertiary);
-  opacity: 0.5;
+  opacity: 0.58;
 }
 
 @keyframes float {
@@ -1538,14 +1839,14 @@ body.keyboard-open .bottom-nav {
 .skeletons-container {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding-top: 8px;
+  gap: 10px;
+  padding-top: 10px;
 }
 
 .skeleton-row {
   height: 62px;
   background: var(--card);
-  border-radius: var(--radius-md);
+  border-radius: 18px;
   position: relative;
   overflow: hidden;
   border: 0.5px solid var(--card-border);
@@ -1584,7 +1885,7 @@ body.keyboard-open .bottom-nav {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgb(0 0 0 / 45%);
+  background: rgb(4 8 14 / 54%);
   opacity: 0;
   transition: opacity 0.3s var(--ease-out);
 }
@@ -1597,14 +1898,16 @@ body.keyboard-open .bottom-nav {
   position: relative;
   width: 100%;
   max-width: 500px;
-  background: rgb(28 28 30 / 96%);
-  backdrop-filter: blur(48px) saturate(180%) contrast(105%);
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-  padding: 24px 22px calc(26px + env(safe-area-inset-bottom, 0px));
+  background:
+    linear-gradient(180deg, rgb(16 25 37 / 98%), rgb(11 18 28 / 98%)),
+    radial-gradient(120% 90% at 50% 0%, rgb(116 200 255 / 8%), transparent 42%);
+  backdrop-filter: blur(40px) saturate(165%) contrast(108%);
+  border-radius: 32px 32px 0 0;
+  padding: 26px 22px calc(28px + env(safe-area-inset-bottom, 0px));
   transform: translateY(104%);
   transition: transform 0.45s var(--ease-spring);
   box-shadow:
-    0 -20px 60px rgb(0 0 0 / 50%),
+    0 -24px 64px rgb(0 0 0 / 44%),
     0 0 0 0.5px rgb(255 255 255 / 6%) inset;
   max-height: 88dvh;
   overflow-y: auto;
@@ -1623,7 +1926,7 @@ body.keyboard-open .bottom-nav {
 .modal-grabber {
   width: 36px;
   height: 4px;
-  background: rgb(118 118 128 / 50%);
+  background: rgb(118 130 150 / 52%);
   border-radius: 2px;
   margin: 4px auto 18px;
 }
@@ -1632,7 +1935,7 @@ body.keyboard-open .bottom-nav {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: rgb(118 118 128 / 25%);
+  background: rgb(118 130 150 / 22%);
   border: 5px solid transparent;
   box-sizing: content-box;
   width: 28px;
@@ -1652,14 +1955,14 @@ body.keyboard-open .bottom-nav {
 
 .close-btn-right:active {
   transform: scale(0.92);
-  background: rgb(118 118 128 / 35%);
+  background: rgb(118 130 150 / 35%);
   color: var(--fg);
 }
 
 .modal-title {
   margin: 0 0 6px;
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 21px;
+  font-weight: 760;
   text-align: center;
   letter-spacing: -0.3px;
   line-height: 1.25;
@@ -1683,11 +1986,11 @@ body.keyboard-open .bottom-nav {
   text-align: center;
   font-size: 12.5px;
   color: var(--accent);
-  font-weight: 600;
+  font-weight: 650;
   margin: 0 auto 18px;
-  background: rgb(212 160 23 / 10%);
+  background: rgb(241 178 79 / 10%);
   padding: 5px 14px;
-  border-radius: 20px;
+  border-radius: 999px;
   letter-spacing: -0.05px;
   width: fit-content;
   display: flex;
@@ -1705,8 +2008,8 @@ body.keyboard-open .bottom-nav {
 #note-input {
   background: var(--input-bg);
   color: var(--fg);
-  border: 0.5px solid rgb(255 255 255 / 6%);
-  border-radius: var(--radius-sm);
+  border: 1px solid rgb(255 255 255 / 6%);
+  border-radius: 16px;
   padding: 12px;
   width: 100%;
   font-size: 15.5px;
@@ -1718,8 +2021,8 @@ body.keyboard-open .bottom-nav {
 }
 
 #note-input:focus {
-  background: rgb(118 118 128 / 28%);
-  box-shadow: 0 0 0 3px rgb(212 160 23 / 18%);
+  background: rgb(118 130 150 / 22%);
+  box-shadow: 0 0 0 3px rgb(241 178 79 / 18%);
   outline: none;
 }
 
@@ -1745,7 +2048,7 @@ body.keyboard-open .bottom-nav {
 }
 
 .star {
-  color: rgb(118 118 128 / 42%);
+  color: rgb(236 242 248 / 40%);
   cursor: pointer;
   transition:
     transform 0.18s var(--ease-spring),
@@ -1802,13 +2105,13 @@ body.keyboard-open .bottom-nav {
 /* ─── Primary Button ─── */
 .btn-primary {
   width: 100%;
-  background: linear-gradient(135deg, var(--amber), #c08838);
-  color: #fff;
+  background: linear-gradient(135deg, var(--amber), #d58d3b);
+  color: #0c1320;
   padding: 15px;
-  border-radius: var(--radius-md);
+  border-radius: 18px;
   border: none;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 750;
   letter-spacing: -0.2px;
   margin-top: 18px;
   cursor: pointer;
@@ -1826,7 +2129,7 @@ body.keyboard-open .bottom-nav {
 }
 
 .btn-primary:disabled {
-  background: rgb(118 118 128 / 35%);
+  background: rgb(118 130 150 / 28%);
   color: rgb(255 255 255 / 45%);
   cursor: not-allowed;
   transform: none;
@@ -1839,15 +2142,15 @@ body.keyboard-open .bottom-nav {
   top: calc(env(safe-area-inset-top, 0px) + 12px);
   left: 50%;
   z-index: 10000;
-  background: rgb(28 28 30 / 94%);
-  backdrop-filter: blur(28px) saturate(180%);
+  background: rgb(14 22 33 / 94%);
+  backdrop-filter: blur(22px) saturate(165%);
   color: #fff;
   padding: 10px 20px;
   border-radius: 24px;
   font-size: 13.5px;
   font-weight: 600;
   letter-spacing: -0.15px;
-  border: 0.5px solid rgb(255 255 255 / 10%);
+  border: 1px solid rgb(255 255 255 / 10%);
   box-shadow: 0 10px 30px rgb(0 0 0 / 30%), 0 0 0 0.5px rgb(255 255 255 / 4%);
   pointer-events: none;
   opacity: 0;
@@ -1868,18 +2171,30 @@ body.keyboard-open .bottom-nav {
 
 /* ─── Utility Animations ─── */
 .animate-fade-in {
-  animation: fadeInUp 0.35s var(--ease-out) both;
+  animation: cardEnter 0.42s var(--ease-out) both;
 }
 
-@keyframes fadeInUp {
+@keyframes cardEnter {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translate3d(0, 16px, 0) scale(0.985);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0) scale(1);
   }
+}
+
+.search-card.animate-fade-in,
+.favorite-card.animate-fade-in,
+.recent-card.animate-fade-in,
+.action-btn.animate-fade-in,
+.badge-card.animate-fade-in,
+.search-intro-card.animate-fade-in,
+.results-summary-card.animate-fade-in,
+.search-empty-card.animate-fade-in {
+  animation-duration: 0.48s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .animate-fade-in:nth-child(1) { animation-delay: 0ms; }
@@ -1898,8 +2213,8 @@ body.keyboard-open .bottom-nav {
 .context-menu {
   position: fixed;
   z-index: 3000;
-  background: rgb(28 28 30 / 93%);
-  backdrop-filter: blur(44px) saturate(180%) contrast(106%);
+  background: rgb(14 22 33 / 93%);
+  backdrop-filter: blur(34px) saturate(165%) contrast(106%);
   border: 0.5px solid var(--separator);
   border-radius: var(--radius-md);
   padding: 4px;
@@ -1930,7 +2245,7 @@ body.keyboard-open .bottom-nav {
   font-weight: 500;
   width: 100%;
   text-align: left;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   transition: background 0.12s var(--ease-out);
 }
@@ -1968,7 +2283,7 @@ body.keyboard-open .bottom-nav {
 .ptr-spinner {
   width: 22px;
   height: 22px;
-  border: 2.5px solid rgb(212 160 23 / 25%);
+  border: 2.5px solid rgb(241 178 79 / 25%);
   border-top-color: var(--amber);
   border-radius: 50%;
   animation: ptrSpin 0.7s linear infinite;
@@ -1982,7 +2297,7 @@ body.keyboard-open .bottom-nav {
 
 .ptr-container.pulling .ptr-spinner {
   opacity: 0.6;
-  border-top-color: rgb(212 160 23 / 50%);
+  border-top-color: rgb(241 178 79 / 50%);
   animation: none;
 }
 
@@ -2024,9 +2339,9 @@ body.keyboard-open .bottom-nav {
   gap: 10px;
   padding: 12px 14px;
   border-radius: var(--radius-md);
-  background: rgb(28 28 30 / 94%);
-  backdrop-filter: blur(28px) saturate(180%);
-  border: 0.5px solid rgb(255 255 255 / 8%);
+  background: rgb(14 22 33 / 94%);
+  backdrop-filter: blur(24px) saturate(165%);
+  border: 1px solid rgb(255 255 255 / 8%);
   box-shadow:
     0 8px 32px rgb(0 0 0 / 40%),
     0 0 0 0.5px rgb(255 255 255 / 4%);
@@ -2053,9 +2368,9 @@ body.keyboard-open .bottom-nav {
 .update-btn {
   flex-shrink: 0;
   background: var(--amber);
-  color: #fff;
+  color: #0c1320;
   border: none;
-  border-radius: 9px;
+  border-radius: 12px;
   padding: 7px 14px;
   font-size: 13px;
   font-weight: 600;
@@ -2099,8 +2414,8 @@ body.keyboard-open .bottom-nav {
   bottom: 0;
   z-index: 2500;
   height: 44px;
-  background: rgb(28 28 30 / 93%);
-  backdrop-filter: blur(44px) saturate(180%);
+  background: rgb(14 22 33 / 93%);
+  backdrop-filter: blur(34px) saturate(165%);
   border-top: 0.5px solid var(--separator);
   display: flex;
   align-items: center;
@@ -2118,11 +2433,11 @@ body.keyboard-open .bottom-nav {
 .keyboard-done-btn {
   background: var(--amber);
   border: none;
-  color: #fff;
+  color: #0c1320;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 750;
   padding: 6px 16px;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
   letter-spacing: -0.1px;
   transition: filter 0.15s var(--ease-out), transform 0.12s var(--ease-snappy);
@@ -2146,7 +2461,7 @@ body.keyboard-open .bottom-nav {
 .activity-spinner {
   width: 24px;
   height: 24px;
-  border: 2.5px solid rgb(212 160 23 / 20%);
+  border: 2.5px solid rgb(241 178 79 / 20%);
   border-top-color: var(--amber);
   border-radius: 50%;
   animation: activitySpin 0.75s linear infinite;
