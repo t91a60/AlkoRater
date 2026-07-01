@@ -113,7 +113,7 @@ body::after {
 }
 
 .app-container, .bottom-nav, .tab-view,
-.modal-content, .hero-card, .search-item, .favorite-card {
+.modal-content, .hero-card, .search-card, .search-item, .favorite-card {
   transform: translateZ(0);
 }
 
@@ -1030,16 +1030,71 @@ body.keyboard-open .bottom-nav {
   flex: 1;
 }
 
-.search-item {
+.search-card {
+  display: flex;
+  align-items: stretch;
+  background: var(--card);
+  border-radius: 14px;
+  box-shadow:
+    0 6px 24px rgb(0 0 0 / 32%),
+    0 0 0 0.5px rgb(255 255 255 / 4%);
+  border: 0.5px solid var(--card-border);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s var(--ease-out);
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.search-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(255 255 255 / 3%), transparent 55%);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.search-card:active {
+  transform: scale(0.985);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 22%);
+}
+
+.search-card-main {
+  flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
-  background: transparent;
-  padding: 10px 0;
-  border-radius: 12px;
-  gap: 12px;
-  position: relative;
-  transition: background 0.2s var(--ease-out), transform 0.2s var(--ease-out);
-  cursor: pointer;
+  gap: 10px;
+  padding: 8px;
+}
+
+.search-card-rating {
+  color: #ffd60a;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-right: 10px;
+  flex-shrink: 0;
+  font-size: 14px;
+  letter-spacing: -0.1px;
+  filter: drop-shadow(0 0 6px rgb(255 214 10 / 30%));
+}
+
+.search-card-rating .inline-star-icon svg {
+  width: 14px;
+  height: 14px;
+  fill: #ffd60a;
+  stroke-width: 1.8;
+  vertical-align: -2px;
+}
+
+.search-highlight {
+  background: rgb(212 160 23 / 20%);
+  border-radius: 3px;
+  padding: 0 2px;
+  color: var(--fg);
 }
 
 .favorite-card {
@@ -1085,26 +1140,6 @@ body.keyboard-open .bottom-nav {
 
 .fav-main.swiped {
   transform: translateX(-62px);
-}
-
-.search-item::after {
-  content: "";
-  position: absolute;
-  left: 62px;
-  right: 0;
-  bottom: 0;
-  height: 0.5px;
-  background: rgb(255 255 255 / 7%);
-  pointer-events: none;
-}
-
-.search-item:last-child::after {
-  display: none;
-}
-
-.search-item:active {
-  background: rgb(255 255 255 / 3%);
-  transform: scale(0.985);
 }
 
 .item-info {
@@ -1393,25 +1428,80 @@ body.keyboard-open .bottom-nav {
   padding: 16px 8px;
   border-radius: 14px;
   background: rgb(28 28 30 / 60%);
-  border: 0.5px solid rgb(255 255 255 / 6%);
-  color: rgb(235 235 245 / 70%);
+  border: 0.5px solid color-mix(in srgb, var(--chip-accent, rgb(212 160 23)) 25%, transparent);
+  color: var(--chip-accent, rgb(235 235 245 / 70%));
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.22s var(--ease-out), transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: background 0.22s var(--ease-out), transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.22s var(--ease-out);
   backdrop-filter: blur(8px);
   letter-spacing: -0.1px;
 }
 
 .suggestion-chip:active {
-  background: rgb(255 255 255 / 8%);
+  background: color-mix(in srgb, var(--chip-accent, rgb(212 160 23)) 12%, rgb(28 28 30 / 60%));
   transform: scale(0.95);
 }
 
 .suggestion-icon {
   width: 22px;
   height: 22px;
-  opacity: 0.5;
+  opacity: 0.6;
+  color: var(--chip-accent, currentColor);
+}
+
+.recent-searches {
+  margin-top: 4px;
+  animation: fadeInUp 0.3s var(--ease-out);
+}
+
+.recent-searches-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgb(235 235 245 / 30%);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 8px;
+}
+
+.recent-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.recent-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: rgb(118 118 128 / 10%);
+  border: 0.5px solid rgb(255 255 255 / 4%);
+  color: rgb(235 235 245 / 55%);
+  font-size: 12px;
+  font-weight: 450;
+  cursor: pointer;
+  transition: background 0.2s var(--ease-out);
+  line-height: 1;
+  letter-spacing: -0.1px;
+}
+
+.recent-chip:active {
+  background: rgb(118 118 128 / 18%);
+}
+
+.recent-chip-remove {
+  opacity: 0.35;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0;
+  margin-left: 2px;
+  transition: opacity 0.15s;
+}
+
+.recent-chip:active .recent-chip-remove {
+  opacity: 0.6;
 }
 
 /* ─── Empty State ─── */
@@ -2113,6 +2203,7 @@ body.keyboard-open .bottom-nav {
 
   .hero-card:active,
   .recent-card:active,
+  .search-card:active,
   .search-item:active,
   .favorite-card:active,
   .action-btn:active,

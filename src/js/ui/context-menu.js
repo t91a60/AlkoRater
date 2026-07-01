@@ -93,7 +93,7 @@ export function setupContextMenus(containerEl, callbacks = {}) {
     };
 
     containerEl.addEventListener('touchstart', (e) => {
-        const card = e.target.closest('.search-item, .favorite-card');
+        const card = e.target.closest('.search-card, .favorite-card');
         if (!card) {return;}
         const touch = e.touches[0];
         startX = touch.clientX;
@@ -119,7 +119,7 @@ export function setupContextMenus(containerEl, callbacks = {}) {
     }, { passive: true });
 
     containerEl.addEventListener('contextmenu', (e) => {
-        const card = e.target.closest('.search-item, .favorite-card');
+        const card = e.target.closest('.search-card, .favorite-card');
         if (!card) {return;}
         e.preventDefault();
         show(card, e.clientX, e.clientY);

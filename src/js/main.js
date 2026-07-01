@@ -14,6 +14,7 @@ import {
     deleteFavorite,
     handleSearch,
     renderSuggestions,
+    removeRecentSearch,
     openRateModal,
     setRating,
     closeModal,
@@ -66,14 +67,20 @@ const setupListeners = () => {
     });
 
     state.el.searchResults.addEventListener('click', (e) => {
-        const suggestion = e.target.closest('.suggestion-chip');
-        if (suggestion) {
-            const query = suggestion.dataset.query;
+        const removeBtn = e.target.closest('.recent-chip-remove');
+        if (removeBtn) {
+            e.stopPropagation();
+            removeRecentSearch(removeBtn.dataset.query);
+            return;
+        }
+        const chip = e.target.closest('.recent-chip, .suggestion-chip');
+        if (chip) {
+            const query = chip.dataset.query;
             state.el.searchInput.value = query;
             handleSearch({ target: { value: query } });
             return;
         }
-        const card = e.target.closest('.search-item');
+        const card = e.target.closest('.search-card');
         if (!card) {return;}
         const item = state.appData.find((i) => i.name === card.dataset.itemName);
         if (item) {openRateModal(item);}
@@ -237,7 +244,7 @@ function setupSwipeTabs(container) {
     container.addEventListener('touchstart', (e) => {
         if (container.scrollTop > 0) {return;}
         const target = e.target;
-        if (target.closest('.search-item, .favorite-card, .recent-card, .action-btn, .filter-chip, .nav-item')) {return;}
+        if (target.closest('.search-card, .search-item, .favorite-card, .recent-card, .action-btn, .filter-chip, .nav-item')) {return;}
         startX = e.touches[0].clientX;
         swiping = true;
     }, { passive: true });
