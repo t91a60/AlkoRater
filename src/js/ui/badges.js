@@ -111,7 +111,6 @@ const THUMB_BG = {
     wódka:  'linear-gradient(145deg,rgba(107,197,247,.20),rgba(70,150,210,.11))',
     wino:   'linear-gradient(145deg,rgba(184,74,98,.22),rgba(140,50,80,.13))',
 };
-const THUMB_EMOJI = { piwo: '🍺', wódka: '🥃', wino: '🍷' };
 
 /** @returns {string} HTML for an alcohol percentage badge, or empty string. */
 export const alcoholBadgeHTML = (alcohol) => {
@@ -137,13 +136,13 @@ export const typeBadgeHTML = (type) => {
 export const productThumbHTML = (imageUrl, category, size = 50) => {
     const cat = (category || '').toLowerCase();
     const bg = THUMB_BG[cat] || 'linear-gradient(145deg,rgba(120,110,100,.18),rgba(80,70,60,.10))';
-    const emoji = THUMB_EMOJI[cat] || '🍶';
     const src = escapeHTML(imageUrl || '');
+    const fallbackSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L12 6"/><path d="M8 6C8 6 8 8 8 10C8 12 10 14 10 16L10 20C10 21.1 10.9 22 12 22C13.1 22 14 21.1 14 20L14 16C14 14 16 12 16 10C16 8 16 6 16 6L8 6Z"/></svg>';
     return (
-        `<div class="product-thumb" data-emoji="${escapeHTML(emoji)}" ` +
+        `<div class="product-thumb" ` +
         `style="width:${size}px;height:${size}px;min-width:${size}px;background:${bg}">` +
         `<img src="${src}" loading="lazy" alt="" ` +
-        `onerror="this.onerror=null;this.style.display='none';this.parentElement.classList.add('thumb-broken')">` +
+        `onerror="this.onerror=null;this.style.display='none';this.parentElement.innerHTML='${fallbackSvg}';this.parentElement.classList.add('thumb-broken')">` +
         `</div>`
     );
 };

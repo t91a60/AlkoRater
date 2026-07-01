@@ -96,7 +96,7 @@ export function updateRecentlyRated() {
             ${productThumbHTML(fav.item.image_url, fav.tag, 86)}
             <div class="recent-name">${escapeHTML(fav.item.name)}${alcoholBadgeHTML(fav.item.alcohol)}</div>
             <div class="recent-meta">${escapeHTML(fav.tag)}${typeBadgeHTML(fav.item.type)}</div>
-            <div class="recent-stars">★ ${escapeHTML(String(fav.stars))}</div>
+            <div class="recent-stars"><i data-lucide="star" class="inline-star-icon" aria-hidden="true"></i> ${escapeHTML(String(fav.stars))}</div>
         </div>
     `).join('');
 }

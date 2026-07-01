@@ -872,6 +872,14 @@ body.keyboard-open .bottom-nav {
   margin-top: 5px;
 }
 
+.recent-stars .inline-star-icon svg {
+  width: 14px;
+  height: 14px;
+  fill: var(--gold);
+  stroke-width: 1.8;
+  vertical-align: -2px;
+}
+
 .recent-meta {
   font-size: 11px;
   color: var(--fg-secondary);
@@ -886,6 +894,13 @@ body.keyboard-open .bottom-nav {
 }
 
 /* ─── Info Block ─── */
+.info-block-icon svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--accent-green);
+}
+
 .info-block {
   text-align: center;
   font-size: 11.5px;
@@ -968,20 +983,20 @@ body.keyboard-open .bottom-nav {
 }
 
 /* Emoji fallback when image fails */
-.product-thumb.thumb-broken::after {
-  content: attr(data-emoji);
-  position: absolute;
-  inset: 0;
+.product-thumb.thumb-broken {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 26px;
-  line-height: 1;
 }
 
-/* Recent card thumb gets a bigger emoji */
-.recent-card .product-thumb.thumb-broken::after {
-  font-size: 38px;
+.product-thumb.thumb-broken img {
+  display: none;
+}
+
+.product-thumb.thumb-broken svg {
+  width: 50%;
+  height: 50%;
+  color: rgb(255 255 255 / 20%);
 }
 
 /* ─── Results & Lists ─── */
@@ -1136,7 +1151,6 @@ body.keyboard-open .bottom-nav {
 
 /* Stars in list items — bigger & brighter */
 .item-stars {
-  font-size: 18px;
   color: #ffd60a;
   font-weight: 700;
   display: flex;
@@ -1146,6 +1160,13 @@ body.keyboard-open .bottom-nav {
   letter-spacing: -0.1px;
   filter: drop-shadow(0 0 6px rgb(255 214 10 / 40%));
   flex-shrink: 0;
+}
+
+.item-stars .inline-star-icon svg {
+  width: 16px;
+  height: 16px;
+  fill: #ffd60a;
+  stroke-width: 1.8;
 }
 
 /* ─── Delete Button ─── */
@@ -1607,14 +1628,20 @@ body.keyboard-open .bottom-nav {
   padding: 0 10px;
 }
 
+.star svg {
+  width: 38px;
+  height: 38px;
+  stroke-width: 1.6;
+  display: block;
+  transition: filter 0.25s var(--ease-out);
+}
+
 .star {
-  font-size: 38px;
   color: rgb(118 118 128 / 42%);
   cursor: pointer;
   transition:
     transform 0.18s var(--ease-spring),
-    color 0.25s var(--ease-out),
-    text-shadow 0.25s var(--ease-out);
+    color 0.25s var(--ease-out);
   -webkit-tap-highlight-color: transparent;
   background: none;
   border: none;
@@ -1629,13 +1656,15 @@ body.keyboard-open .bottom-nav {
 
 .star.active {
   color: var(--gold);
-  text-shadow:
-    0 0 8px var(--gold-glow),
-    0 0 24px rgb(255 214 10 / 12%);
   animation: starFill 0.35s var(--ease-spring) forwards;
 }
 
-.star.star-pop {
+.star.active svg {
+  fill: var(--gold);
+  filter: drop-shadow(0 0 8px var(--gold-glow)) drop-shadow(0 0 24px rgb(255 214 10 / 12%));
+}
+
+.star.star-pop svg {
   animation: starPop 0.4s var(--ease-spring) forwards;
 }
 
@@ -1656,22 +1685,10 @@ body.keyboard-open .bottom-nav {
 }
 
 @keyframes starPop {
-  0% {
-    transform: scale(1);
-    text-shadow: 0 0 8px var(--gold-glow);
-  }
-  40% {
-    transform: scale(1.4);
-    text-shadow: 0 0 20px var(--gold-glow), 0 0 40px rgb(255 214 10 / 15%);
-  }
-  70% {
-    transform: scale(0.88);
-    text-shadow: 0 0 10px var(--gold-glow);
-  }
-  100% {
-    transform: scale(1);
-    text-shadow: 0 0 8px var(--gold-glow);
-  }
+  0% { transform: scale(1); }
+  40% { transform: scale(1.4); }
+  70% { transform: scale(0.88); }
+  100% { transform: scale(1); }
 }
 
 /* ─── Primary Button ─── */
@@ -2064,9 +2081,16 @@ body.keyboard-open .bottom-nav {
   }
 
   .nav-icon,
-  .star {
+  .star,
+  .star svg {
     transition: none !important;
     transform: none !important;
+  }
+
+  .star.active svg,
+  .star.star-pop svg {
+    animation: none !important;
+    filter: none !important;
   }
 
   .hero-card:active,

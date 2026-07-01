@@ -44,11 +44,12 @@ export function renderFavorites(filter = 'wszystkie') {
                     <div class="item-name">${escapeHTML(fav.item.name)}${alcoholBadgeHTML(fav.item.alcohol)}</div>
                     <div class="item-meta">${escapeHTML(fav.tag)}${typeBadgeHTML(fav.item.type)}</div>
                 </div>
-                <div class="item-stars">★ ${escapeHTML(String(fav.stars))}</div>
+                <div class="item-stars"><i data-lucide="star" class="inline-star-icon" aria-hidden="true"></i> ${escapeHTML(String(fav.stars))}</div>
             </div>
             <button class="delete-btn" data-delete-id="${fav.id}" aria-label="Usuń">${TRASH_SVG}</button>
         </div>
     `).join('');
+    window.lucide?.createIcons();
 }
 
 export function filterFavorites(type) {
