@@ -85,7 +85,7 @@ export async function saveFavorites(favorites) {
             
             const clearReq = store.clear();
             clearReq.onsuccess = () => {
-                if (favorites.length === 0) return;
+                if (favorites.length === 0) { return; }
                 for (let i = 0; i < favorites.length; i++) {
                     store.put(favorites[i]);
                 }

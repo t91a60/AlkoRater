@@ -3,6 +3,7 @@ const CURRENT_LEVEL = LOG_LEVELS.INFO;
 
 const prefix = '[AlkoRater]';
 
+/* eslint-disable no-console */
 export const logger = {
     debug: (...args) => CURRENT_LEVEL <= LOG_LEVELS.DEBUG && console.debug(prefix, ...args),
     info: (...args) => CURRENT_LEVEL <= LOG_LEVELS.INFO && console.info(prefix, ...args),
