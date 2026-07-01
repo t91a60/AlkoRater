@@ -135,20 +135,7 @@ const setupListeners = () => {
         });
     }
 
-    const cancelBtn = document.getElementById('searchCancel');
-    if (cancelBtn) {
-        state.el.searchInput.addEventListener('focus', () => {
-            cancelBtn.classList.add('visible');
-        });
-        state.el.searchInput.addEventListener('blur', () => {
-            setTimeout(() => cancelBtn.classList.remove('visible'), 100);
-        });
-        cancelBtn.addEventListener('click', () => {
-            state.el.searchInput.value = '';
-            state.el.searchInput.blur();
-            handleSearch({ target: { value: '' } });
-        });
-    }
+
 
     const noteInput = document.getElementById('note-input');
     const toolbar = document.getElementById('keyboardToolbar');
@@ -183,14 +170,15 @@ const setupListeners = () => {
     document.getElementById('saveButton').addEventListener('click', saveRating);
 
     document.querySelector('.stars-container').addEventListener('click', (e) => {
-        if (e.target.classList.contains('star')) {
-            setRating(parseInt(e.target.dataset.value, 10));
+        const star = e.target.closest('.star');
+        if (star) {
+            setRating(parseInt(star.dataset.value, 10));
         }
     });
 
     document.querySelector('.stars-container').addEventListener('keydown', (e) => {
-        const target = e.target;
-        if (!(target instanceof HTMLElement) || !target.classList.contains('star')) {return;}
+        const target = e.target.closest('.star');
+        if (!target) {return;}
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             setRating(parseInt(target.dataset.value, 10));

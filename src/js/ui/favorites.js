@@ -63,22 +63,46 @@ export function filterFavorites(type) {
 export function deleteFavorite(id) {
     haptics.light();
     const el = document.getElementById(`fav-${id}`);
+    const removed = state.favorites.find((f) => String(f.id) === String(id));
+    if (!removed) { return; }
 
-    const finish = new Promise((resolve) => {
-        if (el) {
-            el.classList.add('slide-out-left');
-            el.addEventListener('animationend', resolve, { once: true });
-        }
-        setTimeout(resolve, 350);
-    });
+    // 1. Animacja wyjścia elementu listy
+    if (el) {
+        el.classList.add('slide-out-left');
+    }
 
-    finish.then(async () => {
-        state.favorites = state.favorites.filter((f) => String(f.id) !== String(id));
+    // 2. Natychmiastowe ukrycie z state (UI responsywny)
+    state.favorites = state.favorites.filter((f) => String(f.id) !== String(id));
+    const activeFilter = document.querySelector('.filter-chip.active')?.dataset.filter || 'wszystkie';
+    setTimeout(() => renderFavorites(activeFilter), 320);
+    updateDashboard();
+
+    // 3. Toast z "Cofnij" przez 4 sekundy — zapis do bazy dopiero po tym czasie
+    let committed = false;
+    const commitDelete = async () => {
+        if (committed) { return; }
+        committed = true;
         await saveFavorites(state.favorites);
-        const activeFilter = document.querySelector('.filter-chip.active')?.dataset.filter || 'wszystkie';
-        renderFavorites(activeFilter);
-        updateDashboard();
-        showToast('Usunięto z ulubionych', 'warning');
         haptics.warning();
+    };
+
+    const undoTimer = setTimeout(commitDelete, 4100);
+
+    showToast('Usunięto z kolekcji', 'warning', {
+        onUndo: () => {
+            clearTimeout(undoTimer);
+            committed = true; // nie commituj usuniętego
+            // Przywróć wpis na oryginalnej pozycji
+            const allFavs = [...state.favorites];
+            // wstaw z powrotem (na koniec, bo sort po dacie)
+            allFavs.push(removed);
+            allFavs.sort((a, b) => new Date(b.date) - new Date(a.date));
+            state.favorites = allFavs;
+            saveFavorites(state.favorites);
+            renderFavorites(activeFilter);
+            updateDashboard();
+            showToast('Przywrócono!', 'success');
+            haptics.light();
+        },
     });
 }

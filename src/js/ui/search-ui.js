@@ -107,17 +107,7 @@ function renderSearchIntroHTML() {
     `;
 }
 
-function renderResultsSummaryHTML(query, count) {
-    return `
-        <div class="results-summary-card animate-fade-in">
-            <div class="results-summary-copy">
-                <p class="results-summary-kicker">Wyniki</p>
-                <h3 class="results-summary-title">${escapeHTML(String(count))} ${count === 1 ? 'wynik' : 'wyników'} dla</h3>
-            </div>
-            <div class="results-summary-chip">${escapeHTML(query.trim())}</div>
-        </div>
-    `;
-}
+
 
 function renderNoResultsHTML(query) {
     const safeQuery = query.trim();
@@ -213,7 +203,7 @@ export function renderResults(list, query) {
         `;
     }).join('');
 
-    container.insertAdjacentHTML('afterbegin', renderResultsSummaryHTML(query, list.length));
+
 
     if (window.lucide) {
         window.lucide.createIcons();

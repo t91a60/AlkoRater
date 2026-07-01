@@ -6,10 +6,15 @@ const TOAST_ICONS = {
     warning: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff9f0a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
 };
 
-/** @param {string} msg @param {'success'|'update'|'warning'} type */
-export function showToast(msg, type) {
+/**
+ * @param {string} msg
+ * @param {'success'|'update'|'warning'} type
+ * @param {{ onUndo?: Function, undoLabel?: string }} [opts]
+ */
+export function showToast(msg, type, opts = {}) {
     const existing = document.querySelector('.toast');
     if (existing) {
+        existing._undoCancelled = true;
         existing.classList.remove('visible');
         existing.remove();
     }
@@ -18,7 +23,15 @@ export function showToast(msg, type) {
     t.className = 'toast';
     t.setAttribute('role', 'status');
     t.setAttribute('aria-live', 'polite');
-    t.innerHTML = `${TOAST_ICONS[type] || ''}<span>${escapeHTML(msg)}</span>`;
+
+    const undoLabel = opts.undoLabel || 'Cofnij';
+    const hasUndo = typeof opts.onUndo === 'function';
+
+    t.innerHTML = `
+        ${TOAST_ICONS[type] || ''}
+        <span>${escapeHTML(msg)}</span>
+        ${hasUndo ? `<button class="toast-undo-btn">${escapeHTML(undoLabel)}</button>` : ''}
+    `;
     t.style.display = 'flex';
     t.style.alignItems = 'center';
     t.style.gap = '8px';
@@ -26,9 +39,23 @@ export function showToast(msg, type) {
     t.offsetHeight;
     t.classList.add('visible');
 
-    setTimeout(() => {
+    const dismiss = () => {
+        if (t._undoCancelled) { return; }
         t.classList.remove('visible');
         t.classList.add('closing');
         setTimeout(() => t.remove(), 250);
-    }, 2200);
+    };
+
+    const timeoutId = setTimeout(dismiss, hasUndo ? 4000 : 2200);
+
+    if (hasUndo) {
+        t.querySelector('.toast-undo-btn').addEventListener('click', () => {
+            clearTimeout(timeoutId);
+            t._undoCancelled = true;
+            opts.onUndo();
+            t.classList.remove('visible');
+            t.classList.add('closing');
+            setTimeout(() => t.remove(), 250);
+        });
+    }
 }

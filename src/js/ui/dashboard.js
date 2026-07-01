@@ -4,72 +4,145 @@ import { alcoholBadgeHTML, typeBadgeHTML, productThumbHTML } from './badges.js';
 import { escapeHTML } from '../utils/dom.js';
 import { renderSuggestions } from './search-ui.js';
 
+/** Zwraca powitanie na podstawie godziny i dnia tygodnia */
+function getSmartGreeting(total) {
+    const h = new Date().getHours();
+    const day = new Date().getDay(); // 0=niedziela, 5=piątek, 6=sobota
+    const isWeekend = day === 0 || day === 5 || day === 6;
+
+    if (h >= 0 && h < 6)   { return { emoji: '🌙', title: 'Nocna degustacja?', sub: 'Trunki nie śpią, ale ty powinieneś.' }; }
+    if (h >= 6 && h < 10)  { return { emoji: '☀️', title: 'Dzień dobry', sub: 'Gotowy na nowe odkrycia?' }; }
+    if (h >= 10 && h < 12) { return { emoji: '🥂', title: 'Pora na coś dobrego', sub: 'Twoja kolekcja czeka.' }; }
+    if (h >= 12 && h < 17) { return { emoji: '🍺', title: 'Popołudniowa okazja', sub: total > 0 ? `Masz już ${total} ocen. Nie zwalniaj.` : 'Zacznij swoją kolekcję.' }; }
+    if (h >= 17 && h < 20 && isWeekend) { return { emoji: '🎉', title: 'Weekendowy wieczór', sub: 'Najlepszy czas na nowego odkrycia.' }; }
+    if (h >= 17 && h < 20) { return { emoji: '🌆', title: 'Wieczorne odkrycia', sub: 'Coś nowego na dziś?' }; }
+    return { emoji: '🌃', title: 'Dobry wieczór', sub: isWeekend ? 'Weekend, czas na coś wyjątkowego.' : 'Spokojny wieczór z dobrym trunkiem.' };
+}
+
+/** Zwraca kolor gradientu i ikonę dla top kategorii */
+function getCategoryAccent(tag) {
+    const map = {
+        'Piwo': { color: 'rgb(251 191 36)', icon: 'beer', bg: 'rgb(251 191 36 / 12%)' },
+        'Wódka': { color: 'rgb(116 200 255)', icon: 'flask-conical', bg: 'rgb(116 200 255 / 12%)' },
+        'Wino': { color: 'rgb(236 72 153)', icon: 'wine', bg: 'rgb(236 72 153 / 12%)' },
+        'Whisky': { color: 'rgb(251 146 60)', icon: 'flame', bg: 'rgb(251 146 60 / 12%)' },
+    };
+    return map[tag] || { color: 'rgb(212 160 23)', icon: 'star', bg: 'rgb(212 160 23 / 12%)' };
+}
+
+/** Oblicza "streak" — ile dni z rzędu coś oceniałeś */
+function calcStreak(favorites) {
+    if (favorites.length === 0) { return 0; }
+    const days = new Set(favorites.map((f) => new Date(f.date).toDateString()));
+    let streak = 0;
+    const d = new Date();
+    while (days.has(d.toDateString())) {
+        streak++;
+        d.setDate(d.getDate() - 1);
+    }
+    return streak;
+}
+
 /** Re-render the dashboard hero, stats, badges, and recently rated. */
 export function updateDashboard() {
     const total = state.favorites.length;
     const categoryCount = {};
     let totalScore = 0;
+    let bestEntry = null;
 
     state.favorites.forEach((fav) => {
         const strictCategory = fav.tag || 'Nieznane';
         categoryCount[strictCategory] = (categoryCount[strictCategory] || 0) + 1;
-        totalScore += parseInt(fav.stars, 10);
+        const stars = parseInt(fav.stars, 10);
+        totalScore += stars;
+        if (!bestEntry || stars > parseInt(bestEntry.stars, 10)) { bestEntry = fav; }
     });
 
-    const avgScore = total ? (totalScore / total).toFixed(1) : '0.0';
+    const avgScore = total ? (totalScore / total).toFixed(1) : '—';
     const topCategory = Object.keys(categoryCount).length > 0
         ? Object.keys(categoryCount).reduce((a, b) => categoryCount[a] > categoryCount[b] ? a : b)
-        : 'Brak';
+        : null;
+    const streak = calcStreak(state.favorites);
+    const greeting = getSmartGreeting(total);
+    const catAccent = topCategory ? getCategoryAccent(topCategory) : getCategoryAccent(null);
+
+    // Pasek ratingu wizualny
+    const ratingWidth = total ? Math.min(100, (parseFloat(avgScore) / 10) * 100) : 0;
+    const ratingColor = parseFloat(avgScore) >= 7 ? 'rgb(48 209 88)' : parseFloat(avgScore) >= 5 ? 'rgb(255 214 10)' : 'rgb(255 69 58)';
 
     state.el.dashboardGrid.innerHTML = `
-        <div class="premium-hero animate-fade-in">
-            <div class="bokeh-spot bokeh-spot--1"></div>
-            <div class="bokeh-spot bokeh-spot--2"></div>
-            <div class="hero-halo hero-halo--amber"></div>
-            <div class="hero-halo hero-halo--blue"></div>
-
-            <div class="greeting-header">
-                <div class="profile-icon">
-                    <i data-lucide="wine" class="profile-icon-svg" aria-hidden="true"></i>
-                </div>
-                <div class="greeting-text">
-                    <h1 class="greeting-title">Przegląd</h1>
-                    <p class="greeting-sub">Twoje oceny, ulubione i ostatnie trunki w jednym miejscu.</p>
-                </div>
+        <div class="start-greeting animate-fade-in">
+            <div class="start-greeting-emoji">${greeting.emoji}</div>
+            <div class="start-greeting-copy">
+                <span class="start-greeting-title">${greeting.title}</span>
+                <span class="start-greeting-sub">${greeting.sub}</span>
             </div>
-
-            <div class="hero-stats-row">
-                <div class="hero-stat-item">
-                    <i data-lucide="layers" class="stat-icon" aria-hidden="true"></i>
-                    <span class="hero-stat-val">${escapeHTML(String(total))}</span>
-                    <span class="hero-stat-label">Oceny</span>
-                </div>
-                <div class="hero-divider"></div>
-                <div class="hero-stat-item">
-                    <i data-lucide="star" class="stat-icon stat-icon--star" aria-hidden="true"></i>
-                    <span class="hero-stat-val">${escapeHTML(avgScore)}</span>
-                    <span class="hero-stat-label">Średnia</span>
-                </div>
-                <div class="hero-divider"></div>
-                <div class="hero-stat-item">
-                    <i data-lucide="wine" class="stat-icon" aria-hidden="true"></i>
-                    <span class="hero-stat-val category-truncate" style="text-transform:capitalize;font-size:16px">${escapeHTML(topCategory)}</span>
-                    <span class="hero-stat-label">Top</span>
-                </div>
-            </div>
+            ${streak > 1 ? `<div class="start-streak"><i data-lucide="zap" aria-hidden="true"></i>${streak}d</div>` : ''}
         </div>
 
+        <div class="start-stats-grid animate-fade-in" style="animation-delay:60ms">
+            <div class="start-stat-card start-stat-main">
+                <div class="start-stat-header">
+                    <i data-lucide="bar-chart-2" class="start-stat-ico" aria-hidden="true"></i>
+                    <span class="start-stat-lbl">Ocenionych</span>
+                </div>
+                <div class="start-stat-big">${escapeHTML(String(total))}</div>
+                <div class="start-stat-sub">trunkó${total === 1 ? 'w' : 'w'} w kolekcji</div>
+            </div>
 
-        <div class="quick-actions-grid">
-            <button class="action-btn primary animate-fade-in" data-action="open-search" style="animation-delay:50ms">
+            <div class="start-stat-card">
+                <div class="start-stat-header">
+                    <i data-lucide="star" class="start-stat-ico start-stat-ico--gold" aria-hidden="true"></i>
+                    <span class="start-stat-lbl">Średnia</span>
+                </div>
+                <div class="start-stat-big start-stat-big--sm">${escapeHTML(avgScore)}</div>
+                <div class="start-rating-bar">
+                    <div class="start-rating-fill" style="width:${ratingWidth}%;background:${ratingColor}"></div>
+                </div>
+            </div>
+
+            ${topCategory ? `
+            <div class="start-stat-card" style="--cat-bg:${catAccent.bg};--cat-color:${catAccent.color}">
+                <div class="start-stat-header">
+                    <i data-lucide="${catAccent.icon}" class="start-stat-ico start-stat-ico--cat" aria-hidden="true"></i>
+                    <span class="start-stat-lbl">Faworyci</span>
+                </div>
+                <div class="start-stat-cat">${escapeHTML(topCategory)}</div>
+                <div class="start-stat-sub">${categoryCount[topCategory]} wpisó${categoryCount[topCategory] === 1 ? 'w' : 'w'}</div>
+            </div>
+            ` : `
+            <div class="start-stat-card start-stat-empty">
+                <i data-lucide="plus-circle" class="start-stat-ico" aria-hidden="true"></i>
+                <span class="start-stat-lbl">Dodaj</span>
+                <span class="start-stat-sub">pierwszy trunek</span>
+            </div>
+            `}
+
+            ${bestEntry ? `
+            <div class="start-stat-card start-stat-best animate-fade-in" style="animation-delay:80ms" data-item-name="${escapeHTML(bestEntry.item.name)}">
+                <div class="start-stat-header">
+                    <i data-lucide="trophy" class="start-stat-ico start-stat-ico--trophy" aria-hidden="true"></i>
+                    <span class="start-stat-lbl">Najlepszy</span>
+                </div>
+                <div class="start-best-name">${escapeHTML(bestEntry.item.name)}</div>
+                <div class="start-best-rating">
+                    <i data-lucide="star" aria-hidden="true"></i>
+                    ${escapeHTML(String(bestEntry.stars))}/5
+                </div>
+            </div>
+            ` : ''}
+        </div>
+
+        <div class="quick-actions-grid animate-fade-in" style="animation-delay:120ms">
+            <button class="action-btn primary" data-action="open-search">
                 <div class="action-icon-wrap">
                     <i data-lucide="search" class="action-icon-svg" aria-hidden="true"></i>
                 </div>
                 <span>Szukaj trunku</span>
             </button>
-            <button class="action-btn secondary animate-fade-in" data-action="open-favorites" style="animation-delay:100ms">
+            <button class="action-btn secondary" data-action="open-favorites">
                 <div class="action-icon-wrap">
-                    <i data-lucide="folder-plus" class="action-icon-svg" aria-hidden="true"></i>
+                    <i data-lucide="bookmark" class="action-icon-svg" aria-hidden="true"></i>
                 </div>
                 <span>Ulubione</span>
             </button>

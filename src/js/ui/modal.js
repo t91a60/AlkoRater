@@ -42,6 +42,9 @@ function resetCategoryAccent() {
 export function openRateModal(item) {
     haptics.light();
     state.currentItem = item;
+    // Zapamiętaj aktualne query wyszukiwarki
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) { state.lastSearchQuery = searchInput.value; }
     const strictCategory = item.category || 'Nieznane';
     const existing = state.favorites.find((f) => f.item.name === item.name);
 
@@ -138,6 +141,14 @@ export async function saveRating() {
     if (state.currentTab === 'favorites') {
         const activeChip = document.querySelector('.filter-chip.active');
         renderFavorites(activeChip?.dataset.filter);
+    }
+    // Przywróć query wyszukiwarki jeśli user wraca do zakładki search
+    if (state.currentTab === 'search' && state.lastSearchQuery) {
+        const searchInput = document.getElementById('search-input');
+        if (searchInput && !searchInput.value) {
+            searchInput.value = state.lastSearchQuery;
+            searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
     }
     haptics.success();
     closeModal();

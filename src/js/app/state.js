@@ -6,6 +6,7 @@ export const state = {
     currentTab: 'start',
     currentItem: null,
     ratingConfig: { stars: 0, tag: '', note: '' },
+    lastSearchQuery: '',
 };
 
 /** @param {Array} favorites */
