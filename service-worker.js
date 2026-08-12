@@ -5,7 +5,7 @@
  * obsługa aktualizacji z pełnym flow przepowiadania wersji.
  */
 
-const CACHE_VERSION = 'v6.2';
+const CACHE_VERSION = 'v7.0';
 const CACHE_NAME = `alko-rater-static-${CACHE_VERSION}`;
 const DATA_CACHE_NAME = `alko-rater-data-${CACHE_VERSION}`;
 
@@ -37,6 +37,7 @@ const ASSETS_TO_CACHE = [
     './src/js/utils/dom.js',
     './src/js/utils/logger.js',
     './src/js/utils/debounce.js',
+    './src/js/utils/spring.js',
     './src/css/style.css',
     './icons/icon-60.png',
     './icons/icon-180.png',
