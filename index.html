@@ -20,7 +20,7 @@
         <meta name="google" content="notranslate" />
         <meta
             http-equiv="Content-Security-Policy"
-            content="default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://unpkg.com; base-uri 'self';"
+            content="default-src 'self'; script-src 'self' https://unpkg.com 'unsafe-hashes' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://unpkg.com; base-uri 'self';"
         />
         <title>AlkoRater — iOS-owe PWA do oceniania alkoholi</title>
 
@@ -146,7 +146,7 @@
                     <div class="info-block glass">
                         <span
                             ><i
-                                data-lucide="circle-check"
+                                data-lucide="check-circle"
                                 class="info-block-icon"
                                 aria-hidden="true"
                             ></i>
@@ -266,7 +266,7 @@
             <nav class="bottom-nav glass" role="tablist" aria-label="Nawigacja">
                 <button class="nav-item active" data-tab="start" role="tab" aria-selected="true" aria-controls="tab-start" aria-label="Start">
                     <div class="nav-icon">
-                        <i data-lucide="house" stroke-width="2" aria-hidden="true"></i>
+                        <i data-lucide="home" stroke-width="2" aria-hidden="true"></i>
                     </div>
                     <span class="nav-label">Start</span>
                 </button>
