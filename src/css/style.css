@@ -177,11 +177,11 @@ body::after {
     opacity: 0;
     transform: translateY(8px);
     transition:
-        opacity 0.35s var(--ease-out),
-        transform 0.35s var(--ease-out),
-        scale 0.4s var(--ease-out),
-        border-radius 0.4s var(--ease-out),
-        filter 0.4s var(--ease-out);
+        opacity 0.3s var(--ease-out),
+        transform 0.3s var(--ease-out),
+        scale 0.3s var(--ease-out),
+        border-radius 0.3s var(--ease-out),
+        filter 0.3s var(--ease-out);
 }
 
 body.app-loaded .app-container {
@@ -202,6 +202,7 @@ body.app-loaded .app-container {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: contain;
     scroll-behavior: smooth;
+    position: relative;
 }
 
 .content-area::-webkit-scrollbar {
@@ -289,8 +290,8 @@ body::before {
     background: rgb(9 16 24 / 78%);
     backdrop-filter: blur(42px) saturate(165%) contrast(108%);
     transition:
-        transform 0.38s var(--ease-out),
-        opacity 0.38s var(--ease-out);
+        transform 0.28s var(--ease-out),
+        opacity 0.28s var(--ease-out);
     box-shadow: 0 -10px 24px rgb(0 0 0 / 16%);
 }
 
@@ -346,7 +347,7 @@ body.keyboard-open .bottom-nav {
     justify-content: center;
     width: 24px;
     height: 24px;
-    transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.28s var(--ease-spring);
 }
 
 .nav-icon svg {
@@ -371,6 +372,8 @@ body.keyboard-open .bottom-nav {
     padding: 0 18px;
     width: 100%;
     opacity: 0;
+    position: absolute;
+    inset: 0;
     transform: translateX(0);
     transition: opacity 0.25s var(--ease-out), transform 0.25s var(--ease-out);
     will-change: opacity, transform;
@@ -379,6 +382,7 @@ body.keyboard-open .bottom-nav {
 .tab-view.active {
     display: block;
     opacity: 1;
+    position: relative;
 }
 
 #tab-start.active {
@@ -463,7 +467,7 @@ body.keyboard-open .bottom-nav {
     position: absolute;
     border-radius: 50%;
     pointer-events: none;
-    filter: blur(46px);
+    filter: blur(20px);
     opacity: 0.65;
 }
 
@@ -819,6 +823,12 @@ body.keyboard-open .bottom-nav {
     padding: 4px 10px 4px 7px;
     flex-shrink: 0;
     letter-spacing: -0.2px;
+    transition: transform 0.3s var(--ease-spring), color 0.2s var(--ease-out);
+}
+
+.start-streak.bump {
+    transform: scale(1.15);
+    color: rgb(255 180, 40);
 }
 
 .start-streak svg {
@@ -844,7 +854,7 @@ body.keyboard-open .bottom-nav {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    transition: background 0.15s ease;
+    transition: background 0.15s var(--ease-out);
 }
 
 .start-stat-card:active {
@@ -936,8 +946,11 @@ body.keyboard-open .bottom-nav {
 
 .start-rating-fill {
     height: 100%;
+    width: 100%;
     border-radius: 999px;
-    transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: scaleX(var(--fill, 0));
+    transform-origin: left;
+    transition: transform 0.5s var(--ease-out);
 }
 
 /* Best entry card */
@@ -1018,7 +1031,7 @@ body.keyboard-open .bottom-nav {
         0 10px 28px rgb(0 0 0 / 24%),
         inset 0 0.5px 0 rgb(255 255 255 / 4%);
     transition:
-        transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
+        transform 0.15s var(--ease-spring),
         background 0.15s var(--ease-out),
         box-shadow 0.15s var(--ease-out);
 }
@@ -1156,7 +1169,7 @@ body.keyboard-open .bottom-nav {
     position: relative;
     overflow: hidden;
     transition:
-        transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+        transform 0.25s var(--ease-spring),
         box-shadow 0.2s var(--ease-out);
 }
 
@@ -1303,7 +1316,7 @@ body.keyboard-open .bottom-nav {
     font-weight: 500;
     cursor: pointer;
     transition:
-        background 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+        background 0.2s var(--ease-out),
         color 0.15s var(--ease-out);
     letter-spacing: -0.2px;
     position: relative;
@@ -1384,7 +1397,7 @@ body.keyboard-open .bottom-nav {
     border-bottom: 0.5px solid rgb(255 255 255 / 6%);
     position: relative;
     overflow: hidden;
-    transition: background 0.15s ease;
+    transition: background 0.15s var(--ease-out);
     margin-bottom: 0;
     cursor: pointer;
     padding: 0;
@@ -1451,7 +1464,7 @@ body.keyboard-open .bottom-nav {
     border-radius: 3px;
     padding: 0 2px;
     color: var(--fg);
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s var(--ease-out);
 }
 
 .fav-main {
@@ -1580,10 +1593,6 @@ body.keyboard-open .bottom-nav {
     to {
         transform: translateX(-110%);
         opacity: 0;
-        height: 0;
-        padding: 0;
-        margin: 0;
-        overflow: hidden;
     }
 }
 
@@ -1680,7 +1689,7 @@ body.keyboard-open .bottom-nav {
     opacity: 0;
     max-width: 0;
     overflow: hidden;
-    transition: all 0.25s var(--ease-out);
+    transition: opacity 0.25s var(--ease-out), transform 0.25s var(--ease-out);
     pointer-events: none;
     white-space: nowrap;
     height: 42px;
@@ -2009,7 +2018,7 @@ body.keyboard-open .bottom-nav {
     cursor: pointer;
     transition:
         background 0.22s var(--ease-out),
-        transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+        transform 0.22s var(--ease-spring),
         border-color 0.22s var(--ease-out);
     backdrop-filter: blur(8px);
     letter-spacing: -0.1px;
@@ -2344,13 +2353,15 @@ body.keyboard-open .bottom-nav {
 }
 
 /* hover preview: podświetl gwiazdkę i wszystkie przed nią (row-reverse trick) */
-.stars-container:not(:has(.star.active:hover)) .star:hover,
-.stars-container:not(:has(.star.active:hover)) .star:hover ~ .star {
-    color: rgb(241 178 79 / 60%);
-}
+@media (hover: hover) and (pointer: fine) {
+    .stars-container:not(:has(.star.active:hover)) .star:hover,
+    .stars-container:not(:has(.star.active:hover)) .star:hover ~ .star {
+        color: rgb(241 178 79 / 60%);
+    }
 
-.stars-container:not(:has(.star.active:hover)) .star:hover svg {
-    filter: drop-shadow(0 0 6px rgb(241 178 79 / 30%));
+    .stars-container:not(:has(.star.active:hover)) .star:hover svg {
+        filter: drop-shadow(0 0 6px rgb(241 178 79 / 30%));
+    }
 }
 
 .star:active {
@@ -2460,8 +2471,8 @@ body.keyboard-open .bottom-nav {
     opacity: 0;
     transform: translate(-50%, -40px) scale(0.85);
     transition:
-        opacity 0.35s var(--ease-out),
-        transform 0.35s var(--ease-spring);
+        opacity 0.25s var(--ease-out),
+        transform 0.25s var(--ease-spring);
 }
 
 .toast:has(.toast-undo-btn) {
@@ -2479,7 +2490,7 @@ body.keyboard-open .bottom-nav {
     cursor: pointer;
     margin-left: 4px;
     letter-spacing: -0.1px;
-    transition: background 0.15s ease;
+    transition: background 0.15s var(--ease-out);
     flex-shrink: 0;
 }
 
@@ -2502,7 +2513,7 @@ body.keyboard-open .bottom-nav {
 
 /* ─── Utility Animations ─── */
 .animate-fade-in {
-    animation: cardEnter 0.42s var(--ease-out) both;
+    animation: cardEnter 0.3s var(--ease-out) both;
 }
 
 @keyframes cardEnter {
@@ -2516,6 +2527,17 @@ body.keyboard-open .bottom-nav {
     }
 }
 
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 12px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
 .search-card.animate-fade-in,
 .favorite-card.animate-fade-in,
 .recent-card.animate-fade-in,
@@ -2524,8 +2546,8 @@ body.keyboard-open .bottom-nav {
 .search-intro-card.animate-fade-in,
 .results-summary-card.animate-fade-in,
 .search-empty-card.animate-fade-in {
-    animation-duration: 0.48s;
-    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    animation-duration: 0.3s;
+    animation-timing-function: var(--ease-out);
 }
 
 .animate-fade-in:nth-child(1) {
@@ -2627,13 +2649,14 @@ body.keyboard-open .bottom-nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 0;
+    height: 56px;
     overflow: hidden;
-    transition: height 0.25s var(--ease-out);
+    transform: translateY(-56px);
+    transition: transform 0.25s var(--ease-out);
 }
 
 .ptr-container.active {
-    height: 56px;
+    transform: translateY(0);
 }
 
 .ptr-spinner {
@@ -2682,8 +2705,8 @@ body.keyboard-open .bottom-nav {
     opacity: 0;
     pointer-events: none;
     transition:
-        opacity 0.35s var(--ease-out),
-        transform 0.35s var(--ease-spring);
+        opacity 0.28s var(--ease-out),
+        transform 0.28s var(--ease-spring);
     display: none;
 }
 
@@ -2880,6 +2903,14 @@ textarea:focus-visible {
 
     .btn-primary:hover {
         filter: brightness(1.08);
+    }
+
+    .badge-card:hover,
+    .start-stat-card:hover,
+    .suggestion-chip:hover,
+    .recent-chip:hover,
+    .search-empty-chip:hover {
+        background: rgb(255 255 255 / 6%);
     }
 }
 

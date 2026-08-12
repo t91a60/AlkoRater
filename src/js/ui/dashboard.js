@@ -81,7 +81,7 @@ export function updateDashboard() {
         </div>
 
         <div class="start-stats-grid animate-fade-in" style="animation-delay:60ms">
-            <div class="start-stat-card start-stat-main">
+            <div class="start-stat-card start-stat-main animate-fade-in" style="animation-delay:80ms">
                 <div class="start-stat-header">
                     <i data-lucide="bar-chart-2" class="start-stat-ico" aria-hidden="true"></i>
                     <span class="start-stat-lbl">Ocenionych</span>
@@ -90,19 +90,19 @@ export function updateDashboard() {
                 <div class="start-stat-sub">trunkó${total === 1 ? 'w' : 'w'} w kolekcji</div>
             </div>
 
-            <div class="start-stat-card">
+            <div class="start-stat-card animate-fade-in" style="animation-delay:115ms">
                 <div class="start-stat-header">
                     <i data-lucide="star" class="start-stat-ico start-stat-ico--gold" aria-hidden="true"></i>
                     <span class="start-stat-lbl">Średnia</span>
                 </div>
                 <div class="start-stat-big start-stat-big--sm">${escapeHTML(avgScore)}</div>
                 <div class="start-rating-bar">
-                    <div class="start-rating-fill" style="width:${ratingWidth}%;background:${ratingColor}"></div>
+                    <div class="start-rating-fill" style="--fill:${ratingWidth / 100};background:${ratingColor}"></div>
                 </div>
             </div>
 
             ${topCategory ? `
-            <div class="start-stat-card" style="--cat-bg:${catAccent.bg};--cat-color:${catAccent.color}">
+            <div class="start-stat-card animate-fade-in" style="animation-delay:150ms;--cat-bg:${catAccent.bg};--cat-color:${catAccent.color}">
                 <div class="start-stat-header">
                     <i data-lucide="${catAccent.icon}" class="start-stat-ico start-stat-ico--cat" aria-hidden="true"></i>
                     <span class="start-stat-lbl">Faworyci</span>
@@ -151,6 +151,12 @@ export function updateDashboard() {
 
     if (window.lucide) {
         window.lucide.createIcons();
+    }
+
+    const streakEl = document.querySelector('.start-streak');
+    if (streakEl && streak > 1) {
+        streakEl.classList.add('bump');
+        setTimeout(() => streakEl.classList.remove('bump'), 300);
     }
 
     if (state.currentTab === 'search' && !state.el.searchInput?.value?.trim()) {

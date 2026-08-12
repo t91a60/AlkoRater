@@ -30,7 +30,8 @@ export function setupPullToRefresh(scrollContainer, onRefresh) {
         if (!pulling) {return;}
         if (delta > 0) {
             pullDistance = Math.min(delta * 0.45, 100);
-            ptrEl.style.height = `${pullDistance}px`;
+            const translateY = -56 + pullDistance;
+            ptrEl.style.transform = `translateY(${translateY}px)`;
             scrollContainer.scrollTop = 0;
             ptrEl.classList.toggle('pulling', pullDistance > 55);
         }
@@ -39,7 +40,7 @@ export function setupPullToRefresh(scrollContainer, onRefresh) {
     const done = () => {
         refreshing = false;
         ptrEl.classList.remove('active', 'loading');
-        ptrEl.style.height = '';
+        ptrEl.style.transform = '';
     };
 
     const finishPull = () => {
@@ -52,7 +53,7 @@ export function setupPullToRefresh(scrollContainer, onRefresh) {
             (onRefresh() || Promise.resolve()).then(done, done);
         } else {
             ptrEl.classList.remove('pulling');
-            ptrEl.style.height = '';
+            ptrEl.style.transform = '';
         }
         pullDistance = 0;
     };

@@ -14,6 +14,7 @@ const FLING_VELOCITY = 300;
 const RUBBERBAND_CONSTANT = 0.55;
 const MIN_RADIUS = 32;
 const MAX_RADIUS = 48;
+let lastDismissVelocity = 0;
 
 function rubberband(overshoot, dimension = 100) {
     return (overshoot * dimension * RUBBERBAND_CONSTANT) / (dimension + RUBBERBAND_CONSTANT * Math.abs(overshoot));
@@ -210,6 +211,7 @@ export function closeModal(instant) {
         stiffness: 200,
         damping: 12,
         mass: 0.8,
+        velocity: -lastDismissVelocity,
         onFinish: finishClose,
     });
 }
@@ -255,8 +257,10 @@ export function setupModalDismiss() {
     let startY = 0;
     let dragging = false;
     let history = [];
+    let activeSpring = null;
 
     function onPointerDown(e) {
+        if (activeSpring) { activeSpring.stop(); activeSpring = null; }
         const touchY = e.touches[0].clientY;
         const rect = content.getBoundingClientRect();
         const hitZone = grabber
@@ -315,14 +319,16 @@ export function setupModalDismiss() {
         const shouldDismiss = delta > DISMISS_THRESHOLD || velocity > FLING_VELOCITY;
 
         if (shouldDismiss) {
+            lastDismissVelocity = velocity;
             closeModal();
         } else {
             haptics.light();
             if (overlay) { overlay.style.opacity = ''; }
-            springModal(content, { y: 0, radius: MIN_RADIUS }, {
+            activeSpring = springModal(content, { y: 0, radius: MIN_RADIUS }, {
                 stiffness: 200,
                 damping: 12,
                 mass: 0.8,
+                onFinish: () => { activeSpring = null; },
             });
         }
     }
@@ -333,10 +339,11 @@ export function setupModalDismiss() {
         haptics.light();
         content.style.transition = '';
         if (overlay) { overlay.style.opacity = ''; }
-        springModal(content, { y: 0, radius: MIN_RADIUS }, {
+        activeSpring = springModal(content, { y: 0, radius: MIN_RADIUS }, {
             stiffness: 200,
             damping: 12,
             mass: 0.8,
+            onFinish: () => { activeSpring = null; },
         });
     }
 
