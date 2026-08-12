@@ -75,6 +75,12 @@ export async function loadAllData() {
         fetchJSON('./data/wina.json'),
     ]);
 
+    // If all fetches returned empty (offline failure), don't wipe existing products
+    if (beerData.length === 0 && vodkaData.length === 0 && wineData.length === 0) {
+        logger.warn('All data fetches returned empty — skipping product update (likely offline)');
+        return;
+    }
+
     const products = [
         ...beerData.map((item, index) => normalizeLoadedItem(item, 'beer', index)),
         ...vodkaData.map((item, index) => normalizeLoadedItem(item, 'vodka', index)),

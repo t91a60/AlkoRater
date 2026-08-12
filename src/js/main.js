@@ -5,6 +5,7 @@ import { loadAllData } from './services/data-loader.js';
 import { registerSW } from './services/sw-service.js';
 import { setupContextMenus } from './ui/context-menu.js';
 import { setupPullToRefresh } from './ui/pull-to-refresh.js';
+import { haptics } from './ui/haptics.js';
 import {
     showToast,
     toggleSkeletons,
@@ -58,9 +59,13 @@ const setupListeners = () => {
             return;
         }
         const card = e.target.closest('.search-card');
-        if (!card) {return;}
+        if (!card) {
+            return;
+        }
         const item = state.appData.find((i) => i.name === card.dataset.itemName);
-        if (item) {openRateModal(item);}
+        if (item) {
+            openRateModal(item);
+        }
     };
 
     document.addEventListener('alkorater:storage-error', (e) => {
@@ -71,8 +76,12 @@ const setupListeners = () => {
         'error',
         (e) => {
             const target = e.target;
-            if (!(target instanceof HTMLImageElement)) {return;}
-            if (target.dataset.fallbackApplied === 'true') {return;}
+            if (!(target instanceof HTMLImageElement)) {
+                return;
+            }
+            if (target.dataset.fallbackApplied === 'true') {
+                return;
+            }
             target.dataset.fallbackApplied = 'true';
             target.src = './icons/icon-60.png';
         },
@@ -81,9 +90,13 @@ const setupListeners = () => {
 
     state.el.recentlyRated.addEventListener('click', (e) => {
         const card = e.target.closest('.recent-card');
-        if (!card) {return;}
+        if (!card) {
+            return;
+        }
         const fav = state.favorites.find((f) => f.item.name === card.dataset.itemName);
-        if (fav) {openRateModal(fav.item);}
+        if (fav) {
+            openRateModal(fav.item);
+        }
     });
 
     state.el.searchResults.addEventListener('click', handleSearchAreaClick);
@@ -105,15 +118,23 @@ const setupListeners = () => {
                 return;
             }
             const fav = state.favorites.find((f) => f.item.name === card.dataset.itemName);
-            if (fav) {openRateModal(fav.item);}
+            if (fav) {
+                openRateModal(fav.item);
+            }
         }
     });
 
     state.el.dashboardGrid.addEventListener('click', (e) => {
         const actionBtn = e.target.closest('[data-action]');
-        if (!actionBtn) {return;}
-        if (actionBtn.dataset.action === 'open-search') {switchTab('search');}
-        if (actionBtn.dataset.action === 'open-favorites') {switchTab('favorites');}
+        if (!actionBtn) {
+            return;
+        }
+        if (actionBtn.dataset.action === 'open-search') {
+            switchTab('search');
+        }
+        if (actionBtn.dataset.action === 'open-favorites') {
+            switchTab('favorites');
+        }
     });
 
     const showAllFavoritesBtn = document.getElementById('showAllFavoritesBtn');
@@ -122,7 +143,7 @@ const setupListeners = () => {
     }
 
     state.el.navItems.forEach((btn) =>
-        btn.addEventListener('click', () => switchTab(btn.dataset.tab))
+        btn.addEventListener('click', () => switchTab(btn.dataset.tab)),
     );
 
     state.el.searchInput.addEventListener('input', debounce(handleSearch, 300));
@@ -135,8 +156,6 @@ const setupListeners = () => {
         });
     }
 
-
-
     const noteInput = document.getElementById('note-input');
     const toolbar = document.getElementById('keyboardToolbar');
     const kbDone = document.getElementById('keyboardDone');
@@ -147,7 +166,9 @@ const setupListeners = () => {
         });
         noteInput.addEventListener('blur', () => {
             toolbar.classList.remove('visible');
-            setTimeout(() => { toolbar.style.display = 'none'; }, 300);
+            setTimeout(() => {
+                toolbar.style.display = 'none';
+            }, 300);
         });
         kbDone.addEventListener('click', () => {
             noteInput.blur();
@@ -178,7 +199,9 @@ const setupListeners = () => {
 
     document.querySelector('.stars-container').addEventListener('keydown', (e) => {
         const target = e.target.closest('.star');
-        if (!target) {return;}
+        if (!target) {
+            return;
+        }
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             setRating(parseInt(target.dataset.value, 10));
@@ -198,30 +221,32 @@ const setVH = () => {
 };
 
 const initViewport = () => {
-    // Pierwsze wywołanie — od razu
     setVH();
 
-    // Podwójny rAF: daje przeglądarce czas na obliczenie safe-area-inset-bottom
-    // przed pierwszym renderem. To jest rekomendacja Apple dla iOS PWA.
     requestAnimationFrame(() => {
         requestAnimationFrame(setVH);
     });
 
-    // Dodatkowe wywołanie po 300ms jako siatka bezpieczeństwa
-    // (iOS standalone może potrzebować czasu na raportowanie safe-area)
     setTimeout(setVH, 300);
 
+    const debouncedSetVH = debounce(setVH, 32);
+
     if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', setVH);
-        window.visualViewport.addEventListener('scroll', setVH);
+        window.visualViewport.addEventListener('resize', debouncedSetVH);
+        window.visualViewport.addEventListener('scroll', debouncedSetVH);
     }
-    window.addEventListener('resize', setVH);
+    window.addEventListener('resize', debouncedSetVH);
     window.addEventListener('orientationchange', () => setTimeout(setVH, 150));
 };
 
 const setupKeyboardHandlers = () => {
-    document.addEventListener('focusin', () => {
-        document.body.classList.add('keyboard-open');
+    document.addEventListener('focusin', (e) => {
+        const el = e.target;
+        const isTextInput =
+            el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable;
+        if (isTextInput) {
+            document.body.classList.add('keyboard-open');
+        }
     });
     document.addEventListener('focusout', () => {
         setTimeout(() => {
@@ -244,35 +269,88 @@ function setupSwipeTabs(container) {
     const tabs = ['start', 'search', 'favorites'];
     let startX = 0;
     let swiping = false;
+    let history = [];
+    const HYSTERESIS = 10;
+    const DECELERATION = 0.998;
 
-    container.addEventListener('touchstart', (e) => {
-        if (container.scrollTop > 0) {return;}
-        const target = e.target;
-        if (target.closest('.search-card, .search-item, .favorite-card, .recent-card, .action-btn, .filter-chip, .nav-item')) {return;}
-        startX = e.touches[0].clientX;
-        swiping = true;
-    }, { passive: true });
+    function projectVelocity(velocity) {
+        return (velocity / 1000) * DECELERATION / (1 - DECELERATION);
+    }
 
-    container.addEventListener('touchmove', (e) => {
-        if (!swiping) {return;}
-        const delta = e.touches[0].clientX - startX;
-        if (Math.abs(delta) > 10) {
-            e.preventDefault();
-        }
-    }, { passive: false });
+    container.addEventListener(
+        'touchstart',
+        (e) => {
+            if (container.scrollTop > 0) { return; }
+            const target = e.target;
+            if (
+                target.closest(
+                    '.search-card, .search-item, .favorite-card, .recent-card, .action-btn, .filter-chip, .nav-item',
+                )
+            ) { return; }
+            startX = e.touches[0].clientX;
+            swiping = true;
+            history = [{ x: startX, t: performance.now() }];
+        },
+        { passive: true },
+    );
+
+    container.addEventListener(
+        'touchmove',
+        (e) => {
+            if (!swiping) { return; }
+            const touchX = e.touches[0].clientX;
+            const delta = touchX - startX;
+
+            history.push({ x: touchX, t: performance.now() });
+            if (history.length > 6) { history.shift(); }
+
+            if (Math.abs(delta) > HYSTERESIS) {
+                e.preventDefault();
+                const progress = Math.min(Math.abs(delta) / 70, 1);
+                container.style.transform = `translateX(${delta * 0.3}px)`;
+                container.style.opacity = String(1 - progress * 0.15);
+                container.style.transition = 'none';
+            }
+        },
+        { passive: false },
+    );
 
     container.addEventListener('touchend', (e) => {
-        if (!swiping) {return;}
+        if (!swiping) { return; }
         swiping = false;
+
+        container.style.transition = 'transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out)';
+        container.style.transform = '';
+        container.style.opacity = '';
+
         const delta = e.changedTouches[0].clientX - startX;
-        if (Math.abs(delta) > 70) {
-            const idx = tabs.indexOf(state.currentTab);
-            if (delta < 0 && idx < tabs.length - 1) {
-                switchTab(tabs[idx + 1]);
-            } else if (delta > 0 && idx > 0) {
-                switchTab(tabs[idx - 1]);
+
+        let velocity = 0;
+        if (history.length >= 2) {
+            const last = history[history.length - 1];
+            const prev = history[Math.max(0, history.length - 3)];
+            const dt = last.t - prev.t;
+            if (dt > 0) {
+                velocity = (last.x - prev.x) / (dt / 1000);
             }
         }
+
+        const projected = delta + projectVelocity(velocity);
+        const idx = tabs.indexOf(state.currentTab);
+
+        if (projected < -HYSTERESIS && idx < tabs.length - 1) {
+            switchTab(tabs[idx + 1]);
+        } else if (projected > HYSTERESIS && idx > 0) {
+            switchTab(tabs[idx - 1]);
+        }
+    });
+
+    container.addEventListener('touchcancel', () => {
+        if (!swiping) { return; }
+        swiping = false;
+        container.style.transition = 'transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out)';
+        container.style.transform = '';
+        container.style.opacity = '';
     });
 }
 
@@ -281,40 +359,88 @@ function setupSwipeDelete(container) {
     let currentTranslate = 0;
     let isSwiping = false;
     let activeCard = null;
+    let history = [];
     const REVEAL_WIDTH = 60;
+    const FLING_VELOCITY = 400;
+    const RUBBERBAND_CONSTANT = 0.55;
 
-    container.addEventListener('touchstart', (e) => {
-        const card = e.target.closest('.favorite-card');
-        if (!card) {return;}
-        if (e.target.closest('.delete-btn')) {return;}
-        const main = card.querySelector('.fav-main');
-        if (!main) {return;}
-        document.querySelectorAll('.fav-main.swiped').forEach((el) => {
-            if (el !== main) {el.classList.remove('swiped'); el.style.transform = '';}
-        });
-        startX = e.touches[0].clientX;
-        isSwiping = true;
-        activeCard = { card, main };
-        currentTranslate = main.classList.contains('swiped') ? -REVEAL_WIDTH : 0;
-    }, { passive: true });
+    function rubberband(overshoot) {
+        return (overshoot * REVEAL_WIDTH * RUBBERBAND_CONSTANT) / (REVEAL_WIDTH + RUBBERBAND_CONSTANT * Math.abs(overshoot));
+    }
 
-    container.addEventListener('touchmove', (e) => {
-        if (!isSwiping || !activeCard) {return;}
-        const delta = e.touches[0].clientX - startX;
-        if (delta > 0 && currentTranslate >= 0) {return;}
-        const newTranslate = Math.max(-REVEAL_WIDTH - 10, Math.min(0, currentTranslate + delta));
-        activeCard.main.style.transform = `translateX(${newTranslate}px)`;
-        activeCard.main.style.transition = 'none';
-    }, { passive: true });
+    container.addEventListener(
+        'touchstart',
+        (e) => {
+            const card = e.target.closest('.favorite-card');
+            if (!card) { return; }
+            if (e.target.closest('.delete-btn')) { return; }
+            const main = card.querySelector('.fav-main');
+            if (!main) { return; }
+            document.querySelectorAll('.fav-main.swiped').forEach((el) => {
+                if (el !== main) {
+                    el.classList.remove('swiped');
+                    el.style.transform = '';
+                }
+            });
+            startX = e.touches[0].clientX;
+            isSwiping = true;
+            activeCard = { card, main };
+            currentTranslate = main.classList.contains('swiped') ? -REVEAL_WIDTH : 0;
+            history = [{ x: startX, t: performance.now() }];
+        },
+        { passive: true },
+    );
+
+    container.addEventListener(
+        'touchmove',
+        (e) => {
+            if (!isSwiping || !activeCard) { return; }
+            const touchX = e.touches[0].clientX;
+            const delta = touchX - startX;
+
+            history.push({ x: touchX, t: performance.now() });
+            if (history.length > 6) { history.shift(); }
+
+            if (delta > 0 && currentTranslate >= 0) { return; }
+
+            const raw = currentTranslate + delta;
+            let newTranslate;
+            if (raw < -REVEAL_WIDTH) {
+                const overshoot = Math.abs(raw) - REVEAL_WIDTH;
+                newTranslate = -(REVEAL_WIDTH + rubberband(overshoot));
+            } else {
+                newTranslate = Math.max(-REVEAL_WIDTH - 10, Math.min(0, raw));
+            }
+            activeCard.main.style.transform = `translateX(${newTranslate}px)`;
+            activeCard.main.style.transition = 'none';
+        },
+        { passive: true },
+    );
 
     const resetSwipe = () => {
-        if (!activeCard) {return;}
+        if (!activeCard) { return; }
         const main = activeCard.main;
+
+        let velocity = 0;
+        if (history.length >= 2) {
+            const last = history[history.length - 1];
+            const prev = history[Math.max(0, history.length - 3)];
+            const dt = last.t - prev.t;
+            if (dt > 0) {
+                velocity = (last.x - prev.x) / (dt / 1000);
+            }
+        }
+
         const style = getComputedStyle(main);
         const matrix = new DOMMatrixReadOnly(style.transform);
         const x = matrix.m41 || 0;
-        if (x < -40) {
+
+        const shouldReveal = x < -40 || velocity < -FLING_VELOCITY;
+        const shouldClose = velocity > FLING_VELOCITY;
+
+        if (shouldReveal && !shouldClose) {
             main.classList.add('swiped');
+            haptics.light();
         } else {
             main.classList.remove('swiped');
         }
@@ -341,7 +467,9 @@ const init = async () => {
     setupContextMenus(state.el.searchResults, {
         onRate: (itemName) => {
             const item = state.appData.find((i) => i.name === itemName);
-            if (item) {openRateModal(item);}
+            if (item) {
+                openRateModal(item);
+            }
         },
     });
     setupSwipeDelete(state.el.favoritesList);
@@ -350,11 +478,15 @@ const init = async () => {
     setupContextMenus(state.el.favoritesList, {
         onRate: (itemName) => {
             const fav = state.favorites.find((f) => f.item.name === itemName);
-            if (fav) {openRateModal(fav.item);}
+            if (fav) {
+                openRateModal(fav.item);
+            }
         },
         onDelete: (itemName) => {
             const fav = state.favorites.find((f) => f.item.name === itemName);
-            if (fav) {deleteFavorite(fav.id);}
+            if (fav) {
+                deleteFavorite(fav.id);
+            }
         },
     });
     setupPullToRefresh(document.querySelector('.content-area'), async () => {
@@ -370,6 +502,16 @@ const init = async () => {
     setupKeyboardHandlers();
     initViewport();
     setupPageShow();
+
+    const contentArea = document.querySelector('.content-area');
+    const headerTitle = document.getElementById('headerTitle');
+    if (contentArea && headerTitle) {
+        contentArea.addEventListener('scroll', () => {
+            const collapsed = contentArea.scrollTop > 20;
+            headerTitle.classList.toggle('header-collapsed', collapsed);
+        }, { passive: true });
+    }
+
     toggleSkeletons(true);
 
     try {
@@ -382,6 +524,9 @@ const init = async () => {
     updateDashboard();
     renderSuggestions();
     window.lucide?.createIcons();
+    requestAnimationFrame(() => {
+        document.body.classList.add('app-loaded');
+    });
 
     registerSW();
 

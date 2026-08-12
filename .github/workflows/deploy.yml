@@ -12,7 +12,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -26,10 +26,15 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run test
+      - name: Stage deployable files
+        run: |
+          mkdir -p dist
+          cp index.html service-worker.js manifest.json robots.txt sitemap.xml humans.txt llms.txt llms-full.txt favicon.ico logo.png dist/
+          cp -r src data icons dist/
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: dist
   deploy:
     needs: build
     runs-on: ubuntu-latest

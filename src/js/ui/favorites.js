@@ -37,7 +37,7 @@ export function renderFavorites(filter = 'wszystkie') {
     }
 
     container.innerHTML = list.map((fav, idx) => `
-        <div id="fav-${fav.id}" class="favorite-card animate-fade-in" data-item-name="${escapeHTML(fav.item.name)}" style="animation-delay:${idx * 30}ms">
+        <div id="fav-${fav.id}" class="favorite-card animate-fade-in" data-item-name="${escapeHTML(fav.item.name)}" style="animation-delay:${Math.min(idx, 6) * 35}ms">
             <div class="fav-main">
                 ${productThumbHTML(fav.item.image_url, fav.tag, 50)}
                 <div class="item-info">

@@ -190,7 +190,7 @@ export function renderResults(list, query) {
         const isFav = favoritedNames.has(item.name);
         const fav = isFav ? state.favorites.find(f => f.item.name === item.name) : null;
         return `
-            <div class="search-card animate-fade-in" data-item-name="${escapeHTML(item.name)}" style="animation-delay:${idx * 25}ms">
+            <div class="search-card animate-fade-in" data-item-name="${escapeHTML(item.name)}" style="animation-delay:${Math.min(idx, 6) * 35}ms">
                 <div class="search-card-main">
                     ${productThumbHTML(item.image_url, item.category, 50)}
                     <div class="item-info">

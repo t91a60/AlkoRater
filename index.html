@@ -1,236 +1,392 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pl" itemscope itemtype="https://schema.org/WebApplication">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#071019">
-    <meta name="description" content="AlkoRater — Progressive Web App do oceniania alkoholi. Offline-first, mobile-first. Śledź i oceniaj piwo, wódkę i wino bez internetu.">
-    <meta name="robots" content="index, follow">
-    <meta name="application-name" content="AlkoRater">
-    <meta name="google" content="notranslate">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self';">
-    <title>AlkoRater — iOS-owe PWA do oceniania alkoholi</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content"
+        />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="theme-color" content="#071019" />
+        <meta name="color-scheme" content="dark" />
+        <meta
+            name="description"
+            content="AlkoRater — Progressive Web App do oceniania alkoholi. Offline-first, mobile-first. Śledź i oceniaj piwo, wódkę i wino bez internetu."
+        />
+        <meta name="robots" content="index, follow" />
+        <meta name="application-name" content="AlkoRater" />
+        <meta name="google" content="notranslate" />
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self';"
+        />
+        <title>AlkoRater — iOS-owe PWA do oceniania alkoholi</title>
 
-    <!-- Canonical -->
-    <link rel="canonical" href="https://t91a60.github.io/AlkoRater/">
+        <!-- Canonical -->
+        <link rel="canonical" href="https://t91a60.github.io/AlkoRater/" />
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="AlkoRater — iOS-owe PWA do oceniania alkoholi">
-    <meta property="og:description" content="Progressive Web App do oceniania alkoholi. Offline-first, mobile-first. Śledź i oceniaj piwo, wódkę i wino bez internetu.">
-    <meta property="og:url" content="https://t91a60.github.io/AlkoRater/">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="AlkoRater">
-    <meta property="og:image" content="https://t91a60.github.io/AlkoRater/logo.png">
-    <meta property="og:locale" content="pl_PL">
+        <!-- Open Graph -->
+        <meta property="og:title" content="AlkoRater — iOS-owe PWA do oceniania alkoholi" />
+        <meta
+            property="og:description"
+            content="Progressive Web App do oceniania alkoholi. Offline-first, mobile-first. Śledź i oceniaj piwo, wódkę i wino bez internetu."
+        />
+        <meta property="og:url" content="https://t91a60.github.io/AlkoRater/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="AlkoRater" />
+        <meta property="og:image" content="https://t91a60.github.io/AlkoRater/logo.png" />
+        <meta property="og:locale" content="pl_PL" />
 
-    <!-- Twitter Cards -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="AlkoRater — iOS-owe PWA do oceniania alkoholi">
-    <meta name="twitter:description" content="Progressive Web App do oceniania alkoholi. Offline-first, mobile-first. Śledź i oceniaj piwo, wódkę i wino bez internetu.">
-    <meta name="twitter:image" content="https://t91a60.github.io/AlkoRater/logo.png">
+        <!-- Twitter Cards -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="AlkoRater — iOS-owe PWA do oceniania alkoholi" />
+        <meta
+            name="twitter:description"
+            content="Progressive Web App do oceniania alkoholi. Offline-first, mobile-first. Śledź i oceniaj piwo, wódkę i wino bez internetu."
+        />
+        <meta name="twitter:image" content="https://t91a60.github.io/AlkoRater/logo.png" />
 
-    <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "AlkoRater",
-        "url": "https://t91a60.github.io/AlkoRater/",
-        "description": "Offline-first Progressive Web App do oceniania i śledzenia alkoholi."
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "AlkoRater",
-        "description": "Progressive Web App do oceniania alkoholi. Offline-first, mobile-first.",
-        "url": "https://t91a60.github.io/AlkoRater/",
-        "isPartOf": {
-            "@type": "WebSite",
-            "name": "AlkoRater",
-            "url": "https://t91a60.github.io/AlkoRater/"
-        }
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "MobileApplication",
-        "name": "AlkoRater",
-        "operatingSystem": "Web",
-        "description": "Offline-first Progressive Web App for tracking and rating alcohol consumption. Works entirely offline.",
-        "applicationCategory": "Multimedia",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "PLN"
-        },
-        "author": {
-            "@type": "Person",
-            "name": "t91a60",
-            "url": "https://github.com/t91a60"
-        }
-    }
-    </script>
+        <!-- JSON-LD Structured Data -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "name": "AlkoRater",
+                "url": "https://t91a60.github.io/AlkoRater/",
+                "description": "Offline-first Progressive Web App do oceniania i śledzenia alkoholi."
+            }
+        </script>
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": "AlkoRater",
+                "description": "Progressive Web App do oceniania alkoholi. Offline-first, mobile-first.",
+                "url": "https://t91a60.github.io/AlkoRater/",
+                "isPartOf": {
+                    "@type": "WebSite",
+                    "name": "AlkoRater",
+                    "url": "https://t91a60.github.io/AlkoRater/"
+                }
+            }
+        </script>
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "MobileApplication",
+                "name": "AlkoRater",
+                "operatingSystem": "Web",
+                "description": "Offline-first Progressive Web App for tracking and rating alcohol consumption. Works entirely offline.",
+                "applicationCategory": "Multimedia",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "PLN"
+                },
+                "author": {
+                    "@type": "Person",
+                    "name": "t91a60",
+                    "url": "https://github.com/t91a60"
+                }
+            }
+        </script>
 
-    <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="src/css/style.css">
-    <link rel="icon" href="favicon.ico" sizes="any">
-    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
-    <link rel="apple-touch-icon" href="icons/icon-180.png">
-</head>
-<body>
-    <div class="app-container">
-        <!-- Header -->
-        <header class="app-header glass">
-            <div class="header-main">
-                <div class="nav-logo">
-                    <img src="logo.png" alt="AlkoRater" class="app-logo" width="32" height="32">
-                    <h1 id="headerTitle">Przegląd</h1>
-                </div>
-            </div>
-        </header>
-
-        <!-- Content Area -->
-        <main class="content-area">
-            <!-- Tab: Start -->
-            <section id="tab-start" class="tab-view active">
-                <div class="large-title-spacer"></div>
-
-                <div class="tab-flex-content">
-                    <div id="dashboardGrid" class="dashboard-wrapper"></div>
-
-                    <div class="section-container">
-                        <div class="section-header-flex">
-                            <h2 class="section-title section-title--flush">Ostatnio Ocenione</h2>
-                            <button id="showAllFavoritesBtn" class="link-btn">Wszystkie ></button>
-                        </div>
-                        <div id="recentlyRated" class="recent-scroll recent-scroll--spaced"></div>
+        <link rel="manifest" href="manifest.json" />
+        <link rel="stylesheet" href="src/css/style.css" />
+        <link rel="icon" href="favicon.ico" sizes="any" />
+        <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+        <link rel="apple-touch-icon" href="icons/icon-180.png" />
+        <link rel="apple-touch-startup-image" href="icons/icon-180.png" />
+    </head>
+    <body>
+        <div class="app-container">
+            <!-- Header -->
+            <header class="app-header glass">
+                <div class="header-main">
+                    <div class="nav-logo">
+                        <img
+                            src="logo.png"
+                            alt="AlkoRater"
+                            class="app-logo"
+                            width="32"
+                            height="32"
+                        />
+                        <h1 id="headerTitle">Przegląd</h1>
                     </div>
                 </div>
+            </header>
 
-                <div class="info-block glass">
-                    <span><i data-lucide="circle-check" class="info-block-icon" aria-hidden="true"></i> <span id="dbCount">0</span> produktów dostępnych offline</span>
-                </div>
-            </section>
+            <!-- Content Area -->
+            <main class="content-area">
+                <!-- Tab: Start -->
+                <section id="tab-start" class="tab-view active" role="tabpanel">
+                    <div class="large-title-spacer"></div>
 
-            <!-- Tab: Search -->
-            <section id="tab-search" class="tab-view">
-                <div class="large-title-spacer"></div>
+                    <div class="tab-flex-content">
+                        <div id="dashboardGrid" class="dashboard-wrapper"></div>
 
-                <div class="search-bar-container glass-sticky">
-                    <div class="search-flex">
-                        <div class="search-wrapper">
-                            <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" aria-hidden="true">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        <div class="section-container">
+                            <div class="section-header-flex">
+                                <h2 class="section-title section-title--flush">
+                                    Ostatnio Ocenione
+                                </h2>
+                                <button id="showAllFavoritesBtn" class="link-btn">
+                                    Wszystkie >
+                                </button>
+                            </div>
+                            <div
+                                id="recentlyRated"
+                                class="recent-scroll recent-scroll--spaced"
+                            ></div>
+                        </div>
+                    </div>
+
+                    <div class="info-block glass">
+                        <span
+                            ><i
+                                data-lucide="circle-check"
+                                class="info-block-icon"
+                                aria-hidden="true"
+                            ></i>
+                            <span id="dbCount">0</span> produktów dostępnych offline</span
+                        >
+                    </div>
+                </section>
+
+                <!-- Tab: Search -->
+                <section id="tab-search" class="tab-view" role="tabpanel">
+                    <div class="large-title-spacer"></div>
+
+                    <div class="search-bar-container glass-sticky">
+                        <div class="search-flex">
+                            <div class="search-wrapper">
+                                <svg
+                                    class="search-icon"
+                                    viewBox="0 0 24 24"
+                                    width="18"
+                                    height="18"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    fill="none"
+                                    aria-hidden="true"
+                                >
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                                <input
+                                    type="text"
+                                    id="search-input"
+                                    placeholder="Szukaj trunku, marki albo kategorii..."
+                                    autocomplete="off"
+                                    autocorrect="off"
+                                    autocapitalize="off"
+                                    spellcheck="false"
+                                    aria-label="Szukaj alkoholu"
+                                />
+                                <button
+                                    id="clearSearch"
+                                    class="clear-btn"
+                                    aria-label="Wyczyść wyszukiwanie"
+                                >
+                                    <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 16 16"
+                                        fill="none"
+                                        aria-hidden="true"
+                                    >
+                                        <path
+                                            d="M4 4l8 8M12 4l-8 8"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                        />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        id="searchSkeletons"
+                        class="skeletons-container"
+                        style="display: none"
+                    ></div>
+                    <div id="searchResults" class="results-list" aria-live="polite"></div>
+
+                    <div
+                        id="noResults"
+                        class="empty-state-animated"
+                        role="status"
+                        aria-live="polite"
+                        aria-atomic="true"
+                        style="display: none"
+                    >
+                        <div class="floating-ghost" aria-hidden="true">
+                            <svg
+                                class="ghost-svg"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            >
+                                <path
+                                    d="M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z"
+                                ></path>
+                                <circle cx="9" cy="10" r="1.2" fill="currentColor"></circle>
+                                <circle cx="15" cy="10" r="1.2" fill="currentColor"></circle>
                             </svg>
-                            <input type="text" id="search-input" placeholder="Szukaj trunku, marki albo kategorii..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Szukaj alkoholu">
-                            <button id="clearSearch" class="clear-btn" aria-label="Wyczyść wyszukiwanie"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
                         </div>
-
+                        <p class="empty-state-text">Nie znaleziono w naszej bazie danych.</p>
                     </div>
-                </div>
+                </section>
 
-                <div id="searchSkeletons" class="skeletons-container" style="display:none"></div>
-                <div id="searchResults" class="results-list" aria-live="polite"></div>
+                <!-- Tab: Favorites -->
+                <section id="tab-favorites" class="tab-view" role="tabpanel">
+                    <div class="large-title-spacer"></div>
 
-                <div id="noResults" class="empty-state-animated" role="status" aria-live="polite" aria-atomic="true" style="display: none;">
-                    <div class="floating-ghost" aria-hidden="true">
-                        <svg class="ghost-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z"></path>
-                            <circle cx="9" cy="10" r="1.2" fill="currentColor"></circle>
-                            <circle cx="15" cy="10" r="1.2" fill="currentColor"></circle>
+                    <div class="filters-container">
+                        <button class="filter-chip active" data-filter="wszystkie">
+                            Wszystkie
+                        </button>
+                        <button class="filter-chip" data-filter="piwo">Piwo</button>
+                        <button class="filter-chip" data-filter="wódka">Wódka</button>
+                        <button class="filter-chip" data-filter="wino">Wino</button>
+                    </div>
+
+                    <div id="favorites-list" class="results-list" aria-live="polite"></div>
+                </section>
+            </main>
+
+            <!-- Bottom Navigation -->
+            <nav class="bottom-nav glass" role="tablist" aria-label="Nawigacja">
+                <button class="nav-item active" data-tab="start" role="tab" aria-selected="true" aria-controls="tab-start" aria-label="Start">
+                    <div class="nav-icon">
+                        <i data-lucide="house" stroke-width="2" aria-hidden="true"></i>
+                    </div>
+                    <span class="nav-label">Start</span>
+                </button>
+                <button class="nav-item" data-tab="search" role="tab" aria-selected="false" aria-controls="tab-search" aria-label="Szukaj">
+                    <div class="nav-icon">
+                        <i data-lucide="search" stroke-width="2" aria-hidden="true"></i>
+                    </div>
+                    <span class="nav-label">Szukaj</span>
+                </button>
+                <button class="nav-item" data-tab="favorites" role="tab" aria-selected="false" aria-controls="tab-favorites" aria-label="Ulubione">
+                    <div class="nav-icon">
+                        <i data-lucide="heart" stroke-width="2" aria-hidden="true"></i>
+                    </div>
+                    <span class="nav-label">Ulubione</span>
+                </button>
+            </nav>
+
+            <!-- Update Banner -->
+            <div
+                id="update-banner"
+                class="update-banner"
+                role="status"
+                aria-live="polite"
+                style="display: none"
+            >
+                <div class="update-banner-inner">
+                    <svg
+                        class="update-icon"
+                        viewBox="0 0 24 24"
+                        width="18"
+                        height="18"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        fill="none"
+                        aria-hidden="true"
+                    >
+                        <polyline points="1 4 1 10 7 10"></polyline>
+                        <path d="M3.51 15a9 9 0 1 0 .49-3.27"></path>
+                    </svg>
+                    <span class="update-text">Nowa wersja dostępna</span>
+                    <button id="update-btn" class="update-btn">Aktualizuj</button>
+                    <button id="update-dismiss" class="update-dismiss" aria-label="Zamknij">
+                        <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M4 4l8 8M12 4l-8 8"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                            />
                         </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div
+                id="modal-wrapper"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="modalTitle"
+                tabindex="-1"
+                style="display: none"
+            >
+                <div class="modal-overlay"></div>
+                <div class="modal-content">
+                    <div class="modal-grabber"></div>
+                    <button id="modalClose" class="close-btn-right" aria-label="Zamknij">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M5 5l10 10M15 5l-10 10"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                            />
+                        </svg>
+                    </button>
+                    <h3 id="modalTitle" class="modal-title">Nazwa Produktu</h3>
+                    <div id="modalCategoryTag" class="category-badge">Kategoria: ...</div>
+                    <div class="stars-container" id="starsContainer">
+                        <button type="button" class="star" data-value="1" aria-label="1 gwiazdka">
+                            <i data-lucide="star" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="star" data-value="2" aria-label="2 gwiazdki">
+                            <i data-lucide="star" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="star" data-value="3" aria-label="3 gwiazdki">
+                            <i data-lucide="star" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="star" data-value="4" aria-label="4 gwiazdki">
+                            <i data-lucide="star" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="star" data-value="5" aria-label="5 gwiazdek">
+                            <i data-lucide="star" aria-hidden="true"></i>
+                        </button>
                     </div>
-                    <p class="empty-state-text">Nie znaleziono w naszej bazie danych.</p>
+                    <label class="note-label" for="note-input">Twoja notatka (opcjonalnie)</label>
+                    <textarea id="note-input" placeholder="Napisz coś..." rows="4"></textarea>
+                    <button id="saveButton" class="btn-primary" disabled>Zapisz Ocenę</button>
                 </div>
-            </section>
-
-            <!-- Tab: Favorites -->
-            <section id="tab-favorites" class="tab-view">
-                <div class="large-title-spacer"></div>
-
-                <div class="filters-container">
-                    <button class="filter-chip active" data-filter="wszystkie">Wszystkie</button>
-                    <button class="filter-chip" data-filter="piwo">Piwo</button>
-                    <button class="filter-chip" data-filter="wódka">Wódka</button>
-                    <button class="filter-chip" data-filter="wino">Wino</button>
-                </div>
-
-
-
-                <div id="favorites-list" class="results-list" aria-live="polite"></div>
-            </section>
-        </main>
-
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav glass" role="navigation" aria-label="Nawigacja">
-            <button class="nav-item active" data-tab="start" aria-label="Start">
-                <div class="nav-icon">
-                    <i data-lucide="house" stroke-width="2" aria-hidden="true"></i>
-                </div>
-                <span class="nav-label">Start</span>
-            </button>
-            <button class="nav-item" data-tab="search" aria-label="Szukaj">
-                <div class="nav-icon">
-                    <i data-lucide="search" stroke-width="2" aria-hidden="true"></i>
-                </div>
-                <span class="nav-label">Szukaj</span>
-            </button>
-            <button class="nav-item" data-tab="favorites" aria-label="Ulubione">
-                <div class="nav-icon">
-                    <i data-lucide="heart" stroke-width="2" aria-hidden="true"></i>
-                </div>
-                <span class="nav-label">Ulubione</span>
-            </button>
-        </nav>
-
-        <!-- Update Banner -->
-        <div id="update-banner" class="update-banner" role="status" aria-live="polite" style="display:none;">
-            <div class="update-banner-inner">
-                <svg class="update-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" aria-hidden="true">
-                    <polyline points="1 4 1 10 7 10"></polyline>
-                    <path d="M3.51 15a9 9 0 1 0 .49-3.27"></path>
-                </svg>
-                <span class="update-text">Nowa wersja dostępna</span>
-                <button id="update-btn" class="update-btn">Aktualizuj</button>
-                <button id="update-dismiss" class="update-dismiss" aria-label="Zamknij"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
             </div>
         </div>
 
-        <!-- Modal -->
-        <div id="modal-wrapper" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1" style="display: none;">
-            <div class="modal-overlay"></div>
-            <div class="modal-content">
-                <div class="modal-grabber"></div>
-                <button id="modalClose" class="close-btn-right" aria-label="Zamknij"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5l-10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
-                <h3 id="modalTitle" class="modal-title">Nazwa Produktu</h3>
-                <div id="modalCategoryTag" class="category-badge">Kategoria: ...</div>
-                <div class="stars-container" id="starsContainer">
-                    <button type="button" class="star" data-value="1" aria-label="1 gwiazdka"><i data-lucide="star" aria-hidden="true"></i></button>
-                    <button type="button" class="star" data-value="2" aria-label="2 gwiazdki"><i data-lucide="star" aria-hidden="true"></i></button>
-                    <button type="button" class="star" data-value="3" aria-label="3 gwiazdki"><i data-lucide="star" aria-hidden="true"></i></button>
-                    <button type="button" class="star" data-value="4" aria-label="4 gwiazdki"><i data-lucide="star" aria-hidden="true"></i></button>
-                    <button type="button" class="star" data-value="5" aria-label="5 gwiazdek"><i data-lucide="star" aria-hidden="true"></i></button>
-                </div>
-                <label class="note-label" for="note-input">Twoja notatka (opcjonalnie)</label>
-                <textarea id="note-input" placeholder="Napisz coś..." rows="4"></textarea>
-                <button id="saveButton" class="btn-primary" disabled>Zapisz Ocenę</button>
-            </div>
+        <!-- Keyboard Toolbar -->
+        <div id="keyboardToolbar" class="keyboard-toolbar" style="display: none">
+            <button id="keyboardDone" class="keyboard-done-btn">Gotowe</button>
         </div>
-    </div>
 
-    <!-- Keyboard Toolbar -->
-    <div id="keyboardToolbar" class="keyboard-toolbar" style="display:none;">
-        <button id="keyboardDone" class="keyboard-done-btn">Gotowe</button>
-    </div>
-
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script type="module" src="src/js/main.js"></script>
-</body>
+        <script src="https://unpkg.com/lucide@0.344.0" crossorigin="anonymous"></script>
+        <script type="module" src="src/js/main.js"></script>
+    </body>
 </html>

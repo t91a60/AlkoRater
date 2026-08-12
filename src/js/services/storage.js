@@ -11,7 +11,9 @@ let _db = null;
 
 function openDB() {
     return new Promise((resolve, reject) => {
-        if (_db) {return resolve(_db);}
+        if (_db) {
+            return resolve(_db);
+        }
 
         const request = indexedDB.open(DB_NAME, DB_VERSION);
 
@@ -82,10 +84,12 @@ export async function saveFavorites(favorites) {
         await new Promise((resolve, reject) => {
             tx.oncomplete = () => resolve();
             tx.onerror = () => reject(tx.error);
-            
+
             const clearReq = store.clear();
             clearReq.onsuccess = () => {
-                if (favorites.length === 0) { return; }
+                if (favorites.length === 0) {
+                    return;
+                }
                 for (let i = 0; i < favorites.length; i++) {
                     store.put(favorites[i]);
                 }
@@ -100,7 +104,7 @@ export async function saveFavorites(favorites) {
             logger.warn('[Storage] localStorage sync failed:', e);
         }
 
-    return true;
+        return true;
     } catch (err) {
         logger.error('[Storage] IndexedDB save failed:', err);
         try {
@@ -108,9 +112,11 @@ export async function saveFavorites(favorites) {
             return true;
         } catch (lsErr) {
             logger.error('[Storage] localStorage fallback also failed:', lsErr);
-            window.dispatchEvent(new CustomEvent('alkorater:storage-error', {
-                detail: { message: 'Błąd zapisu danych. Zwolnij miejsce na urządzeniu.' },
-            }));
+            window.dispatchEvent(
+                new CustomEvent('alkorater:storage-error', {
+                    detail: { message: 'Błąd zapisu danych. Zwolnij miejsce na urządzeniu.' },
+                }),
+            );
             return false;
         }
     }
@@ -136,27 +142,18 @@ async function setMetadata(key, value) {
     }
 }
 
-async function getMetadata(key) {
-    try {
-        const db = await openDB();
-        const tx = db.transaction(METADATA_STORE, 'readonly');
-        const store = tx.objectStore(METADATA_STORE);
-        return await new Promise((resolve) => {
-            const req = store.get(key);
-            req.onsuccess = () => resolve(req.result?.value ?? null);
-            req.onerror = () => resolve(null);
-        });
-    } catch {
-        return null;
-    }
-}
-
 /** @returns {Promise<Array>} */
 export async function migrateFromLocalStorage() {
     const lsFavorites = getFavoritesLS();
-    if (lsFavorites.length === 0) {return [];}
+    if (lsFavorites.length === 0) {
+        return [];
+    }
 
-    logger.info('[Storage] Migrating', lsFavorites.length, 'favorites from localStorage to IndexedDB');
+    logger.info(
+        '[Storage] Migrating',
+        lsFavorites.length,
+        'favorites from localStorage to IndexedDB',
+    );
     const success = await saveFavorites(lsFavorites);
     if (success) {
         logger.info('[Storage] Migration complete');
@@ -165,31 +162,4 @@ export async function migrateFromLocalStorage() {
     }
 
     return lsFavorites;
-}
-
-/** @returns {Promise<number>} */
-export async function getSchemaVersion() {
-    return await getMetadata('schema_version') || 1;
-}
-
-/** @param {number} version */
-export async function setSchemaVersion(version) {
-    await setMetadata('schema_version', version);
-}
-
-/** @returns {Promise<boolean>} */
-export async function healthCheck() {
-    try {
-        const db = await openDB();
-        const tx = db.transaction(FAVORITES_STORE, 'readonly');
-        tx.objectStore(FAVORITES_STORE).count();
-        return true;
-    } catch {
-        try {
-            localStorage.getItem(LS_KEY);
-            return true;
-        } catch {
-            return false;
-        }
-    }
 }

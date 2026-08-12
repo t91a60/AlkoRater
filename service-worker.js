@@ -16,7 +16,6 @@ const ASSETS_TO_CACHE = [
     './src/js/main.js',
     './src/js/app/state.js',
     './src/js/app/constants.js',
-    './src/js/app/event-bus.js',
     './src/js/data/index.js',
     './src/js/data/favorite-repo.js',
     './src/js/data/product-repo.js',
@@ -46,11 +45,7 @@ const ASSETS_TO_CACHE = [
     './logo.png',
 ];
 
-const DATA_TO_CACHE = [
-    './data/piwa.json',
-    './data/wodki.json',
-    './data/wina.json',
-];
+const DATA_TO_CACHE = ['./data/piwa.json', './data/wodki.json', './data/wina.json'];
 
 // ─── Install ──────────────────────────────────────────────────────────────────
 
@@ -64,7 +59,8 @@ self.addEventListener('install', (event) => {
         }),
     );
 
-    self.skipWaiting();
+    // Note: skipWaiting() is called via the message handler, not here,
+    // to let the app decide when to activate the new SW.
 });
 
 // ─── Message Bus ───────────────────────────────────────────────────────────────
@@ -96,9 +92,7 @@ self.addEventListener('activate', (event) => {
                         if (name === CACHE_NAME || name === DATA_CACHE_NAME) return;
 
                         const hasVersion = /v\d+\.\d+/.test(name);
-                        const shouldDelete = hasVersion
-                            ? true
-                            : name.includes('alko-rater');
+                        const shouldDelete = hasVersion ? true : name.includes('alko-rater');
 
                         if (shouldDelete) {
                             return caches.delete(name);
@@ -120,7 +114,8 @@ self.addEventListener('fetch', (event) => {
 
     const isData = url.pathname.startsWith('/data/') && url.pathname.endsWith('.json');
     const isNavigateOrHtml =
-        event.request.mode === 'navigate' || /text\/html/.test(event.request.headers.get('accept') || '');
+        event.request.mode === 'navigate' ||
+        /text\/html/.test(event.request.headers.get('accept') || '');
 
     const respond = async () => {
         try {
