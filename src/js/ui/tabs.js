@@ -41,7 +41,6 @@ export function switchTab(tabName) {
         currentEl.style.transform = `translateX(${-direction * 30}px)`;
         currentEl.style.opacity = '0';
         const onExit = () => {
-            if (currentEl.classList.contains('active')) { return; }
             currentEl.classList.remove('active');
             currentEl.style.display = 'none';
             currentEl.style.transform = '';
