@@ -1,4 +1,4 @@
-import { animate, spring } from 'motion';
+import { springModal } from '../utils/spring.js';
 import { state } from '../app/state.js';
 import { CONSTANTS } from '../app/constants.js';
 import { escapeHTML } from '../utils/dom.js';
@@ -123,11 +123,11 @@ export function openRateModal(item) {
 
     requestAnimationFrame(() => {
         state.el.modal.classList.add('active');
-        animate(
-            content,
-            { transform: 'translateY(0)', borderRadius: `${MIN_RADIUS}px ${MIN_RADIUS}px 0 0` },
-            { type: spring({ damping: 1.0, mass: 0.8, stiffness: 200 }) },
-        );
+        springModal(content, { y: 0, radius: MIN_RADIUS }, {
+            stiffness: 200,
+            damping: 12,
+            mass: 0.8,
+        });
         const focusable = getModalFocusable();
         if (focusable.length > 0) {
             focusable[0].focus();
@@ -206,14 +206,12 @@ export function closeModal(instant) {
         restoreFocus();
     };
 
-    animate(
-        content,
-        { transform: 'translateY(104%)', borderRadius: `${MAX_RADIUS}px ${MAX_RADIUS}px 0 0` },
-        {
-            type: spring({ damping: 1.0, mass: 0.8, stiffness: 200 }),
-            onComplete: finishClose,
-        },
-    );
+    springModal(content, { y: window.innerHeight * 1.04, radius: MAX_RADIUS }, {
+        stiffness: 200,
+        damping: 12,
+        mass: 0.8,
+        onFinish: finishClose,
+    });
 }
 
 /** Persist current rating to storage. */
@@ -321,11 +319,11 @@ export function setupModalDismiss() {
         } else {
             haptics.light();
             if (overlay) { overlay.style.opacity = ''; }
-            animate(
-                content,
-                { transform: 'translateY(0)', borderRadius: `${MIN_RADIUS}px ${MIN_RADIUS}px 0 0` },
-                { type: spring({ damping: 1.0, mass: 0.8, stiffness: 200 }) },
-            );
+            springModal(content, { y: 0, radius: MIN_RADIUS }, {
+                stiffness: 200,
+                damping: 12,
+                mass: 0.8,
+            });
         }
     }
 
@@ -335,11 +333,11 @@ export function setupModalDismiss() {
         haptics.light();
         content.style.transition = '';
         if (overlay) { overlay.style.opacity = ''; }
-        animate(
-            content,
-            { transform: 'translateY(0)', borderRadius: `${MIN_RADIUS}px ${MIN_RADIUS}px 0 0` },
-            { type: spring({ damping: 1.0, mass: 0.8, stiffness: 200 }) },
-        );
+        springModal(content, { y: 0, radius: MIN_RADIUS }, {
+            stiffness: 200,
+            damping: 12,
+            mass: 0.8,
+        });
     }
 
     content.addEventListener('touchstart', onPointerDown, { passive: true });

@@ -34,8 +34,5 @@
     "mobile-first"
   ],
   "author": "https://github.com/t91a60",
-  "license": "MIT",
-  "dependencies": {
-    "motion": "^13.1.0"
-  }
+  "license": "MIT"
 }
