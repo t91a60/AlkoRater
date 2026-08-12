@@ -202,7 +202,6 @@ body.app-loaded .app-container {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: contain;
     scroll-behavior: smooth;
-    position: relative;
 }
 
 .content-area::-webkit-scrollbar {
@@ -372,8 +371,6 @@ body.keyboard-open .bottom-nav {
     padding: 0 18px;
     width: 100%;
     opacity: 0;
-    position: absolute;
-    inset: 0;
     transform: translateX(0);
     transition: opacity 0.25s var(--ease-out), transform 0.25s var(--ease-out);
     will-change: opacity, transform;
@@ -382,7 +379,6 @@ body.keyboard-open .bottom-nav {
 .tab-view.active {
     display: block;
     opacity: 1;
-    position: relative;
 }
 
 #tab-start.active {
