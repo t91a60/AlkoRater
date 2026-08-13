@@ -4,6 +4,7 @@ import { loadFavorites as restoreFavorites } from './data/favorite-repo.js';
 import { loadAllData } from './services/data-loader.js';
 import { registerSW } from './services/sw-service.js';
 import { setupContextMenus } from './ui/context-menu.js';
+import { THUMB_FALLBACK_SVG } from './ui/badges.js';
 import { setupPullToRefresh } from './ui/pull-to-refresh.js';
 import { haptics } from './ui/haptics.js';
 import {
@@ -83,6 +84,13 @@ const setupListeners = () => {
                 return;
             }
             target.dataset.fallbackApplied = 'true';
+
+            const thumb = target.closest('.product-thumb');
+            if (thumb) {
+                thumb.classList.add('thumb-broken');
+                thumb.innerHTML = THUMB_FALLBACK_SVG;
+                return;
+            }
             target.src = './icons/icon-60.png';
         },
         true,

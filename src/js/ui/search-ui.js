@@ -1,10 +1,13 @@
 import { state } from '../app/state.js';
 import { escapeHTML } from '../utils/dom.js';
 import { search } from '../services/search.js';
+import { debounce } from '../utils/debounce.js';
 import { alcoholBadgeHTML, typeBadgeHTML, productThumbHTML } from './badges.js';
 
 const RECENT_KEY = 'alkorater:recent-searches';
 const MAX_RECENT = 6;
+const MIN_RECENT_QUERY_LENGTH = 2;
+const RECENT_SAVE_DELAY_MS = 900;
 
 const SUGGESTIONS = [
     { label: 'Piwo', icon: 'beer', query: 'piwo', color: '#d4a054' },
@@ -48,6 +51,20 @@ function saveRecentQuery(query) {
     }
     localStorage.setItem(RECENT_KEY, JSON.stringify(recent));
 }
+
+// Recording to "Ostatnio szukane" is decoupled from live search-as-you-type:
+// handleSearch already runs on its own (shorter) debounce so results feel
+// instant, but committing every one of those settled-but-still-partial
+// queries to history ("p", "pi", "piw", "piwo") would flood the recent list.
+// This second, longer debounce only commits once typing has been quiet for
+// RECENT_SAVE_DELAY_MS, i.e. the user has actually paused, not just between
+// keystrokes.
+const debouncedSaveRecentQuery = debounce((query) => {
+    const trimmed = query.trim();
+    if (trimmed.length >= MIN_RECENT_QUERY_LENGTH) {
+        saveRecentQuery(trimmed);
+    }
+}, RECENT_SAVE_DELAY_MS);
 
 export function removeRecentSearch(query) {
     const recent = getRecentSearches().filter((s) => s !== query);
@@ -162,7 +179,7 @@ export function handleSearch(e) {
         return;
     }
 
-    saveRecentQuery(raw.trim());
+    debouncedSaveRecentQuery(raw);
     const results = search(raw);
 
     renderResults(results, raw);

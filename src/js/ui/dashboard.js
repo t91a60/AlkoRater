@@ -4,6 +4,21 @@ import { alcoholBadgeHTML, typeBadgeHTML, productThumbHTML } from './badges.js';
 import { escapeHTML } from '../utils/dom.js';
 import { renderSuggestions } from './search-ui.js';
 
+/**
+ * Polska odmiana rzeczownika po liczebniku: 1 -> forms[0], 2-4 (ale nie 12-14)
+ * -> forms[1], reszta (5+, 0, 11-14...) -> forms[2].
+ * @param {number} n
+ * @param {[string, string, string]} forms
+ * @returns {string}
+ */
+export function plPlural(n, [one, few, many]) {
+    const mod10 = n % 10;
+    const mod100 = n % 100;
+    if (n === 1) { return one; }
+    if (mod10 >= 2 && mod10 <= 4 && !(mod100 >= 12 && mod100 <= 14)) { return few; }
+    return many;
+}
+
 /** Zwraca powitanie na podstawie godziny i dnia tygodnia */
 function getSmartGreeting(total) {
     const h = new Date().getHours();
@@ -87,7 +102,7 @@ export function updateDashboard() {
                     <span class="start-stat-lbl">Ocenionych</span>
                 </div>
                 <div class="start-stat-big">${escapeHTML(String(total))}</div>
-                <div class="start-stat-sub">trunkó${total === 1 ? 'w' : 'w'} w kolekcji</div>
+                <div class="start-stat-sub">${escapeHTML(plPlural(total, ['trunek', 'trunki', 'trunków']))} w kolekcji</div>
             </div>
 
             <div class="start-stat-card animate-fade-in" style="animation-delay:115ms">
@@ -108,7 +123,7 @@ export function updateDashboard() {
                     <span class="start-stat-lbl">Faworyci</span>
                 </div>
                 <div class="start-stat-cat">${escapeHTML(topCategory)}</div>
-                <div class="start-stat-sub">${categoryCount[topCategory]} wpisó${categoryCount[topCategory] === 1 ? 'w' : 'w'}</div>
+                <div class="start-stat-sub">${categoryCount[topCategory]} ${escapeHTML(plPlural(categoryCount[topCategory], ['wpis', 'wpisy', 'wpisów']))}</div>
             </div>
             ` : `
             <div class="start-stat-card start-stat-empty">

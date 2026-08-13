@@ -112,7 +112,7 @@ export async function saveFavorites(favorites) {
             return true;
         } catch (lsErr) {
             logger.error('[Storage] localStorage fallback also failed:', lsErr);
-            window.dispatchEvent(
+            document.dispatchEvent(
                 new CustomEvent('alkorater:storage-error', {
                     detail: { message: 'Błąd zapisu danych. Zwolnij miejsce na urządzeniu.' },
                 }),

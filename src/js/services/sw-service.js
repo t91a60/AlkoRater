@@ -18,7 +18,7 @@ function dismissBanner(banner) {
 }
 
 function applyUpdate(registration) {
-    registration.waiting?.postMessage('SKIP_WAITING');
+    registration.waiting?.postMessage({ type: 'SKIP_WAITING' });
 }
 
 function showUpdateBanner(registration) {
@@ -42,12 +42,10 @@ function notifyIfUpdateReady(registration) {
     if (!registration?.waiting) {return;}
     if (!navigator.serviceWorker.controller) {return;}
 
-    try {
-        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-    } catch (e) {
-        logger.warn('[SW] postMessage failed:', e);
-    }
-
+    // Only show the banner here — applying the update is the user's choice,
+    // triggered from showUpdateBanner()'s "Aktualizuj" button. Skipping
+    // waiting immediately (before the user has seen the banner) would force
+    // an unprompted reload via the controllerchange listener above.
     showUpdateBanner(registration);
 }
 

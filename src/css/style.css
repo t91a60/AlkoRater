@@ -1349,15 +1349,12 @@ body.keyboard-open .bottom-nav {
     display: block;
 }
 
-/* Emoji fallback when image fails */
+/* Line-art glass glyph shown instead of a photo (no URL, or it failed to load —
+   in both cases the .thumb-broken container's only child is the fallback svg) */
 .product-thumb.thumb-broken {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.product-thumb.thumb-broken img {
-    display: none;
 }
 
 .product-thumb.thumb-broken svg {

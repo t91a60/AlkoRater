@@ -1,7 +1,7 @@
 {
   "name": "alko-rater",
-  "version": "2.11.0",
-  "description": "Progressive Web App do oceniania alkoholi — iOS feel, offline-first, mobile-first. v2.11: Ulubione — lżejsze karty, iOS segmented control, węższy kosz",
+  "version": "2.12.0",
+  "description": "Progressive Web App do oceniania alkoholi — iOS feel, offline-first, mobile-first. v2.12: naprawiony fallback miniatur, powiadomienie o błędzie zapisu, flow aktualizacji PWA i haptyka na iOS (best-effort)",
   "main": "index.html",
   "scripts": {
     "dev": "npx serve . -p 3000 --single",
