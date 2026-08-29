@@ -2,7 +2,7 @@ export { haptics } from './haptics.js';
 export { showToast } from './toast.js';
 export { toggleSkeletons } from './renderer.js';
 export { updateDashboard, updateRecentlyRated } from './dashboard.js';
-export { switchTab } from './tabs.js';
+export { switchTab, snapNavPill } from './tabs.js';
 export { renderFavorites, filterFavorites, deleteFavorite } from './favorites.js';
 export { handleSearch, renderSuggestions, renderResults, removeRecentSearch } from './search-ui.js';
 export {

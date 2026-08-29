@@ -3,6 +3,7 @@ import { CONSTANTS } from '../app/constants.js';
 import { alcoholBadgeHTML, typeBadgeHTML, productThumbHTML } from './badges.js';
 import { escapeHTML } from '../utils/dom.js';
 import { renderSuggestions } from './search-ui.js';
+import { createIcons } from './icons.js';
 
 /**
  * Polska odmiana rzeczownika po liczebniku: 1 -> forms[0], 2-4 (ale nie 12-14)
@@ -164,9 +165,7 @@ export function updateDashboard() {
         </div>
     `;
 
-    if (window.lucide) {
-        window.lucide.createIcons();
-    }
+    createIcons();
 
     const streakEl = document.querySelector('.start-streak');
     if (streakEl && streak > 1) {

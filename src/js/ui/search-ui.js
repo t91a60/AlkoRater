@@ -3,6 +3,7 @@ import { escapeHTML } from '../utils/dom.js';
 import { search } from '../services/search.js';
 import { debounce } from '../utils/debounce.js';
 import { alcoholBadgeHTML, typeBadgeHTML, productThumbHTML } from './badges.js';
+import { createIcons } from './icons.js';
 
 const RECENT_KEY = 'alkorater:recent-searches';
 const MAX_RECENT = 6;
@@ -163,9 +164,7 @@ export function renderSuggestions() {
             ${renderRecentSearchesHTML()}
         </div>
     `;
-    if (window.lucide) {
-        window.lucide.createIcons();
-    }
+    createIcons();
 }
 
 /* ─── Handle search input ─── */
@@ -194,9 +193,7 @@ export function renderResults(list, query) {
     if (list.length === 0) {
         state.el.noResults.innerHTML = renderNoResultsHTML(query);
         state.el.noResults.style.display = 'block';
-        if (window.lucide) {
-            window.lucide.createIcons();
-        }
+        createIcons();
         return;
     }
     state.el.noResults.style.display = 'none';
@@ -220,9 +217,5 @@ export function renderResults(list, query) {
         `;
     }).join('');
 
-
-
-    if (window.lucide) {
-        window.lucide.createIcons();
-    }
+    createIcons();
 }

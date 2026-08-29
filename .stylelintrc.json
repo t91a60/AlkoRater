@@ -8,6 +8,7 @@
         "comment-empty-line-before": null,
         "at-rule-no-unknown": null,
         "declaration-empty-line-before": null,
-        "rule-empty-line-before": null
+        "rule-empty-line-before": null,
+        "property-no-vendor-prefix": null
     }
 }

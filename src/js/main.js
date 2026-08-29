@@ -5,6 +5,7 @@ import { loadAllData } from './services/data-loader.js';
 import { registerSW } from './services/sw-service.js';
 import { setupContextMenus } from './ui/context-menu.js';
 import { THUMB_FALLBACK_SVG } from './ui/badges.js';
+import { createIcons } from './ui/icons.js';
 import { setupPullToRefresh } from './ui/pull-to-refresh.js';
 import { haptics } from './ui/haptics.js';
 import {
@@ -12,6 +13,7 @@ import {
     toggleSkeletons,
     updateDashboard,
     switchTab,
+    snapNavPill,
     filterFavorites,
     deleteFavorite,
     handleSearch,
@@ -531,8 +533,9 @@ const init = async () => {
     toggleSkeletons(false);
     updateDashboard();
     renderSuggestions();
-    window.lucide?.createIcons();
+    createIcons();
     requestAnimationFrame(() => {
+        snapNavPill();
         document.body.classList.add('app-loaded');
     });
 

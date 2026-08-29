@@ -5,6 +5,7 @@ import { showToast } from './toast.js';
 import { updateDashboard } from './dashboard.js';
 import { saveFavorites } from '../data/favorite-repo.js';
 import { alcoholBadgeHTML, typeBadgeHTML, productThumbHTML } from './badges.js';
+import { createIcons } from './icons.js';
 
 const GHOST_SVG = `
     <svg class="ghost-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -49,7 +50,7 @@ export function renderFavorites(filter = 'wszystkie') {
             <button class="delete-btn" data-delete-id="${fav.id}" aria-label="Usuń">${TRASH_SVG}</button>
         </div>
     `).join('');
-    window.lucide?.createIcons();
+    createIcons();
 }
 
 export function filterFavorites(type) {
