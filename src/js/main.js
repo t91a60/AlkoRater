@@ -1,5 +1,6 @@
 import { state } from './app/state.js';
 import { debounce } from './utils/debounce.js';
+import { prefersReducedMotion } from './utils/dom.js';
 import { loadFavorites as restoreFavorites } from './data/favorite-repo.js';
 import { loadAllData } from './services/data-loader.js';
 import { registerSW } from './services/sw-service.js';
@@ -59,6 +60,13 @@ const setupListeners = () => {
             const query = chip.dataset.query;
             state.el.searchInput.value = query;
             handleSearch({ target: { value: query } });
+            state.el.searchInput.focus();
+            const len = query.length;
+            try {
+                state.el.searchInput.setSelectionRange(len, len);
+            } catch {
+                /* older WebKit: ignore */
+            }
             return;
         }
         const card = e.target.closest('.search-card');
@@ -280,23 +288,28 @@ function setupSwipeTabs(container) {
     let startX = 0;
     let swiping = false;
     let history = [];
+    const reduceMotion = prefersReducedMotion();
     const HYSTERESIS = 10;
     const DECELERATION = 0.998;
 
     function projectVelocity(velocity) {
-        return (velocity / 1000) * DECELERATION / (1 - DECELERATION);
+        return ((velocity / 1000) * DECELERATION) / (1 - DECELERATION);
     }
 
     container.addEventListener(
         'touchstart',
         (e) => {
-            if (container.scrollTop > 0) { return; }
+            if (container.scrollTop > 0) {
+                return;
+            }
             const target = e.target;
             if (
                 target.closest(
                     '.search-card, .search-item, .favorite-card, .recent-card, .action-btn, .filter-chip, .nav-item',
                 )
-            ) { return; }
+            ) {
+                return;
+            }
             startX = e.touches[0].clientX;
             swiping = true;
             history = [{ x: startX, t: performance.now() }];
@@ -307,15 +320,22 @@ function setupSwipeTabs(container) {
     container.addEventListener(
         'touchmove',
         (e) => {
-            if (!swiping) { return; }
+            if (!swiping) {
+                return;
+            }
             const touchX = e.touches[0].clientX;
             const delta = touchX - startX;
 
             history.push({ x: touchX, t: performance.now() });
-            if (history.length > 6) { history.shift(); }
+            if (history.length > 6) {
+                history.shift();
+            }
 
             if (Math.abs(delta) > HYSTERESIS) {
                 e.preventDefault();
+                if (reduceMotion) {
+                    return;
+                }
                 const progress = Math.min(Math.abs(delta) / 70, 1);
                 container.style.transform = `translateX(${delta * 0.3}px)`;
                 container.style.opacity = String(1 - progress * 0.15);
@@ -326,10 +346,15 @@ function setupSwipeTabs(container) {
     );
 
     container.addEventListener('touchend', (e) => {
-        if (!swiping) { return; }
+        if (!swiping) {
+            return;
+        }
         swiping = false;
 
-        container.style.transition = 'transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out)';
+        if (!reduceMotion) {
+            container.style.transition =
+                'transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out)';
+        }
         container.style.transform = '';
         container.style.opacity = '';
 
@@ -356,9 +381,14 @@ function setupSwipeTabs(container) {
     });
 
     container.addEventListener('touchcancel', () => {
-        if (!swiping) { return; }
+        if (!swiping) {
+            return;
+        }
         swiping = false;
-        container.style.transition = 'transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out)';
+        if (!reduceMotion) {
+            container.style.transition =
+                'transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out)';
+        }
         container.style.transform = '';
         container.style.opacity = '';
     });
@@ -375,17 +405,26 @@ function setupSwipeDelete(container) {
     const RUBBERBAND_CONSTANT = 0.55;
 
     function rubberband(overshoot) {
-        return (overshoot * REVEAL_WIDTH * RUBBERBAND_CONSTANT) / (REVEAL_WIDTH + RUBBERBAND_CONSTANT * Math.abs(overshoot));
+        return (
+            (overshoot * REVEAL_WIDTH * RUBBERBAND_CONSTANT) /
+            (REVEAL_WIDTH + RUBBERBAND_CONSTANT * Math.abs(overshoot))
+        );
     }
 
     container.addEventListener(
         'touchstart',
         (e) => {
             const card = e.target.closest('.favorite-card');
-            if (!card) { return; }
-            if (e.target.closest('.delete-btn')) { return; }
+            if (!card) {
+                return;
+            }
+            if (e.target.closest('.delete-btn')) {
+                return;
+            }
             const main = card.querySelector('.fav-main');
-            if (!main) { return; }
+            if (!main) {
+                return;
+            }
             document.querySelectorAll('.fav-main.swiped').forEach((el) => {
                 if (el !== main) {
                     el.classList.remove('swiped');
@@ -404,14 +443,20 @@ function setupSwipeDelete(container) {
     container.addEventListener(
         'touchmove',
         (e) => {
-            if (!isSwiping || !activeCard) { return; }
+            if (!isSwiping || !activeCard) {
+                return;
+            }
             const touchX = e.touches[0].clientX;
             const delta = touchX - startX;
 
             history.push({ x: touchX, t: performance.now() });
-            if (history.length > 6) { history.shift(); }
+            if (history.length > 6) {
+                history.shift();
+            }
 
-            if (delta > 0 && currentTranslate >= 0) { return; }
+            if (delta > 0 && currentTranslate >= 0) {
+                return;
+            }
 
             const raw = currentTranslate + delta;
             let newTranslate;
@@ -428,7 +473,9 @@ function setupSwipeDelete(container) {
     );
 
     const resetSwipe = () => {
-        if (!activeCard) { return; }
+        if (!activeCard) {
+            return;
+        }
         const main = activeCard.main;
 
         let velocity = 0;
@@ -516,10 +563,14 @@ const init = async () => {
     const contentArea = document.querySelector('.content-area');
     const headerTitle = document.getElementById('headerTitle');
     if (contentArea && headerTitle) {
-        contentArea.addEventListener('scroll', () => {
-            const collapsed = contentArea.scrollTop > 20;
-            headerTitle.classList.toggle('header-collapsed', collapsed);
-        }, { passive: true });
+        contentArea.addEventListener(
+            'scroll',
+            () => {
+                const collapsed = contentArea.scrollTop > 20;
+                headerTitle.classList.toggle('header-collapsed', collapsed);
+            },
+            { passive: true },
+        );
     }
 
     toggleSkeletons(true);
@@ -544,6 +595,10 @@ const init = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('action') === 'search') {
         switchTab('search');
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    if (urlParams.get('action') === 'favorites') {
+        switchTab('favorites');
         window.history.replaceState({}, document.title, window.location.pathname);
     }
 };

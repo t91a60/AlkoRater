@@ -1,11 +1,11 @@
 /**
  * @fileoverview Service Worker dla AlkoRater PWA
- * v6.2 — Beer types, shared badges, code quality improvements.
+ * v7.10 — Precache all runtime imports + iOS splash + plural module; stale comment cleanups.
  * Pre-caching offline, czyszczenie starego cache za pomocą wersji oraz
  * obsługa aktualizacji z pełnym flow przepowiadania wersji.
  */
 
-const CACHE_VERSION = 'v7.8';
+const CACHE_VERSION = 'v7.10';
 const CACHE_NAME = `alko-rater-static-${CACHE_VERSION}`;
 const DATA_CACHE_NAME = `alko-rater-data-${CACHE_VERSION}`;
 
@@ -34,17 +34,27 @@ const ASSETS_TO_CACHE = [
     './src/js/ui/favorites.js',
     './src/js/ui/search-ui.js',
     './src/js/ui/modal.js',
+    './src/js/ui/context-menu.js',
+    './src/js/ui/badges.js',
+    './src/js/ui/pull-to-refresh.js',
     './src/js/utils/index.js',
     './src/js/utils/dom.js',
     './src/js/utils/logger.js',
     './src/js/utils/debounce.js',
     './src/js/utils/spring.js',
+    './src/js/utils/plural.js',
     './src/css/style.css',
     './icons/icon-60.png',
     './icons/icon-180.png',
     './icons/icon-192.png',
     './icons/icon-512.png',
     './logo.png',
+    './icons/splash/splash-1290x2796.png',
+    './icons/splash/splash-1179x2556.png',
+    './icons/splash/splash-1125x2436.png',
+    './icons/splash/splash-1242x2208.png',
+    './icons/splash/splash-2048x2732.png',
+    './icons/splash/splash-1620x2160.png',
 ];
 
 const DATA_TO_CACHE = ['./data/piwa.json', './data/wodki.json', './data/wina.json'];

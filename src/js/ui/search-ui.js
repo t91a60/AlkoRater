@@ -4,6 +4,7 @@ import { search } from '../services/search.js';
 import { debounce } from '../utils/debounce.js';
 import { alcoholBadgeHTML, typeBadgeHTML, productThumbHTML } from './badges.js';
 import { createIcons } from './icons.js';
+import { plPlural } from '../utils/plural.js';
 
 const RECENT_KEY = 'alkorater:recent-searches';
 const MAX_RECENT = 6;
@@ -25,7 +26,10 @@ function highlightText(text, query) {
     if (!query || !query.trim()) {
         return escapeHTML(text);
     }
-    const words = query.trim().split(/\s+/).filter(Boolean)
+    const words = query
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
         .map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
         .join('|');
     if (!words) {
@@ -41,7 +45,9 @@ function highlightText(text, query) {
 function getRecentSearches() {
     try {
         return JSON.parse(localStorage.getItem(RECENT_KEY)) || [];
-    } catch { return []; }
+    } catch {
+        return [];
+    }
 }
 
 function saveRecentQuery(query) {
@@ -82,13 +88,17 @@ function renderRecentSearchesHTML() {
         <div class="recent-searches">
             <p class="recent-searches-label">Ostatnio szukane</p>
             <div class="recent-chips">
-                ${recent.map(q => `
+                ${recent
+                    .map(
+                        (q) => `
                     <button class="recent-chip" data-query="${escapeHTML(q)}">
                         <i data-lucide="clock" style="width:12px;height:12px;opacity:0.5" stroke-width="2" aria-hidden="true"></i>
                         ${escapeHTML(q)}
                         <span class="recent-chip-remove" data-action="remove-recent" data-query="${escapeHTML(q)}">✕</span>
                     </button>
-                `).join('')}
+                `,
+                    )
+                    .join('')}
             </div>
         </div>
     `;
@@ -125,8 +135,6 @@ function renderSearchIntroHTML() {
     `;
 }
 
-
-
 function renderNoResultsHTML(query) {
     const safeQuery = query.trim();
     return `
@@ -137,9 +145,13 @@ function renderNoResultsHTML(query) {
             <h3 class="search-empty-title">Brak wyników</h3>
             <p class="search-empty-copy">Nie znaleźliśmy nic dla „${escapeHTML(safeQuery)}”. Spróbuj krótszej nazwy, kategorii albo mocy.</p>
             <div class="search-empty-actions">
-                ${SUGGESTIONS.slice(0, 3).map((item) => `
+                ${SUGGESTIONS.slice(0, 3)
+                    .map(
+                        (item) => `
                     <button class="search-empty-chip" data-query="${escapeHTML(item.query)}">${escapeHTML(item.label)}</button>
-                `).join('')}
+                `,
+                    )
+                    .join('')}
             </div>
         </div>
     `;
@@ -154,12 +166,14 @@ export function renderSuggestions() {
             ${renderSearchIntroHTML()}
             <p class="suggestions-label">Popularne kategorie</p>
             <div class="suggestions-grid">
-                ${SUGGESTIONS.map((s) => `
+                ${SUGGESTIONS.map(
+                    (s) => `
                     <button class="suggestion-chip" data-query="${escapeHTML(s.query)}" style="--chip-accent:${s.color}">
                         <i data-lucide="${s.icon}" class="suggestion-icon" stroke-width="2" aria-hidden="true"></i>
                         <span>${escapeHTML(s.label)}</span>
                     </button>
-                `).join('')}
+                `,
+                ).join('')}
             </div>
             ${renderRecentSearchesHTML()}
         </div>
@@ -188,22 +202,32 @@ export function handleSearch(e) {
 
 export function renderResults(list, query) {
     const container = state.el.searchResults;
+    const status = document.getElementById('searchStatus');
     container.innerHTML = '';
 
     if (list.length === 0) {
         state.el.noResults.innerHTML = renderNoResultsHTML(query);
         state.el.noResults.style.display = 'block';
+        if (status) {
+            status.textContent = '';
+        }
         createIcons();
         return;
     }
     state.el.noResults.style.display = 'none';
 
-    const favoritedNames = new Set(state.favorites.map(f => f.item.name));
+    if (status) {
+        const n = list.length;
+        status.textContent = `${n} ${plPlural(n, ['wynik', 'wyniki', 'wyników'])}`;
+    }
 
-    container.innerHTML = list.map((item, idx) => {
-        const isFav = favoritedNames.has(item.name);
-        const fav = isFav ? state.favorites.find(f => f.item.name === item.name) : null;
-        return `
+    const favoritedNames = new Set(state.favorites.map((f) => f.item.name));
+
+    container.innerHTML = list
+        .map((item, idx) => {
+            const isFav = favoritedNames.has(item.name);
+            const fav = isFav ? state.favorites.find((f) => f.item.name === item.name) : null;
+            return `
             <div class="search-card animate-fade-in" data-item-name="${escapeHTML(item.name)}" style="animation-delay:${Math.min(idx, 6) * 35}ms">
                 <div class="search-card-main">
                     ${productThumbHTML(item.image_url, item.category, 50)}
@@ -215,7 +239,8 @@ export function renderResults(list, query) {
                 </div>
             </div>
         `;
-    }).join('');
+        })
+        .join('');
 
     createIcons();
 }

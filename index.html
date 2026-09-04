@@ -98,7 +98,37 @@
         <link rel="icon" href="favicon.ico" sizes="any" />
         <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
         <link rel="apple-touch-icon" href="icons/icon-180.png" />
-        <link rel="apple-touch-startup-image" href="icons/icon-180.png" />
+        <!-- iOS startup splash images — full-bleed #071019 to match --bg for a seamless launch -->
+        <link
+            rel="apple-touch-startup-image"
+            media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)"
+            href="icons/splash/splash-1290x2796.png"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)"
+            href="icons/splash/splash-1179x2556.png"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
+            href="icons/splash/splash-1125x2436.png"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)"
+            href="icons/splash/splash-1242x2208.png"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)"
+            href="icons/splash/splash-2048x2732.png"
+        />
+        <link
+            rel="apple-touch-startup-image"
+            media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2)"
+            href="icons/splash/splash-1620x2160.png"
+        />
     </head>
     <body>
         <div class="app-container">
@@ -214,7 +244,8 @@
                         class="skeletons-container"
                         style="display: none"
                     ></div>
-                    <div id="searchResults" class="results-list" aria-live="polite"></div>
+                    <div id="searchResults" class="results-list"></div>
+                    <p id="searchStatus" class="sr-only" role="status" aria-live="polite"></p>
 
                     <div
                         id="noResults"
@@ -265,19 +296,40 @@
             <!-- Bottom Navigation -->
             <nav class="bottom-nav glass" role="tablist" aria-label="Nawigacja">
                 <div class="nav-pill" aria-hidden="true"></div>
-                <button class="nav-item active" data-tab="start" role="tab" aria-selected="true" aria-controls="tab-start" aria-label="Start">
+                <button
+                    class="nav-item active"
+                    data-tab="start"
+                    role="tab"
+                    aria-selected="true"
+                    aria-controls="tab-start"
+                    aria-label="Start"
+                >
                     <div class="nav-icon">
                         <i data-lucide="home" stroke-width="2" aria-hidden="true"></i>
                     </div>
                     <span class="nav-label">Start</span>
                 </button>
-                <button class="nav-item" data-tab="search" role="tab" aria-selected="false" aria-controls="tab-search" aria-label="Szukaj">
+                <button
+                    class="nav-item"
+                    data-tab="search"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="tab-search"
+                    aria-label="Szukaj"
+                >
                     <div class="nav-icon">
                         <i data-lucide="search" stroke-width="2" aria-hidden="true"></i>
                     </div>
                     <span class="nav-label">Szukaj</span>
                 </button>
-                <button class="nav-item" data-tab="favorites" role="tab" aria-selected="false" aria-controls="tab-favorites" aria-label="Ulubione">
+                <button
+                    class="nav-item"
+                    data-tab="favorites"
+                    role="tab"
+                    aria-selected="false"
+                    aria-controls="tab-favorites"
+                    aria-label="Ulubione"
+                >
                     <div class="nav-icon">
                         <i data-lucide="heart" stroke-width="2" aria-hidden="true"></i>
                     </div>

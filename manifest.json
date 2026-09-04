@@ -6,15 +6,11 @@
     "scope": ".",
     "display": "standalone",
     "orientation": "portrait-primary",
-    "background_color": "#000000",
-    "theme_color": "#000000",
+    "background_color": "#071019",
+    "theme_color": "#071019",
     "lang": "pl",
     "dir": "ltr",
-    "categories": [
-        "lifestyle",
-        "food-drink",
-        "utilities"
-    ],
+    "categories": ["lifestyle", "food-drink", "utilities"],
     "icons": [
         {
             "src": "icons/icon-192.png",
@@ -35,6 +31,18 @@
             "short_name": "Szukaj",
             "description": "Wyszukaj alkohol do oceny",
             "url": "./index.html?action=search",
+            "icons": [
+                {
+                    "src": "icons/icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Moje oceny",
+            "short_name": "Oceny",
+            "description": "Przejdź do swoich ocenionych trunków",
+            "url": "./index.html?action=favorites",
             "icons": [
                 {
                     "src": "icons/icon-192.png",

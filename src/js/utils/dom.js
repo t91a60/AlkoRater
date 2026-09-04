@@ -10,3 +10,8 @@ export const escapeHTML = (str) => {
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
 };
+
+/** @returns {boolean} true when the user prefers reduced motion */
+export const prefersReducedMotion = () =>
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
