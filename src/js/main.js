@@ -286,6 +286,7 @@ const setupPageShow = () => {
 function setupSwipeTabs(container) {
     const tabs = ['start', 'search', 'favorites'];
     let startX = 0;
+    let baseTranslate = 0;
     let swiping = false;
     let history = [];
     const reduceMotion = prefersReducedMotion();
@@ -294,6 +295,14 @@ function setupSwipeTabs(container) {
 
     function projectVelocity(velocity) {
         return ((velocity / 1000) * DECELERATION) / (1 - DECELERATION);
+    }
+
+    function readTranslateX() {
+        try {
+            return new DOMMatrixReadOnly(getComputedStyle(container).transform).m41 || 0;
+        } catch {
+            return 0;
+        }
     }
 
     container.addEventListener(
@@ -312,6 +321,9 @@ function setupSwipeTabs(container) {
             }
             startX = e.touches[0].clientX;
             swiping = true;
+            // Start the drag from the value currently on screen, not the target
+            // value — grabbing mid-ease-back must continue, never jump (§3).
+            baseTranslate = readTranslateX();
             history = [{ x: startX, t: performance.now() }];
         },
         { passive: true },
@@ -331,15 +343,16 @@ function setupSwipeTabs(container) {
                 history.shift();
             }
 
+            container.style.transition = 'none';
+
             if (Math.abs(delta) > HYSTERESIS) {
                 e.preventDefault();
                 if (reduceMotion) {
                     return;
                 }
                 const progress = Math.min(Math.abs(delta) / 70, 1);
-                container.style.transform = `translateX(${delta * 0.3}px)`;
+                container.style.transform = `translateX(${baseTranslate + delta * 0.3}px)`;
                 container.style.opacity = String(1 - progress * 0.15);
-                container.style.transition = 'none';
             }
         },
         { passive: false },
@@ -350,6 +363,7 @@ function setupSwipeTabs(container) {
             return;
         }
         swiping = false;
+        baseTranslate = 0;
 
         if (!reduceMotion) {
             container.style.transition =
@@ -385,6 +399,7 @@ function setupSwipeTabs(container) {
             return;
         }
         swiping = false;
+        baseTranslate = 0;
         if (!reduceMotion) {
             container.style.transition =
                 'transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out)';
@@ -463,8 +478,12 @@ function setupSwipeDelete(container) {
             if (raw < -REVEAL_WIDTH) {
                 const overshoot = Math.abs(raw) - REVEAL_WIDTH;
                 newTranslate = -(REVEAL_WIDTH + rubberband(overshoot));
+            } else if (raw > 0) {
+                // Soft resistance past the fully-closed edge — a hard clamp
+                // reads as "frozen", continuous resistance reads as responsive.
+                newTranslate = rubberband(raw);
             } else {
-                newTranslate = Math.max(-REVEAL_WIDTH - 10, Math.min(0, raw));
+                newTranslate = raw;
             }
             activeCard.main.style.transform = `translateX(${newTranslate}px)`;
             activeCard.main.style.transition = 'none';

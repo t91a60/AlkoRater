@@ -393,9 +393,11 @@ body.keyboard-open .bottom-nav {
     box-shadow: var(--steel-shadow);
     opacity: 0;
     transform: translateX(0);
+    /* Damped reposition — a tab tap carries no momentum, so a bounce would
+       be decoration, not physics (Apple: move/reposition ≈ damping 1.0). */
     transition:
-        transform 0.32s var(--ease-spring),
-        width 0.32s var(--ease-spring),
+        transform 0.32s var(--ease-out),
+        width 0.32s var(--ease-out),
         opacity 0.2s var(--ease-out);
     pointer-events: none;
     z-index: 0;
@@ -3040,6 +3042,12 @@ textarea:focus-visible {
         transition:
             opacity 0.2s ease,
             background-color 0.2s ease !important;
+    }
+
+    /* Cross-fade, not scale-dim, when the rating sheet opens behind it. */
+    .app-container {
+        transform: none !important;
+        transition: opacity 0.2s ease !important;
     }
 
     .nav-pill {

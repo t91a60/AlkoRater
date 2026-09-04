@@ -17,7 +17,10 @@ const MAX_RADIUS = 48;
 let lastDismissVelocity = 0;
 
 function rubberband(overshoot, dimension = 100) {
-    return (overshoot * dimension * RUBBERBAND_CONSTANT) / (dimension + RUBBERBAND_CONSTANT * Math.abs(overshoot));
+    return (
+        (overshoot * dimension * RUBBERBAND_CONSTANT) /
+        (dimension + RUBBERBAND_CONSTANT * Math.abs(overshoot))
+    );
 }
 
 function setCategoryAccent(category) {
@@ -60,9 +63,13 @@ function getModalFocusable() {
 }
 
 function handleModalKeydown(e) {
-    if (e.key !== 'Tab') { return; }
+    if (e.key !== 'Tab') {
+        return;
+    }
     const focusable = getModalFocusable();
-    if (focusable.length === 0) { return; }
+    if (focusable.length === 0) {
+        return;
+    }
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
     if (e.shiftKey) {
@@ -81,6 +88,7 @@ function handleModalKeydown(e) {
 /** @param {Object} item */
 export function openRateModal(item) {
     haptics.light();
+    lastDismissVelocity = 0;
     state.currentItem = item;
     state._previousFocus = document.activeElement;
     const searchInput = document.getElementById('search-input');
@@ -124,11 +132,15 @@ export function openRateModal(item) {
 
     requestAnimationFrame(() => {
         state.el.modal.classList.add('active');
-        springModal(content, { y: 0, radius: MIN_RADIUS }, {
-            stiffness: 200,
-            damping: 12,
-            mass: 0.8,
-        });
+        springModal(
+            content,
+            { y: 0, radius: MIN_RADIUS },
+            {
+                stiffness: 200,
+                damping: 20,
+                mass: 0.8,
+            },
+        );
         const focusable = getModalFocusable();
         if (focusable.length > 0) {
             focusable[0].focus();
@@ -189,7 +201,9 @@ export function closeModal(instant) {
         state.el.modal.style.display = 'none';
         content.style.transform = '';
         content.style.borderRadius = '';
-        if (overlay) { overlay.style.opacity = ''; }
+        if (overlay) {
+            overlay.style.opacity = '';
+        }
         resetCategoryAccent();
         restoreFocus();
         return;
@@ -202,18 +216,24 @@ export function closeModal(instant) {
         state.el.modal.style.display = 'none';
         content.style.transform = '';
         content.style.borderRadius = '';
-        if (overlay) { overlay.style.opacity = ''; }
+        if (overlay) {
+            overlay.style.opacity = '';
+        }
         resetCategoryAccent();
         restoreFocus();
     };
 
-    springModal(content, { y: window.innerHeight * 1.04, radius: MAX_RADIUS }, {
-        stiffness: 200,
-        damping: 12,
-        mass: 0.8,
-        velocity: -lastDismissVelocity,
-        onFinish: finishClose,
-    });
+    springModal(
+        content,
+        { y: window.innerHeight * 1.04, radius: MAX_RADIUS },
+        {
+            stiffness: 200,
+            damping: 20,
+            mass: 0.8,
+            velocity: lastDismissVelocity,
+            onFinish: finishClose,
+        },
+    );
 }
 
 /** Persist current rating to storage. */
@@ -259,14 +279,51 @@ export function setupModalDismiss() {
     let history = [];
     let activeSpring = null;
 
+    function readVelocity() {
+        if (history.length >= 2) {
+            const last = history[history.length - 1];
+            const prev = history[Math.max(0, history.length - 3)];
+            const dt = last.t - prev.t;
+            if (dt > 0) {
+                return (last.y - prev.y) / (dt / 1000);
+            }
+        }
+        return 0;
+    }
+
+    function snapBack(velocity = 0) {
+        haptics.light();
+        if (overlay) {
+            overlay.style.opacity = '';
+        }
+        activeSpring = springModal(
+            content,
+            { y: 0, radius: MIN_RADIUS },
+            {
+                stiffness: 200,
+                damping: 20,
+                mass: 0.8,
+                // Carry the finger's velocity through the re-target — otherwise
+                // the sheet freezes mid-motion at release (a velocity cliff).
+                velocity,
+                onFinish: () => {
+                    activeSpring = null;
+                },
+            },
+        );
+    }
+
     function onPointerDown(e) {
-        if (activeSpring) { activeSpring.stop(); activeSpring = null; }
+        if (activeSpring) {
+            activeSpring.stop();
+            activeSpring = null;
+        }
         const touchY = e.touches[0].clientY;
         const rect = content.getBoundingClientRect();
-        const hitZone = grabber
-            ? grabber.getBoundingClientRect().bottom
-            : rect.top + 60;
-        if (touchY > hitZone) { return; }
+        const hitZone = grabber ? grabber.getBoundingClientRect().bottom : rect.top + 60;
+        if (touchY > hitZone) {
+            return;
+        }
         startY = touchY;
         dragging = true;
         history = [{ y: touchY, t: performance.now() }];
@@ -274,7 +331,9 @@ export function setupModalDismiss() {
     }
 
     function onPointerMove(e) {
-        if (!dragging) { return; }
+        if (!dragging) {
+            return;
+        }
         const touchY = e.touches[0].clientY;
         const delta = touchY - startY;
         if (delta < 0) {
@@ -284,11 +343,14 @@ export function setupModalDismiss() {
         }
 
         history.push({ y: touchY, t: performance.now() });
-        if (history.length > 6) { history.shift(); }
+        if (history.length > 6) {
+            history.shift();
+        }
 
-        const damped = delta > DISMISS_THRESHOLD
-            ? DISMISS_THRESHOLD + rubberband(delta - DISMISS_THRESHOLD)
-            : delta;
+        const damped =
+            delta > DISMISS_THRESHOLD
+                ? DISMISS_THRESHOLD + rubberband(delta - DISMISS_THRESHOLD)
+                : delta;
         const progress = Math.min(damped / DISMISS_THRESHOLD, 1);
 
         content.style.transform = `translateY(${damped}px)`;
@@ -300,21 +362,15 @@ export function setupModalDismiss() {
     }
 
     function onPointerUp(e) {
-        if (!dragging) { return; }
+        if (!dragging) {
+            return;
+        }
         dragging = false;
         content.style.transition = '';
 
         const delta = e.changedTouches[0].clientY - startY;
 
-        let velocity = 0;
-        if (history.length >= 2) {
-            const last = history[history.length - 1];
-            const prev = history[Math.max(0, history.length - 3)];
-            const dt = last.t - prev.t;
-            if (dt > 0) {
-                velocity = (last.y - prev.y) / (dt / 1000);
-            }
-        }
+        const velocity = readVelocity();
 
         const shouldDismiss = delta > DISMISS_THRESHOLD || velocity > FLING_VELOCITY;
 
@@ -322,29 +378,17 @@ export function setupModalDismiss() {
             lastDismissVelocity = velocity;
             closeModal();
         } else {
-            haptics.light();
-            if (overlay) { overlay.style.opacity = ''; }
-            activeSpring = springModal(content, { y: 0, radius: MIN_RADIUS }, {
-                stiffness: 200,
-                damping: 12,
-                mass: 0.8,
-                onFinish: () => { activeSpring = null; },
-            });
+            snapBack(velocity);
         }
     }
 
     function onPointerCancel() {
-        if (!dragging) { return; }
+        if (!dragging) {
+            return;
+        }
         dragging = false;
-        haptics.light();
         content.style.transition = '';
-        if (overlay) { overlay.style.opacity = ''; }
-        activeSpring = springModal(content, { y: 0, radius: MIN_RADIUS }, {
-            stiffness: 200,
-            damping: 12,
-            mass: 0.8,
-            onFinish: () => { activeSpring = null; },
-        });
+        snapBack(readVelocity());
     }
 
     content.addEventListener('touchstart', onPointerDown, { passive: true });

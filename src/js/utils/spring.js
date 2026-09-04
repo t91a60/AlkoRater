@@ -26,8 +26,12 @@ export function spring(from, to, onUpdate, opts = {}) {
     let running = true;
 
     function step(now) {
-        if (!running) { return; }
-        if (lastTime === null) { lastTime = now; }
+        if (!running) {
+            return;
+        }
+        if (lastTime === null) {
+            lastTime = now;
+        }
         const dt = Math.min((now - lastTime) / 1000, 0.064);
         lastTime = now;
 
@@ -56,7 +60,9 @@ export function spring(from, to, onUpdate, opts = {}) {
     return {
         stop() {
             running = false;
-            if (raf !== null) { cancelAnimationFrame(raf); }
+            if (raf !== null) {
+                cancelAnimationFrame(raf);
+            }
         },
     };
 }
@@ -69,33 +75,51 @@ export function spring(from, to, onUpdate, opts = {}) {
  * @returns {{ stop: () => void }}
  */
 export function springModal(el, target, opts = {}) {
-    const fromY = parseTranslateY(el.style.transform || getComputedStyle(el).transform);
-    const fromR = parseRadius(el.style.borderRadius || getComputedStyle(el).borderRadius);
+    const computed = getComputedStyle(el);
+    const fromY = parseTranslateY(computed.transform);
+    const fromR = parseRadius(computed.borderRadius);
     const toY = target.y ?? fromY;
     const toR = target.radius ?? fromR;
 
-    const currentR = parseRadius(el.style.borderRadius || getComputedStyle(el).borderRadius);
+    const currentR = parseRadius(el.style.borderRadius || computed.borderRadius);
 
-    const ySpring = spring(fromY, toY, (v) => {
-        el.style.transform = `translateY(${v}px)`;
-        el.style.borderRadius = `${currentR}px ${currentR}px 0 0`;
-    }, { ...opts, onFinish: () => {
-        el.style.transform = `translateY(${toY}px)`;
-        el.style.borderRadius = `${toR}px ${toR}px 0 0`;
-        opts.onFinish?.();
-    }});
+    const ySpring = spring(
+        fromY,
+        toY,
+        (v) => {
+            el.style.transform = `translateY(${v}px)`;
+            el.style.borderRadius = `${currentR}px ${currentR}px 0 0`;
+        },
+        {
+            ...opts,
+            onFinish: () => {
+                el.style.transform = `translateY(${toY}px)`;
+                el.style.borderRadius = `${toR}px ${toR}px 0 0`;
+                opts.onFinish?.();
+            },
+        },
+    );
 
     return ySpring;
 }
 
 function parseTranslateY(transform) {
-    if (!transform || transform === 'none') { return 0; }
-    const match = transform.match(/translateY\(([-\d.]+)px\)/);
-    return match ? parseFloat(match[1]) : 0;
+    if (!transform || transform === 'none') {
+        return 0;
+    }
+    try {
+        // Resolved matrix: `translateY(104%)` computed to px here,
+        // unlike a string regex which would read the % literal as 0.
+        return new DOMMatrixReadOnly(transform).m42 || 0;
+    } catch {
+        return 0;
+    }
 }
 
 function parseRadius(radius) {
-    if (!radius) { return 0; }
+    if (!radius) {
+        return 0;
+    }
     const match = radius.match(/([-\d.]+)px/);
     return match ? parseFloat(match[1]) : 0;
 }
