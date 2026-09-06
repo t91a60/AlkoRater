@@ -1,76 +1,79 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/wine.svg" width="80" height="80" alt="AlkoRater Logo" />
-  <h1>AlkoRater</h1>
-  <p><strong>Twoja osobista kolekcja i oceny trunków. Zawsze pod ręką, zawsze offline.</strong></p>
+  <img src="logo.png" width="96" alt="Logo AlkoRater" />
 
-  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-  [![PWA](https://img.shields.io/badge/PWA-Ready-blue?logo=pwa)](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps)
-  [![Vanilla JS](https://img.shields.io/badge/Vanilla-JS-f7df1e?logo=javascript&logoColor=black)]()
-  [![CI/CD](https://github.com/t91a60/AlkoRater/actions/workflows/ci.yml/badge.svg)](https://github.com/t91a60/AlkoRater/actions)
+  # AlkoRater
+
+  **Offline-first PWA do odkrywania, katalogowania i oceniania piwa, wina oraz wódki.**
+
+  [Otwórz aplikację](https://t91a60.github.io/AlkoRater/) · [Zgłoś problem](https://github.com/t91a60/AlkoRater/issues) · [Apache-2.0](LICENSE)
 </div>
 
----
+AlkoRater to mobilna aplikacja webowa działająca bez własnego serwera i konta użytkownika. Katalog produktów oraz oceny są dostępne lokalnie, dzięki czemu aplikacja pozostaje użyteczna także bez połączenia z internetem.
 
-**AlkoRater** to nowoczesna, w pełni responsywna aplikacja typu **Progressive Web App (PWA)**, zaprojektowana z myślą o użytkownikach mobilnych. Oferuje interfejs inspirowany stylem iOS (szkło, płynne animacje, haptyka), pozwalając na szybkie wyszukiwanie i ocenianie ulubionych alkoholi.
+## Najważniejsze funkcje
 
-Aplikacja działa **w 100% offline**, przechowując wszystkie Twoje oceny i notatki lokalnie na urządzeniu. Żadnych serwerów, żadnych reklam, pełna prywatność.
+- Przeszukiwalny lokalny katalog piw, win i wódek.
+- Oceny w skali 1–5, własne notatki i lista zapisanych trunków.
+- Filtry kategorii, ostatnio ocenione pozycje i panel z podsumowaniem kolekcji.
+- Dane użytkownika zapisywane w `IndexedDB`, z awaryjnym wsparciem `localStorage`.
+- Instalowalna aplikacja PWA z manifestem i service workerem do pracy offline.
+- Interfejs mobile-first z obsługą gestów, haptyki tam, gdzie jest dostępna, oraz preferencji ograniczonego ruchu.
 
-## ✨ Kluczowe Funkcje
+## Prywatność
 
-- 📱 **Zainstaluj jako aplikację (PWA):** Dodaj do ekranu głównego i używaj jak natywnej aplikacji bez pobierania ze sklepu.
-- ⚡ **Działa bez internetu:** Baza produktów i Twoje oceny są dostępne zawsze i wszędzie dzięki IndexedDB i Service Workers.
-- 🎨 **Wygląd Premium:** Głęboki tryb ciemny (Dark Mode), rozmycia (Glassmorphism), dynamiczne tła i płynne mikro-animacje.
-- 🔍 **Błyskawiczna wyszukiwarka:** Optymalizowane filtrowanie produktów bez opóźnień.
-- ⭐ **System ocen:** Skala 1-5 gwiazdek z możliwością dodawania własnych notatek do każdego trunku.
-- 📊 **Inteligentny Dashboard:** Statystyki Twoich ocen, ulubione kategorie, najnowsze odkrycia i dynamiczne powitania zależne od pory dnia.
-- 🔄 **Undo (Cofnij):** Bezpieczne usuwanie ocen z 4-sekundowym czasem na cofnięcie operacji (Undo pattern).
+Aplikacja nie wymaga logowania ani własnego backendu. Oceny i notatki pozostają w pamięci przeglądarki na urządzeniu. Wyczyszczenie danych witryny w przeglądarce usuwa także lokalne dane AlkoRater.
 
-## 🛠️ Technologie
+## Technologie
 
-Projekt zbudowany celowo **bez ciężkich frameworków (No-Framework)**, stawiając na szybkość, bliskość platformy webowej i nowoczesne API przeglądarek.
+| Obszar | Wykorzystane rozwiązania |
+| --- | --- |
+| Aplikacja | HTML, CSS, moduły JavaScript ES |
+| Dane i trwałość | Lokalne pliki JSON, IndexedDB, `localStorage` jako fallback |
+| Offline | Web App Manifest i Service Worker |
+| Jakość kodu | ESLint, Stylelint, Prettier, Vitest |
+| Wdrożenie | GitHub Pages |
 
-- **Frontend:** Vanilla HTML5, CSS3 (zmienne CSS, flexbox, CSS Grid), Vanilla JavaScript (ES6+).
-- **Storage:** `IndexedDB` (przechowywanie ocen użytkownika z transakcjami), `localStorage`.
-- **Offline & Cache:** Service Worker API, Web App Manifest.
-- **Ikony:** [Lucide Icons](https://lucide.dev/).
-- **Narzędzia developerskie:** ESLint, Stylelint, Prettier, Vite (jako dev-server), Vitest (do testów jednostkowych).
+## Uruchomienie lokalne
 
-## 🚀 Uruchomienie lokalne (Development)
-
-AlkoRater jest aplikacją statyczną. Do pracy nad kodem używamy Node.js w celu zapewnienia lintingu i lokalnego serwera deweloperskiego.
-
-1. **Sklonuj repozytorium:**
-   ```bash
-   git clone https://github.com/t91a60/AlkoRater.git
-   cd AlkoRater
-   ```
-
-2. **Zainstaluj zależności narzędziowe:**
-   ```bash
-   npm install
-   ```
-
-3. **Uruchom serwer developerski (Vite):**
-   ```bash
-   npm run dev
-   ```
-
-4. **Lintowanie i Testowanie:**
-   ```bash
-   npm run lint  # Sprawdza JS i CSS
-   npm run test  # Uruchamia testy jednostkowe (Vitest)
-   ```
-
-## 🌐 Alternatywne serwowanie
-
-Ponieważ aplikacja nie wymaga procesu budowy (build step), możesz ją zaserwować dowolnym statycznym serwerem HTTP, np.:
+Wymagany jest aktualny Node.js (workflow CI używa Node.js 20).
 
 ```bash
-npx serve . -p 3000
-# lub
-python3 -m http.server 3000
+git clone https://github.com/t91a60/AlkoRater.git
+cd AlkoRater
+npm ci
+npm run dev
 ```
 
-## 📄 Licencja
+Polecenie uruchamia statyczny serwer pod `http://localhost:3000`. Do testowania trybu offline używaj serwera HTTP — service worker nie działa przy otwieraniu plików przez `file://`.
 
-Ten projekt jest objęty licencją MIT. Szczegóły znajdują się w pliku `LICENSE`.
+## Kontrola jakości
+
+```bash
+npm run lint
+npm run test
+npm run format:check
+```
+
+Projekt jest statyczny; `npm run build` potwierdza ten fakt, a wdrożenie kopiuje gotowe pliki do GitHub Pages.
+
+## Struktura projektu
+
+```text
+data/                 lokalne katalogi produktów
+icons/                ikony aplikacji i ekrany startowe
+src/css/              style interfejsu
+src/js/app/           stan i stałe aplikacji
+src/js/data/          repozytoria danych i ocen
+src/js/services/      ładowanie danych, wyszukiwanie i zapis
+src/js/ui/            renderowanie oraz interakcje
+service-worker.js     cache zasobów do pracy offline
+manifest.json         metadane PWA
+```
+
+## Wdrożenie
+
+Każdy push do gałęzi `main` uruchamia sprawdzenie stylu i testy, a następnie publikuje aplikację na GitHub Pages: [t91a60.github.io/AlkoRater](https://t91a60.github.io/AlkoRater/).
+
+## Licencja
+
+Projekt jest udostępniony na licencji [Apache License 2.0](LICENSE).
