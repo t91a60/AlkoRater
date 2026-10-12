@@ -15,6 +15,7 @@ const RUBBERBAND_CONSTANT = 0.55;
 const MIN_RADIUS = 32;
 const MAX_RADIUS = 48;
 let lastDismissVelocity = 0;
+let openSpring = null;
 
 function rubberband(overshoot, dimension = 100) {
     return (
@@ -132,13 +133,19 @@ export function openRateModal(item) {
 
     requestAnimationFrame(() => {
         state.el.modal.classList.add('active');
-        springModal(
+        if (openSpring) {
+            openSpring.stop();
+        }
+        openSpring = springModal(
             content,
             { y: 0, radius: MIN_RADIUS },
             {
                 stiffness: 200,
                 damping: 20,
                 mass: 0.8,
+                onFinish: () => {
+                    openSpring = null;
+                },
             },
         );
         const focusable = getModalFocusable();
@@ -190,6 +197,10 @@ function restoreFocus() {
 }
 
 export function closeModal(instant) {
+    if (openSpring) {
+        openSpring.stop();
+        openSpring = null;
+    }
     document.querySelector('.app-container').classList.remove('scale-back');
     document.querySelector('.bottom-nav').classList.remove('tab-bar-hidden');
 
@@ -314,6 +325,10 @@ export function setupModalDismiss() {
     }
 
     function onPointerDown(e) {
+        if (openSpring) {
+            openSpring.stop();
+            openSpring = null;
+        }
         if (activeSpring) {
             activeSpring.stop();
             activeSpring = null;

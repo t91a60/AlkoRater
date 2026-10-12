@@ -16,7 +16,9 @@ const PILL_INSET = 4; // px of horizontal breathing room inside the active nav-i
 function positionNavPill(tabName) {
     const pill = document.querySelector('.nav-pill');
     const activeBtn = document.querySelector(`.nav-item[data-tab="${tabName}"]`);
-    if (!pill || !activeBtn) { return; }
+    if (!pill || !activeBtn) {
+        return;
+    }
 
     const navRect = pill.parentElement.getBoundingClientRect();
     const btnRect = activeBtn.getBoundingClientRect();
@@ -34,7 +36,9 @@ function positionNavPill(tabName) {
  */
 export function snapNavPill(tabName = state.currentTab) {
     const pill = document.querySelector('.nav-pill');
-    if (!pill) { return; }
+    if (!pill) {
+        return;
+    }
     const prevTransition = pill.style.transition;
     pill.style.transition = 'none';
     positionNavPill(tabName);
@@ -42,11 +46,16 @@ export function snapNavPill(tabName = state.currentTab) {
     pill.style.transition = prevTransition;
 }
 
-window.addEventListener('resize', debounce(() => snapNavPill(), 150));
+window.addEventListener(
+    'resize',
+    debounce(() => snapNavPill(), 150),
+);
 
 /** @param {string} tabName */
 export function switchTab(tabName) {
-    if (state.currentTab === tabName) { return; }
+    if (state.currentTab === tabName) {
+        return;
+    }
     haptics.light();
 
     const currentEl = state.el.tabs[state.currentTab];
@@ -78,11 +87,13 @@ export function switchTab(tabName) {
     state.el.headerTitle.textContent = titles[tabName];
 
     if (currentEl && currentEl !== nextEl) {
-        currentEl.style.transition = 'opacity 0.18s var(--ease-out), transform 0.18s var(--ease-out)';
+        currentEl.classList.add('tab-exit');
+        currentEl.style.transition =
+            'opacity 0.18s var(--ease-out), transform 0.18s var(--ease-out)';
         currentEl.style.transform = `translateX(${-direction * 30}px)`;
         currentEl.style.opacity = '0';
         const onExit = () => {
-            currentEl.classList.remove('active');
+            currentEl.classList.remove('active', 'tab-exit');
             currentEl.style.display = 'none';
             currentEl.style.transform = '';
             currentEl.style.opacity = '';
@@ -101,7 +112,8 @@ export function switchTab(tabName) {
         nextEl.classList.remove('tab-exit');
         nextEl.classList.add('active');
         nextEl.style.display = '';
-        nextEl.style.transition = 'opacity 0.25s var(--ease-out) 0.06s, transform 0.25s var(--ease-out) 0.06s';
+        nextEl.style.transition =
+            'opacity 0.25s var(--ease-out) 0.06s, transform 0.25s var(--ease-out) 0.06s';
         nextEl.style.opacity = '1';
         nextEl.style.transform = 'translateX(0)';
 
@@ -120,5 +132,7 @@ export function switchTab(tabName) {
         const activeChip = document.querySelector('.filter-chip.active');
         renderFavorites(activeChip?.dataset.filter);
     }
-    if (tabName === 'start') { updateDashboard(); }
+    if (tabName === 'start') {
+        updateDashboard();
+    }
 }

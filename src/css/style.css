@@ -233,6 +233,7 @@ body.app-loaded .app-container {
 .content-area {
     flex: 1;
     min-height: 0;
+    position: relative;
     overflow: hidden auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: contain;
@@ -488,7 +489,12 @@ body.keyboard-open .bottom-nav {
     flex-direction: column;
 }
 
+/* Outgoing tab is taken out of flow during the crossfade so it never
+   stacks below/above the incoming view — it fades out over it. */
 .tab-view.tab-exit {
+    position: absolute;
+    left: 0;
+    right: 0;
     opacity: 0;
     transition:
         opacity 0.18s var(--ease-out),
@@ -809,21 +815,6 @@ body.keyboard-open .bottom-nav {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.badge-progress-track {
-    height: clamp(3px, 0.6vh, 4px);
-    border-radius: 999px;
-    background: rgb(255 255 255 / 8%);
-    overflow: hidden;
-    margin-bottom: 3px;
-}
-
-.badge-progress-fill {
-    height: 100%;
-    border-radius: 999px;
-    background: linear-gradient(90deg, var(--accent), rgb(241 178 79 / 58%));
-    transition: width 0.6s var(--ease-out);
 }
 
 .badge-stats {
@@ -1843,7 +1834,7 @@ body.keyboard-open .bottom-nav {
 /* ─── Search Suggestions ─── */
 .search-suggestions {
     padding: 18px 0 8px;
-    animation: cardEnter 0.42s var(--ease-out) both;
+    animation: cardEnter 0.3s var(--ease-out) both;
 }
 
 .search-intro-card {
@@ -2180,7 +2171,7 @@ body.keyboard-open .bottom-nav {
     line-height: 1;
     padding: 0;
     margin-left: 2px;
-    transition: opacity 0.15s;
+    transition: opacity 0.15s var(--ease-out);
 }
 
 .recent-chip:active .recent-chip-remove {
@@ -2195,7 +2186,7 @@ body.keyboard-open .bottom-nav {
     justify-content: center;
     padding: 52px 20px;
     text-align: center;
-    animation: fadeInUp 0.45s var(--ease-out);
+    animation: fadeInUp 0.3s var(--ease-out);
     height: 100%;
     flex-grow: 1;
 }
@@ -3017,6 +3008,10 @@ textarea:focus-visible {
         filter: brightness(1.08);
     }
 
+    .premium-hero:hover {
+        transform: translateY(-2px);
+    }
+
     .badge-card:hover,
     .start-stat-card:hover,
     .suggestion-chip:hover,
@@ -3102,7 +3097,6 @@ textarea:focus-visible {
         transform: translateY(100%) !important;
     }
 
-    .badge-progress-fill,
     .start-rating-fill {
         transition: none !important;
     }
