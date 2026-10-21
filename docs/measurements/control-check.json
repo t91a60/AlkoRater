@@ -1,0 +1,65 @@
+{
+    "date": "2026-10-21T16:19:37.505Z",
+    "browser": "156.0.8078.4",
+    "implementationCommit": "1e89abb",
+    "viewport": "390x844",
+    "reducedMotion": "no-preference",
+    "isolation": "New temporary Playwright context, only synthetic notes entered through UI",
+    "checks": [
+        {
+            "control": "Modal close button, unchanged editor",
+            "result": "Closed and restored originating result focus"
+        },
+        {
+            "control": "Modal backdrop, unchanged editor",
+            "result": "Closed the editor"
+        },
+        {
+            "control": "No-results category action: Piwo",
+            "result": "Searched piwo and displayed products"
+        },
+        {
+            "control": "No-results category action: Wódka",
+            "result": "Searched wódka and displayed products"
+        },
+        {
+            "control": "No-results category action: Wino",
+            "result": "Searched wino and displayed products"
+        },
+        {
+            "control": "Recent-query replay",
+            "result": "Restored query and matching products"
+        },
+        {
+            "control": "Rating Home/End/ArrowLeft/ArrowDown/ArrowUp",
+            "result": "Updated selected radio and kept matching focus"
+        },
+        {
+            "control": "Modal Tab and Shift+Tab boundaries",
+            "result": "Wrapped inside editor without entering inert background"
+        },
+        {
+            "control": "Modal close button, dirty editor",
+            "result": "Cancel preserved text; explicit discard closed editor"
+        },
+        {
+            "control": "Collection wine/All filters",
+            "result": "Displayed empty category, then restored the saved beer"
+        },
+        {
+            "control": "Malformed import through actual file input",
+            "result": "Displayed validation error and re-enabled import"
+        },
+        {
+            "control": "Import confirmation cancellation",
+            "result": "Returned to enabled import without changing the collection"
+        }
+    ],
+    "navTransitionProperty": "transform",
+    "pageErrors": [],
+    "consoleProblems": [],
+    "limits": [
+        "Supplemental Chromium-only controls check, not another full browser matrix",
+        "No physical touch, software keyboard, installed PWA or screen-reader verification"
+    ]
+}

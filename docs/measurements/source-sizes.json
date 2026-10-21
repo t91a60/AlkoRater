@@ -1,0 +1,51 @@
+{
+    "date": "2026-10-21T16:08:20.780Z",
+    "baselineCommit": "e707724",
+    "candidateVersion": "2.14.0-rc.1",
+    "candidateCommit": "1e89abb",
+    "method": "Source files; gzip each file separately and sum. Not a network-transfer or bundle measurement. JavaScript excludes tests and includes service-worker.js.",
+    "before": {
+        "css": {
+            "files": 1,
+            "bytes": 72264,
+            "gzipBytes": 14120
+        },
+        "runtimeJavaScript": {
+            "files": 31,
+            "bytes": 117783,
+            "gzipBytes": 37995
+        },
+        "html": {
+            "files": 1,
+            "bytes": 20326,
+            "gzipBytes": 3839
+        },
+        "catalog": {
+            "files": 3,
+            "bytes": 61762,
+            "gzipBytes": 7057
+        }
+    },
+    "after": {
+        "css": {
+            "files": 1,
+            "bytes": 22427,
+            "gzipBytes": 4623
+        },
+        "runtimeJavaScript": {
+            "files": 35,
+            "bytes": 129609,
+            "gzipBytes": 43381
+        },
+        "html": {
+            "files": 1,
+            "bytes": 23568,
+            "gzipBytes": 4602
+        },
+        "catalog": {
+            "files": 3,
+            "bytes": 61758,
+            "gzipBytes": 7057
+        }
+    }
+}

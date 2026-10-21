@@ -1,0 +1,186 @@
+{
+    "methodology": {
+        "baselineCommit": "e707724",
+        "candidateVersion": "2.14.0-rc.1",
+        "candidateCommit": "1e89abb",
+        "candidateMeasuredAt": "2026-10-21T16:06:40.461Z",
+        "input": "Frozen normalized baseline products, identical for both search implementations",
+        "inputSha256": "9d0c048f2598b344c60514b6353fff7663c3eb3c91ef3688d39560f405d661c6",
+        "rounds": "40 queries, 25 warmup rounds, 5 batches of 200 measured rounds",
+        "scope": "Node search function only; not browser rendering, INP, mobile or production latency",
+        "firstPass": "Baseline coldMs and candidate firstPassMs are a single initial pass, not medians"
+    },
+    "before": {
+        "node": "v24.20.0",
+        "cpu": "11th Gen Intel(R) Core(TM) i7-11700KF @ 3.60GHz",
+        "platform": "win32",
+        "products": 336,
+        "queries": [
+            "",
+            "t",
+            "ty",
+            "a",
+            "piw",
+            "piwo",
+            "wino",
+            "wódka",
+            "zubr",
+            "zubrowka",
+            "Żubrówka",
+            "zywiec",
+            "Żywiec",
+            "łomża",
+            "tys",
+            "tyskie gronie",
+            "gronie tyskie",
+            "tyskie gron",
+            "wodka wyborowa",
+            "cabernet",
+            "mocne",
+            "ipa",
+            "porter",
+            "radler",
+            "lager",
+            "prosecco",
+            "santa rita sauvignon",
+            "johnnie walker",
+            "jack daniel",
+            "soplica wisniowa",
+            "zyweic",
+            "tyskir gronie",
+            "santa rita sauvignpn",
+            "cabernte",
+            "zywiec wino",
+            "tyskie cabernet",
+            "zzzxxyy",
+            "polska",
+            "chile",
+            "ŻYWIEC   LAGER"
+        ],
+        "warmupRounds": 25,
+        "measuredRounds": 200,
+        "batches": [
+            {
+                "elapsedMs": 3549.4035,
+                "meanMs": 0.4436754375,
+                "p50Ms": 0.5282999999999447,
+                "p95Ms": 0.6127000000001317
+            },
+            {
+                "elapsedMs": 3544.603800000001,
+                "meanMs": 0.4430754750000001,
+                "p50Ms": 0.5311000000001513,
+                "p95Ms": 0.62079999999969
+            },
+            {
+                "elapsedMs": 3589.8832,
+                "meanMs": 0.4487354,
+                "p50Ms": 0.533000000001266,
+                "p95Ms": 0.6405000000013388
+            },
+            {
+                "elapsedMs": 3527.5337,
+                "meanMs": 0.44094171249999997,
+                "p50Ms": 0.5291999999990367,
+                "p95Ms": 0.6195999999999913
+            },
+            {
+                "elapsedMs": 3547.3250000000007,
+                "meanMs": 0.4434156250000001,
+                "p50Ms": 0.5285000000003492,
+                "p95Ms": 0.6265999999995984
+            }
+        ],
+        "coldMs": 20.7187,
+        "checksum": 452466,
+        "corpusFailures": [],
+        "nameRanking": ["metadata", "name"],
+        "exactPhraseRanking": ["reordered", "exact"],
+        "tieIds": ["z", "a"],
+        "overflowMatchIds": ["long"]
+    },
+    "after": {
+        "node": "v24.20.0",
+        "cpu": "11th Gen Intel(R) Core(TM) i7-11700KF @ 3.60GHz",
+        "platform": "win32",
+        "products": 336,
+        "queries": [
+            "",
+            "t",
+            "ty",
+            "a",
+            "piw",
+            "piwo",
+            "wino",
+            "wódka",
+            "zubr",
+            "zubrowka",
+            "Żubrówka",
+            "zywiec",
+            "Żywiec",
+            "łomża",
+            "tys",
+            "tyskie gronie",
+            "gronie tyskie",
+            "tyskie gron",
+            "wodka wyborowa",
+            "cabernet",
+            "mocne",
+            "ipa",
+            "porter",
+            "radler",
+            "lager",
+            "prosecco",
+            "santa rita sauvignon",
+            "johnnie walker",
+            "jack daniel",
+            "soplica wisniowa",
+            "zyweic",
+            "tyskir gronie",
+            "santa rita sauvignpn",
+            "cabernte",
+            "zywiec wino",
+            "tyskie cabernet",
+            "zzzxxyy",
+            "polska",
+            "chile",
+            "ŻYWIEC   LAGER"
+        ],
+        "warmupRounds": 25,
+        "measuredRounds": 200,
+        "batches": [
+            {
+                "elapsedMs": 1517.7087,
+                "meanMs": 0.18971358749999997,
+                "p50Ms": 0.1994999999999436,
+                "p95Ms": 0.29589999999996053
+            },
+            {
+                "elapsedMs": 1442.8466,
+                "meanMs": 0.180355825,
+                "p50Ms": 0.18529999999964275,
+                "p95Ms": 0.2775000000001455
+            },
+            {
+                "elapsedMs": 1424.1423,
+                "meanMs": 0.1780177875,
+                "p50Ms": 0.1841999999996915,
+                "p95Ms": 0.2713000000003376
+            },
+            {
+                "elapsedMs": 1409.0223999999998,
+                "meanMs": 0.17612779999999997,
+                "p50Ms": 0.17709999999988213,
+                "p95Ms": 0.25650000000041473
+            },
+            {
+                "elapsedMs": 1401.6900999999998,
+                "meanMs": 0.17521126249999996,
+                "p50Ms": 0.17519999999967695,
+                "p95Ms": 0.244499999999789
+            }
+        ],
+        "firstPassMs": 24.1267,
+        "checksum": 448362
+    }
+}

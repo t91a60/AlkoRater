@@ -1,0 +1,78 @@
+{
+    "source": "Independent UX recheck, local mobile Lighthouse snapshot; summary of the retained raw report",
+    "rawReportSha256": "fe9bdc12bcf230cf4c791a73d1db788ffc0d71279d00bfc5f7bbb6c090f50a8f",
+    "lighthouseVersion": "13.4.1",
+    "fetchTime": "2026-10-20T22:17:59.238Z",
+    "finalDisplayedUrl": "http://127.0.0.1:4186/AlkoRater/",
+    "formFactor": "mobile",
+    "categories": {
+        "accessibility": {
+            "title": "Accessibility",
+            "score": 1
+        },
+        "best-practices": {
+            "title": "Best Practices",
+            "score": 1
+        },
+        "seo": {
+            "title": "SEO",
+            "score": 1
+        },
+        "agentic-browsing": {
+            "title": "Agentic Browsing",
+            "score": 1
+        }
+    },
+    "failedScoredAudits": [],
+    "manualAudits": [
+        {
+            "id": "custom-controls-labels",
+            "title": "Custom controls have associated labels"
+        },
+        {
+            "id": "custom-controls-roles",
+            "title": "Custom controls have ARIA roles"
+        },
+        {
+            "id": "focus-traps",
+            "title": "User focus is not accidentally trapped in a region"
+        },
+        {
+            "id": "focusable-controls",
+            "title": "Interactive controls are keyboard focusable"
+        },
+        {
+            "id": "interactive-element-affordance",
+            "title": "Interactive elements indicate their purpose and state"
+        },
+        {
+            "id": "logical-tab-order",
+            "title": "The page has a logical tab order"
+        },
+        {
+            "id": "managed-focus",
+            "title": "The user's focus is directed to new content added to the page"
+        },
+        {
+            "id": "offscreen-content-hidden",
+            "title": "Offscreen content is hidden from assistive technology"
+        },
+        {
+            "id": "use-landmarks",
+            "title": "HTML5 landmark elements are used to improve navigation"
+        },
+        {
+            "id": "visual-order-follows-dom",
+            "title": "Visual order on the page follows DOM order"
+        },
+        {
+            "id": "structured-data",
+            "title": "Structured data is valid"
+        }
+    ],
+    "limits": [
+        "Snapshot predates the last search filtering and CSS transition refinements",
+        "Only listed categories were measured; no Lighthouse performance score is provided",
+        "Automated success is not WCAG conformance, physical iOS testing or screen reader verification"
+    ]
+}

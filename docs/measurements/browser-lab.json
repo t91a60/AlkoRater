@@ -1,0 +1,105 @@
+{
+    "date": "2026-10-21T15:16:52.402Z",
+    "baselineCommit": "e707724",
+    "candidateVersion": "2.14.0-rc.1",
+    "candidateNote": "Captured before the final nav-pill width-transition removal; not a remeasurement of the final implementation commit.",
+    "browser": "156.0.8078.4",
+    "node": "v24.20.0",
+    "cpu": "11th Gen Intel(R) Core(TM) i7-11700KF @ 3.60GHz",
+    "viewport": "390x844",
+    "cpuSlowdown": 4,
+    "network": "localhost, unthrottled",
+    "serviceWorkers": "blocked for comparable cold-load measurements only",
+    "samples": {
+        "before": [
+            {
+                "cls": 0,
+                "lcp": 0,
+                "ready": 1736,
+                "fcp": 248,
+                "domContentLoaded": 1388.1000000000931
+            },
+            {
+                "cls": 0,
+                "lcp": 0,
+                "ready": 387.80000000004657,
+                "fcp": 148,
+                "domContentLoaded": 171.80000000004657
+            },
+            {
+                "cls": 0,
+                "lcp": 0,
+                "ready": 366.5,
+                "fcp": 144,
+                "domContentLoaded": 170.5
+            },
+            {
+                "cls": 0,
+                "lcp": 0,
+                "ready": 415.30000000004657,
+                "fcp": 172,
+                "domContentLoaded": 197.80000000004657
+            },
+            {
+                "cls": 0,
+                "lcp": 0,
+                "ready": 392.69999999995343,
+                "fcp": 164,
+                "domContentLoaded": 187.19999999995343
+            }
+        ],
+        "after": [
+            {
+                "cls": 0,
+                "lcp": 320,
+                "ready": 258.69999999995343,
+                "fcp": 116,
+                "domContentLoaded": 184.80000000004657
+            },
+            {
+                "cls": 0,
+                "lcp": 340,
+                "ready": 274.10000000009313,
+                "fcp": 124,
+                "domContentLoaded": 189.10000000009313
+            },
+            {
+                "cls": 0,
+                "lcp": 316,
+                "ready": 260.69999999995343,
+                "fcp": 120,
+                "domContentLoaded": 186.89999999990687
+            },
+            {
+                "cls": 0,
+                "lcp": 328,
+                "ready": 267.69999999995343,
+                "fcp": 132,
+                "domContentLoaded": 189.89999999990687
+            },
+            {
+                "cls": 0,
+                "lcp": 332,
+                "ready": 268.79999999981374,
+                "fcp": 124,
+                "domContentLoaded": 190.19999999995343
+            }
+        ]
+    },
+    "medians": {
+        "before": {
+            "cls": 0,
+            "lcp": 0,
+            "ready": 392.69999999995343,
+            "fcp": 164,
+            "domContentLoaded": 187.19999999995343
+        },
+        "after": {
+            "cls": 0,
+            "lcp": 328,
+            "ready": 267.69999999995343,
+            "fcp": 124,
+            "domContentLoaded": 189.10000000009313
+        }
+    }
+}
