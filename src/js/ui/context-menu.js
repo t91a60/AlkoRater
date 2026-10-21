@@ -4,9 +4,11 @@ let activeMenu = null;
 
 function closeMenu() {
     if (activeMenu) {
-        activeMenu.menu.classList.remove('visible');
-        activeMenu.backdrop.remove();
-        setTimeout(() => activeMenu.menu.remove(), 220);
+        const closing = activeMenu;
+        closing.menu.classList.remove('visible');
+        closing.backdrop.remove();
+        closing.menu.remove();
+        closing.previousFocus?.focus();
         activeMenu = null;
     }
 }
@@ -22,12 +24,16 @@ function renderMenu(items, x, y, onAction) {
     const menu = document.createElement('div');
     menu.className = 'context-menu';
 
-    menu.innerHTML = items.map((item) => `
+    menu.innerHTML = items
+        .map(
+            (item) => `
         <button class="context-menu-item${item.destructive ? ' destructive' : ''}" data-action="${item.action}">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${item.icon}</svg>
             ${item.label}
         </button>
-    `).join('');
+    `,
+        )
+        .join('');
 
     document.body.appendChild(menu);
 
@@ -47,17 +53,25 @@ function renderMenu(items, x, y, onAction) {
     menu.style.left = `${Math.max(12, left)}px`;
     menu.style.top = `${Math.max(12, top)}px`;
 
-    activeMenu = { menu, backdrop };
+    activeMenu = { menu, backdrop, previousFocus: document.activeElement };
+    menu.querySelector('button')?.focus();
+    menu.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            closeMenu();
+        }
+    });
 
     backdrop.addEventListener('click', closeMenu);
     backdrop.addEventListener('touchstart', closeMenu);
 
     menu.addEventListener('click', (e) => {
         const btn = e.target.closest('.context-menu-item');
-        if (!btn) {return;}
+        if (!btn) {
+            return;
+        }
         const action = btn.dataset.action;
-        onAction(action);
         closeMenu();
+        onAction(action);
     });
 }
 
@@ -86,41 +100,62 @@ export function setupContextMenus(containerEl, callbacks = {}) {
         }
         haptics.light();
         renderMenu(items, x, y, (action) => {
-            const itemName = targetEl.dataset.itemName;
-            if (action === 'rate' && callbacks.onRate) {callbacks.onRate(itemName);}
-            if (action === 'delete' && callbacks.onDelete) {callbacks.onDelete(itemName);}
+            const itemId = targetEl.dataset.itemId;
+            if (action === 'rate' && callbacks.onRate) {
+                callbacks.onRate(itemId);
+            }
+            if (action === 'delete' && callbacks.onDelete) {
+                callbacks.onDelete(itemId);
+            }
         });
     };
 
-    containerEl.addEventListener('touchstart', (e) => {
-        const card = e.target.closest('.search-card, .favorite-card');
-        if (!card) {return;}
-        const touch = e.touches[0];
-        startX = touch.clientX;
-        startY = touch.clientY;
-        triggered = false;
-        timer = setTimeout(() => {
-            triggered = true;
-            show(card, touch.clientX, touch.clientY);
-        }, LONG_PRESS_MS);
-    }, { passive: true });
+    containerEl.addEventListener(
+        'touchstart',
+        (e) => {
+            const card = e.target.closest('.search-card, .favorite-card');
+            if (!card) {
+                return;
+            }
+            const touch = e.touches[0];
+            startX = touch.clientX;
+            startY = touch.clientY;
+            triggered = false;
+            timer = setTimeout(() => {
+                triggered = true;
+                show(card, touch.clientX, touch.clientY);
+            }, LONG_PRESS_MS);
+        },
+        { passive: true },
+    );
 
     containerEl.addEventListener('touchend', (e) => {
         clearTimeout(timer);
-        if (triggered) {e.preventDefault();}
-    });
-
-    containerEl.addEventListener('touchmove', (e) => {
-        if (triggered) {return;}
-        const touch = e.touches[0];
-        if (Math.abs(touch.clientX - startX) > 12 || Math.abs(touch.clientY - startY) > 12) {
-            clearTimeout(timer);
+        if (triggered) {
+            e.preventDefault();
         }
-    }, { passive: true });
+    });
+    containerEl.addEventListener('touchcancel', () => clearTimeout(timer));
+
+    containerEl.addEventListener(
+        'touchmove',
+        (e) => {
+            if (triggered) {
+                return;
+            }
+            const touch = e.touches[0];
+            if (Math.abs(touch.clientX - startX) > 12 || Math.abs(touch.clientY - startY) > 12) {
+                clearTimeout(timer);
+            }
+        },
+        { passive: true },
+    );
 
     containerEl.addEventListener('contextmenu', (e) => {
         const card = e.target.closest('.search-card, .favorite-card');
-        if (!card) {return;}
+        if (!card) {
+            return;
+        }
         e.preventDefault();
         show(card, e.clientX, e.clientY);
     });

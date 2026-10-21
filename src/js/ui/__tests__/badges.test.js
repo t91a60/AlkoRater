@@ -17,13 +17,24 @@ describe('productThumbHTML', () => {
     });
 
     it('renderuje zwykły <img> bez inline onerror, gdy image_url jest podane', () => {
-        const thumb = parse(productThumbHTML('https://example.com/piwo.jpg', 'Piwo', 50));
+        const thumb = parse(productThumbHTML('./icons/icon-192.png', 'Piwo', 50));
         const img = thumb.querySelector('img');
 
         expect(thumb.classList.contains('thumb-broken')).toBe(false);
         expect(img).not.toBeNull();
-        expect(img.getAttribute('src')).toBe('https://example.com/piwo.jpg');
+        expect(img.getAttribute('src')).toBe('./icons/icon-192.png');
         expect(img.hasAttribute('onerror')).toBe(false);
+    });
+
+    it('nie pobiera zewnętrznych obrazów ani adresów spoza zasobów aplikacji', () => {
+        for (const url of [
+            'https://example.com/piwo.jpg',
+            'javascript:alert(1)',
+            '../icons/a.png',
+            '//example.com/a.png',
+        ]) {
+            expect(parse(productThumbHTML(url, 'Piwo')).querySelector('img')).toBeNull();
+        }
     });
 
     it('THUMB_FALLBACK_SVG parsuje się jako czyste SVG, bez "wyciekających" atrybutów', () => {

@@ -1,87 +1,145 @@
-# AlkoRater — Full Project Description
+# AlkoRater: technical description
 
-AlkoRater is an offline-first Progressive Web App (PWA) for rating and tracking alcohol consumption. It targets the Polish market with a catalog of hundreds of beers, vodkas, and wines stored in offline JSON files.
+AlkoRater is a Polish-language personal catalog for adults to save ratings and notes about beers, wines and vodkas. It is not an alcohol consumption tracker. Repository candidate: `2.14.0-rc.1`; the public website reflects the latest `main` deployment and may lag the working branch.
+
+- Application: https://t91a60.github.io/AlkoRater/
+- Repository: https://github.com/t91a60/AlkoRater
+- License: Apache-2.0, as recorded in LICENSE and package.json.
 
 ## Architecture
 
-- **Static SPA** — single `index.html` entry point, no build step, no frameworks
-- **Module-based JavaScript** — ES modules under `src/js/` organized into `app/`, `data/`, `services/`, `ui/`, `utils/`
-- **Offline-first** — all assets pre-cached via Service Worker; product data served stale-while-revalidate
-- **IndexedDB** — user ratings and favorites persisted locally via `idb` wrapper
+The runtime is a static single-page application using HTML, CSS and native JavaScript ES modules. There is no framework, runtime dependency, idb wrapper, account system, API backend or automatic cross-device synchronization. IndexedDB is used directly.
 
-## Key Features
+The three views are Start, Szukaj and Moje oceny. Start contains a summary, recent records, storage status and backup controls. Szukaj searches the bundled catalog. Moje oceny filters saved records by category and searches product names, brands and notes. A rating is an integer from 1 to 5 with an optional note, and can be edited or deleted. Undoing deletion is a separate storage mutation.
 
-- Offline alcohol rating (1–5 stars + notes)
-- Search with debounce across product database
-- Dashboard with stats, recently rated, favorites
-- Category filtering (beer, vodka, wine)
-- PWA installable (manifest.json + Service Worker)
-- iOS-style dark mode design with glassmorphism
+The interface uses a navy background, amber action and selection accents, and a system font. Product images, fonts and analytics are not fetched from third parties. The app still contacts its hosting for initial downloads and update checks; this is not a claim of zero network traffic.
 
-## Data Model
+## Catalog and product identity
 
-Each rating record:
-- `id` (auto-generated)
-- `name` — product name
-- `category` — Piwo / Wódka / Wino
-- `alcohol` — ABV percentage
-- `rating` — 1–5 integer
-- `note` — optional text note
-- `timestamp` — ISO date
+Catalog files contain 336 products:
 
-## PWA Capabilities
+| File | Source namespace | Count |
+| --- | --- | ---: |
+| data/piwa.json | beer | 57 |
+| data/wodki.json | vodka | 184 |
+| data/wina.json | wine | 95 |
 
-| Feature | Implementation |
-|---------|---------------|
-| Service Worker | Cache-first for static, stale-while-revalidate for JSON data |
-| Manifest | Standalone display, portrait orientation, maskable icons |
-| Offline | Full offline operation — cached assets + JSON + IndexedDB |
-| Installable | `beforeinstallprompt` + manifest links |
-| Update Flow | SKIP_WAITING + MessageChannel handshake with update banner |
+These are incomplete local product lists, not live prices, store availability or commercial offers. Product names and stable IDs are required. Brand, style, country, alcohol percentage and image may be missing. An unknown percentage is not zero. Valid percentages are normalized within 0-100. Search ignores case and Polish diacritics while display preserves the original spelling.
 
-## Deployment
+A product key combines its source and existing catalog ID, for example `beer:18` or `vodka:vodka-66`. Sorting or renaming a product must not change its ID. Published IDs must not be reassigned. Matching solely by name is unsafe because names can repeat. Old snapshots without an ID use an explicit legacy key based on category, brand and name; ambiguous matches are not guessed.
 
-- Hosted on GitHub Pages: https://t91a60.github.io/AlkoRater/
-- CI/CD via GitHub Actions (lint + deploy on push to main)
-- Zero build step — static files served directly
+There are no genuine product photos in the current catalog. Historical dummyimage.com URLs remain in some source JSON, but normalization rejects them and other external image URLs. The UI uses a local fallback symbol. Images may only come from permitted application-local asset paths.
 
-## Repository Structure
+## Rating records and storage
 
-```
-/
-├── index.html          # Entry point (SPA shell)
-├── manifest.json       # Web App Manifest
-├── service-worker.js   # Offline cache & update logic
-├── favicon.ico
-├── robots.txt
-├── sitemap.xml
-├── humans.txt
-├── llms.txt
-├── llms-full.txt
-├── README.md
-├── data/               # Product JSON files (beer, vodka, wine)
-├── icons/              # PWA icons (60, 180, 192, 512)
-├── src/
-│   ├── css/style.css   # All styles (no CSS frameworks)
-│   └── js/
-│       ├── main.js     # App entry point
-│       ├── app/        # Constants, state manager, event bus
-│       ├── data/       # Data access layer (repositories)
-│       ├── services/   # Storage, search, data loader, SW service
-│       ├── ui/         # Dashboard, search, favorites, modal, tabs, toast, haptics, renderer
-│       └── utils/      # DOM helpers, debounce, logger
-├── .github/workflows/  # CI + deploy pipelines
-├── package.json
-├── .eslintrc.json
-├── .stylelintrc.json
-└── .prettierrc.json
+A normalized saved record has:
+
+- `id`: the rating record's own identifier.
+- `productId`: the product key derived from the snapshot.
+- `item`: a product snapshot with name, category and any known ID, source, brand, style, country, alcohol percentage and local image path.
+- `stars`: an integer from 1 to 5.
+- `tag`: the category.
+- `note`: a string. New editor input is limited to 10,000 characters; longer legacy notes remain valid.
+- `date`: an ISO date string.
+- `revision`: a positive integer for optimistic concurrency control.
+
+The record ID is distinct from the catalog product ID. A snapshot preserves a historical record even when the product disappears from the current catalog.
+
+The primary database is native IndexedDB, named `alkorater`, version 2. Mutations read the latest records and write within one readwrite transaction. UI success follows transaction completion. A stale revision blocks conflicting edits instead of overwriting another tab's change. Errors keep the user's form content and do not turn unreadable data into an empty collection.
+
+Legacy localStorage under `favorites` is migrated once with an IndexedDB metadata marker. A nonempty IndexedDB collection takes precedence. The old localStorage copy remains available for recovery, without ongoing two-way synchronization. Deleting a migrated record does not cause it to be reimported on every launch.
+
+When IndexedDB is unavailable in supported fallback conditions, localStorage can be selected as a sticky backend. Ordinary transaction failures do not silently switch backends. Writes in fallback mode require Web Locks; without them the app reports that safe writing is unavailable.
+
+Browser storage may be lost through site-data clearing, private browsing, storage eviction or loss of the device. A storage persistence request is not a guarantee. Different origins, browser profiles and devices do not share the collection automatically. An exported backup is independent of site storage.
+
+## JSON backup and recovery
+
+Start contains the section `Kopia i przenoszenie danych`, with `Pobierz kopię JSON` and `Wczytaj kopię` controls.
+
+The regular backup envelope contains:
+
+```json
+{
+  "app": "AlkoRater",
+  "schemaVersion": 1,
+  "exportedAt": "<ISO export timestamp>",
+  "records": []
+}
 ```
 
-## Technologies
+The timestamp above is a format placeholder, not an exported example. `records` holds normalized rating records. Files larger than 5 * 1024 * 1024 bytes require an additional UI confirmation, not automatic rejection. The editor limits new note input to 10,000 characters while preserving longer historical notes. A normalized collection supports up to 20,000 records. The whole incoming file is validated before any storage mutation. Import adds missing records in one transaction, skipping conflicting record IDs or product keys; existing ratings are never overwritten. Import is not a synchronization mechanism for newer edits on another device.
 
-- Vanilla HTML5 / CSS3 / JavaScript (ES2024)
-- IndexedDB (via `idb` wrapper in storage.js)
-- Service Worker API
-- Web App Manifest
-- ESLint + Stylelint + Prettier
-- GitHub Actions (CI + GitHub Pages deploy)
+If stored data cannot be read, `Pobierz kopię odzyskiwania` exports a raw snapshot for manual investigation and repair. Its format is different from a regular backup and cannot be passed directly to the regular import. Corrupt data is not automatically imported or repaired by clearing the database.
+
+Backups are readable, unencrypted JSON and may contain private notes. The app does not upload them or execute HTML or URLs from their contents. They should not be attached to public issues without sanitization.
+
+## Offline, installation and updates
+
+The first installation needs internet and enough storage for the complete shell and catalog. After installation completes, reload once while online before testing an offline launch. Start reports `Aplikacja obsługiwana przez pamięć offline` when controlled by the worker online. First-visit offline availability is not promised, and browser eviction can remove cached assets.
+
+The service worker maintains immutable, versioned shell and catalog snapshots scoped to the application path. Catalog JSON is not independently refreshed with stale-while-revalidate. A failed precache rejects the new installation rather than accepting a partial release. The immediate predecessor is retained for in-flight requests, without deleting unrelated caches or rating storage.
+
+Missing shell assets show a recovery page without JavaScript instead of a blank application. A catalog error links to the same recovery. Repair requires a reachable server and closing other app tabs. It unregisters the worker and resets its own active-release marker, then reloads and registers the application again without deleting personal ratings or notes.
+
+In an open app, applying an offered update requires explicit confirmation. An open rating form blocks the update, and other AlkoRater tabs must be closed. There is no unconditional controllerchange reload of every tab. Updating the cache is not a reason to clear IndexedDB or localStorage.
+
+iOS installation is manual through Safari's Share menu and Add to Home Screen. Other browsers may offer their own install action. The app does not implement a custom beforeinstallprompt install interface. Installing does not create a cloud backup or guarantee that separate browser contexts share storage.
+
+Service workers require a secure browser context, normally HTTPS or a supported loopback address. Opening index.html through file:// is unsupported.
+
+## Development, build and deployment
+
+Node.js requirement from package.json: `^22.22.2 || ^24.15.0 || >=26.0.0`. Node.js 24.20.0 was used during this work; CI uses the 24 line. This is not evidence that every allowed Node version was tested.
+
+```bash
+npm ci
+npm run dev
+```
+
+The static dev server defaults to http://127.0.0.1:4173/AlkoRater/ and binds only to 127.0.0.1. It serves an allowlist of application files, not arbitrary repository contents. Default responses use no-store; `npm run dev:cache` allows HTTP caching of assets except the service worker. An installed service worker can still serve an earlier snapshot. `npm run dev -- --port 4174` selects another port.
+
+`npm run build` recreates dist/ and stages allowed production files. It does not bundle or transpile. Tests, tooling configuration, node_modules and repository documentation are excluded. `npm run preview` serves dist/ on the same default port as dev, so stop the other server first.
+
+The existing GitHub Pages workflow publishes dist/ from main after lint, format checks, unit tests and build. It also supports manual runs for main. Working branches and pull requests are not automatically deployed. Pull-request CI additionally runs the Chromium browser test project.
+
+GitHub Pages is static hosting under /AlkoRater/, without a user-data server. Arbitrary HTTP header control is not available to the app. A robots.txt under the project path is not the origin-root /robots.txt. Sitemap lists only the application URL; product views and private ratings are not separate public pages.
+
+## Testing and known limits
+
+```bash
+npm test
+npm run lint
+npm run format:check
+npm run build
+npx playwright install chromium webkit firefox
+npm run test:e2e -- --project=chromium
+```
+
+Vitest covers data and application logic. Playwright starts a local server at http://127.0.0.1:4175/AlkoRater/. `npm run test:e2e` runs the configured projects: mobile `chromium`, `chromium-desktop`, `webkit` with an iPhone 13 profile, and `firefox`. Browser installation on Linux may need system dependencies; CI installs Chromium with --with-deps.
+
+Browser scenarios include first launch, ratings and notes, collection search, keyboard interactions, duplicate names, deletion and undo, legacy migration, JSON backup/import, corrupt storage, concurrent tabs, failed writes, offline launches and service worker updates. Automated accessibility checks do not replace screen-reader testing. WebKit device emulation is not verification of physical iPhone installation, device restart or real iOS storage behavior.
+
+Known unresolved tooling risk: 7 high-severity audit findings remain in the development-only Stylelint dependency chain. These packages are not shipped to the browser, but development environments are still affected. This is not a production vulnerability claim or a claim that the application has no other security risks. Actual results and remaining limitations are recorded in the verification report, not inferred from the existence of tests.
+
+## Repository map and further reading
+
+- src/js/app/: application state and constants.
+- src/js/data/: stable product identity, record validation and rating repository.
+- src/js/services/: storage, backup, catalog loading, search and service worker integration.
+- src/js/ui/: views and interactions.
+- src/css/: interface styles.
+- data/: bundled product JSON.
+- icons/: local application icons and launch assets.
+- scripts/: static server and production staging.
+- tests/e2e/: browser scenarios.
+- service-worker.js: versioned offline resources and update coordination.
+- manifest.json: installation metadata.
+
+Practical usage: https://github.com/t91a60/AlkoRater/blob/main/README.md
+Contribution rules: https://github.com/t91a60/AlkoRater/blob/main/CONTRIBUTING.md
+Change log: https://github.com/t91a60/AlkoRater/blob/main/CHANGELOG.md
+Design decisions: https://github.com/t91a60/AlkoRater/blob/main/DESIGN.md
+Baseline: https://github.com/t91a60/AlkoRater/blob/main/docs/BASELINE_PL.md
+Data and PWA decisions: https://github.com/t91a60/AlkoRater/blob/main/docs/DATA_AND_PWA_PL.md
+Verification report: https://github.com/t91a60/AlkoRater/blob/main/docs/ALKORATER_OVERHAUL_REPORT_PL.md

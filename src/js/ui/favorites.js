@@ -1,109 +1,96 @@
 import { state } from '../app/state.js';
 import { escapeHTML } from '../utils/dom.js';
-import { haptics } from './haptics.js';
 import { showToast } from './toast.js';
 import { updateDashboard } from './dashboard.js';
-import { saveFavorites } from '../data/favorite-repo.js';
+import { removeFavorite, restoreFavorite } from '../data/favorite-repo.js';
+import { productKey, normalizeSearchText } from '../data/product.js';
 import { alcoholBadgeHTML, typeBadgeHTML, productThumbHTML } from './badges.js';
 import { createIcons } from './icons.js';
 
-const GHOST_SVG = `
-    <svg class="ghost-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z"></path>
-        <circle cx="9" cy="10" r="1.2" fill="currentColor"></circle>
-        <circle cx="15" cy="10" r="1.2" fill="currentColor"></circle>
-    </svg>`;
-
-const TRASH_SVG = `
-    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" aria-hidden="true">
-        <polyline points="3 6 5 6 21 6"></polyline>
-        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-    </svg>`;
-
 export function renderFavorites(filter = 'wszystkie') {
-    const container = state.el.favoritesList;
-    container.innerHTML = '';
+    const query = normalizeSearchText(document.getElementById('favorites-search')?.value || '');
     const activeFilter = (filter || 'wszystkie').toLowerCase();
-    const list = activeFilter === 'wszystkie'
-        ? state.favorites
-        : state.favorites.filter((f) => f.tag.toLowerCase() === activeFilter);
-
-    if (list.length === 0) {
-        container.innerHTML = `
-            <div class="empty-state-animated">
-                <div class="floating-ghost">${GHOST_SVG}</div>
-                <p class="empty-state-text">Brak ulubionych</p>
-            </div>`;
+    const list = state.favorites.filter(
+        (f) =>
+            (activeFilter === 'wszystkie' || f.tag.toLowerCase() === activeFilter) &&
+            normalizeSearchText([f.item.name, f.item.brand, f.note].join(' ')).includes(query),
+    );
+    const container = state.el.favoritesList;
+    if (state.storageError) {
+        container.innerHTML =
+            '<p class="empty-copy">Nie można odczytać zapisanych ocen. Wróć na Start, aby spróbować ponownie lub pobrać kopię odzyskiwania. Dane nie zostały usunięte.</p>';
         return;
     }
-
-    container.innerHTML = list.map((fav, idx) => `
-        <div id="fav-${fav.id}" class="favorite-card animate-fade-in" data-item-name="${escapeHTML(fav.item.name)}" style="animation-delay:${Math.min(idx, 6) * 35}ms">
-            <div class="fav-main">
-                ${productThumbHTML(fav.item.image_url, fav.tag, 50)}
-                <div class="item-info">
-                    <div class="item-name">${escapeHTML(fav.item.name)}${alcoholBadgeHTML(fav.item.alcohol)}</div>
-                    <div class="item-meta">${escapeHTML(fav.tag)}${typeBadgeHTML(fav.item.type)}</div>
-                </div>
-                <div class="item-stars"><i data-lucide="star" class="inline-star-icon" aria-hidden="true"></i> ${escapeHTML(String(fav.stars))}</div>
-            </div>
-            <button class="delete-btn" data-delete-id="${fav.id}" aria-label="Usuń">${TRASH_SVG}</button>
+    if (!list.length) {
+        container.innerHTML = state.favorites.length
+            ? '<p class="empty-copy">Brak ocen pasujących do filtrów. Zmień kategorię lub wpisaną nazwę.</p>'
+            : '<div class="collection-empty"><h2>Tu znajdziesz swoje oceny</h2><p>Po zapisaniu produktu zobaczysz jego ocenę i notatkę.</p><button class="secondary-button" data-action="open-search">Szukaj produktu</button></div>';
+        return;
+    }
+    container.innerHTML = list
+        .map(
+            (fav, index) => `
+        <div id="fav-${escapeHTML(fav.id)}" class="favorite-card" data-item-id="${escapeHTML(productKey(fav.item))}">
+            <button class="fav-main" aria-label="${escapeHTML(`Edytuj: ${fav.item.name}, ${fav.tag}, ocena ${fav.stars} z 5`)}" ${fav.note ? `aria-describedby="favorite-note-${index}"` : ''}>
+                ${productThumbHTML(fav.item.image_url, fav.tag, 48)}
+                <span class="item-info">
+                    <span class="item-name">${escapeHTML(fav.item.name)}${alcoholBadgeHTML(fav.item.alcohol)}</span>
+                    <span class="item-meta">${escapeHTML(fav.tag)}${typeBadgeHTML(fav.item.type)}</span>
+                    ${fav.note ? `<span class="item-note" id="favorite-note-${index}">${escapeHTML(fav.note.slice(0, 180))}${fav.note.length > 180 ? '…' : ''}</span>` : ''}
+                </span>
+                <span class="item-stars">${fav.stars}/5</span>
+            </button>
+            <button class="delete-btn" data-delete-id="${escapeHTML(fav.id)}" aria-label="${escapeHTML(`Usuń ocenę: ${fav.item.name}`)}"><i data-lucide="trash-2" aria-hidden="true"></i></button>
         </div>
-    `).join('');
+    `,
+        )
+        .join('');
     createIcons();
 }
 
 export function filterFavorites(type) {
-    haptics.light();
     document.querySelectorAll('.filter-chip').forEach((btn) => {
-        btn.classList.toggle('active', btn.dataset.filter === type);
+        const active = btn.dataset.filter === type;
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-pressed', String(active));
     });
     renderFavorites(type);
 }
 
-export function deleteFavorite(id) {
-    haptics.light();
-    const el = document.getElementById(`fav-${id}`);
-    const removed = state.favorites.find((f) => String(f.id) === String(id));
-    if (!removed) { return; }
-
-    // 1. Animacja wyjścia elementu listy
-    if (el) {
-        el.classList.add('slide-out-left');
+export async function deleteFavorite(id) {
+    if (!state.storageReady) {
+        return;
     }
-
-    // 2. Natychmiastowe ukrycie z state (UI responsywny)
-    state.favorites = state.favorites.filter((f) => String(f.id) !== String(id));
-    const activeFilter = document.querySelector('.filter-chip.active')?.dataset.filter || 'wszystkie';
-    setTimeout(() => renderFavorites(activeFilter), 320);
-    updateDashboard();
-
-    // 3. Toast z "Cofnij" przez 4 sekundy — zapis do bazy dopiero po tym czasie
-    let committed = false;
-    const commitDelete = async () => {
-        if (committed) { return; }
-        committed = true;
-        await saveFavorites(state.favorites);
-        haptics.warning();
-    };
-
-    const undoTimer = setTimeout(commitDelete, 4100);
-
-    showToast('Usunięto z kolekcji', 'warning', {
-        onUndo: () => {
-            clearTimeout(undoTimer);
-            committed = true; // nie commituj usuniętego
-            // Przywróć wpis na oryginalnej pozycji
-            const allFavs = [...state.favorites];
-            // wstaw z powrotem (na koniec, bo sort po dacie)
-            allFavs.push(removed);
-            allFavs.sort((a, b) => new Date(b.date) - new Date(a.date));
-            state.favorites = allFavs;
-            saveFavorites(state.favorites);
-            renderFavorites(activeFilter);
-            updateDashboard();
-            showToast('Przywrócono!', 'success');
-            haptics.light();
-        },
-    });
+    const record = state.favorites.find((f) => f.id === String(id));
+    if (!record) {
+        return;
+    }
+    const filter = document.querySelector('.filter-chip.active')?.dataset.filter;
+    const button = document.getElementById(`fav-${id}`)?.querySelector('.delete-btn');
+    if (button) {
+        button.disabled = true;
+    }
+    try {
+        await removeFavorite(record);
+        renderFavorites(filter);
+        updateDashboard();
+        document.getElementById('favorites-search')?.focus({ preventScroll: true });
+        showToast('Usunięto ocenę', 'warning', {
+            onUndo: async () => {
+                try {
+                    await restoreFavorite(record);
+                    renderFavorites(filter);
+                    updateDashboard();
+                    showToast('Przywrócono ocenę', 'success');
+                } catch (error) {
+                    showToast(error.message, 'warning');
+                }
+            },
+        });
+    } catch (error) {
+        showToast(`Nie usunięto oceny. ${error.message}`, 'warning');
+        if (button) {
+            button.disabled = false;
+        }
+    }
 }

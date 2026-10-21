@@ -1,62 +1,88 @@
-import { setFavorites } from '../app/state.js';
+import { setFavorites, state } from '../app/state.js';
 import * as storage from '../services/storage.js';
+import { productKey } from './product.js';
+import { normalizeRecord } from './records.js';
 
-/** @returns {Promise<Array>} */
 export async function loadFavorites() {
-    let favorites;
-
     try {
-        favorites = await storage.getFavorites();
-    } catch {
-        favorites = [];
+        const favorites = await storage.getFavorites();
+        setFavorites(favorites);
+        state.storageError = null;
+        state.storageReady = true;
+        return favorites;
+    } catch (error) {
+        state.storageError = error;
+        state.storageReady = false;
+        throw error;
     }
-
-    if (!favorites || favorites.length === 0) {
-        try {
-            favorites = await storage.migrateFromLocalStorage();
-        } catch {
-            favorites = [];
-        }
-    }
-
-    setFavorites(favorites || []);
-    return favorites;
 }
 
-/** @param {Array} favorites @returns {Promise} */
-export async function saveFavorites(favorites) {
-    setFavorites(favorites);
-    return await storage.saveFavorites(favorites);
+export function findFavorite(favorites, item) {
+    const key = typeof item === 'object' ? productKey(item) : item;
+    return favorites.find((f) => productKey(f.item) === key) || null;
 }
 
-/** @param {Array} favorites @param {string} itemName @returns {Object|null} */
-export function findFavorite(favorites, itemName) {
-    return favorites.find((f) => f.item?.name === itemName) || null;
-}
-
-/** @param {Object} item @param {Object} ratingConfig @returns {Object} */
 export function createRecord(item, ratingConfig) {
-    return {
-        id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+    return normalizeRecord({
+        id: `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`,
         item: { ...item },
-        ...ratingConfig,
+        stars: ratingConfig.stars,
+        note: ratingConfig.note,
+        tag: item.category,
         date: new Date().toISOString(),
-    };
+        revision: 1,
+    });
 }
 
-/** @param {Array} favorites @param {Object} newRecord @returns {Promise<string>} */
-export async function upsertFavorite(favorites, newRecord) {
-    const existingIndex = favorites.findIndex(
-        (f) => f.item?.name === newRecord.item?.name,
-    );
-
-    let updated;
-    if (existingIndex >= 0) {
-        updated = favorites.map((f, i) => (i === existingIndex ? newRecord : f));
-    } else {
-        updated = [newRecord, ...favorites];
+export async function upsertFavorite(
+    favorites,
+    newRecord,
+    expectedRevision = undefined,
+    expectedId = undefined,
+) {
+    if (!state.storageReady) {
+        throw new Error('Najpierw wczytaj zapisane oceny.');
     }
+    const observed = findFavorite(favorites, newRecord.item);
+    const expected = expectedRevision === undefined ? observed?.revision || 0 : expectedRevision;
+    const expectedRecordId = expectedId === undefined ? observed?.id || null : expectedId;
+    let action;
+    const updated = await storage.mutateFavorites((current) => {
+        const existing = findFavorite(current, newRecord.item);
+        if ((existing?.revision || 0) !== expected || (existing?.id || null) !== expectedRecordId) {
+            throw new Error(
+                'Ocena zmieniła się w innej karcie. Twoja notatka pozostaje w formularzu. Skopiuj ją i otwórz ocenę ponownie.',
+            );
+        }
+        const record = {
+            ...newRecord,
+            id: existing?.id || newRecord.id,
+            revision: (existing?.revision || 0) + 1,
+        };
+        action = existing ? 'updated' : 'created';
+        return [record, ...current.filter((r) => r.id !== existing?.id)];
+    });
+    setFavorites(updated);
+    return action;
+}
 
-    await saveFavorites(updated);
-    return existingIndex >= 0 ? 'updated' : 'created';
+export async function removeFavorite(record) {
+    const updated = await storage.mutateFavorites((current) => {
+        const existing = current.find((r) => r.id === record.id);
+        if (existing && existing.revision !== record.revision) {
+            throw new Error('Wpis zmienił się w innej karcie. Odśwież kolekcję przed usunięciem.');
+        }
+        return current.filter((r) => r.id !== record.id);
+    });
+    setFavorites(updated);
+}
+
+export async function restoreFavorite(record) {
+    const updated = await storage.mutateFavorites((current) => {
+        if (findFavorite(current, record.item) || current.some((r) => r.id === record.id)) {
+            throw new Error('Produkt ma już nowszy wpis. Nie zastąpiono go.');
+        }
+        return [...current, record];
+    });
+    setFavorites(updated);
 }

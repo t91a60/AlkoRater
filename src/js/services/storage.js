@@ -1,165 +1,270 @@
-import { logger } from '../utils/logger.js';
 import { CONSTANTS } from '../app/constants.js';
+import { normalizeRecords } from '../data/records.js';
 
 const LS_KEY = CONSTANTS.STORAGE_KEYS.FAVORITES;
-const DB_NAME = CONSTANTS.DB_NAME;
-const DB_VERSION = CONSTANTS.DB_VERSION;
-const FAVORITES_STORE = 'favorites';
-const METADATA_STORE = 'metadata';
-
-let _db = null;
+const MODE_KEY = 'alkorater:storage-mode';
+const CHANGE_KEY = 'alkorater:change';
+let db;
+let initialization;
+let backend = 'unavailable';
 
 function openDB() {
+    if (db) {
+        return Promise.resolve(db);
+    }
     return new Promise((resolve, reject) => {
-        if (_db) {
-            return resolve(_db);
-        }
-
-        const request = indexedDB.open(DB_NAME, DB_VERSION);
-
-        request.onupgradeneeded = (event) => {
-            const db = event.target.result;
-            if (!db.objectStoreNames.contains(FAVORITES_STORE)) {
-                const store = db.createObjectStore(FAVORITES_STORE, { keyPath: 'id' });
-                store.createIndex('date', 'date', { unique: false });
-                store.createIndex('tag', 'tag', { unique: false });
-                store.createIndex('itemName', 'item.name', { unique: false });
+        const request = indexedDB.open(CONSTANTS.DB_NAME, CONSTANTS.DB_VERSION);
+        let abandoned = false;
+        const timer = setTimeout(() => {
+            abandoned = true;
+            reject(
+                new Error(
+                    'Baza jest zablokowana. Zamknij inne karty aplikacji i spróbuj ponownie.',
+                ),
+            );
+        }, 4000);
+        request.onupgradeneeded = () => {
+            if (abandoned) {
+                request.transaction.abort();
+                return;
             }
-            if (!db.objectStoreNames.contains(METADATA_STORE)) {
-                db.createObjectStore(METADATA_STORE, { keyPath: 'key' });
+            const connection = request.result;
+            if (!connection.objectStoreNames.contains('favorites')) {
+                const store = connection.createObjectStore('favorites', { keyPath: 'id' });
+                store.createIndex('date', 'date');
+                store.createIndex('tag', 'tag');
+                store.createIndex('itemName', 'item.name');
+            }
+            if (!connection.objectStoreNames.contains('metadata')) {
+                connection.createObjectStore('metadata', { keyPath: 'key' });
             }
         };
-
-        request.onsuccess = (event) => {
-            _db = event.target.result;
-
-            _db.onversionchange = () => {
-                _db.close();
-                _db = null;
+        request.onsuccess = () => {
+            clearTimeout(timer);
+            if (abandoned) {
+                request.result.close();
+                return;
+            }
+            const connection = request.result;
+            db = connection;
+            connection.onversionchange = () => {
+                connection.close();
+                if (db === connection) {
+                    db = null;
+                    initialization = null;
+                }
             };
-
-            _db.onerror = (e) => {
-                logger.error('[Storage] IndexedDB error:', e.target?.error);
-            };
-
-            resolve(_db);
+            resolve(db);
         };
-
         request.onerror = () => {
-            _db = null;
-            reject(new Error('IndexedDB open failed'));
-        };
-
-        request.onblocked = () => {
-            logger.warn('[Storage] IndexedDB blocked (another tab open?)');
+            clearTimeout(timer);
+            reject(request.error);
         };
     });
 }
 
-/** @returns {Promise<Array>} */
-export async function getFavorites() {
-    try {
-        const db = await openDB();
-        const tx = db.transaction(FAVORITES_STORE, 'readonly');
-        const store = tx.objectStore(FAVORITES_STORE);
-        const all = await new Promise((resolve, reject) => {
-            const request = store.getAll();
-            request.onsuccess = () => resolve(request.result || []);
-            request.onerror = () => reject(request.error);
-        });
-        return all;
-    } catch (err) {
-        logger.warn('[Storage] IndexedDB read failed, using localStorage:', err);
-        return getFavoritesLS();
-    }
+function readLocal() {
+    const raw = localStorage.getItem(LS_KEY);
+    return raw === null ? [] : JSON.parse(raw);
 }
 
-/** @param {Array} favorites @returns {Promise<boolean>} */
-export async function saveFavorites(favorites) {
+async function initialize() {
+    if (localStorageMode() === 'localStorage' || typeof indexedDB === 'undefined') {
+        localStorage.setItem(MODE_KEY, 'localStorage');
+        backend = 'localStorage';
+        return;
+    }
     try {
-        const db = await openDB();
-        const tx = db.transaction(FAVORITES_STORE, 'readwrite');
-        const store = tx.objectStore(FAVORITES_STORE);
-
-        await new Promise((resolve, reject) => {
-            tx.oncomplete = () => resolve();
-            tx.onerror = () => reject(tx.error);
-
-            const clearReq = store.clear();
-            clearReq.onsuccess = () => {
-                if (favorites.length === 0) {
-                    return;
-                }
-                for (let i = 0; i < favorites.length; i++) {
-                    store.put(favorites[i]);
+        await openDB();
+    } catch (error) {
+        if (!['SecurityError', 'NotSupportedError'].includes(error.name)) {
+            throw error;
+        }
+        localStorage.setItem(MODE_KEY, 'localStorage');
+        backend = 'localStorage';
+        return;
+    }
+    backend = 'IndexedDB';
+    await new Promise((resolve, reject) => {
+        const tx = db.transaction(['favorites', 'metadata'], 'readwrite');
+        const store = tx.objectStore('favorites');
+        const metadata = tx.objectStore('metadata');
+        let failure;
+        tx.oncomplete = resolve;
+        tx.onabort = () => reject(failure || tx.error || new Error('Migracja przerwana.'));
+        const marker = metadata.get('legacy-imported');
+        marker.onsuccess = () => {
+            if (marker.result) {
+                return;
+            }
+            const all = store.getAll();
+            all.onsuccess = () => {
+                try {
+                    if (!all.result.length) {
+                        let legacy = [];
+                        try {
+                            legacy = readLocal();
+                        } catch (error) {
+                            if (error.name !== 'SecurityError') {
+                                throw error;
+                            }
+                        }
+                        for (const record of normalizeRecords(legacy)) {
+                            store.put(record);
+                        }
+                    }
+                    metadata.put({ key: 'legacy-imported', value: new Date().toISOString() });
+                } catch (error) {
+                    failure = error;
+                    tx.abort();
                 }
             };
-        });
-
-        await setMetadata('last_updated', new Date().toISOString());
-
-        try {
-            localStorage.setItem(LS_KEY, JSON.stringify(favorites));
-        } catch (e) {
-            logger.warn('[Storage] localStorage sync failed:', e);
-        }
-
-        return true;
-    } catch (err) {
-        logger.error('[Storage] IndexedDB save failed:', err);
-        try {
-            localStorage.setItem(LS_KEY, JSON.stringify(favorites));
-            return true;
-        } catch (lsErr) {
-            logger.error('[Storage] localStorage fallback also failed:', lsErr);
-            document.dispatchEvent(
-                new CustomEvent('alkorater:storage-error', {
-                    detail: { message: 'Błąd zapisu danych. Zwolnij miejsce na urządzeniu.' },
-                }),
-            );
-            return false;
-        }
-    }
+        };
+    });
 }
 
-function getFavoritesLS() {
+function localStorageMode() {
     try {
-        const stored = localStorage.getItem(LS_KEY);
-        return stored ? JSON.parse(stored) : [];
+        return localStorage.getItem(MODE_KEY);
     } catch {
-        return [];
+        return null;
     }
 }
 
-async function setMetadata(key, value) {
-    try {
-        const db = await openDB();
-        const tx = db.transaction(METADATA_STORE, 'readwrite');
-        const store = tx.objectStore(METADATA_STORE);
-        store.put({ key, value });
-    } catch (e) {
-        logger.warn('[Storage] setMetadata failed:', e);
-    }
+async function ready() {
+    initialization ??= initialize().catch((error) => {
+        initialization = null;
+        throw error;
+    });
+    return initialization;
 }
 
-/** @returns {Promise<Array>} */
-export async function migrateFromLocalStorage() {
-    const lsFavorites = getFavoritesLS();
-    if (lsFavorites.length === 0) {
-        return [];
-    }
+export function storageStatus() {
+    return {
+        backend,
+        writable: backend === 'IndexedDB' || (backend === 'localStorage' && !!navigator.locks),
+    };
+}
 
-    logger.info(
-        '[Storage] Migrating',
-        lsFavorites.length,
-        'favorites from localStorage to IndexedDB',
-    );
-    const success = await saveFavorites(lsFavorites);
-    if (success) {
-        logger.info('[Storage] Migration complete');
+export async function getFavorites() {
+    await ready();
+    if (backend === 'localStorage') {
+        return normalizeRecords(readLocal());
+    }
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction('favorites', 'readonly');
+        const request = tx.objectStore('favorites').getAll();
+        let records;
+        let failure;
+        request.onsuccess = () => {
+            try {
+                records = normalizeRecords(request.result);
+            } catch (error) {
+                failure = error;
+            }
+        };
+        tx.oncomplete = () => (failure ? reject(failure) : resolve(records));
+        tx.onabort = () => reject(tx.error || new Error('Nie udało się odczytać ocen.'));
+    });
+}
+
+// The mutator must be synchronous: IndexedDB may close a transaction across an await.
+export async function mutateFavorites(mutate) {
+    await ready();
+    let result;
+    if (backend === 'localStorage') {
+        if (!navigator.locks) {
+            throw new Error(
+                'Ta przeglądarka nie obsługuje bezpiecznego zapisu awaryjnego. Wyeksportuj kopię danych.',
+            );
+        }
+        result = await navigator.locks.request('alkorater:favorites', () => {
+            const current = normalizeRecords(readLocal());
+            const updated = normalizeRecords(mutate(current));
+            localStorage.setItem(LS_KEY, JSON.stringify(updated));
+            return updated;
+        });
     } else {
-        logger.warn('[Storage] Migration failed, keeping localStorage as primary');
+        result = await new Promise((resolve, reject) => {
+            const tx = db.transaction('favorites', 'readwrite');
+            const store = tx.objectStore('favorites');
+            const request = store.getAll();
+            let updated;
+            let failure;
+            request.onsuccess = () => {
+                try {
+                    const current = normalizeRecords(request.result);
+                    const currentById = new Map(current.map((record) => [record.id, record]));
+                    const storedKeys = new Map(
+                        request.result.map((record) => [String(record.id), record.id]),
+                    );
+                    updated = normalizeRecords(mutate(current));
+                    const ids = new Set(updated.map((r) => r.id));
+                    for (const record of current) {
+                        if (!ids.has(record.id)) {
+                            store.delete(storedKeys.get(record.id));
+                        }
+                    }
+                    for (const record of updated) {
+                        const previous = currentById.get(record.id);
+                        if (JSON.stringify(previous) !== JSON.stringify(record)) {
+                            if (previous && storedKeys.get(record.id) !== record.id) {
+                                store.delete(storedKeys.get(record.id));
+                            }
+                            store.put(record);
+                        }
+                    }
+                } catch (error) {
+                    failure = error;
+                    tx.abort();
+                }
+            };
+            tx.oncomplete = () => resolve(updated);
+            tx.onabort = () =>
+                reject(failure || tx.error || new Error('Nie udało się zapisać ocen.'));
+        });
     }
+    try {
+        localStorage.setItem(CHANGE_KEY, `${Date.now()}-${Math.random()}`);
+    } catch {
+        /* IndexedDB does not depend on localStorage. */
+    }
+    return result;
+}
 
-    return lsFavorites;
+export function onExternalChange(callback) {
+    const listener = (event) => {
+        if (event.key === CHANGE_KEY || event.key === LS_KEY) {
+            callback();
+        }
+    };
+    window.addEventListener('storage', listener);
+    return () => window.removeEventListener('storage', listener);
+}
+
+export async function recoverySnapshot() {
+    let local = null;
+    try {
+        local = localStorage.getItem(LS_KEY);
+    } catch {
+        /* Recovery can still read IndexedDB. */
+    }
+    let records = null;
+    try {
+        const connection = db || (await openDB());
+        records = await new Promise((resolve, reject) => {
+            const tx = connection.transaction('favorites', 'readonly');
+            const request = tx.objectStore('favorites').getAll();
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+    } catch {
+        /* Keep the available legacy copy even if the database is unreadable. */
+    }
+    return {
+        app: 'AlkoRater-recovery',
+        exportedAt: new Date().toISOString(),
+        records,
+        localStorage: local,
+    };
 }

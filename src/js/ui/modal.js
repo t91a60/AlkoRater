@@ -1,13 +1,13 @@
 import { springModal } from '../utils/spring.js';
 import { state } from '../app/state.js';
-import { CONSTANTS } from '../app/constants.js';
-import { escapeHTML } from '../utils/dom.js';
+import { escapeHTML, prefersReducedMotion } from '../utils/dom.js';
 import { haptics } from './haptics.js';
 import { showToast } from './toast.js';
 import { updateDashboard } from './dashboard.js';
 import { renderFavorites } from './favorites.js';
-import { createRecord, upsertFavorite } from '../data/favorite-repo.js';
+import { createRecord, upsertFavorite, findFavorite } from '../data/favorite-repo.js';
 import { alcoholBadgeHTML, typeBadgeHTML } from './badges.js';
+import { handleSearch } from './search-ui.js';
 
 const DISMISS_THRESHOLD = 100;
 const FLING_VELOCITY = 300;
@@ -16,45 +16,14 @@ const MIN_RADIUS = 32;
 const MAX_RADIUS = 48;
 let lastDismissVelocity = 0;
 let openSpring = null;
+let closeSpring = null;
+let openFrame = null;
 
 function rubberband(overshoot, dimension = 100) {
     return (
         (overshoot * dimension * RUBBERBAND_CONSTANT) /
         (dimension + RUBBERBAND_CONSTANT * Math.abs(overshoot))
     );
-}
-
-function setCategoryAccent(category) {
-    const accent = CONSTANTS.CATEGORY_ACCENTS[category] || {
-        hue: '42',
-        sat: '58',
-        lit: '52',
-        hex: '#d4a054',
-    };
-    const root = document.querySelector('.modal-content');
-    root.style.setProperty('--modal-accent', accent.hex);
-    root.style.setProperty(
-        '--modal-accent-dim',
-        `hsla(${accent.hue}, ${accent.sat}%, ${accent.lit}%, 0.12)`,
-    );
-    const badge = document.getElementById('modalCategoryTag');
-    badge.style.background = `hsla(${accent.hue}, ${accent.sat}%, ${accent.lit}%, 0.12)`;
-    badge.style.color = accent.hex;
-    const btn = document.getElementById('saveButton');
-    btn.style.background = accent.hex;
-    btn.style.setProperty('--btn-accent', accent.hex);
-}
-
-function resetCategoryAccent() {
-    const root = document.querySelector('.modal-content');
-    root.style.removeProperty('--modal-accent');
-    root.style.removeProperty('--modal-accent-dim');
-    const badge = document.getElementById('modalCategoryTag');
-    badge.style.background = '';
-    badge.style.color = '';
-    const btn = document.getElementById('saveButton');
-    btn.style.background = '';
-    btn.style.removeProperty('--btn-accent');
 }
 
 function getModalFocusable() {
@@ -64,6 +33,25 @@ function getModalFocusable() {
 }
 
 function handleModalKeydown(e) {
+    if (
+        e.target.closest('.star') &&
+        ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(e.key)
+    ) {
+        e.preventDefault();
+        const current = Number(e.target.dataset.value);
+        const next =
+            e.key === 'Home'
+                ? 1
+                : e.key === 'End'
+                  ? 5
+                  : Math.max(
+                        1,
+                        Math.min(5, current + (['ArrowRight', 'ArrowUp'].includes(e.key) ? 1 : -1)),
+                    );
+        setRating(next);
+        document.querySelector(`.star[data-value="${next}"]`).focus();
+        return;
+    }
     if (e.key !== 'Tab') {
         return;
     }
@@ -87,17 +75,28 @@ function handleModalKeydown(e) {
 }
 
 /** @param {Object} item */
-export function openRateModal(item) {
+export function openRateModal(item, trigger = document.activeElement) {
+    if (state.saving) {
+        return;
+    }
+    closeSpring?.stop();
+    if (openFrame !== null) {
+        cancelAnimationFrame(openFrame);
+    }
+    closeSpring = null;
     haptics.light();
     lastDismissVelocity = 0;
     state.currentItem = item;
-    state._previousFocus = document.activeElement;
+    state._previousFocus = trigger;
     const searchInput = document.getElementById('search-input');
     if (searchInput) {
         state.lastSearchQuery = searchInput.value;
     }
     const strictCategory = item.category || 'Nieznane';
-    const existing = state.favorites.find((f) => f.item.name === item.name);
+    const existing = findFavorite(state.favorites, item);
+    state.editRevision = existing?.revision || 0;
+    state.editId = existing?.id || null;
+    document.getElementById('modalError').textContent = '';
 
     if (existing) {
         state.ratingConfig = {
@@ -105,10 +104,10 @@ export function openRateModal(item) {
             tag: strictCategory,
             note: existing.note || '',
         };
-        document.getElementById('saveButton').textContent = 'Zaktualizuj';
+        document.getElementById('saveButton').textContent = 'Zapisz zmiany';
     } else {
         state.ratingConfig = { stars: 0, tag: strictCategory, note: '' };
-        document.getElementById('saveButton').textContent = 'Zapisz Ocenę';
+        document.getElementById('saveButton').textContent = 'Zapisz ocenę';
     }
 
     document.getElementById('modalTitle').innerHTML =
@@ -116,12 +115,12 @@ export function openRateModal(item) {
     document.getElementById('modalCategoryTag').innerHTML =
         `Kategoria: ${escapeHTML(strictCategory)}${typeBadgeHTML(item.type)}`;
     document.getElementById('note-input').value = state.ratingConfig.note;
+    state.modalInitial = JSON.stringify([state.ratingConfig.stars, state.ratingConfig.note]);
 
-    setCategoryAccent(strictCategory);
-
-    document.querySelector('.app-container').classList.add('scale-back');
+    document.querySelector('.app-container').inert = true;
     document.querySelector('.bottom-nav').classList.add('tab-bar-hidden');
-    state.el.modal.style.display = 'block';
+    state.el.modal.style.display = 'flex';
+    state.el.modal.classList.add('active');
     state.el.modal.addEventListener('keydown', handleModalKeydown);
 
     const content = document.querySelector('.modal-content');
@@ -131,23 +130,30 @@ export function openRateModal(item) {
     content.offsetHeight; // force reflow
     content.style.transition = '';
 
-    requestAnimationFrame(() => {
-        state.el.modal.classList.add('active');
+    openFrame = requestAnimationFrame(() => {
+        openFrame = null;
+        if (!state.el.modal.classList.contains('active')) {
+            return;
+        }
         if (openSpring) {
             openSpring.stop();
         }
-        openSpring = springModal(
-            content,
-            { y: 0, radius: MIN_RADIUS },
-            {
-                stiffness: 200,
-                damping: 20,
-                mass: 0.8,
-                onFinish: () => {
-                    openSpring = null;
+        if (prefersReducedMotion()) {
+            content.style.transform = 'translateY(0)';
+        } else {
+            openSpring = springModal(
+                content,
+                { y: 0, radius: MIN_RADIUS },
+                {
+                    stiffness: 200,
+                    damping: 20,
+                    mass: 0.8,
+                    onFinish: () => {
+                        openSpring = null;
+                    },
                 },
-            },
-        );
+            );
+        }
         const focusable = getModalFocusable();
         if (focusable.length > 0) {
             focusable[0].focus();
@@ -160,54 +166,77 @@ export function openRateModal(item) {
 export function renderModalState() {
     document.querySelectorAll('.star').forEach((s) => {
         s.classList.toggle('active', parseInt(s.dataset.value) <= state.ratingConfig.stars);
+        s.setAttribute(
+            'aria-checked',
+            String(Number(s.dataset.value) === state.ratingConfig.stars),
+        );
+        s.tabIndex = Number(s.dataset.value) === (state.ratingConfig.stars || 1) ? 0 : -1;
     });
-
-    if (state.ratingConfig.stars === 5) {
-        document.querySelectorAll('.star').forEach((s, idx) => {
-            setTimeout(() => s.classList.add('star-pop'), idx * 50);
-        });
-        setTimeout(() => {
-            document.querySelectorAll('.star').forEach((s) => s.classList.remove('star-pop'));
-        }, 800);
-    }
-
+    document.getElementById('ratingHelp').textContent = state.ratingConfig.stars
+        ? `Twoja ocena: ${state.ratingConfig.stars} z 5`
+        : 'Wybierz ocenę od 1 do 5.';
     validateSave();
 }
 
 export function setRating(val) {
+    if (!Number.isInteger(val) || val < 1 || val > 5 || state.saving) {
+        return;
+    }
     state.ratingConfig.stars = val;
     haptics.light();
-    if (val === 5) {
-        haptics.success();
-    }
     renderModalState();
 }
 
 export function validateSave() {
-    document.getElementById('saveButton').disabled = state.ratingConfig.stars < 1;
+    document.getElementById('note-input').disabled = state.saving;
+    document.getElementById('modalClose').disabled = state.saving;
+    document.querySelectorAll('.star').forEach((star) => {
+        star.disabled = state.saving;
+    });
+    document.getElementById('saveButton').disabled =
+        state.ratingConfig.stars < 1 || !state.storageReady || state.saving;
+    if (!state.storageReady) {
+        document.getElementById('modalError').textContent =
+            'Zapis jest zablokowany, ponieważ nie udało się wczytać Twoich danych. Wróć na Start i spróbuj ponownie.';
+    }
 }
 
 function restoreFocus() {
     state.el.modal.removeEventListener('keydown', handleModalKeydown);
     const prev = state._previousFocus;
-    if (prev && prev.focus) {
+    if (prev?.isConnected && prev.focus) {
         prev.focus();
         state._previousFocus = null;
+    } else {
+        document.querySelector(`.nav-item[data-tab="${state.currentTab}"]`)?.focus();
     }
 }
 
-export function closeModal(instant) {
+export function closeModal(instant = false, discard = false) {
+    if (state.saving) {
+        return;
+    }
+    const changed =
+        JSON.stringify([state.ratingConfig.stars, document.getElementById('note-input').value]) !==
+        state.modalInitial;
+    if (!discard && changed && !window.confirm('Odrzucić niezapisane zmiany oceny i notatki?')) {
+        return;
+    }
+    if (openFrame !== null) {
+        cancelAnimationFrame(openFrame);
+        openFrame = null;
+    }
     if (openSpring) {
         openSpring.stop();
         openSpring = null;
     }
-    document.querySelector('.app-container').classList.remove('scale-back');
+    document.querySelector('.app-container').inert = false;
     document.querySelector('.bottom-nav').classList.remove('tab-bar-hidden');
 
     const content = document.querySelector('.modal-content');
     const overlay = document.querySelector('.modal-overlay');
 
-    if (instant) {
+    if (instant === true || prefersReducedMotion()) {
         state.el.modal.classList.remove('active', 'closing');
         state.el.modal.style.display = 'none';
         content.style.transform = '';
@@ -215,8 +244,8 @@ export function closeModal(instant) {
         if (overlay) {
             overlay.style.opacity = '';
         }
-        resetCategoryAccent();
         restoreFocus();
+        document.dispatchEvent(new Event('alkorater:modal-closed'));
         return;
     }
 
@@ -230,11 +259,12 @@ export function closeModal(instant) {
         if (overlay) {
             overlay.style.opacity = '';
         }
-        resetCategoryAccent();
         restoreFocus();
+        closeSpring = null;
+        document.dispatchEvent(new Event('alkorater:modal-closed'));
     };
 
-    springModal(
+    closeSpring = springModal(
         content,
         { y: window.innerHeight * 1.04, radius: MAX_RADIUS },
         {
@@ -249,39 +279,59 @@ export function closeModal(instant) {
 
 /** Persist current rating to storage. */
 export async function saveRating() {
-    if (!state.currentItem) {
+    if (
+        !state.currentItem ||
+        state.saving ||
+        !state.storageReady ||
+        !Number.isInteger(state.ratingConfig.stars) ||
+        state.ratingConfig.stars < 1 ||
+        state.ratingConfig.stars > 5
+    ) {
         return;
     }
     state.ratingConfig.note = document.getElementById('note-input').value;
 
-    const record = createRecord(state.currentItem, state.ratingConfig);
+    state.saving = true;
+    validateSave();
+    const button = document.getElementById('saveButton');
+    const label = button.textContent;
+    button.textContent = 'Zapisywanie…';
+    document.getElementById('modalError').textContent = '';
+    try {
+        const record = createRecord(state.currentItem, state.ratingConfig);
+        const result = await upsertFavorite(
+            state.favorites,
+            record,
+            state.editRevision,
+            state.editId,
+        );
+        showToast(result === 'updated' ? 'Zaktualizowano ocenę' : 'Zapisano ocenę', 'success');
 
-    const result = await upsertFavorite(state.favorites, record);
-
-    if (result === 'updated') {
-        showToast('Zaktualizowano ocenę!', 'update');
-    } else {
-        showToast('Zapisano ocenę!', 'success');
-    }
-
-    updateDashboard();
-    if (state.currentTab === 'favorites') {
-        const activeChip = document.querySelector('.filter-chip.active');
-        renderFavorites(activeChip?.dataset.filter);
-    }
-    if (state.currentTab === 'search' && state.lastSearchQuery) {
-        const searchInput = document.getElementById('search-input');
-        if (searchInput && !searchInput.value) {
-            searchInput.value = state.lastSearchQuery;
-            searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+        updateDashboard();
+        if (state.currentTab === 'favorites') {
+            const activeChip = document.querySelector('.filter-chip.active');
+            renderFavorites(activeChip?.dataset.filter);
         }
+        if (state.currentTab === 'search') {
+            handleSearch({ target: state.el.searchInput });
+        }
+        haptics.success();
+        state.saving = false;
+        closeModal(false, true);
+    } catch (error) {
+        document.getElementById('modalError').textContent = `Nie zapisano oceny. ${error.message}`;
+    } finally {
+        state.saving = false;
+        button.textContent = label;
+        validateSave();
     }
-    haptics.success();
-    closeModal();
 }
 
 /** iOS-style pull-down to dismiss the rating modal. */
 export function setupModalDismiss() {
+    if (prefersReducedMotion()) {
+        return;
+    }
     const content = document.querySelector('.modal-content');
     const overlay = document.querySelector('.modal-overlay');
     const grabber = document.querySelector('.modal-grabber');

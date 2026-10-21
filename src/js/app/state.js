@@ -5,6 +5,10 @@ export const state = {
     currentItem: null,
     ratingConfig: { stars: 0, tag: '', note: '' },
     lastSearchQuery: '',
+    storageReady: false,
+    storageError: null,
+    catalogError: null,
+    saving: false,
 };
 
 /** @param {Array} favorites */

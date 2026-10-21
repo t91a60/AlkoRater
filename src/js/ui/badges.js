@@ -1,5 +1,6 @@
 import { CONSTANTS } from '../app/constants.js';
 import { escapeHTML } from '../utils/dom.js';
+import { alcoholPercent, localImage } from '../data/product.js';
 
 const TYPE_COLORS = {};
 for (const key of Object.keys(CONSTANTS.BEER_TYPES)) {
@@ -14,10 +15,10 @@ const THUMB_BG = {
 
 /** @returns {string} HTML for an alcohol percentage badge, or empty string. */
 export const alcoholBadgeHTML = (alcohol) => {
-    if (!alcohol) {
+    if (alcoholPercent(alcohol) === null) {
         return '';
     }
-    const val = alcohol.includes('%') ? alcohol : `${alcohol}%`;
+    const val = `${alcoholPercent(alcohol).toLocaleString('pl-PL')}%`;
     return `<span class="separator">·</span><span class="alcohol-badge">${escapeHTML(val)}</span>`;
 };
 
@@ -27,7 +28,8 @@ export const typeBadgeHTML = (type) => {
         return '';
     }
     const hex = TYPE_COLORS[type.toLowerCase()] || '#636e72';
-    return `<span class="type-badge" style="--type-color:${hex};--type-bg:${hex}22">${escapeHTML(type)}</span>`;
+    const label = CONSTANTS.BEER_TYPES[type.toLowerCase()]?.label || type;
+    return `<span class="type-badge" style="--type-color:${hex};--type-bg:${hex}22">${escapeHTML(label)}</span>`;
 };
 
 /**
@@ -53,14 +55,14 @@ export const THUMB_FALLBACK_SVG =
 export const productThumbHTML = (imageUrl, category, size = 50) => {
     const cat = (category || '').toLowerCase();
     const bg = THUMB_BG[cat] || 'linear-gradient(145deg,rgba(120,110,100,.18),rgba(80,70,60,.10))';
-    const src = escapeHTML(imageUrl || '');
+    const src = escapeHTML(localImage(imageUrl));
     const className = src ? 'product-thumb' : 'product-thumb thumb-broken';
     const inner = src
         ? `<img src="${src}" loading="lazy" decoding="async" alt="">`
         : THUMB_FALLBACK_SVG;
     return (
-        `<div class="${className}" ` +
+        `<span class="${className}" aria-hidden="true" ` +
         `style="width:${size}px;height:${size}px;min-width:${size}px;background:${bg}">` +
-        `${inner}</div>`
+        `${inner}</span>`
     );
 };

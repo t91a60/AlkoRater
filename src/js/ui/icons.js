@@ -1,34 +1,32 @@
 /**
- * Local, vendored subset of Lucide icons (source: lucide-static v0.344.0 —
- * the exact version this app was already pinned to — ISC license) as a
- * drop-in replacement for the runtime `https://unpkg.com/lucide` dependency.
+ * Local subset of Lucide 0.344.0, with the existing application's trash glyph.
+ * Source: https://github.com/lucide-icons/lucide/tree/0.344.0
  *
- * Why vendor instead of loading from the CDN:
- * - The app markets itself as offline-first, but the service worker's fetch
- *   handler explicitly skips cross-origin requests (`if (url.origin !==
- *   self.location.origin) return;`), so the unpkg script was never actually
- *   cached for offline use. On a cold offline load — the exact scenario this
- *   app is supposed to handle — every icon in the app (nav bar, star
- *   ratings, badges, empty states) would silently fail to render.
- * - Every call site guarded the call (`if (window.lucide)` / `?.`), so a
- *   missing CDN script didn't throw — it just meant every icon in the app
- *   (nav bar, star ratings, badges, empty states) silently never rendered
- *   for that whole session, with nothing in the UI explaining why.
- * - One less third-party origin trusted in the CSP, one less DNS lookup +
- *   connection on every cold load.
+ * ISC License
+ * Copyright (c) for portions of Lucide are held by Cole Bemis 2013-2022 as part
+ * of Feather (MIT). All other copyright (c) for Lucide are held by Lucide
+ * Contributors 2022.
  *
- * This only includes the icon names actually used in the app today. Add a
- * new `name: '<svg inner markup>'` entry when a new icon is introduced
- * elsewhere — grab it from the matching lucide-static version's icons/
- * folder so the stroke geometry stays pixel-identical to the rest of the set.
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
 const ICONS = {
+    'trash-2':
+        '<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/>',
     star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
     search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
     zap: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
-    trophy:
-        '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
+    trophy: '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>',
     'search-x':
         '<path d="m13.5 8.5-5 5"/><path d="m8.5 8.5 5 5"/><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
     'plus-circle': '<circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/>',

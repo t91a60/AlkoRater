@@ -1,94 +1,37 @@
-import { CONSTANTS } from '../app/constants.js';
 import { setProducts } from '../data/product-repo.js';
-import { logger } from '../utils/logger.js';
+import { normalizeLoadedItem, productKey } from '../data/product.js';
+import { state } from '../app/state.js';
 
-const { CATEGORIES } = CONSTANTS;
+export { normalizeSearchText, normalizeLoadedItem } from '../data/product.js';
 
-export const normalizeSearchText = (value = '') => String(value)
-    .toLowerCase()
-    .replace(/ł/g, 'l')
-    .replace(/ß/g, 'ss')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .trim();
+const sources = { beer: 'piwa', vodka: 'wodki', wine: 'wina' };
 
-const fetchJSON = async (url) => {
-    try {
-        const r = await fetch(url);
-        return r.ok ? r.json() : [];
-    } catch (err) {
-        logger.error(`Error fetching ${url}:`, err);
-        return [];
-    }
-};
-
-const normalizeLoadedItem = (item = {}, source = 'beer', index = 0) => {
-    const rawName = item.name ?? item.title ?? item.productName ?? '';
-    const rawAlcohol = item.alcohol ?? item.abv ?? item.abvPercent ?? '';
-    const alcoholDisplay = rawAlcohol === ''
-        ? ''
-        : typeof rawAlcohol === 'number'
-            ? `${rawAlcohol}%`
-            : String(rawAlcohol).includes('%')
-                ? String(rawAlcohol)
-                : `${rawAlcohol}%`;
-
-    const rawBrand = normalizeSearchText([
-        item.brand, item.brand_name, item.brandName,
-        item.manufacturer, item.producer,
-    ].filter(Boolean).join(' '));
-
-    const rawType = normalizeSearchText([
-        item.type, item.breweryType, item.style, item.subtype,
-    ].filter(Boolean).join(' '));
-
-    const rawCountry = normalizeSearchText([
-        item.country, item.country_name, item.origin, item.region,
-    ].filter(Boolean).join(' '));
-
-    const beerType = item.type || null;
-
-    const rawImage = item.image_url ?? item.image ?? item.imageUrl ?? '';
-    const hasRealImage = rawImage && !rawImage.includes('dummyimage.com');
-
-    return {
-        id: item.id ?? `${source}-${index + 1}`,
-        name: rawName,
-        alcohol: alcoholDisplay,
-        image_url: hasRealImage ? rawImage : '',
-        category: CATEGORIES[source] ?? 'Piwo',
-        type: beerType,
-        country: rawCountry,
-        normalized_name: normalizeSearchText(rawName),
-        searchText: normalizeSearchText([
-            rawName, rawBrand, rawType,
-            CATEGORIES[source] ?? 'Piwo', rawCountry,
-        ].join(' ')),
-    };
-};
-
-/** Fetch all JSON data files, normalize, and set app-wide products. */
 export async function loadAllData() {
-    const [beerData, vodkaData, wineData] = await Promise.all([
-        fetchJSON('./data/piwa.json'),
-        fetchJSON('./data/wodki.json'),
-        fetchJSON('./data/wina.json'),
-    ]);
-
-    // If all fetches returned empty (offline failure), don't wipe existing products
-    if (beerData.length === 0 && vodkaData.length === 0 && wineData.length === 0) {
-        logger.warn('All data fetches returned empty — skipping product update (likely offline)');
-        return;
+    try {
+        const groups = await Promise.all(
+            Object.entries(sources).map(async ([source, file]) => {
+                const response = await fetch(
+                    new URL(`../../../data/${file}.json`, import.meta.url),
+                );
+                if (!response.ok) {
+                    throw new Error(`Katalog ${file}: HTTP ${response.status}`);
+                }
+                const raw = await response.json();
+                if (!Array.isArray(raw)) {
+                    throw new Error(`Nieprawidłowy katalog ${file}.`);
+                }
+                return raw.map((item) => normalizeLoadedItem(item, source));
+            }),
+        );
+        const products = groups.flat();
+        if (new Set(products.map(productKey)).size !== products.length) {
+            throw new Error('Powtórzone ID produktów.');
+        }
+        setProducts(products);
+        state.catalogError = null;
+        return products;
+    } catch (error) {
+        state.catalogError = error;
+        throw error;
     }
-
-    const products = [
-        ...beerData.map((item, index) => normalizeLoadedItem(item, 'beer', index)),
-        ...vodkaData.map((item, index) => normalizeLoadedItem(item, 'vodka', index)),
-        ...wineData.map((item, index) => normalizeLoadedItem(item, 'wine', index)),
-    ];
-
-    setProducts(products);
-
-    const dbCountEl = document.getElementById('dbCount');
-    if (dbCountEl) {dbCountEl.textContent = products.length;}
 }

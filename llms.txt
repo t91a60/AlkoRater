@@ -1,6 +1,27 @@
 # AlkoRater
 
-AlkoRater is an offline-first Progressive Web App for tracking and rating alcohol consumption. Built with vanilla HTML, CSS, and JavaScript. No frameworks, no build step — purely static PWA deployed via GitHub Pages.
+> Polish-language personal catalog of beer, wine and vodka ratings and notes. Static HTML, CSS and native JavaScript modules, with no runtime dependencies, accounts, backend or automatic synchronization. It does not track alcohol consumption.
 
-Website: https://t91a60.github.io/AlkoRater/
-GitHub: https://github.com/t91a60/AlkoRater
+Repository candidate: `2.14.0-rc.1`. The public website may still serve an earlier deployment from `main`.
+
+## Links
+
+- [Application](https://t91a60.github.io/AlkoRater/)
+- [Repository](https://github.com/t91a60/AlkoRater)
+- [Practical README in Polish](https://github.com/t91a60/AlkoRater/blob/main/README.md)
+- [Contribution and data contract](https://github.com/t91a60/AlkoRater/blob/main/CONTRIBUTING.md)
+- [Full technical description](https://t91a60.github.io/AlkoRater/llms-full.txt)
+- [Data, migration and PWA decisions](https://github.com/t91a60/AlkoRater/blob/main/docs/DATA_AND_PWA_PL.md)
+- [Verification report and limitations](https://github.com/t91a60/AlkoRater/blob/main/docs/ALKORATER_OVERHAUL_REPORT_PL.md)
+- [Apache License 2.0](https://github.com/t91a60/AlkoRater/blob/main/LICENSE)
+
+## Product facts
+
+- Views: Start, Szukaj, Moje oceny. Ratings are integers from 1 to 5; notes are searchable in the user's collection.
+- Local catalog: 336 products, including 57 beers, 184 vodkas and 95 wines. No genuine product photos; local fallback symbols are used. Missing metadata remains unknown.
+- Ratings use native IndexedDB v2, a one-time legacy migration and a sticky localStorage fallback requiring Web Locks for writes. Browser storage is not a guaranteed backup.
+- JSON backup uses `app: "AlkoRater"`, `schemaVersion: 1`, `exportedAt` and `records`. Import validates the whole file, adds missing records and skips duplicates or conflicts without overwriting existing ratings. Files over 5 MB require confirmation. The editor limits new text to 10,000 characters; longer legacy notes are preserved. Raw recovery export requires manual repair and is not a normal import file.
+- Offline requires a complete first online installation and an online reload. The service worker uses versioned shell and catalog snapshots. Updates in an open app require confirmation and do not force other tabs to reload. iOS installation is manual through Safari's Add to Home Screen.
+- No analytics, advertising, external fonts or external image requests. Hosting is contacted for initial loading and update checks.
+- `npm run dev` serves `http://127.0.0.1:4173/AlkoRater/`. `npm run build` stages allowed static files into `dist/`, without bundling; `npm run preview` serves that directory. Node.js requirement: `^22.22.2 || ^24.15.0 || >=26.0.0`.
+- Browser test projects cover mobile and desktop Chromium, WebKit and Firefox. Emulation is not physical iOS verification. Known development-tool audit findings and actual verification results are documented in the report.

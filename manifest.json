@@ -1,11 +1,10 @@
 {
-    "name": "AlkoRater — Oceniaj Alkohole",
+    "name": "AlkoRater",
     "short_name": "AlkoRater",
-    "description": "AlkoRater to offline-first Progressive Web App do śledzenia i oceniania alkoholi. Działa bez internetu — oceniaj piwo, wódkę i wino w każdym miejscu.",
+    "description": "Osobisty katalog piw, win i wódek. Oceny i notatki zapisane lokalnie, dostępne offline po pierwszym pobraniu aplikacji.",
     "start_url": "./index.html",
     "scope": ".",
     "display": "standalone",
-    "orientation": "portrait-primary",
     "background_color": "#071019",
     "theme_color": "#071019",
     "lang": "pl",
@@ -16,13 +15,13 @@
             "src": "icons/icon-192.png",
             "sizes": "192x192",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "any"
         },
         {
             "src": "icons/icon-512.png",
             "sizes": "512x512",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "any"
         }
     ],
     "shortcuts": [

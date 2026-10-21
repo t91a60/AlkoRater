@@ -40,3 +40,9 @@ Desktop.ini
 /.agents
 todo.md
 /plans
+
+# Browser test artifacts
+/playwright-report/
+/test-results/
+/blob-report/
+/playwright/.cache/

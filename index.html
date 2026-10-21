@@ -13,25 +13,25 @@
         <meta name="color-scheme" content="dark" />
         <meta
             name="description"
-            content="AlkoRater — Progressive Web App do oceniania alkoholi. Offline-first, mobile-first. Śledź i oceniaj piwo, wódkę i wino bez internetu."
+            content="Osobisty katalog piw, win i wódek. Zapisuj oceny i notatki w przeglądarce, korzystaj offline po pierwszym pobraniu i przenoś dane kopią JSON."
         />
         <meta name="robots" content="index, follow" />
         <meta name="application-name" content="AlkoRater" />
         <meta name="google" content="notranslate" />
         <meta
             http-equiv="Content-Security-Policy"
-            content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; base-uri 'self';"
+            content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; worker-src 'self'; base-uri 'self'; object-src 'none'; form-action 'none';"
         />
-        <title>AlkoRater — iOS-owe PWA do oceniania alkoholi</title>
+        <title>AlkoRater | Twoje oceny i notatki</title>
 
         <!-- Canonical -->
         <link rel="canonical" href="https://t91a60.github.io/AlkoRater/" />
 
         <!-- Open Graph -->
-        <meta property="og:title" content="AlkoRater — iOS-owe PWA do oceniania alkoholi" />
+        <meta property="og:title" content="AlkoRater | Twoje oceny i notatki" />
         <meta
             property="og:description"
-            content="Progressive Web App do oceniania alkoholi. Offline-first, mobile-first. Śledź i oceniaj piwo, wódkę i wino bez internetu."
+            content="Osobisty katalog piw, win i wódek. Oceny, notatki, wyszukiwanie i kopia JSON. Bez konta użytkownika."
         />
         <meta property="og:url" content="https://t91a60.github.io/AlkoRater/" />
         <meta property="og:type" content="website" />
@@ -40,11 +40,11 @@
         <meta property="og:locale" content="pl_PL" />
 
         <!-- Twitter Cards -->
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="AlkoRater — iOS-owe PWA do oceniania alkoholi" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="AlkoRater | Twoje oceny i notatki" />
         <meta
             name="twitter:description"
-            content="Progressive Web App do oceniania alkoholi. Offline-first, mobile-first. Śledź i oceniaj piwo, wódkę i wino bez internetu."
+            content="Osobisty katalog piw, win i wódek. Oceny i notatki zapisujesz lokalnie, bez konta użytkownika."
         />
         <meta name="twitter:image" content="https://t91a60.github.io/AlkoRater/logo.png" />
 
@@ -52,34 +52,12 @@
         <script type="application/ld+json">
             {
                 "@context": "https://schema.org",
-                "@type": "WebSite",
+                "@type": "WebApplication",
                 "name": "AlkoRater",
                 "url": "https://t91a60.github.io/AlkoRater/",
-                "description": "Offline-first Progressive Web App do oceniania i śledzenia alkoholi."
-            }
-        </script>
-        <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "WebPage",
-                "name": "AlkoRater",
-                "description": "Progressive Web App do oceniania alkoholi. Offline-first, mobile-first.",
-                "url": "https://t91a60.github.io/AlkoRater/",
-                "isPartOf": {
-                    "@type": "WebSite",
-                    "name": "AlkoRater",
-                    "url": "https://t91a60.github.io/AlkoRater/"
-                }
-            }
-        </script>
-        <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "MobileApplication",
-                "name": "AlkoRater",
+                "description": "Osobisty katalog ocen i notatek o piwach, winach i wódkach. Dane zapisane lokalnie w przeglądarce.",
                 "operatingSystem": "Web",
-                "description": "Offline-first Progressive Web App for tracking and rating alcohol consumption. Works entirely offline.",
-                "applicationCategory": "Multimedia",
+                "applicationCategory": "LifestyleApplication",
                 "offers": {
                     "@type": "Offer",
                     "price": "0",
@@ -131,6 +109,7 @@
         />
     </head>
     <body>
+        <noscript>AlkoRater wymaga JavaScript do wyszukiwania i zapisywania ocen.</noscript>
         <div class="app-container">
             <!-- Header -->
             <header class="app-header glass">
@@ -150,8 +129,20 @@
 
             <!-- Content Area -->
             <main class="content-area">
+                <div id="appNotice" class="app-notice" hidden>
+                    <p id="appNoticeText" role="alert"></p>
+                    <button id="retryData" class="link-btn">Spróbuj ponownie</button>
+                    <a id="repairOffline" class="link-btn" href="?repair-offline=1" hidden
+                        >Napraw pamięć offline bez usuwania ocen</a
+                    >
+                </div>
                 <!-- Tab: Start -->
-                <section id="tab-start" class="tab-view active" role="tabpanel">
+                <section
+                    id="tab-start"
+                    class="tab-view active"
+                    role="tabpanel"
+                    aria-labelledby="nav-start"
+                >
                     <div class="large-title-spacer"></div>
 
                     <div class="tab-flex-content">
@@ -160,10 +151,10 @@
                         <div class="section-container">
                             <div class="section-header-flex">
                                 <h2 class="section-title section-title--flush">
-                                    Ostatnio Ocenione
+                                    Ostatnio zapisane
                                 </h2>
                                 <button id="showAllFavoritesBtn" class="link-btn">
-                                    Wszystkie >
+                                    Wszystkie oceny
                                 </button>
                             </div>
                             <div
@@ -173,20 +164,47 @@
                         </div>
                     </div>
 
-                    <div class="info-block glass">
-                        <span
-                            ><i
-                                data-lucide="check-circle"
-                                class="info-block-icon"
-                                aria-hidden="true"
-                            ></i>
-                            <span id="dbCount">0</span> produktów dostępnych offline</span
-                        >
+                    <div class="info-block">
+                        <span id="catalogStatus">Wczytywanie katalogu…</span>
+                        <span id="offlineStatus" role="status"></span>
                     </div>
+                    <details class="backup-panel">
+                        <summary>Kopia i przenoszenie danych</summary>
+                        <p>
+                            Oceny są w tej przeglądarce, nie na koncie. Wyczyszczenie danych witryny
+                            może je usunąć. Pobierz kopię JSON, aby zachować notatki lub przenieść
+                            je na inne urządzenie.
+                        </p>
+                        <p id="storageStatus" class="empty-copy"></p>
+                        <div class="backup-actions">
+                            <button id="exportBackup" class="secondary-button">
+                                Pobierz kopię JSON
+                            </button>
+                            <button id="importBackup" class="secondary-button">
+                                Wczytaj kopię
+                            </button>
+                            <button id="recoveryBackup" class="secondary-button" hidden>
+                                Pobierz kopię odzyskiwania
+                            </button>
+                        </div>
+                        <input
+                            id="backupFile"
+                            type="file"
+                            accept="application/json,.json"
+                            hidden
+                            aria-label="Plik kopii JSON"
+                        />
+                        <p id="backupStatus" role="status" class="empty-copy"></p>
+                    </details>
                 </section>
 
                 <!-- Tab: Search -->
-                <section id="tab-search" class="tab-view" role="tabpanel">
+                <section
+                    id="tab-search"
+                    class="tab-view"
+                    role="tabpanel"
+                    aria-labelledby="nav-search"
+                >
                     <div class="large-title-spacer"></div>
 
                     <div class="search-bar-container glass-sticky">
@@ -206,14 +224,16 @@
                                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                                 </svg>
                                 <input
-                                    type="text"
+                                    type="search"
                                     id="search-input"
-                                    placeholder="Szukaj trunku, marki albo kategorii..."
+                                    placeholder="Nazwa, styl, kategoria lub %"
                                     autocomplete="off"
                                     autocorrect="off"
                                     autocapitalize="off"
                                     spellcheck="false"
-                                    aria-label="Szukaj alkoholu"
+                                    aria-label="Szukaj produktu w katalogu"
+                                    maxlength="160"
+                                    enterkeyhint="search"
                                 />
                                 <button
                                     id="clearSearch"
@@ -244,8 +264,13 @@
                         class="skeletons-container"
                         style="display: none"
                     ></div>
+                    <p
+                        id="searchStatus"
+                        class="results-status"
+                        role="status"
+                        aria-live="polite"
+                    ></p>
                     <div id="searchResults" class="results-list"></div>
-                    <p id="searchStatus" class="sr-only" role="status" aria-live="polite"></p>
 
                     <div
                         id="noResults"
@@ -277,16 +302,39 @@
                 </section>
 
                 <!-- Tab: Favorites -->
-                <section id="tab-favorites" class="tab-view" role="tabpanel">
+                <section
+                    id="tab-favorites"
+                    class="tab-view"
+                    role="tabpanel"
+                    aria-labelledby="nav-favorites"
+                >
                     <div class="large-title-spacer"></div>
 
-                    <div class="filters-container">
-                        <button class="filter-chip active" data-filter="wszystkie">
+                    <label for="favorites-search" class="note-label">Znajdź w swoich ocenach</label>
+                    <input
+                        id="favorites-search"
+                        type="search"
+                        class="collection-search"
+                        placeholder="Nazwa lub treść notatki"
+                        maxlength="160"
+                    />
+                    <div class="filters-container" aria-label="Kategorie zapisanych ocen">
+                        <button
+                            class="filter-chip active"
+                            data-filter="wszystkie"
+                            aria-pressed="true"
+                        >
                             Wszystkie
                         </button>
-                        <button class="filter-chip" data-filter="piwo">Piwo</button>
-                        <button class="filter-chip" data-filter="wódka">Wódka</button>
-                        <button class="filter-chip" data-filter="wino">Wino</button>
+                        <button class="filter-chip" data-filter="piwo" aria-pressed="false">
+                            Piwo
+                        </button>
+                        <button class="filter-chip" data-filter="wódka" aria-pressed="false">
+                            Wódka
+                        </button>
+                        <button class="filter-chip" data-filter="wino" aria-pressed="false">
+                            Wino
+                        </button>
                     </div>
 
                     <div id="favorites-list" class="results-list" aria-live="polite"></div>
@@ -297,6 +345,7 @@
             <nav class="bottom-nav glass" role="tablist" aria-label="Nawigacja">
                 <div class="nav-pill" aria-hidden="true"></div>
                 <button
+                    id="nav-start"
                     class="nav-item active"
                     data-tab="start"
                     role="tab"
@@ -310,6 +359,7 @@
                     <span class="nav-label">Start</span>
                 </button>
                 <button
+                    id="nav-search"
                     class="nav-item"
                     data-tab="search"
                     role="tab"
@@ -323,17 +373,18 @@
                     <span class="nav-label">Szukaj</span>
                 </button>
                 <button
+                    id="nav-favorites"
                     class="nav-item"
                     data-tab="favorites"
                     role="tab"
                     aria-selected="false"
                     aria-controls="tab-favorites"
-                    aria-label="Ulubione"
+                    aria-label="Moje oceny"
                 >
                     <div class="nav-icon">
                         <i data-lucide="heart" stroke-width="2" aria-hidden="true"></i>
                     </div>
-                    <span class="nav-label">Ulubione</span>
+                    <span class="nav-label">Moje oceny</span>
                 </button>
             </nav>
 
@@ -379,64 +430,99 @@
                     </button>
                 </div>
             </div>
-
-            <!-- Modal -->
-            <div
-                id="modal-wrapper"
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="modalTitle"
-                tabindex="-1"
-                style="display: none"
-            >
-                <div class="modal-overlay"></div>
-                <div class="modal-content">
-                    <div class="modal-grabber"></div>
-                    <button id="modalClose" class="close-btn-right" aria-label="Zamknij">
-                        <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 20 20"
-                            fill="none"
-                            aria-hidden="true"
-                        >
-                            <path
-                                d="M5 5l10 10M15 5l-10 10"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                            />
-                        </svg>
-                    </button>
-                    <h3 id="modalTitle" class="modal-title">Nazwa Produktu</h3>
-                    <div id="modalCategoryTag" class="category-badge">Kategoria: ...</div>
-                    <div class="stars-container" id="starsContainer">
-                        <button type="button" class="star" data-value="1" aria-label="1 gwiazdka">
-                            <i data-lucide="star" aria-hidden="true"></i>
-                        </button>
-                        <button type="button" class="star" data-value="2" aria-label="2 gwiazdki">
-                            <i data-lucide="star" aria-hidden="true"></i>
-                        </button>
-                        <button type="button" class="star" data-value="3" aria-label="3 gwiazdki">
-                            <i data-lucide="star" aria-hidden="true"></i>
-                        </button>
-                        <button type="button" class="star" data-value="4" aria-label="4 gwiazdki">
-                            <i data-lucide="star" aria-hidden="true"></i>
-                        </button>
-                        <button type="button" class="star" data-value="5" aria-label="5 gwiazdek">
-                            <i data-lucide="star" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                    <label class="note-label" for="note-input">Twoja notatka (opcjonalnie)</label>
-                    <textarea id="note-input" placeholder="Napisz coś..." rows="4"></textarea>
-                    <button id="saveButton" class="btn-primary" disabled>Zapisz Ocenę</button>
-                </div>
-            </div>
         </div>
-
-        <!-- Keyboard Toolbar -->
-        <div id="keyboardToolbar" class="keyboard-toolbar" style="display: none">
-            <button id="keyboardDone" class="keyboard-done-btn">Gotowe</button>
+        <!-- Modal -->
+        <div
+            id="modal-wrapper"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modalTitle"
+            tabindex="-1"
+            style="display: none"
+        >
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <div class="modal-grabber"></div>
+                <button id="modalClose" class="close-btn-right" aria-label="Zamknij">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path
+                            d="M5 5l10 10M15 5l-10 10"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        />
+                    </svg>
+                </button>
+                <h2 id="modalTitle" class="modal-title">Ocena produktu</h2>
+                <div id="modalCategoryTag" class="category-badge">Kategoria: ...</div>
+                <p id="ratingHelp" class="rating-help" role="status">Wybierz ocenę od 1 do 5.</p>
+                <div
+                    class="stars-container"
+                    id="starsContainer"
+                    role="radiogroup"
+                    aria-label="Twoja ocena od 1 do 5"
+                >
+                    <button
+                        type="button"
+                        class="star"
+                        data-value="1"
+                        role="radio"
+                        aria-checked="false"
+                        aria-label="1 z 5"
+                    >
+                        <i data-lucide="star" aria-hidden="true"></i>
+                    </button>
+                    <button
+                        type="button"
+                        class="star"
+                        data-value="2"
+                        role="radio"
+                        aria-checked="false"
+                        aria-label="2 z 5"
+                    >
+                        <i data-lucide="star" aria-hidden="true"></i>
+                    </button>
+                    <button
+                        type="button"
+                        class="star"
+                        data-value="3"
+                        role="radio"
+                        aria-checked="false"
+                        aria-label="3 z 5"
+                    >
+                        <i data-lucide="star" aria-hidden="true"></i>
+                    </button>
+                    <button
+                        type="button"
+                        class="star"
+                        data-value="4"
+                        role="radio"
+                        aria-checked="false"
+                        aria-label="4 z 5"
+                    >
+                        <i data-lucide="star" aria-hidden="true"></i>
+                    </button>
+                    <button
+                        type="button"
+                        class="star"
+                        data-value="5"
+                        role="radio"
+                        aria-checked="false"
+                        aria-label="5 z 5"
+                    >
+                        <i data-lucide="star" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <label class="note-label" for="note-input">Twoja notatka (opcjonalnie)</label>
+                <textarea
+                    id="note-input"
+                    placeholder="Smak, aromat, do czego chcesz wrócić…"
+                    rows="4"
+                    maxlength="10000"
+                ></textarea>
+                <p id="modalError" class="form-error" role="alert"></p>
+                <button id="saveButton" class="btn-primary" disabled>Zapisz ocenę</button>
+            </div>
         </div>
 
         <script type="module" src="src/js/main.js"></script>
