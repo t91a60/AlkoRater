@@ -1,0 +1,388 @@
+{
+    "generatedAt": "2026-10-21T21:30:43.221Z",
+    "tool": "Local read-only regex scan; installed Anti-Slop 3.2.21 contains no executable scanner. Contextual review required; not a design/contrast certifier.",
+    "scope": [
+        "index.html",
+        "service-worker.js",
+        "src/css/style.css",
+        "src/js/app/constants.js",
+        "src/js/app/state.js",
+        "src/js/data/favorite-repo.js",
+        "src/js/data/index.js",
+        "src/js/data/product-repo.js",
+        "src/js/data/product.js",
+        "src/js/data/records.js",
+        "src/js/data/__tests__/favorite-repo.test.js",
+        "src/js/data/__tests__/product.test.js",
+        "src/js/data/__tests__/records.test.js",
+        "src/js/main.js",
+        "src/js/services/backup.js",
+        "src/js/services/data-loader.js",
+        "src/js/services/index.js",
+        "src/js/services/search.js",
+        "src/js/services/storage.js",
+        "src/js/services/sw-service.js",
+        "src/js/services/__tests__/backup.test.js",
+        "src/js/services/__tests__/search.test.js",
+        "src/js/services/__tests__/service-worker.test.js",
+        "src/js/services/__tests__/storage.test.js",
+        "src/js/ui/backup.js",
+        "src/js/ui/badges.js",
+        "src/js/ui/context-menu.js",
+        "src/js/ui/dashboard.js",
+        "src/js/ui/favorites.js",
+        "src/js/ui/haptics.js",
+        "src/js/ui/icons.js",
+        "src/js/ui/index.js",
+        "src/js/ui/modal.js",
+        "src/js/ui/pull-to-refresh.js",
+        "src/js/ui/renderer.js",
+        "src/js/ui/search-ui.js",
+        "src/js/ui/tabs.js",
+        "src/js/ui/toast.js",
+        "src/js/ui/__tests__/badges.test.js",
+        "src/js/ui/__tests__/dashboard.test.js",
+        "src/js/ui/__tests__/haptics.test.js",
+        "src/js/ui/__tests__/icons.test.js",
+        "src/js/ui/__tests__/plPlural.test.js",
+        "src/js/ui/__tests__/sheet-motion.test.js",
+        "src/js/ui/__tests__/tabs.test.js",
+        "src/js/utils/debounce.js",
+        "src/js/utils/dom.js",
+        "src/js/utils/index.js",
+        "src/js/utils/logger.js",
+        "src/js/utils/plural.js",
+        "src/js/utils/spring.js",
+        "src/js/utils/__tests__/debounce.test.js",
+        "tests/e2e/app.spec.mjs",
+        "tests/e2e/apple-experience.spec.mjs",
+        "tests/e2e/update.spec.mjs"
+    ],
+    "rules": {
+        "em-dash": "—",
+        "empty-destination": "href\\s*=\\s*[\"'](?:#|javascript:|)[\"']",
+        "decorative-marketing": "\\b(?:AI Powered|Next Generation|Revolutionary|Seamless|Cutting Edge|Get Started|Learn More|Trusted By)\\b",
+        "focus-reset": "outline:\\s*(?:none|0)",
+        "gradient": "(?:linear|radial|conic)-gradient\\(",
+        "backdrop-filter": "(?:-webkit-)?backdrop-filter:",
+        "permanent-layer": "will-change:",
+        "inline-event": "(?:onclick|onerror|onload)\\s*="
+    },
+    "matches": [
+        {
+            "rule": "em-dash",
+            "path": "index.html",
+            "line": 80,
+            "text": "<!-- iOS startup splash images — full-bleed #071019 to match --bg for a seamless launch -->",
+            "testFixture": false
+        },
+        {
+            "rule": "decorative-marketing",
+            "path": "index.html",
+            "line": 80,
+            "text": "<!-- iOS startup splash images — full-bleed #071019 to match --bg for a seamless launch -->",
+            "testFixture": false
+        },
+        {
+            "rule": "focus-reset",
+            "path": "src/css/style.css",
+            "line": 570,
+            "text": "outline: none;",
+            "testFixture": false
+        },
+        {
+            "rule": "backdrop-filter",
+            "path": "src/css/style.css",
+            "line": 1332,
+            "text": "-webkit-backdrop-filter: none;",
+            "testFixture": false
+        },
+        {
+            "rule": "backdrop-filter",
+            "path": "src/css/style.css",
+            "line": 1333,
+            "text": "backdrop-filter: none;",
+            "testFixture": false
+        },
+        {
+            "rule": "backdrop-filter",
+            "path": "src/css/style.css",
+            "line": 1337,
+            "text": "@supports ((backdrop-filter: blur(20px)) or (-webkit-backdrop-filter: blur(20px))) {",
+            "testFixture": false
+        },
+        {
+            "rule": "backdrop-filter",
+            "path": "src/css/style.css",
+            "line": 1342,
+            "text": "-webkit-backdrop-filter: blur(20px) saturate(1.25);",
+            "testFixture": false
+        },
+        {
+            "rule": "backdrop-filter",
+            "path": "src/css/style.css",
+            "line": 1343,
+            "text": "backdrop-filter: blur(20px) saturate(1.25);",
+            "testFixture": false
+        },
+        {
+            "rule": "backdrop-filter",
+            "path": "src/css/style.css",
+            "line": 1351,
+            "text": "-webkit-backdrop-filter: none;",
+            "testFixture": false
+        },
+        {
+            "rule": "backdrop-filter",
+            "path": "src/css/style.css",
+            "line": 1352,
+            "text": "backdrop-filter: none;",
+            "testFixture": false
+        },
+        {
+            "rule": "backdrop-filter",
+            "path": "src/css/style.css",
+            "line": 1360,
+            "text": "-webkit-backdrop-filter: none;",
+            "testFixture": false
+        },
+        {
+            "rule": "backdrop-filter",
+            "path": "src/css/style.css",
+            "line": 1361,
+            "text": "backdrop-filter: none;",
+            "testFixture": false
+        },
+        {
+            "rule": "inline-event",
+            "path": "src/js/data/__tests__/product.test.js",
+            "line": 76,
+            "text": "'data:image/svg+xml,<svg onload=\"alert(1)\">',",
+            "testFixture": true
+        },
+        {
+            "rule": "inline-event",
+            "path": "src/js/data/__tests__/records.test.js",
+            "line": 89,
+            "text": "const note = `  <img src=x onerror=\"alert(1)\">\\n${'ą'.repeat(MAX_NOTE_LENGTH - 36)}`;",
+            "testFixture": true
+        },
+        {
+            "rule": "inline-event",
+            "path": "src/js/services/storage.js",
+            "line": 59,
+            "text": "request.onerror = () => {",
+            "testFixture": false
+        },
+        {
+            "rule": "inline-event",
+            "path": "src/js/services/storage.js",
+            "line": 259,
+            "text": "request.onerror = () => reject(request.error);",
+            "testFixture": false
+        },
+        {
+            "rule": "inline-event",
+            "path": "src/js/services/sw-service.js",
+            "line": 123,
+            "text": "updateBtn.onclick = async () => {",
+            "testFixture": false
+        },
+        {
+            "rule": "inline-event",
+            "path": "src/js/services/sw-service.js",
+            "line": 154,
+            "text": "dismissBtn.onclick = () => dismissBanner(banner);",
+            "testFixture": false
+        },
+        {
+            "rule": "inline-event",
+            "path": "src/js/services/__tests__/backup.test.js",
+            "line": 77,
+            "text": "const note = '  <img src=x onerror=\"alert(1)\">\\n<script>alert(2)</script>  ';",
+            "testFixture": true
+        },
+        {
+            "rule": "inline-event",
+            "path": "src/js/services/__tests__/backup.test.js",
+            "line": 78,
+            "text": "const name = '<svg onload=\"alert(3)\">';",
+            "testFixture": true
+        },
+        {
+            "rule": "em-dash",
+            "path": "src/js/services/__tests__/search.test.js",
+            "line": 152,
+            "text": "it('wszystkie słowa muszą pasować — produkt bez pełnego dopasowania odpada', () => {",
+            "testFixture": true
+        },
+        {
+            "rule": "em-dash",
+            "path": "src/js/services/__tests__/search.test.js",
+            "line": 153,
+            "text": "// \"zywiec wino\" — Żywiec pasuje do piwa, ale wino do innego; nie ma jednego produktu z oboma",
+            "testFixture": true
+        },
+        {
+            "rule": "em-dash",
+            "path": "src/js/services/__tests__/search.test.js",
+            "line": 163,
+            "text": "it('sortuje wyniki wg wyniku — dokładny prefiks jest wyżej niż fuzzy', () => {",
+            "testFixture": true
+        },
+        {
+            "rule": "inline-event",
+            "path": "src/js/services/__tests__/storage.test.js",
+            "line": 69,
+            "text": "request.onerror = () => reject(request.error);",
+            "testFixture": true
+        },
+        {
+            "rule": "em-dash",
+            "path": "src/js/ui/badges.js",
+            "line": 38,
+            "text": "* runtime using the exact same markup — set as .innerHTML there, never embedded",
+            "testFixture": false
+        },
+        {
+            "rule": "gradient",
+            "path": "src/js/ui/badges.js",
+            "line": 11,
+            "text": "piwo: 'linear-gradient(145deg,rgba(212,160,84,.20),rgba(160,100,40,.11))',",
+            "testFixture": false
+        },
+        {
+            "rule": "gradient",
+            "path": "src/js/ui/badges.js",
+            "line": 12,
+            "text": "wódka: 'linear-gradient(145deg,rgba(107,197,247,.20),rgba(70,150,210,.11))',",
+            "testFixture": false
+        },
+        {
+            "rule": "gradient",
+            "path": "src/js/ui/badges.js",
+            "line": 13,
+            "text": "wino: 'linear-gradient(145deg,rgba(184,74,98,.22),rgba(140,50,80,.13))',",
+            "testFixture": false
+        },
+        {
+            "rule": "gradient",
+            "path": "src/js/ui/badges.js",
+            "line": 57,
+            "text": "const bg = THUMB_BG[cat] || 'linear-gradient(145deg,rgba(120,110,100,.18),rgba(80,70,60,.10))';",
+            "testFixture": false
+        },
+        {
+            "rule": "em-dash",
+            "path": "src/js/ui/modal.js",
+            "line": 391,
+            "text": "// Carry the finger's velocity through the re-target — otherwise",
+            "testFixture": false
+        },
+        {
+            "rule": "em-dash",
+            "path": "src/js/ui/pull-to-refresh.js",
+            "line": 5,
+            "text": "* projection) — then the release velocity hands off into the spinner's loop.",
+            "testFixture": false
+        },
+        {
+            "rule": "em-dash",
+            "path": "src/js/ui/pull-to-refresh.js",
+            "line": 108,
+            "text": "// Resume the loop from where the finger left it — no visible",
+            "testFixture": false
+        },
+        {
+            "rule": "em-dash",
+            "path": "src/js/ui/tabs.js",
+            "line": 16,
+            "text": "* matches `tabName`, using its live layout box — no hardcoded per-tab",
+            "testFixture": false
+        },
+        {
+            "rule": "em-dash",
+            "path": "src/js/ui/tabs.js",
+            "line": 39,
+            "text": "* before it fades in — used on first load and after a resize/orientation",
+            "testFixture": false
+        },
+        {
+            "rule": "em-dash",
+            "path": "src/js/ui/__tests__/badges.test.js",
+            "line": 45,
+            "text": "// taki wyciek nie może się zdarzyć — sprawdzamy, że faktycznie się nie zdarza.",
+            "testFixture": true
+        },
+        {
+            "rule": "inline-event",
+            "path": "src/js/ui/__tests__/badges.test.js",
+            "line": 42,
+            "text": "// wewnątrz SVG-a przedwcześnie zamykały atrybut onerror=\"...\", więc",
+            "testFixture": true
+        },
+        {
+            "rule": "em-dash",
+            "path": "src/js/utils/spring.js",
+            "line": 2,
+            "text": "* Vanilla spring animation — interruptible, velocity-aware.",
+            "testFixture": false
+        },
+        {
+            "rule": "inline-event",
+            "path": "tests/e2e/app.spec.mjs",
+            "line": 264,
+            "text": "await save(page, 3, '<img src=x onerror=alert(1)> Prywatna notatka');",
+            "testFixture": true
+        },
+        {
+            "rule": "inline-event",
+            "path": "tests/e2e/app.spec.mjs",
+            "line": 288,
+            "text": "'<img src=x onerror=alert(1)> Prywatna notatka',",
+            "testFixture": true
+        },
+        {
+            "rule": "inline-event",
+            "path": "tests/e2e/app.spec.mjs",
+            "line": 311,
+            "text": "'<img src=x onerror=alert(1)> Prywatna notatka',",
+            "testFixture": true
+        }
+    ],
+    "adjudication": [
+        {
+            "rule": "em-dash",
+            "result": "Inherited code comments/test titles, not newly written runtime UI copy. Kept to avoid unrelated churn."
+        },
+        {
+            "rule": "empty-destination",
+            "result": "No dead runtime destinations found."
+        },
+        {
+            "rule": "decorative-marketing",
+            "result": "No matching generic runtime marketing copy."
+        },
+        {
+            "rule": "focus-reset",
+            "result": "#search-input:focus-visible is replaced by a 3px focus-within ring on .search-wrapper; final keyboard E2E passes."
+        },
+        {
+            "rule": "gradient",
+            "result": "Existing small category-thumbnail backgrounds in unchanged badges.js; no page gradient or invented imagery. No new gradient added."
+        },
+        {
+            "rule": "backdrop-filter",
+            "result": "One @supports block enables only .bottom-nav and .context-menu; other matches explicitly disable filters. Full fallback for reduced transparency, contrast and manual preference."
+        },
+        {
+            "rule": "permanent-layer",
+            "result": "No will-change declaration."
+        },
+        {
+            "rule": "inline-event",
+            "result": "Adversarial import/escaping fixtures and normal JavaScript event-property assignments (IndexedDB request.onerror and SW banner onclick), not production HTML event attributes. Useful tests and handlers retained."
+        }
+    ],
+    "verdict": "No confirmed runtime blocker from this bounded scan. Human visual review and tests are recorded separately."
+}

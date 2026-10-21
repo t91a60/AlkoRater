@@ -1,0 +1,1101 @@
+{
+    "generatedAt": "2026-10-21T21:30:43.221Z",
+    "baseline": "3898706b4f04d9ec165f70dabf5a16c4b7e95565",
+    "branch": "design/apple-experience-overhaul",
+    "implementationCommit": "3a565177fc8daeff0b7b0b2086db3d7cc828ba39",
+    "testedState": "Final implementation before Apple-phase commits; only documentation/evidence generation followed the recorded E2E matrix.",
+    "otherChecks": {
+        "lint": "npm run lint: ESLint and Stylelint passed",
+        "format": "npm run format:check passed; additional Prettier check for index.html, DESIGN.md, capture script, E2E files and SW passed",
+        "build": "npm run build: 59 production files; dist excluded from commits",
+        "catalog": "npm run check:data: 336 stable IDs, 0 contract errors",
+        "search": "node scripts/eval-search.mjs: 43/43 passed",
+        "source": "Recorded command results in this implementation session; no business/data source changes followed these checks"
+    },
+    "unit": {
+        "passed": 166,
+        "failed": 0,
+        "total": 166,
+        "files": 15,
+        "success": true,
+        "command": "npm test -- --reporter=json --outputFile=<temporary>/alkorater-apple-unit-final.json",
+        "sourceReportSha256": "6a347a9c288d63c588dcf1cab23420786e5eff3932915863937ba61ae3f972ca"
+    },
+    "e2e": {
+        "testDir": "tests/e2e",
+        "startTime": "2026-10-21T19:18:27.936Z",
+        "duration": 134423.56,
+        "expected": 144,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0,
+        "projects": {
+            "chromium": 36,
+            "chromium-desktop": 36,
+            "webkit": 36,
+            "firefox": 36
+        },
+        "errors": [],
+        "scenarios": [
+            {
+                "title": "pierwsze otwarcie, puste stany i klawiatura nawigacji",
+                "file": "app.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "ocena i notatka, edycja, wyszukanie kolekcji i prawidłowa średnia",
+                "file": "app.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "produkty o tej samej nazwie nie otwierają i nie nadpisują innego produktu",
+                "file": "app.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "gwiazdki: kierunek, strzałki, fokus i niezapisana notatka",
+                "file": "app.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "usunięcie zapisuje się przed odświeżeniem, a Cofnij przywraca osobną mutacją",
+                "file": "app.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "pierwsza instalacja i ponowne otwarcie offline pod ścieżką GitHub Pages",
+                "file": "app.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "równoległe karty: niezależne wpisy i konflikt tej samej oceny",
+                "file": "app.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "migracja starego localStorage nie wskrzesza usuniętej oceny",
+                "file": "app.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "uszkodzony zapis nie jest pustą kolekcją i nie można go nadpisać",
+                "file": "app.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "kopia JSON: pobranie, walidowany import i brak nadpisania konfliktu",
+                "file": "app.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "dłuższa historyczna notatka nie blokuje kolekcji i nie jest skracana przy edycji oceny",
+                "file": "app.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "wybrany tryb awaryjny localStorage pozostaje spójny po otwarciu nowej karty",
+                "file": "app.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "każda sugestia, ostatnie zapytania i menu kontekstowe mają działanie",
+                "file": "app.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "automatyczna dostępność całej ścieżki",
+                "file": "app.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "wąski ekran, długi tekst i tekst powiększony do 200%",
+                "file": "app.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "błąd zapisu zachowuje formularz, a ponowienie faktycznie zapisuje dane",
+                "file": "app.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "awaria jednego katalogu jest widoczna, oceny działają, a ponowienie przywraca komplet",
+                "file": "app.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "offline działa także przy wdrożeniu w katalogu głównym",
+                "file": "app.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "pierwsze otwarcie, puste stany i klawiatura nawigacji",
+                "file": "app.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "ocena i notatka, edycja, wyszukanie kolekcji i prawidłowa średnia",
+                "file": "app.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "produkty o tej samej nazwie nie otwierają i nie nadpisują innego produktu",
+                "file": "app.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "gwiazdki: kierunek, strzałki, fokus i niezapisana notatka",
+                "file": "app.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "usunięcie zapisuje się przed odświeżeniem, a Cofnij przywraca osobną mutacją",
+                "file": "app.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "pierwsza instalacja i ponowne otwarcie offline pod ścieżką GitHub Pages",
+                "file": "app.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "równoległe karty: niezależne wpisy i konflikt tej samej oceny",
+                "file": "app.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "migracja starego localStorage nie wskrzesza usuniętej oceny",
+                "file": "app.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "uszkodzony zapis nie jest pustą kolekcją i nie można go nadpisać",
+                "file": "app.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "kopia JSON: pobranie, walidowany import i brak nadpisania konfliktu",
+                "file": "app.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "dłuższa historyczna notatka nie blokuje kolekcji i nie jest skracana przy edycji oceny",
+                "file": "app.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "wybrany tryb awaryjny localStorage pozostaje spójny po otwarciu nowej karty",
+                "file": "app.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "każda sugestia, ostatnie zapytania i menu kontekstowe mają działanie",
+                "file": "app.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "automatyczna dostępność całej ścieżki",
+                "file": "app.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "wąski ekran, długi tekst i tekst powiększony do 200%",
+                "file": "app.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "błąd zapisu zachowuje formularz, a ponowienie faktycznie zapisuje dane",
+                "file": "app.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "awaria jednego katalogu jest widoczna, oceny działają, a ponowienie przywraca komplet",
+                "file": "app.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "offline działa także przy wdrożeniu w katalogu głównym",
+                "file": "app.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "pierwsze otwarcie, puste stany i klawiatura nawigacji",
+                "file": "app.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "ocena i notatka, edycja, wyszukanie kolekcji i prawidłowa średnia",
+                "file": "app.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "produkty o tej samej nazwie nie otwierają i nie nadpisują innego produktu",
+                "file": "app.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "gwiazdki: kierunek, strzałki, fokus i niezapisana notatka",
+                "file": "app.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "usunięcie zapisuje się przed odświeżeniem, a Cofnij przywraca osobną mutacją",
+                "file": "app.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "pierwsza instalacja i ponowne otwarcie offline pod ścieżką GitHub Pages",
+                "file": "app.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "równoległe karty: niezależne wpisy i konflikt tej samej oceny",
+                "file": "app.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "migracja starego localStorage nie wskrzesza usuniętej oceny",
+                "file": "app.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "uszkodzony zapis nie jest pustą kolekcją i nie można go nadpisać",
+                "file": "app.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "kopia JSON: pobranie, walidowany import i brak nadpisania konfliktu",
+                "file": "app.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "dłuższa historyczna notatka nie blokuje kolekcji i nie jest skracana przy edycji oceny",
+                "file": "app.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "wybrany tryb awaryjny localStorage pozostaje spójny po otwarciu nowej karty",
+                "file": "app.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "każda sugestia, ostatnie zapytania i menu kontekstowe mają działanie",
+                "file": "app.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "automatyczna dostępność całej ścieżki",
+                "file": "app.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "wąski ekran, długi tekst i tekst powiększony do 200%",
+                "file": "app.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "błąd zapisu zachowuje formularz, a ponowienie faktycznie zapisuje dane",
+                "file": "app.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "awaria jednego katalogu jest widoczna, oceny działają, a ponowienie przywraca komplet",
+                "file": "app.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "offline działa także przy wdrożeniu w katalogu głównym",
+                "file": "app.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "pierwsze otwarcie, puste stany i klawiatura nawigacji",
+                "file": "app.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "ocena i notatka, edycja, wyszukanie kolekcji i prawidłowa średnia",
+                "file": "app.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "produkty o tej samej nazwie nie otwierają i nie nadpisują innego produktu",
+                "file": "app.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "gwiazdki: kierunek, strzałki, fokus i niezapisana notatka",
+                "file": "app.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "usunięcie zapisuje się przed odświeżeniem, a Cofnij przywraca osobną mutacją",
+                "file": "app.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "pierwsza instalacja i ponowne otwarcie offline pod ścieżką GitHub Pages",
+                "file": "app.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "równoległe karty: niezależne wpisy i konflikt tej samej oceny",
+                "file": "app.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "migracja starego localStorage nie wskrzesza usuniętej oceny",
+                "file": "app.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "uszkodzony zapis nie jest pustą kolekcją i nie można go nadpisać",
+                "file": "app.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "kopia JSON: pobranie, walidowany import i brak nadpisania konfliktu",
+                "file": "app.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "dłuższa historyczna notatka nie blokuje kolekcji i nie jest skracana przy edycji oceny",
+                "file": "app.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "wybrany tryb awaryjny localStorage pozostaje spójny po otwarciu nowej karty",
+                "file": "app.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "każda sugestia, ostatnie zapytania i menu kontekstowe mają działanie",
+                "file": "app.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "automatyczna dostępność całej ścieżki",
+                "file": "app.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "wąski ekran, długi tekst i tekst powiększony do 200%",
+                "file": "app.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "błąd zapisu zachowuje formularz, a ponowienie faktycznie zapisuje dane",
+                "file": "app.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "awaria jednego katalogu jest widoczna, oceny działają, a ponowienie przywraca komplet",
+                "file": "app.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "offline działa także przy wdrożeniu w katalogu głównym",
+                "file": "app.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "light: nazwy, tekst, zapis, szkło i kontrast rzeczywistych kolorów",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "dark: nazwy, tekst, zapis, szkło i kontrast rzeczywistych kolorów",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "karty zachowują zapytanie, przewijanie i historię Back/Forward",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "Back chroni tekst arkusza, a po zamknięciu wraca do poprzedniej karty",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "szybkie przejścia i Escape nie pozostawiają animacji ani inert",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "syntetyczny visualViewport: stopka nad klawiaturą, zoom nie jest klawiaturą",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "syntetyczny gest: notatka nie uruchamia drag, odmowa wraca na miejsce",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "Cofnij nie znika po czterech sekundach, menu działa z klawiatury",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "jasny mały widok 200%, długa nazwa i reduced motion",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "HIG: pojedynczy wynik ma widoczny fokus, etykiety 200% nie nachodzą",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "HIG: Forward odtwarza właściwy produkt, nie odrzuconą notatkę",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "Anti-Slop: wpis przed podsumowaniem i rozróżnialny wyróżniony produkt",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "light: nazwy, tekst, zapis, szkło i kontrast rzeczywistych kolorów",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "dark: nazwy, tekst, zapis, szkło i kontrast rzeczywistych kolorów",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "karty zachowują zapytanie, przewijanie i historię Back/Forward",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "Back chroni tekst arkusza, a po zamknięciu wraca do poprzedniej karty",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "szybkie przejścia i Escape nie pozostawiają animacji ani inert",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "syntetyczny visualViewport: stopka nad klawiaturą, zoom nie jest klawiaturą",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "syntetyczny gest: notatka nie uruchamia drag, odmowa wraca na miejsce",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "Cofnij nie znika po czterech sekundach, menu działa z klawiatury",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "jasny mały widok 200%, długa nazwa i reduced motion",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "HIG: pojedynczy wynik ma widoczny fokus, etykiety 200% nie nachodzą",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "HIG: Forward odtwarza właściwy produkt, nie odrzuconą notatkę",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "Anti-Slop: wpis przed podsumowaniem i rozróżnialny wyróżniony produkt",
+                "file": "apple-experience.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "light: nazwy, tekst, zapis, szkło i kontrast rzeczywistych kolorów",
+                "file": "apple-experience.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "dark: nazwy, tekst, zapis, szkło i kontrast rzeczywistych kolorów",
+                "file": "apple-experience.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "karty zachowują zapytanie, przewijanie i historię Back/Forward",
+                "file": "apple-experience.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "Back chroni tekst arkusza, a po zamknięciu wraca do poprzedniej karty",
+                "file": "apple-experience.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "szybkie przejścia i Escape nie pozostawiają animacji ani inert",
+                "file": "apple-experience.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "syntetyczny visualViewport: stopka nad klawiaturą, zoom nie jest klawiaturą",
+                "file": "apple-experience.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "syntetyczny gest: notatka nie uruchamia drag, odmowa wraca na miejsce",
+                "file": "apple-experience.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "Cofnij nie znika po czterech sekundach, menu działa z klawiatury",
+                "file": "apple-experience.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "jasny mały widok 200%, długa nazwa i reduced motion",
+                "file": "apple-experience.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "HIG: pojedynczy wynik ma widoczny fokus, etykiety 200% nie nachodzą",
+                "file": "apple-experience.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "HIG: Forward odtwarza właściwy produkt, nie odrzuconą notatkę",
+                "file": "apple-experience.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "Anti-Slop: wpis przed podsumowaniem i rozróżnialny wyróżniony produkt",
+                "file": "apple-experience.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "light: nazwy, tekst, zapis, szkło i kontrast rzeczywistych kolorów",
+                "file": "apple-experience.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "dark: nazwy, tekst, zapis, szkło i kontrast rzeczywistych kolorów",
+                "file": "apple-experience.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "karty zachowują zapytanie, przewijanie i historię Back/Forward",
+                "file": "apple-experience.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "Back chroni tekst arkusza, a po zamknięciu wraca do poprzedniej karty",
+                "file": "apple-experience.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "szybkie przejścia i Escape nie pozostawiają animacji ani inert",
+                "file": "apple-experience.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "syntetyczny visualViewport: stopka nad klawiaturą, zoom nie jest klawiaturą",
+                "file": "apple-experience.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "syntetyczny gest: notatka nie uruchamia drag, odmowa wraca na miejsce",
+                "file": "apple-experience.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "Cofnij nie znika po czterech sekundach, menu działa z klawiatury",
+                "file": "apple-experience.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "jasny mały widok 200%, długa nazwa i reduced motion",
+                "file": "apple-experience.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "HIG: pojedynczy wynik ma widoczny fokus, etykiety 200% nie nachodzą",
+                "file": "apple-experience.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "HIG: Forward odtwarza właściwy produkt, nie odrzuconą notatkę",
+                "file": "apple-experience.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "Anti-Slop: wpis przed podsumowaniem i rozróżnialny wyróżniony produkt",
+                "file": "apple-experience.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "aktywacja wydania 2 nie usuwa cache równolegle instalowanego wydania 3",
+                "file": "update.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "naprawa cache missing-main nie usuwa zapisanych ocen",
+                "file": "update.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "naprawa cache broken-catalog nie usuwa zapisanych ocen",
+                "file": "update.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "aktualizacja nie przeładowuje innych kart i zachowuje oceny offline",
+                "file": "update.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "rzeczywista aktualizacja z commita 2.13.1 zachowuje ID, ocenę i notatkę",
+                "file": "update.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "niekompletny precache odrzuca aktualizację, a poprzednia wersja działa offline",
+                "file": "update.spec.mjs",
+                "project": "chromium",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "aktywacja wydania 2 nie usuwa cache równolegle instalowanego wydania 3",
+                "file": "update.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "naprawa cache missing-main nie usuwa zapisanych ocen",
+                "file": "update.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "naprawa cache broken-catalog nie usuwa zapisanych ocen",
+                "file": "update.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "aktualizacja nie przeładowuje innych kart i zachowuje oceny offline",
+                "file": "update.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "rzeczywista aktualizacja z commita 2.13.1 zachowuje ID, ocenę i notatkę",
+                "file": "update.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "niekompletny precache odrzuca aktualizację, a poprzednia wersja działa offline",
+                "file": "update.spec.mjs",
+                "project": "chromium-desktop",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "aktywacja wydania 2 nie usuwa cache równolegle instalowanego wydania 3",
+                "file": "update.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "naprawa cache missing-main nie usuwa zapisanych ocen",
+                "file": "update.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "naprawa cache broken-catalog nie usuwa zapisanych ocen",
+                "file": "update.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "aktualizacja nie przeładowuje innych kart i zachowuje oceny offline",
+                "file": "update.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "rzeczywista aktualizacja z commita 2.13.1 zachowuje ID, ocenę i notatkę",
+                "file": "update.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "niekompletny precache odrzuca aktualizację, a poprzednia wersja działa offline",
+                "file": "update.spec.mjs",
+                "project": "webkit",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "aktywacja wydania 2 nie usuwa cache równolegle instalowanego wydania 3",
+                "file": "update.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "naprawa cache missing-main nie usuwa zapisanych ocen",
+                "file": "update.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "naprawa cache broken-catalog nie usuwa zapisanych ocen",
+                "file": "update.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "aktualizacja nie przeładowuje innych kart i zachowuje oceny offline",
+                "file": "update.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "rzeczywista aktualizacja z commita 2.13.1 zachowuje ID, ocenę i notatkę",
+                "file": "update.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            },
+            {
+                "title": "niekompletny precache odrzuca aktualizację, a poprzednia wersja działa offline",
+                "file": "update.spec.mjs",
+                "project": "firefox",
+                "status": "expected",
+                "attempts": ["passed"]
+            }
+        ],
+        "command": "PLAYWRIGHT_JSON_OUTPUT_NAME=<temporary>/alkorater-apple-e2e-final.json npm run test:e2e -- --reporter=dot,json",
+        "sourceReportSha256": "f64a2d9353cdd60825cb0aac39b3fb767b4031786e7fc079d4644b89af521ee4"
+    },
+    "preserved": {
+        "comparedTo": "3898706b4f04d9ec165f70dabf5a16c4b7e95565",
+        "checkedFiles": [
+            "data/piwa.json",
+            "data/wina.json",
+            "data/wodki.json",
+            "manifest.json",
+            "package-lock.json",
+            "package.json",
+            "piwa.json",
+            "src/js/app/constants.js",
+            "src/js/app/state.js",
+            "src/js/data/favorite-repo.js",
+            "src/js/data/index.js",
+            "src/js/data/product-repo.js",
+            "src/js/data/product.js",
+            "src/js/data/records.js",
+            "src/js/services/backup.js",
+            "src/js/services/data-loader.js",
+            "src/js/services/index.js",
+            "src/js/services/search.js",
+            "src/js/services/storage.js",
+            "src/js/services/sw-service.js",
+            "src/js/ui/backup.js",
+            "wina.json",
+            "wodki.json"
+        ],
+        "changed": [],
+        "serviceWorkerDiff": [
+            "-const CACHE_VERSION = 'v8.0-rc2';",
+            "+const CACHE_VERSION = 'v8.1-apple-rc3';"
+        ]
+    },
+    "independentReviews": {
+        "initialHIG": "docs/APPLE_HIG_REVIEW_PL.md",
+        "initialAntiSlop": "docs/APPLE_ANTISLOP_REVIEW_PL.md",
+        "correctiveRechecks": {
+            "completed": false,
+            "reason": "Both reviewers returned: The usage limit has been reached",
+            "independentSignOffAfterFixes": false
+        }
+    },
+    "limitations": [
+        "No physical iOS/Android installation",
+        "No OS software keyboard",
+        "No VoiceOver",
+        "No actual hardware safe areas",
+        "No field performance or INP measurement"
+    ]
+}

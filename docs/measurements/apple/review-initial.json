@@ -1,0 +1,90 @@
+{
+    "date": "2026-10-21T17:19:13.687Z",
+    "phase": "after",
+    "head": "3898706b4f04d9ec165f70dabf5a16c4b7e95565",
+    "dirty": [
+        "DESIGN.md",
+        "index.html",
+        "service-worker.js",
+        "src/css/style.css",
+        "src/js/main.js",
+        "src/js/services/__tests__/service-worker.test.js",
+        "src/js/ui/context-menu.js",
+        "src/js/ui/dashboard.js",
+        "src/js/ui/haptics.js",
+        "src/js/ui/modal.js",
+        "src/js/ui/search-ui.js",
+        "src/js/ui/tabs.js",
+        "src/js/ui/toast.js",
+        "src/js/utils/spring.js",
+        "tests/e2e/app.spec.mjs"
+    ],
+    "browser": "156.0.8078.4",
+    "node": "v24.20.0",
+    "cpu": "11th Gen Intel(R) Core(TM) i7-11700KF @ 3.60GHz",
+    "method": "Five cold contexts per phase, Chromium 393x852, CPU 4x, localhost unthrottled, service workers blocked for lab samples only. Screenshots and offline checks use service workers. Synthetic data only.",
+    "samples": [
+        {
+            "cls": 0.098978422020889,
+            "lcp": 808,
+            "ready": 539.3999999985099,
+            "fcp": 268
+        },
+        {
+            "cls": 0.098978422020889,
+            "lcp": 352,
+            "ready": 283.6000000014901,
+            "fcp": 136
+        },
+        {
+            "cls": 0.098978422020889,
+            "lcp": 324,
+            "ready": 266.19999999925494,
+            "fcp": 132
+        },
+        {
+            "cls": 0.098978422020889,
+            "lcp": 324,
+            "ready": 265.40000000037253,
+            "fcp": 124
+        },
+        {
+            "cls": 0.098978422020889,
+            "lcp": 320,
+            "ready": 262.59999999962747,
+            "fcp": 128
+        }
+    ],
+    "medians": {
+        "fcp": 132,
+        "ready": 266.19999999925494,
+        "lcp": 324,
+        "cls": 0.098978422020889
+    },
+    "captures": [
+        "after-dark-empty.png",
+        "after-dark-discovery.png",
+        "after-dark-search.png",
+        "after-dark-sheet.png",
+        "after-dark-toast.png",
+        "after-dark-collection.png",
+        "after-dark-context.png",
+        "after-dark-home.png",
+        "after-small.png",
+        "after-large.png",
+        "after-tablet.png",
+        "after-desktop.png",
+        "after-dark-offline.png",
+        "after-light-empty.png",
+        "after-light-discovery.png",
+        "after-light-search.png",
+        "after-light-sheet.png",
+        "after-light-toast.png",
+        "after-light-collection.png",
+        "after-light-context.png",
+        "after-light-home.png",
+        "after-light-offline.png"
+    ],
+    "pageErrors": [],
+    "physicalIOS": false
+}

@@ -1,0 +1,43 @@
+{
+    "date": "2026-10-21T21:34:09.540Z",
+    "implementationCommit": "3a565177fc8daeff0b7b0b2086db3d7cc828ba39",
+    "method": "Supplementary UI click-through, isolated Chromium contexts, synthetic record only. Worker version changes only in a local in-memory HTTP fixture; repository source is not rewritten.",
+    "themes": [
+        {
+            "colorScheme": "light",
+            "vibrationAPISupported": true,
+            "actions": [
+                "Vibration preference: off by default, opt-in persists on reload, can be turned off; no hardware feedback claim.",
+                "Import button opens the file chooser; cancellation leaves collection unchanged.",
+                "Search Enter finishes editing; Close dismisses clean sheet, refusal preserves dirty note; each radio 1-5 updates state; Save writes record.",
+                "All four collection filters change real results and pressed state; note search and Enter work.",
+                "Real waiting worker shows update banner; Dismiss hides it without deleting a saved record or applying the update.",
+                "Supplement: recent-query chip actually restores its query/results; all three no-result category buttons actually replace the query and show results."
+            ]
+        },
+        {
+            "colorScheme": "dark",
+            "vibrationAPISupported": true,
+            "actions": [
+                "Vibration preference: off by default, opt-in persists on reload, can be turned off; no hardware feedback claim.",
+                "Import button opens the file chooser; cancellation leaves collection unchanged.",
+                "Search Enter finishes editing; Close dismisses clean sheet, refusal preserves dirty note; each radio 1-5 updates state; Save writes record.",
+                "All four collection filters change real results and pressed state; note search and Enter work.",
+                "Real waiting worker shows update banner; Dismiss hides it without deleting a saved record or applying the update.",
+                "Supplement: recent-query chip actually restores its query/results; all three no-result category buttons actually replace the query and show results."
+            ]
+        }
+    ],
+    "pageErrors": [],
+    "consoleWarningsAndErrors": [],
+    "physicalHaptics": false,
+    "status": "passed",
+    "supplementaryDiscovery": {
+        "preliminaryInterruptedAttempt": "One preliminary isolated launch returned Chromium net::ERR_NO_BUFFER_SPACE during navigation before UI assertions; the completed rerun below passed. No repository source changes were made for the rerun.",
+        "date": "2026-10-21T21:41:20.677Z",
+        "themes": ["light", "dark"],
+        "pageErrors": [],
+        "status": "passed",
+        "serviceWorkers": "blocked for this bounded UI-only supplement"
+    }
+}

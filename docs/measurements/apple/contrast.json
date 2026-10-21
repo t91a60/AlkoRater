@@ -1,0 +1,268 @@
+{
+    "generatedAt": "2026-10-21T21:30:43.221Z",
+    "method": "WCAG sRGB relative luminance; final computed CSS values from an isolated Chromium context at 393x852. This sample is not proof of full WCAG conformance.",
+    "samples": [
+        {
+            "theme": "light",
+            "catalogStatus": "336 produktów w katalogu",
+            "controller": "http://127.0.0.1:4188/AlkoRater/service-worker.js",
+            "viewport": {
+                "width": 393,
+                "height": 852
+            },
+            "bodyOverflow": false,
+            "tokens": {
+                "--bg": "#f2f4f7",
+                "--surface-1": "#fff",
+                "--surface-2": "#e9edf2",
+                "--fg": "#152536",
+                "--fg-secondary": "#4b5a69",
+                "--fg-tertiary": "#566677",
+                "--accent": "#81500d",
+                "--accent-red": "#b52b38",
+                "--success": "#246848",
+                "--warning": "#81500d",
+                "--control-border": "#738194",
+                "--action-fill": "#f1b24f",
+                "--action-text": "#21190c",
+                "--selection": "#e4eaf1",
+                "--highlight": "#f4dfb8",
+                "--glass-fill": "rgb(255 255 255 / 92%)"
+            },
+            "pairs": [
+                {
+                    "name": "body",
+                    "foreground": "#152536",
+                    "background": "#f2f4f7",
+                    "ratio": 14.1199,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "secondary on page",
+                    "foreground": "#4b5a69",
+                    "background": "#f2f4f7",
+                    "ratio": 6.4266,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "tertiary on surface",
+                    "foreground": "#566677",
+                    "background": "#fff",
+                    "ratio": 5.8945,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "secondary on field",
+                    "foreground": "#4b5a69",
+                    "background": "#e9edf2",
+                    "ratio": 6.0225,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "primary action",
+                    "foreground": "#21190c",
+                    "background": "#f1b24f",
+                    "ratio": 9.2812,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "actual selection pseudo-element",
+                    "foreground": "rgb(33, 25, 12)",
+                    "background": "rgb(241, 178, 79)",
+                    "ratio": 9.2812,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "actual active tab",
+                    "foreground": "rgb(129, 80, 13)",
+                    "background": "rgb(228, 234, 241)",
+                    "ratio": 5.617,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "accent on surface",
+                    "foreground": "#81500d",
+                    "background": "#fff",
+                    "ratio": 6.8034,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "highlighted result",
+                    "foreground": "#152536",
+                    "background": "#f4dfb8",
+                    "ratio": 11.9233,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "destructive on surface",
+                    "foreground": "#b52b38",
+                    "background": "#fff",
+                    "ratio": 6.2363,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "success on surface",
+                    "foreground": "#246848",
+                    "background": "#fff",
+                    "ratio": 6.6694,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "control boundary vs field",
+                    "foreground": "#738194",
+                    "background": "#e9edf2",
+                    "ratio": 3.372,
+                    "minimum": 3,
+                    "pass": true
+                }
+            ],
+            "glass": {
+                "alpha": 0.92,
+                "method": "Secondary text against both black/white backdrop bounds composited with the glass fill; no native adaptive vibrancy claimed.",
+                "minimumRatio": 5.9183,
+                "pass": true
+            }
+        },
+        {
+            "theme": "dark",
+            "viewport": {
+                "width": 393,
+                "height": 852
+            },
+            "bodyOverflow": false,
+            "tokens": {
+                "--bg": "#071019",
+                "--surface-1": "#101d2b",
+                "--surface-2": "#1b2b3c",
+                "--fg": "#f1f5fa",
+                "--fg-secondary": "#bac7d5",
+                "--fg-tertiary": "#a4b4c5",
+                "--accent": "#f1b24f",
+                "--accent-red": "#ff9b9b",
+                "--success": "#8bd6a5",
+                "--warning": "#f1b24f",
+                "--control-border": "#72869a",
+                "--action-fill": "#f1b24f",
+                "--action-text": "#21190c",
+                "--selection": "#263b50",
+                "--highlight": "#5c4525",
+                "--glass-fill": "rgb(16 29 43 / 92%)"
+            },
+            "pairs": [
+                {
+                    "name": "body",
+                    "foreground": "#f1f5fa",
+                    "background": "#071019",
+                    "ratio": 17.4825,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "secondary on page",
+                    "foreground": "#bac7d5",
+                    "background": "#071019",
+                    "ratio": 11.1357,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "tertiary on surface",
+                    "foreground": "#a4b4c5",
+                    "background": "#101d2b",
+                    "ratio": 8.0422,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "secondary on field",
+                    "foreground": "#bac7d5",
+                    "background": "#1b2b3c",
+                    "ratio": 8.3834,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "primary action",
+                    "foreground": "#21190c",
+                    "background": "#f1b24f",
+                    "ratio": 9.2812,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "actual selection pseudo-element",
+                    "foreground": "rgb(33, 25, 12)",
+                    "background": "rgb(241, 178, 79)",
+                    "ratio": 9.2812,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "actual active tab",
+                    "foreground": "rgb(241, 178, 79)",
+                    "background": "rgb(38, 59, 80)",
+                    "ratio": 6.1525,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "accent on surface",
+                    "foreground": "#f1b24f",
+                    "background": "#101d2b",
+                    "ratio": 9.1032,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "highlighted result",
+                    "foreground": "#f1f5fa",
+                    "background": "#5c4525",
+                    "ratio": 8.2217,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "destructive on surface",
+                    "foreground": "#ff9b9b",
+                    "background": "#101d2b",
+                    "ratio": 8.4483,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "success on surface",
+                    "foreground": "#8bd6a5",
+                    "background": "#101d2b",
+                    "ratio": 9.9458,
+                    "minimum": 4.5,
+                    "pass": true
+                },
+                {
+                    "name": "control boundary vs field",
+                    "foreground": "#72869a",
+                    "background": "#1b2b3c",
+                    "ratio": 3.8371,
+                    "minimum": 3,
+                    "pass": true
+                }
+            ],
+            "glass": {
+                "alpha": 0.92,
+                "method": "Secondary text against both black/white backdrop bounds composited with the glass fill; no native adaptive vibrancy claimed.",
+                "minimumRatio": 7.9084,
+                "pass": true
+            }
+        }
+    ]
+}

@@ -1,0 +1,36 @@
+{
+    "generatedAt": "2026-10-21T21:30:43.221Z",
+    "lighthouseVersion": "13.4.1",
+    "fetchTime": "2026-10-21T21:27:48.547Z",
+    "finalDisplayedUrl": "http://127.0.0.1:4188/AlkoRater/",
+    "mode": "snapshot",
+    "theme": "light",
+    "viewport": "393x852x3,mobile,touch",
+    "state": "Empty Start, fresh isolated context, final implementation",
+    "categories": {
+        "accessibility": {
+            "title": "Accessibility",
+            "score": 1
+        },
+        "best-practices": {
+            "title": "Best Practices",
+            "score": 1
+        },
+        "seo": {
+            "title": "SEO",
+            "score": 1
+        },
+        "agentic-browsing": {
+            "title": "Agentic Browsing",
+            "score": 1
+        }
+    },
+    "failingAudits": [],
+    "console": {
+        "errors": 0,
+        "warnings": 0,
+        "source": "chrome-devtools.list_console_messages pageId 11 after final snapshot"
+    },
+    "sourceReportSha256": "eefd4b883294655ae1024ac284399e72160c05c8aa8f0e62e0cf0f04a061d2ea",
+    "limitations": "No Lighthouse performance category. Snapshot does not prove full WCAG, all states, physical iOS, installation or field performance."
+}

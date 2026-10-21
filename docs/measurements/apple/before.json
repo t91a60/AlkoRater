@@ -1,0 +1,64 @@
+{
+    "date": "2026-10-21T17:05:38.110Z",
+    "phase": "before",
+    "head": "3898706b4f04d9ec165f70dabf5a16c4b7e95565",
+    "dirty": [],
+    "browser": "156.0.8078.4",
+    "node": "v24.20.0",
+    "cpu": "11th Gen Intel(R) Core(TM) i7-11700KF @ 3.60GHz",
+    "method": "Five cold contexts per phase, Chromium 393x852, CPU 4x, localhost unthrottled, service workers blocked for lab samples only. Screenshots and offline checks use service workers. Synthetic data only.",
+    "samples": [
+        {
+            "cls": 0.22604082086466534,
+            "lcp": 364,
+            "ready": 294.20000000018626,
+            "fcp": 148
+        },
+        {
+            "cls": 0.22604082086466534,
+            "lcp": 336,
+            "ready": 266.20000000018626,
+            "fcp": 124
+        },
+        {
+            "cls": 0.22604082086466534,
+            "lcp": 344,
+            "ready": 288.20000000018626,
+            "fcp": 148
+        },
+        {
+            "cls": 0.22604082086466534,
+            "lcp": 336,
+            "ready": 268.09999999962747,
+            "fcp": 128
+        },
+        {
+            "cls": 0.22604082086466534,
+            "lcp": 348,
+            "ready": 286.09999999962747,
+            "fcp": 140
+        }
+    ],
+    "medians": {
+        "fcp": 140,
+        "ready": 286.09999999962747,
+        "lcp": 344,
+        "cls": 0.22604082086466534
+    },
+    "captures": [
+        "before-dark-empty.png",
+        "before-dark-discovery.png",
+        "before-dark-search.png",
+        "before-dark-sheet.png",
+        "before-dark-toast.png",
+        "before-dark-collection.png",
+        "before-dark-context.png",
+        "before-dark-home.png",
+        "before-small.png",
+        "before-large.png",
+        "before-tablet.png",
+        "before-desktop.png"
+    ],
+    "pageErrors": [],
+    "physicalIOS": false
+}

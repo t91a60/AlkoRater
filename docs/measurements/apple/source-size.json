@@ -1,0 +1,278 @@
+{
+    "generatedAt": "2026-10-21T21:30:43.221Z",
+    "baseline": "3898706b4f04d9ec165f70dabf5a16c4b7e95565",
+    "method": "UTF-8 uncompressed bytes after CRLF-to-LF normalization; HTML, manifest, SW, CSS and runtime JS only. Not network transfer or gzip size. Data/images/tests excluded.",
+    "total": {
+        "before": 177182,
+        "after": 198469,
+        "delta": 21287
+    },
+    "files": [
+        {
+            "path": "index.html",
+            "before": 23568,
+            "after": 25374,
+            "delta": 1806,
+            "sha256LF": "24251fbde66653711099c64973a6d3957d68f677a00cff99b2da13ffeb8e6085"
+        },
+        {
+            "path": "manifest.json",
+            "before": 1578,
+            "after": 1578,
+            "delta": 0,
+            "sha256LF": "034e9e0a729594bb0a79589533a05bcc17ddbdc65569fd885f3a95a6e1947567"
+        },
+        {
+            "path": "service-worker.js",
+            "before": 12013,
+            "after": 12019,
+            "delta": 6,
+            "sha256LF": "a24967333702680bac21d2f81602c2a2b4e21eace99d40c63d76e90fe172208e"
+        },
+        {
+            "path": "src/css/style.css",
+            "before": 22427,
+            "after": 32244,
+            "delta": 9817,
+            "sha256LF": "9ceb979a38c4ed062e443a2a450373c9c7a50c4afd79f4d77b1e8d8694b46975"
+        },
+        {
+            "path": "src/js/app/constants.js",
+            "before": 1301,
+            "after": 1301,
+            "delta": 0,
+            "sha256LF": "eee4e74d9d303a5bca362f550ac9b0d3c8d0cfa12d6cc41d8555ffec9083bafe"
+        },
+        {
+            "path": "src/js/app/state.js",
+            "before": 743,
+            "after": 743,
+            "delta": 0,
+            "sha256LF": "4b98241ff1f0615238cfba99872c3ad9fb315c055803af7165d2f5b804e0483c"
+        },
+        {
+            "path": "src/js/data/favorite-repo.js",
+            "before": 3178,
+            "after": 3178,
+            "delta": 0,
+            "sha256LF": "a020d431ead9d17fefbdfaf456e8bc7421e0a479f41e9a147fa94f90d3ee15d7"
+        },
+        {
+            "path": "src/js/data/index.js",
+            "before": 71,
+            "after": 71,
+            "delta": 0,
+            "sha256LF": "e332a98dc1daeee261add40ddf16acdd1d34948cb9308ce57199681d2eb77d78"
+        },
+        {
+            "path": "src/js/data/product-repo.js",
+            "before": 431,
+            "after": 431,
+            "delta": 0,
+            "sha256LF": "5c5a22411bd8c71d23bc8d54054b61ee6eb2276a957529572c39a5d1d4c2744a"
+        },
+        {
+            "path": "src/js/data/product.js",
+            "before": 3082,
+            "after": 3082,
+            "delta": 0,
+            "sha256LF": "06e0143281a9a2a3338485233a27a79aed78911e639b78d507b751227b172262"
+        },
+        {
+            "path": "src/js/data/records.js",
+            "before": 3213,
+            "after": 3213,
+            "delta": 0,
+            "sha256LF": "03d991767b234a167c7ce05d663455a15c1404da8625e1b7e952c6e0121c6deb"
+        },
+        {
+            "path": "src/js/main.js",
+            "before": 12853,
+            "after": 17686,
+            "delta": 4833,
+            "sha256LF": "91a47a5eac599e0aa3553cb752280944f9e40272d14c6271fa24a14d0cf74f73"
+        },
+        {
+            "path": "src/js/services/backup.js",
+            "before": 1942,
+            "after": 1942,
+            "delta": 0,
+            "sha256LF": "2358e9d131f83f155443f21607406b782b04de93f306c594eeff954fdf6d3f1d"
+        },
+        {
+            "path": "src/js/services/data-loader.js",
+            "before": 1395,
+            "after": 1395,
+            "delta": 0,
+            "sha256LF": "29c0b77bda469f4d76540b702e5670b382100d8a23c28046fcff080ec09a9c82"
+        },
+        {
+            "path": "src/js/services/index.js",
+            "before": 194,
+            "after": 194,
+            "delta": 0,
+            "sha256LF": "e99e89b61ae3aa79cbc7f0ddb2b2e804a7820936b954c940cf6bfaa6207c2a20"
+        },
+        {
+            "path": "src/js/services/search.js",
+            "before": 6692,
+            "after": 6692,
+            "delta": 0,
+            "sha256LF": "79ec44d43922a4e5b33faa7344f4ae0c0d3c69693f88d28899e00a00320e72ec"
+        },
+        {
+            "path": "src/js/services/storage.js",
+            "before": 9337,
+            "after": 9337,
+            "delta": 0,
+            "sha256LF": "365aab9528c5fe28e45edfc4fd44de321dc32df0a3bbcc7277a852f46dc1d8e4"
+        },
+        {
+            "path": "src/js/services/sw-service.js",
+            "before": 7062,
+            "after": 7062,
+            "delta": 0,
+            "sha256LF": "e57ac4f27a22446203f6ea9a82823a12c1767e3dc706f4901278fdafb35c6459"
+        },
+        {
+            "path": "src/js/ui/backup.js",
+            "before": 3279,
+            "after": 3279,
+            "delta": 0,
+            "sha256LF": "2152bc41cfc00f955a6f52de2d999a6509d4f07cecf4d5a33218fe74834aa310"
+        },
+        {
+            "path": "src/js/ui/badges.js",
+            "before": 3190,
+            "after": 3190,
+            "delta": 0,
+            "sha256LF": "5dd48b0bf8a226acbc83b6767f00ab90ad6c18db3a291d93ee8c7959b518906a"
+        },
+        {
+            "path": "src/js/ui/context-menu.js",
+            "before": 4869,
+            "after": 5788,
+            "delta": 919,
+            "sha256LF": "711aeabea4e262c0a9ee9bc90caa1516d7f94965fe5fb2bd850500259e206969"
+        },
+        {
+            "path": "src/js/ui/dashboard.js",
+            "before": 4245,
+            "after": 4475,
+            "delta": 230,
+            "sha256LF": "a1d8db9070d230269b63972e70d080824a163cb6a3b50cf124804a4313c3942a"
+        },
+        {
+            "path": "src/js/ui/favorites.js",
+            "before": 4477,
+            "after": 4477,
+            "delta": 0,
+            "sha256LF": "9a4b8a5ae7bf70ab71d9462f9fb6fe9825826fec164cd8989ac72c4d0749dc3e"
+        },
+        {
+            "path": "src/js/ui/haptics.js",
+            "before": 319,
+            "after": 417,
+            "delta": 98,
+            "sha256LF": "737aa0d2c48ef8307f8875f2260f55637e67ebff7ad0c779ad225cc0d990bb0e"
+        },
+        {
+            "path": "src/js/ui/icons.js",
+            "before": 5750,
+            "after": 5750,
+            "delta": 0,
+            "sha256LF": "2863c56c54a22e0a8522659fe183c3361a2950dfccefb6c7251aecb2680accfc"
+        },
+        {
+            "path": "src/js/ui/index.js",
+            "before": 595,
+            "after": 595,
+            "delta": 0,
+            "sha256LF": "c973bb36032e4906dffb9f6903eb92819809fe4a4eee96d571f54559183a6be0"
+        },
+        {
+            "path": "src/js/ui/modal.js",
+            "before": 15037,
+            "after": 15842,
+            "delta": 805,
+            "sha256LF": "6675f9ebb4c2d6d2561f851c4c2176fb023570ee6eafff44db1d0df11eebe49c"
+        },
+        {
+            "path": "src/js/ui/pull-to-refresh.js",
+            "before": 4436,
+            "after": 4436,
+            "delta": 0,
+            "sha256LF": "e86f6d4a0bc5217de679d7f776f62b17631b5034f5319e7c13813c61333fed16"
+        },
+        {
+            "path": "src/js/ui/renderer.js",
+            "before": 365,
+            "after": 365,
+            "delta": 0,
+            "sha256LF": "93b80b5124ccb7db2993b9c559655e1423d1b9ec4715320de2bd23ea8d896b0e"
+        },
+        {
+            "path": "src/js/ui/search-ui.js",
+            "before": 8420,
+            "after": 8865,
+            "delta": 445,
+            "sha256LF": "c89a7e98815bb3e99399d3315f73e638da400b4bfe3f850bfda112f6dad7ce65"
+        },
+        {
+            "path": "src/js/ui/tabs.js",
+            "before": 3089,
+            "after": 4628,
+            "delta": 1539,
+            "sha256LF": "b31216e8668ce0271b29c736bf64216101c6a29f0c95f28e82faa4c20611aa83"
+        },
+        {
+            "path": "src/js/ui/toast.js",
+            "before": 2456,
+            "after": 2944,
+            "delta": 488,
+            "sha256LF": "b50cf1efe761c3375cc1fb7918532da66e12284451b0ec5f61290436d1a25e72"
+        },
+        {
+            "path": "src/js/utils/debounce.js",
+            "before": 263,
+            "after": 263,
+            "delta": 0,
+            "sha256LF": "63bc319a6939eed565bed18978b6d666fbd03bcfdc64b5157e9344f33823dec0"
+        },
+        {
+            "path": "src/js/utils/dom.js",
+            "before": 573,
+            "after": 573,
+            "delta": 0,
+            "sha256LF": "7df4edd7d4d2e63ba3f5e838322a08017e01aa804f84e8fd328b1c0e8292dc1b"
+        },
+        {
+            "path": "src/js/utils/index.js",
+            "before": 159,
+            "after": 159,
+            "delta": 0,
+            "sha256LF": "238947df3f80fe0a846327f67c74c0a1103d058c090045372e1a0264a436bc08"
+        },
+        {
+            "path": "src/js/utils/logger.js",
+            "before": 557,
+            "after": 557,
+            "delta": 0,
+            "sha256LF": "61bb2a7329717c81a2242765f5ade53f76d68237c1f3abc4b75e3d5d9a2d9c9f"
+        },
+        {
+            "path": "src/js/utils/plural.js",
+            "before": 490,
+            "after": 490,
+            "delta": 0,
+            "sha256LF": "c0c993d74567a5e202ec2a462c801d4f17168b0dcacd3705b29495492505db97"
+        },
+        {
+            "path": "src/js/utils/spring.js",
+            "before": 3533,
+            "after": 3834,
+            "delta": 301,
+            "sha256LF": "1b58942f0cd7b1d5ad45dd0535a31d5cd48c927c54a0e2cc446653e9eedfff8f"
+        }
+    ]
+}
