@@ -13,7 +13,7 @@ const workerSource = readFileSync(
 const clientSource = readFileSync(new URL('../sw-service.js', import.meta.url), 'utf8');
 const testDocument = new JSDOM().window.document;
 const ORIGIN = 'https://example.test';
-const VERSION = 'v8.0-rc2';
+const VERSION = 'v8.1-apple-rc3';
 const cacheName = (kind, scope = '/AlkoRater/') =>
     `alko-rater-${kind}-${encodeURIComponent(scope)}-${VERSION}`;
 const requestURL = (request) => (typeof request === 'string' ? request : request.url);

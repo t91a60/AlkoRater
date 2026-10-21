@@ -293,6 +293,7 @@ test('kopia JSON: pobranie, walidowany import i brak nadpisania konfliktu', asyn
         const restored = await restoredContext.newPage();
         await restored.goto(page.url());
         await expect(restored.locator('#catalogStatus')).toContainText('336 produktów');
+        await restored.getByRole('tab', { name: 'Start', exact: true }).click();
         await restored.getByText('Kopia i przenoszenie danych', { exact: true }).click();
         const chooserPromise = restored.waitForEvent('filechooser');
         await restored.getByRole('button', { name: 'Wczytaj kopię', exact: true }).click();
@@ -371,7 +372,7 @@ test('każda sugestia, ostatnie zapytania i menu kontekstowe mają działanie', 
     await page.keyboard.press('Escape');
     await expect(page.locator('.context-menu')).toHaveCount(0);
     await page.locator('.search-card').first().click({ button: 'right' });
-    await page.getByRole('button', { name: 'Oceń', exact: true }).click();
+    await page.getByRole('menuitem', { name: 'Oceń', exact: true }).click();
     await expect(page.getByRole('dialog')).toBeVisible();
     await page.keyboard.press('Escape');
     await expect

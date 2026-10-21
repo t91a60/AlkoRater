@@ -1,4 +1,5 @@
 import { haptics } from './haptics.js';
+import { createIcons } from './icons.js';
 
 let activeMenu = null;
 
@@ -14,7 +15,7 @@ function closeMenu() {
 }
 
 /** @param {Array<{label:string,action:string,destructive?:boolean}>} items */
-function renderMenu(items, x, y, onAction) {
+function renderMenu(items, x, y, onAction, trigger) {
     closeMenu();
 
     const backdrop = document.createElement('div');
@@ -23,12 +24,14 @@ function renderMenu(items, x, y, onAction) {
 
     const menu = document.createElement('div');
     menu.className = 'context-menu';
+    menu.setAttribute('role', 'menu');
+    menu.setAttribute('aria-label', 'Opcje produktu');
 
     menu.innerHTML = items
         .map(
             (item) => `
-        <button class="context-menu-item${item.destructive ? ' destructive' : ''}" data-action="${item.action}">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${item.icon}</svg>
+        <button role="menuitem" class="context-menu-item${item.destructive ? ' destructive' : ''}" data-action="${item.action}">
+            <i data-lucide="${item.icon}" aria-hidden="true"></i>
             ${item.label}
         </button>
     `,
@@ -36,6 +39,7 @@ function renderMenu(items, x, y, onAction) {
         .join('');
 
     document.body.appendChild(menu);
+    createIcons(menu);
 
     requestAnimationFrame(() => {
         menu.classList.add('visible');
@@ -53,11 +57,28 @@ function renderMenu(items, x, y, onAction) {
     menu.style.left = `${Math.max(12, left)}px`;
     menu.style.top = `${Math.max(12, top)}px`;
 
-    activeMenu = { menu, backdrop, previousFocus: document.activeElement };
+    activeMenu = { menu, backdrop, previousFocus: trigger || document.activeElement };
     menu.querySelector('button')?.focus();
     menu.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
+            event.preventDefault();
             closeMenu();
+        }
+        if (event.key === 'Tab') {
+            closeMenu();
+        }
+        if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
+            event.preventDefault();
+            const controls = [...menu.querySelectorAll('button')];
+            const current = controls.indexOf(document.activeElement);
+            const next =
+                event.key === 'Home'
+                    ? 0
+                    : event.key === 'End'
+                      ? controls.length - 1
+                      : (current + (event.key === 'ArrowDown' ? 1 : -1) + controls.length) %
+                        controls.length;
+            controls[next].focus();
         }
     });
 
@@ -88,26 +109,32 @@ export function setupContextMenus(containerEl, callbacks = {}) {
         items.push({
             label: 'Oceń',
             action: 'rate',
-            icon: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+            icon: 'star',
         });
         if (targetEl.closest('.favorite-card')) {
             items.push({
                 label: 'Usuń',
                 action: 'delete',
                 destructive: true,
-                icon: '<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
+                icon: 'trash-2',
             });
         }
         haptics.light();
-        renderMenu(items, x, y, (action) => {
-            const itemId = targetEl.dataset.itemId;
-            if (action === 'rate' && callbacks.onRate) {
-                callbacks.onRate(itemId);
-            }
-            if (action === 'delete' && callbacks.onDelete) {
-                callbacks.onDelete(itemId);
-            }
-        });
+        renderMenu(
+            items,
+            x,
+            y,
+            (action) => {
+                const itemId = targetEl.dataset.itemId;
+                if (action === 'rate' && callbacks.onRate) {
+                    callbacks.onRate(itemId);
+                }
+                if (action === 'delete' && callbacks.onDelete) {
+                    callbacks.onDelete(itemId);
+                }
+            },
+            targetEl.querySelector('.fav-main') || targetEl,
+        );
     };
 
     containerEl.addEventListener(
@@ -157,6 +184,11 @@ export function setupContextMenus(containerEl, callbacks = {}) {
             return;
         }
         e.preventDefault();
-        show(card, e.clientX, e.clientY);
+        const rect = card.getBoundingClientRect();
+        show(
+            card,
+            e.clientX || rect.left + rect.width / 2,
+            e.clientY || rect.top + rect.height / 2,
+        );
     });
 }

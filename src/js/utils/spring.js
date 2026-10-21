@@ -35,15 +35,16 @@ export function spring(from, to, onUpdate, opts = {}) {
         const dt = Math.min((now - lastTime) / 1000, 0.064);
         lastTime = now;
 
-        const displacement = pos - to;
-        const springForce = -stiffness * displacement;
-        const dampingForce = -damping * vel;
-        const acceleration = (springForce + dampingForce) / mass;
+        // A slow frame must not turn a well-damped sheet into an unstable spring.
+        const substeps = Math.max(1, Math.ceil(dt / (1 / 120)));
+        const stepTime = dt / substeps;
+        for (let i = 0; i < substeps; i++) {
+            const acceleration = (-stiffness * (pos - to) - damping * vel) / mass;
+            vel += acceleration * stepTime;
+            pos += vel * stepTime;
+        }
 
-        vel += acceleration * dt;
-        pos += vel * dt;
-
-        if (Math.abs(vel) < 0.05 && Math.abs(displacement) < 0.05) {
+        if (Math.abs(vel) < 0.05 && Math.abs(pos - to) < 0.05) {
             pos = to;
             onUpdate(to);
             running = false;
@@ -82,19 +83,24 @@ export function springModal(el, target, opts = {}) {
     const toR = target.radius ?? fromR;
 
     const currentR = parseRadius(el.style.borderRadius || computed.borderRadius);
+    const animateRadius = target.radius !== undefined;
 
     const ySpring = spring(
         fromY,
         toY,
         (v) => {
             el.style.transform = `translateY(${v}px)`;
-            el.style.borderRadius = `${currentR}px ${currentR}px 0 0`;
+            if (animateRadius) {
+                el.style.borderRadius = `${currentR}px ${currentR}px 0 0`;
+            }
         },
         {
             ...opts,
             onFinish: () => {
                 el.style.transform = `translateY(${toY}px)`;
-                el.style.borderRadius = `${toR}px ${toR}px 0 0`;
+                if (animateRadius) {
+                    el.style.borderRadius = `${toR}px ${toR}px 0 0`;
+                }
                 opts.onFinish?.();
             },
         },

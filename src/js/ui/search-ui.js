@@ -155,14 +155,24 @@ export function renderSuggestions() {
             ${renderSearchIntroHTML()}
             <p class="suggestions-label">Przeglądaj katalog</p>
             <div class="suggestions-grid">
-                ${SUGGESTIONS.map(
-                    (s) => `
+                ${SUGGESTIONS.slice(0, 3)
+                    .map(
+                        (s) => `
                     <button class="suggestion-chip" data-query="${escapeHTML(s.query)}" style="--chip-accent:${s.color}">
                         <i data-lucide="${s.icon}" class="suggestion-icon" stroke-width="2" aria-hidden="true"></i>
                         <span>${escapeHTML(s.label)}</span>
                     </button>
                 `,
-                ).join('')}
+                    )
+                    .join('')}
+            </div>
+            <div class="search-refinements" aria-label="Przykładowe wyszukiwania">
+                ${SUGGESTIONS.slice(3)
+                    .map(
+                        (s) =>
+                            `<button class="suggestion-chip" data-query="${escapeHTML(s.query)}">${escapeHTML(s.label)}</button>`,
+                    )
+                    .join('')}
             </div>
             ${renderRecentSearchesHTML()}
         </div>

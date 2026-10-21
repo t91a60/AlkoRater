@@ -9,8 +9,9 @@
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="theme-color" content="#071019" />
-        <meta name="color-scheme" content="dark" />
+        <meta name="theme-color" content="#f2f4f7" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#071019" media="(prefers-color-scheme: dark)" />
+        <meta name="color-scheme" content="light dark" />
         <meta
             name="description"
             content="Osobisty katalog piw, win i wódek. Zapisuj oceny i notatki w przeglądarce, korzystaj offline po pierwszym pobraniu i przenoś dane kopią JSON."
@@ -112,7 +113,7 @@
         <noscript>AlkoRater wymaga JavaScript do wyszukiwania i zapisywania ocen.</noscript>
         <div class="app-container">
             <!-- Header -->
-            <header class="app-header glass">
+            <header class="app-header">
                 <div class="header-main">
                     <div class="nav-logo">
                         <img
@@ -162,6 +163,11 @@
                                 class="recent-scroll recent-scroll--spaced"
                             ></div>
                         </div>
+                        <section
+                            id="collectionDetails"
+                            class="collection-details"
+                            aria-label="Podsumowanie ocen"
+                        ></section>
                     </div>
 
                     <div class="info-block">
@@ -195,6 +201,22 @@
                             aria-label="Plik kopii JSON"
                         />
                         <p id="backupStatus" role="status" class="empty-copy"></p>
+                    </details>
+                    <details class="preference-panel">
+                        <summary>Wygląd i reakcje</summary>
+                        <label class="preference-row" for="useTransparency">
+                            <input id="useTransparency" type="checkbox" checked />
+                            Przezroczyste elementy
+                        </label>
+                        <p>
+                            Wyłącz, aby pasek nawigacji i menu miały pełne tło. Wygląd jasny lub
+                            ciemny odpowiada ustawieniu systemu.
+                        </p>
+                        <label class="preference-row" id="hapticsSetting" for="useHaptics" hidden>
+                            <input id="useHaptics" type="checkbox" />
+                            Wibracje przy wyborze i zapisie
+                        </label>
+                        <p id="hapticsSupport"></p>
                     </details>
                 </section>
 
@@ -317,6 +339,7 @@
                         class="collection-search"
                         placeholder="Nazwa lub treść notatki"
                         maxlength="160"
+                        enterkeyhint="search"
                     />
                     <div class="filters-container" aria-label="Kategorie zapisanych ocen">
                         <button
@@ -384,7 +407,7 @@
                     <div class="nav-icon">
                         <i data-lucide="heart" stroke-width="2" aria-hidden="true"></i>
                     </div>
-                    <span class="nav-label">Moje oceny</span>
+                    <span class="nav-label">Oceny</span>
                 </button>
             </nav>
 
@@ -442,7 +465,7 @@
         >
             <div class="modal-overlay"></div>
             <div class="modal-content">
-                <div class="modal-grabber"></div>
+                <div class="modal-grabber" aria-hidden="true"></div>
                 <button id="modalClose" class="close-btn-right" aria-label="Zamknij">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                         <path
@@ -453,75 +476,81 @@
                         />
                     </svg>
                 </button>
-                <h2 id="modalTitle" class="modal-title">Ocena produktu</h2>
-                <div id="modalCategoryTag" class="category-badge">Kategoria: ...</div>
-                <p id="ratingHelp" class="rating-help" role="status">Wybierz ocenę od 1 do 5.</p>
-                <div
-                    class="stars-container"
-                    id="starsContainer"
-                    role="radiogroup"
-                    aria-label="Twoja ocena od 1 do 5"
-                >
-                    <button
-                        type="button"
-                        class="star"
-                        data-value="1"
-                        role="radio"
-                        aria-checked="false"
-                        aria-label="1 z 5"
+                <div class="sheet-body">
+                    <h2 id="modalTitle" class="modal-title">Ocena produktu</h2>
+                    <div id="modalCategoryTag" class="category-badge">Kategoria: ...</div>
+                    <p id="ratingHelp" class="rating-help" role="status">
+                        Wybierz ocenę od 1 do 5.
+                    </p>
+                    <div
+                        class="stars-container"
+                        id="starsContainer"
+                        role="radiogroup"
+                        aria-label="Twoja ocena od 1 do 5"
                     >
-                        <i data-lucide="star" aria-hidden="true"></i>
-                    </button>
-                    <button
-                        type="button"
-                        class="star"
-                        data-value="2"
-                        role="radio"
-                        aria-checked="false"
-                        aria-label="2 z 5"
-                    >
-                        <i data-lucide="star" aria-hidden="true"></i>
-                    </button>
-                    <button
-                        type="button"
-                        class="star"
-                        data-value="3"
-                        role="radio"
-                        aria-checked="false"
-                        aria-label="3 z 5"
-                    >
-                        <i data-lucide="star" aria-hidden="true"></i>
-                    </button>
-                    <button
-                        type="button"
-                        class="star"
-                        data-value="4"
-                        role="radio"
-                        aria-checked="false"
-                        aria-label="4 z 5"
-                    >
-                        <i data-lucide="star" aria-hidden="true"></i>
-                    </button>
-                    <button
-                        type="button"
-                        class="star"
-                        data-value="5"
-                        role="radio"
-                        aria-checked="false"
-                        aria-label="5 z 5"
-                    >
-                        <i data-lucide="star" aria-hidden="true"></i>
-                    </button>
+                        <button
+                            type="button"
+                            class="star"
+                            data-value="1"
+                            role="radio"
+                            aria-checked="false"
+                            aria-label="1 z 5"
+                        >
+                            <i data-lucide="star" aria-hidden="true"></i>
+                        </button>
+                        <button
+                            type="button"
+                            class="star"
+                            data-value="2"
+                            role="radio"
+                            aria-checked="false"
+                            aria-label="2 z 5"
+                        >
+                            <i data-lucide="star" aria-hidden="true"></i>
+                        </button>
+                        <button
+                            type="button"
+                            class="star"
+                            data-value="3"
+                            role="radio"
+                            aria-checked="false"
+                            aria-label="3 z 5"
+                        >
+                            <i data-lucide="star" aria-hidden="true"></i>
+                        </button>
+                        <button
+                            type="button"
+                            class="star"
+                            data-value="4"
+                            role="radio"
+                            aria-checked="false"
+                            aria-label="4 z 5"
+                        >
+                            <i data-lucide="star" aria-hidden="true"></i>
+                        </button>
+                        <button
+                            type="button"
+                            class="star"
+                            data-value="5"
+                            role="radio"
+                            aria-checked="false"
+                            aria-label="5 z 5"
+                        >
+                            <i data-lucide="star" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <label class="note-label" for="note-input">Twoja notatka (opcjonalnie)</label>
+                    <textarea
+                        id="note-input"
+                        placeholder="Smak, aromat, do czego chcesz wrócić…"
+                        rows="4"
+                        maxlength="10000"
+                    ></textarea>
                 </div>
-                <label class="note-label" for="note-input">Twoja notatka (opcjonalnie)</label>
-                <textarea
-                    id="note-input"
-                    placeholder="Smak, aromat, do czego chcesz wrócić…"
-                    rows="4"
-                    maxlength="10000"
-                ></textarea>
-                <p id="modalError" class="form-error" role="alert"></p>
-                <button id="saveButton" class="btn-primary" disabled>Zapisz ocenę</button>
+                <div class="sheet-actions">
+                    <p id="modalError" class="form-error" role="alert"></p>
+                    <button id="saveButton" class="btn-primary" disabled>Zapisz ocenę</button>
+                </div>
             </div>
         </div>
 

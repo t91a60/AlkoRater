@@ -4,7 +4,7 @@
  * whenever any precached file changes, including the catalog.
  */
 
-const CACHE_VERSION = 'v8.0-rc2';
+const CACHE_VERSION = 'v8.1-apple-rc3';
 const SCOPE_URL = new URL(self.registration.scope);
 const CACHE_SCOPE = encodeURIComponent(SCOPE_URL.pathname);
 const CACHE_NAME = `alko-rater-static-${CACHE_SCOPE}-${CACHE_VERSION}`;

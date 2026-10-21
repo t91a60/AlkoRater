@@ -3,9 +3,13 @@ import { haptics } from './haptics.js';
 import { renderFavorites } from './favorites.js';
 import { updateDashboard } from './dashboard.js';
 import { debounce } from '../utils/debounce.js';
+import { prefersReducedMotion } from '../utils/dom.js';
 
 const TAB_ORDER = ['start', 'search', 'favorites'];
 const PILL_INSET = 4; // px of horizontal breathing room inside the active nav-item's footprint
+const scrollPositions = new Map();
+let panelAnimation = null;
+let navObserver = null;
 
 /**
  * Slides the floating glass/titanium nav-pill behind whichever .nav-item
@@ -24,6 +28,8 @@ function positionNavPill(tabName) {
     const btnRect = activeBtn.getBoundingClientRect();
 
     pill.style.width = `${btnRect.width - PILL_INSET * 2}px`;
+    pill.style.height = `${btnRect.height}px`;
+    pill.style.top = `${btnRect.top - navRect.top}px`;
     pill.style.transform = `translateX(${btnRect.left - navRect.left + PILL_INSET}px)`;
     pill.classList.add('positioned');
 }
@@ -44,6 +50,16 @@ export function snapNavPill(tabName = state.currentTab) {
     positionNavPill(tabName);
     pill.offsetHeight; // force reflow so "none" actually applies before we restore the real transition
     pill.style.transition = prevTransition;
+    if (!navObserver && typeof ResizeObserver !== 'undefined') {
+        navObserver = new ResizeObserver(() => {
+            document.documentElement.style.setProperty(
+                '--nav-height',
+                `${pill.parentElement.offsetHeight}px`,
+            );
+            snapNavPill();
+        });
+        navObserver.observe(pill.parentElement);
+    }
 }
 
 window.addEventListener(
@@ -52,10 +68,14 @@ window.addEventListener(
 );
 
 /** @param {string} tabName */
-export function switchTab(tabName) {
+export function switchTab(tabName, { recordHistory = true } = {}) {
     if (!TAB_ORDER.includes(tabName) || state.currentTab === tabName) {
         return;
     }
+    const scroller = document.querySelector('.content-area');
+    const direction = TAB_ORDER.indexOf(tabName) > TAB_ORDER.indexOf(state.currentTab) ? 1 : -1;
+    scrollPositions.set(state.currentTab, scroller.scrollTop);
+    panelAnimation?.cancel();
     haptics.light();
 
     state.el.navItems.forEach((btn) => {
@@ -76,7 +96,6 @@ export function switchTab(tabName) {
     });
 
     state.currentTab = tabName;
-    document.querySelector('.content-area').scrollTo({ top: 0, behavior: 'instant' });
 
     if (tabName === 'favorites') {
         const activeChip = document.querySelector('.filter-chip.active');
@@ -84,5 +103,23 @@ export function switchTab(tabName) {
     }
     if (tabName === 'start') {
         updateDashboard();
+    }
+    scroller.scrollTo({ top: scrollPositions.get(tabName) || 0, behavior: 'instant' });
+    if (!prefersReducedMotion() && state.el.tabs[tabName].animate) {
+        panelAnimation = state.el.tabs[tabName].animate(
+            [
+                { opacity: 0.65, transform: `translateX(${direction * 8}px)` },
+                { opacity: 1, transform: 'none' },
+            ],
+            { duration: 140, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
+        );
+        panelAnimation.onfinish = () => {
+            panelAnimation = null;
+        };
+    }
+    if (recordHistory) {
+        const url = new URL(window.location.href);
+        url.hash = tabName;
+        window.history.pushState({ alkoraterTab: tabName }, '', url);
     }
 }

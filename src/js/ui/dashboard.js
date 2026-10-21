@@ -28,10 +28,11 @@ export function collectionStats(favorites) {
 
 export function updateDashboard() {
     const { total, average, categories, best } = collectionStats(state.favorites);
+    state.el.dashboardGrid.dataset.populated = String(total > 0);
     state.el.dashboardGrid.innerHTML = `
         <div class="collection-intro">
             <h2>${state.storageError ? 'Twoje dane wymagają uwagi' : total ? 'Twoja kolekcja' : 'Twoje oceny, pod ręką'}</h2>
-            <p>${state.storageError ? 'Nie traktujemy błędu odczytu jako pustej kolekcji. Skorzystaj z opcji odzyskiwania poniżej.' : total ? 'Wróć do zapisanych smaków i własnych notatek.' : 'Znajdź produkt, wybierz ocenę i zapisz to, co chcesz zapamiętać.'}</p>
+            <p>${state.storageError ? 'Nie traktujemy błędu odczytu jako pustej kolekcji. Skorzystaj z opcji odzyskiwania poniżej.' : total ? 'Wróć do zapisanych ocen i notatek.' : 'Znajdź produkt, wybierz ocenę i zapisz to, co chcesz zapamiętać.'}</p>
         </div>
         <div class="quick-actions-grid">
             <button class="action-btn primary" data-action="open-search">
@@ -41,26 +42,23 @@ export function updateDashboard() {
                 <i data-lucide="bookmark" aria-hidden="true"></i> Moje oceny
             </button>
         </div>
-        ${
-            total
-                ? `
-        <dl class="collection-summary">
+        ${!total ? '<p class="local-data-hint">Bez konta. Oceny i notatki zapisujesz w tej przeglądarce. Kopia JSON pozwoli przenieść je na inne urządzenie.</p>' : ''}
+    `;
+    state.el.dashboardDetails.innerHTML = total
+        ? `
+        <div class="collection-overview"><dl class="collection-summary">
             <div><dt>Ocenione produkty</dt><dd>${total}</dd></div>
-            <div><dt>Średnia ocen</dt><dd>${average.toLocaleString('pl-PL', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}<small> / 5</small></dd></div>
+            <div><dt>Średnia ocen</dt><dd>${average.toLocaleString('pl-PL', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}<small> / 5</small><div class="start-rating-bar" aria-hidden="true"><div class="start-rating-fill" style="--fill:${average / 5}"></div></div></dd></div>
         </dl>
-        <div class="start-rating-bar" aria-hidden="true"><div class="start-rating-fill" style="--fill:${average / 5}"></div></div>
         <p class="category-summary">${categories
             .filter((c) => c.count)
             .map((c) => `${c.name}: ${c.count}`)
-            .join(' · ')}</p>
+            .join(' · ')}</p></div>
         <button class="collection-best" data-item-id="${escapeHTML(productKey(best.item))}">
-            <span><span class="collection-best-label">Najwyżej ocenione</span><strong>${escapeHTML(best.item.name)}</strong></span>
+            <span><span class="collection-best-label">Najwyżej ocenione</span><strong>${escapeHTML(best.item.name)}</strong><span class="item-meta">${escapeHTML(best.item.category)}${typeBadgeHTML(best.item.type)}${alcoholBadgeHTML(best.item.alcohol)}</span></span>
             <span class="item-stars">${best.stars}/5</span>
         </button>`
-                : `
-        <p class="local-data-hint">Bez konta. Oceny i notatki zapisujesz w tej przeglądarce. Kopia JSON pozwoli przenieść je na inne urządzenie.</p>`
-        }
-    `;
+        : '';
     updateRecentlyRated();
     createIcons();
     if (state.currentTab === 'search' && !state.el.searchInput?.value?.trim()) {
@@ -80,7 +78,7 @@ export function updateRecentlyRated() {
         .map(
             (fav) => `
         <button class="recent-card" data-item-id="${escapeHTML(productKey(fav.item))}">
-            ${productThumbHTML(fav.item.image_url, fav.tag, 58)}
+            ${productThumbHTML(fav.item.image_url, fav.tag, 50)}
             <span class="recent-name">${escapeHTML(fav.item.name)}</span>
             <span class="recent-meta">${escapeHTML(fav.tag)}${typeBadgeHTML(fav.item.type)}</span>
             <span class="recent-stars">${fav.stars}/5${alcoholBadgeHTML(fav.item.alcohol)}</span>

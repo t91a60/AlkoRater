@@ -1,5 +1,8 @@
 function vibrate(pattern) {
     try {
+        if (localStorage.getItem('alkorater:haptics') !== 'true') {
+            return;
+        }
         navigator.vibrate?.(pattern);
     } catch {
         // Haptics are optional; visible feedback must work without them.

@@ -8,16 +8,29 @@ import { renderFavorites } from './favorites.js';
 import { createRecord, upsertFavorite, findFavorite } from '../data/favorite-repo.js';
 import { alcoholBadgeHTML, typeBadgeHTML } from './badges.js';
 import { handleSearch } from './search-ui.js';
+import { productKey } from '../data/product.js';
 
 const DISMISS_THRESHOLD = 100;
 const FLING_VELOCITY = 300;
 const RUBBERBAND_CONSTANT = 0.55;
-const MIN_RADIUS = 32;
-const MAX_RADIUS = 48;
 let lastDismissVelocity = 0;
 let openSpring = null;
 let closeSpring = null;
+let gestureSpring = null;
 let openFrame = null;
+let cancelGesture = () => {};
+
+function stopModalMotion() {
+    openSpring?.stop();
+    closeSpring?.stop();
+    gestureSpring?.stop();
+    openSpring = closeSpring = gestureSpring = null;
+    if (openFrame !== null) {
+        cancelAnimationFrame(openFrame);
+    }
+    openFrame = null;
+    cancelGesture();
+}
 
 function rubberband(overshoot, dimension = 100) {
     return (
@@ -76,14 +89,11 @@ function handleModalKeydown(e) {
 
 /** @param {Object} item */
 export function openRateModal(item, trigger = document.activeElement) {
-    if (state.saving) {
+    if (state.saving || state.el.modal.classList.contains('closing')) {
         return;
     }
-    closeSpring?.stop();
-    if (openFrame !== null) {
-        cancelAnimationFrame(openFrame);
-    }
-    closeSpring = null;
+    const alreadyOpen = state.el.modal.classList.contains('active');
+    stopModalMotion();
     haptics.light();
     lastDismissVelocity = 0;
     state.currentItem = item;
@@ -110,10 +120,9 @@ export function openRateModal(item, trigger = document.activeElement) {
         document.getElementById('saveButton').textContent = 'Zapisz ocenę';
     }
 
-    document.getElementById('modalTitle').innerHTML =
-        `${escapeHTML(item.name)}${alcoholBadgeHTML(item.alcohol)}`;
+    document.getElementById('modalTitle').textContent = item.name;
     document.getElementById('modalCategoryTag').innerHTML =
-        `Kategoria: ${escapeHTML(strictCategory)}${typeBadgeHTML(item.type)}`;
+        `Kategoria: ${escapeHTML(strictCategory)}${typeBadgeHTML(item.type)}${alcoholBadgeHTML(item.alcohol)}`;
     document.getElementById('note-input').value = state.ratingConfig.note;
     state.modalInitial = JSON.stringify([state.ratingConfig.stars, state.ratingConfig.note]);
 
@@ -126,7 +135,7 @@ export function openRateModal(item, trigger = document.activeElement) {
     const content = document.querySelector('.modal-content');
     content.style.transition = 'none';
     content.style.transform = 'translateY(104%)';
-    content.style.borderRadius = `${MIN_RADIUS}px ${MIN_RADIUS}px 0 0`;
+    document.querySelector('.sheet-body').scrollTop = 0;
     content.offsetHeight; // force reflow
     content.style.transition = '';
 
@@ -143,10 +152,10 @@ export function openRateModal(item, trigger = document.activeElement) {
         } else {
             openSpring = springModal(
                 content,
-                { y: 0, radius: MIN_RADIUS },
+                { y: 0 },
                 {
-                    stiffness: 200,
-                    damping: 20,
+                    stiffness: 320,
+                    damping: 30,
                     mass: 0.8,
                     onFinish: () => {
                         openSpring = null;
@@ -161,6 +170,16 @@ export function openRateModal(item, trigger = document.activeElement) {
     });
 
     renderModalState();
+    if (!alreadyOpen && !window.history.state?.alkoraterSheet) {
+        window.history.pushState(
+            {
+                alkoraterTab: state.currentTab,
+                alkoraterSheet: true,
+                alkoraterProduct: productKey(item),
+            },
+            '',
+        );
+    }
 }
 
 export function renderModalState() {
@@ -213,25 +232,19 @@ function restoreFocus() {
 }
 
 export function closeModal(instant = false, discard = false) {
-    if (state.saving) {
-        return;
+    if (state.saving || state.el.modal.classList.contains('closing')) {
+        return false;
     }
     const changed =
         JSON.stringify([state.ratingConfig.stars, document.getElementById('note-input').value]) !==
         state.modalInitial;
     if (!discard && changed && !window.confirm('Odrzucić niezapisane zmiany oceny i notatki?')) {
-        return;
+        return false;
     }
-    if (openFrame !== null) {
-        cancelAnimationFrame(openFrame);
-        openFrame = null;
+    stopModalMotion();
+    if (window.history.state?.alkoraterSheet) {
+        window.history.back();
     }
-    if (openSpring) {
-        openSpring.stop();
-        openSpring = null;
-    }
-    document.querySelector('.app-container').inert = false;
-    document.querySelector('.bottom-nav').classList.remove('tab-bar-hidden');
 
     const content = document.querySelector('.modal-content');
     const overlay = document.querySelector('.modal-overlay');
@@ -244,21 +257,27 @@ export function closeModal(instant = false, discard = false) {
         if (overlay) {
             overlay.style.opacity = '';
         }
+        document.querySelector('.app-container').inert = false;
+        document.querySelector('.bottom-nav').classList.remove('tab-bar-hidden');
         restoreFocus();
         document.dispatchEvent(new Event('alkorater:modal-closed'));
-        return;
+        return true;
     }
 
     state.el.modal.classList.remove('active');
+    state.el.modal.classList.add('closing');
     content.style.transition = 'none';
 
     const finishClose = () => {
+        state.el.modal.classList.remove('closing');
         state.el.modal.style.display = 'none';
         content.style.transform = '';
         content.style.borderRadius = '';
         if (overlay) {
             overlay.style.opacity = '';
         }
+        document.querySelector('.app-container').inert = false;
+        document.querySelector('.bottom-nav').classList.remove('tab-bar-hidden');
         restoreFocus();
         closeSpring = null;
         document.dispatchEvent(new Event('alkorater:modal-closed'));
@@ -266,15 +285,16 @@ export function closeModal(instant = false, discard = false) {
 
     closeSpring = springModal(
         content,
-        { y: window.innerHeight * 1.04, radius: MAX_RADIUS },
+        { y: content.offsetHeight + 32 },
         {
-            stiffness: 200,
-            damping: 20,
+            stiffness: 320,
+            damping: 30,
             mass: 0.8,
             velocity: lastDismissVelocity,
             onFinish: finishClose,
         },
     );
+    return true;
 }
 
 /** Persist current rating to storage. */
@@ -338,7 +358,10 @@ export function setupModalDismiss() {
     let startY = 0;
     let dragging = false;
     let history = [];
-    let activeSpring = null;
+    cancelGesture = () => {
+        dragging = false;
+        history = [];
+    };
 
     function readVelocity() {
         if (history.length >= 2) {
@@ -357,31 +380,31 @@ export function setupModalDismiss() {
         if (overlay) {
             overlay.style.opacity = '';
         }
-        activeSpring = springModal(
+        gestureSpring?.stop();
+        gestureSpring = springModal(
             content,
-            { y: 0, radius: MIN_RADIUS },
+            { y: 0 },
             {
-                stiffness: 200,
-                damping: 20,
+                stiffness: 320,
+                damping: 30,
                 mass: 0.8,
                 // Carry the finger's velocity through the re-target — otherwise
                 // the sheet freezes mid-motion at release (a velocity cliff).
                 velocity,
                 onFinish: () => {
-                    activeSpring = null;
+                    gestureSpring = null;
                 },
             },
         );
     }
 
     function onPointerDown(e) {
-        if (openSpring) {
-            openSpring.stop();
-            openSpring = null;
-        }
-        if (activeSpring) {
-            activeSpring.stop();
-            activeSpring = null;
+        if (
+            state.saving ||
+            !state.el.modal.classList.contains('active') ||
+            e.touches.length !== 1
+        ) {
+            return;
         }
         const touchY = e.touches[0].clientY;
         const rect = content.getBoundingClientRect();
@@ -389,6 +412,7 @@ export function setupModalDismiss() {
         if (touchY > hitZone) {
             return;
         }
+        stopModalMotion();
         startY = touchY;
         dragging = true;
         history = [{ y: touchY, t: performance.now() }];
@@ -419,7 +443,6 @@ export function setupModalDismiss() {
         const progress = Math.min(damped / DISMISS_THRESHOLD, 1);
 
         content.style.transform = `translateY(${damped}px)`;
-        content.style.borderRadius = `${MIN_RADIUS + (MAX_RADIUS - MIN_RADIUS) * progress}px ${MIN_RADIUS + (MAX_RADIUS - MIN_RADIUS) * progress}px 0 0`;
 
         if (overlay) {
             overlay.style.opacity = String(1 - progress * 0.6);
@@ -441,7 +464,9 @@ export function setupModalDismiss() {
 
         if (shouldDismiss) {
             lastDismissVelocity = velocity;
-            closeModal();
+            if (closeModal() === false) {
+                snapBack();
+            }
         } else {
             snapBack(velocity);
         }

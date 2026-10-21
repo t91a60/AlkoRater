@@ -43,6 +43,7 @@ function initElements() {
         searchResults: document.getElementById('searchResults'),
         favoritesList: document.getElementById('favorites-list'),
         dashboardGrid: document.getElementById('dashboardGrid'),
+        dashboardDetails: document.getElementById('collectionDetails'),
         recentlyRated: document.getElementById('recentlyRated'),
         skeletons: document.getElementById('searchSkeletons'),
         noResults: document.getElementById('noResults'),
@@ -63,7 +64,9 @@ function openProduct(key, origin = null) {
             item,
             trigger?.matches('button') ? trigger : trigger?.querySelector('button'),
         );
+        return true;
     }
+    return false;
 }
 
 function status() {
@@ -134,7 +137,7 @@ function setupListeners() {
     state.el.searchResults.addEventListener('click', searchClick);
     state.el.noResults.addEventListener('click', searchClick);
     state.el.recentlyRated.addEventListener('click', searchClick);
-    state.el.dashboardGrid.addEventListener('click', (event) => {
+    const dashboardClick = (event) => {
         const action = event.target.closest('[data-action]')?.dataset.action;
         if (action === 'open-search') {
             switchTab('search');
@@ -146,7 +149,9 @@ function setupListeners() {
         if (item) {
             openProduct(item.dataset.itemId, item);
         }
-    });
+    };
+    state.el.dashboardGrid.addEventListener('click', dashboardClick);
+    state.el.dashboardDetails.addEventListener('click', dashboardClick);
     state.el.favoritesList.addEventListener('click', (event) => {
         const remove = event.target.closest('[data-delete-id]');
         if (remove) {
@@ -194,6 +199,17 @@ function setupListeners() {
         handleSearch({ target: state.el.searchInput });
         state.el.searchInput.focus();
     });
+    for (const input of [state.el.searchInput, document.getElementById('favorites-search')]) {
+        input.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                if (input === state.el.searchInput) {
+                    handleSearch({ target: input });
+                }
+                input.blur();
+            }
+        });
+    }
     document
         .getElementById('favorites-search')
         .addEventListener('input', () =>
@@ -213,6 +229,41 @@ function setupListeners() {
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape' && state.el.modal.classList.contains('active')) {
             closeModal(true);
+        }
+    });
+    window.addEventListener('popstate', (event) => {
+        if (state.el.modal.classList.contains('active') && !event.state?.alkoraterSheet) {
+            if (closeModal(true) === false) {
+                window.history.pushState(
+                    {
+                        alkoraterTab: state.currentTab,
+                        alkoraterSheet: true,
+                        alkoraterProduct: productKey(state.currentItem),
+                    },
+                    '',
+                );
+                return;
+            }
+        }
+        if (event.state?.alkoraterTab) {
+            switchTab(event.state.alkoraterTab, { recordHistory: false });
+        }
+        if (event.state?.alkoraterSheet && !state.el.modal.classList.contains('active')) {
+            const key = event.state.alkoraterProduct;
+            const restore = () => {
+                if (
+                    window.history.state?.alkoraterSheet &&
+                    window.history.state.alkoraterProduct === key &&
+                    !openProduct(key)
+                ) {
+                    window.history.replaceState({ alkoraterTab: state.currentTab }, '');
+                }
+            };
+            if (state.el.modal.classList.contains('closing')) {
+                document.addEventListener('alkorater:modal-closed', restore, { once: true });
+            } else {
+                restore();
+            }
         }
     });
     document.getElementById('saveButton').addEventListener('click', saveRating);
@@ -283,6 +334,26 @@ function setupViewport() {
             '--viewport-top',
             `${window.visualViewport?.offsetTop || 0}px`,
         );
+        const editing = document.activeElement?.matches('input:not([type="checkbox"]), textarea');
+        const keyboard =
+            editing &&
+            (window.visualViewport?.scale || 1) <= 1.05 &&
+            window.innerHeight - height > 150;
+        document.body.classList.toggle('keyboard-open', Boolean(keyboard));
+        if (keyboard && state.el.modal?.classList.contains('active')) {
+            requestAnimationFrame(() => {
+                const input = document.activeElement;
+                const body = document.querySelector('.sheet-body');
+                if (!body?.contains(input) || !input.matches('input, textarea')) {
+                    return;
+                }
+                const field = input.getBoundingClientRect();
+                const region = body.getBoundingClientRect();
+                if (field.top < region.top + 8 || field.bottom > region.bottom - 8) {
+                    input.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+                }
+            });
+        }
     };
     update();
     const resize = debounce(update, 32);
@@ -290,6 +361,40 @@ function setupViewport() {
     window.visualViewport?.addEventListener('scroll', resize);
     window.addEventListener('resize', resize);
     window.addEventListener('pageshow', update);
+    document.addEventListener('focusin', update);
+    document.addEventListener('focusout', () => requestAnimationFrame(update));
+}
+
+function setupAppearance() {
+    const transparency = document.getElementById('useTransparency');
+    const haptics = document.getElementById('useHaptics');
+    const read = (key) => {
+        try {
+            return localStorage.getItem(key);
+        } catch {
+            return null;
+        }
+    };
+    const write = (key, value) => {
+        try {
+            localStorage.setItem(key, String(value));
+        } catch {
+            /* Preferences are optional. */
+        }
+    };
+    transparency.checked = read('alkorater:opaque-surfaces') !== 'true';
+    document.documentElement.toggleAttribute('data-opaque-surfaces', !transparency.checked);
+    transparency.addEventListener('change', () => {
+        document.documentElement.toggleAttribute('data-opaque-surfaces', !transparency.checked);
+        write('alkorater:opaque-surfaces', !transparency.checked);
+    });
+    const supported = typeof navigator.vibrate === 'function';
+    document.getElementById('hapticsSetting').hidden = !supported;
+    document.getElementById('hapticsSupport').textContent = supported
+        ? 'Wibracje są opcjonalne. Ich odczuwanie zależy od urządzenia i ustawień przeglądarki.'
+        : 'Ta przeglądarka nie udostępnia wibracji. Wszystkie działania pozostają dostępne.';
+    haptics.checked = supported && read('alkorater:haptics') === 'true';
+    haptics.addEventListener('change', () => write('alkorater:haptics', haptics.checked));
 }
 
 async function init() {
@@ -297,6 +402,7 @@ async function init() {
     setupListeners();
     setupBackup();
     setupViewport();
+    setupAppearance();
     setupModalDismiss();
     setupContextMenus(state.el.searchResults, { onRate: openProduct });
     setupContextMenus(state.el.favoritesList, {
@@ -325,10 +431,12 @@ async function init() {
     createIcons();
     snapNavPill();
     registerSW();
-    const action = new URLSearchParams(window.location.search).get('action');
+    const action =
+        window.location.hash.slice(1) || new URLSearchParams(window.location.search).get('action');
     if (action === 'search' || action === 'favorites') {
-        switchTab(action);
+        switchTab(action, { recordHistory: false });
     }
+    window.history.replaceState({ alkoraterTab: state.currentTab }, '');
 }
 
 document.addEventListener('DOMContentLoaded', init);
