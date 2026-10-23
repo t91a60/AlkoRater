@@ -244,6 +244,7 @@ test('uszkodzony zapis nie jest pustą kolekcją i nie można go nadpisać', asy
     page.once('dialog', (dialog) => dialog.accept());
     await page.keyboard.press('Escape');
     await page.getByRole('tab', { name: 'Start', exact: true }).click();
+    await expect(page.locator('#librarySettings')).toHaveAttribute('open', '');
     await page.getByText('Kopia i przenoszenie danych', { exact: true }).click();
     const recoveryDownload = page.waitForEvent('download');
     await page.getByRole('button', { name: 'Pobierz kopię odzyskiwania', exact: true }).click();
@@ -263,6 +264,7 @@ test('kopia JSON: pobranie, walidowany import i brak nadpisania konfliktu', asyn
     await openRating(page, 'Żywiec');
     await save(page, 3, '<img src=x onerror=alert(1)> Prywatna notatka');
     await page.getByRole('tab', { name: 'Start', exact: true }).click();
+    await page.getByText('Ustawienia i dane', { exact: true }).click();
     await page.getByText('Kopia i przenoszenie danych', { exact: true }).click();
     const downloadPromise = page.waitForEvent('download');
     await page.getByRole('button', { name: 'Pobierz kopię JSON' }).click();
@@ -294,6 +296,7 @@ test('kopia JSON: pobranie, walidowany import i brak nadpisania konfliktu', asyn
         await restored.goto(page.url());
         await expect(restored.locator('#catalogStatus')).toContainText('336 produktów');
         await restored.getByRole('tab', { name: 'Start', exact: true }).click();
+        await restored.getByText('Ustawienia i dane', { exact: true }).click();
         await restored.getByText('Kopia i przenoszenie danych', { exact: true }).click();
         const chooserPromise = restored.waitForEvent('filechooser');
         await restored.getByRole('button', { name: 'Wczytaj kopię', exact: true }).click();

@@ -4,7 +4,7 @@ import { createStaticServer } from './serve.mjs';
 
 const phase = process.argv[2] || 'after';
 if (!['before', 'after'].includes(phase)) throw new Error('Expected before or after');
-const dir = `docs/screenshots/correction/${phase}`;
+const dir = `docs/screenshots/correction/${process.argv[3] || phase}`;
 await mkdir(dir, { recursive: true });
 const server = await createStaticServer();
 await new Promise((done) => server.listen(0, '127.0.0.1', done));

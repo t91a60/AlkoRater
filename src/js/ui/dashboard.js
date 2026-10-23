@@ -30,6 +30,12 @@ export function updateDashboard() {
     const { total, average, categories, best } = collectionStats(state.favorites);
     state.el.dashboardGrid.dataset.populated = String(total > 0);
     document.getElementById('recentSection')?.toggleAttribute('hidden', !total);
+    if (state.storageError) {
+        const settings = document.getElementById('librarySettings');
+        if (settings) {
+            settings.open = true;
+        }
+    }
     state.el.dashboardGrid.innerHTML =
         total && !state.storageError
             ? ''
@@ -50,10 +56,14 @@ export function updateDashboard() {
             .filter((c) => c.count)
             .map((c) => `${c.name}: ${c.count}`)
             .join(' · ')}</p></div>
-        <button class="collection-best" data-item-id="${escapeHTML(productKey(best.item))}">
+        ${
+            total > 1
+                ? `<button class="collection-best" data-item-id="${escapeHTML(productKey(best.item))}">
             <span><span class="collection-best-label">Najwyżej ocenione</span><strong>${escapeHTML(best.item.name)}</strong><span class="item-meta">${escapeHTML(best.item.category)}${typeBadgeHTML(best.item.type)}${alcoholBadgeHTML(best.item.alcohol)}</span></span>
             <span class="item-stars">${best.stars}/5</span>
         </button>`
+                : ''
+        }`
         : '';
     updateRecentlyRated();
     createIcons();
