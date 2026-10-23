@@ -114,7 +114,6 @@
                 <div class="header-main">
                     <div class="nav-logo">
                         <h1 id="headerTitle">Kolekcja</h1>
-                        <span class="app-wordmark">AlkoRater</span>
                     </div>
                 </div>
             </header>
@@ -161,56 +160,64 @@
                         ></section>
                     </div>
 
-                    <details class="backup-panel">
-                        <summary>Kopia i przenoszenie danych</summary>
-                        <p>
-                            Oceny są w tej przeglądarce, nie na koncie. Wyczyszczenie danych witryny
-                            może je usunąć. Pobierz kopię JSON, aby zachować notatki lub przenieść
-                            je na inne urządzenie.
-                        </p>
-                        <p id="storageStatus" class="empty-copy"></p>
-                        <div class="backup-actions">
-                            <button id="exportBackup" class="secondary-button">
-                                Pobierz kopię JSON
-                            </button>
-                            <button id="importBackup" class="secondary-button">
-                                Wczytaj kopię
-                            </button>
-                            <button id="recoveryBackup" class="secondary-button" hidden>
-                                Pobierz kopię odzyskiwania
-                            </button>
-                        </div>
-                        <input
-                            id="backupFile"
-                            type="file"
-                            accept="application/json,.json"
-                            hidden
-                            aria-label="Plik kopii JSON"
-                        />
-                        <p id="backupStatus" role="status" class="empty-copy"></p>
-                    </details>
-                    <details class="preference-panel">
-                        <summary>Wygląd i reakcje</summary>
-                        <label class="preference-row" for="useTransparency">
-                            <input id="useTransparency" type="checkbox" checked />
-                            Przezroczyste elementy
-                        </label>
-                        <p>
-                            Wyłącz, aby menu miało pełne tło. Wygląd jasny lub ciemny odpowiada
-                            ustawieniu systemu.
-                        </p>
-                        <label class="preference-row" id="hapticsSetting" for="useHaptics" hidden>
-                            <input id="useHaptics" type="checkbox" />
-                            Wibracje przy wyborze i zapisie
-                        </label>
-                        <p id="hapticsSupport"></p>
-                    </details>
-                    <details class="preference-panel app-information">
-                        <summary>Informacje o aplikacji</summary>
-                        <div class="info-block">
-                            <span id="catalogStatus">Wczytywanie katalogu…</span>
-                            <span id="offlineStatus" role="status"></span>
-                        </div>
+                    <details class="library-settings" id="librarySettings">
+                        <summary>Ustawienia i dane</summary>
+                        <details class="backup-panel">
+                            <summary>Kopia i przenoszenie danych</summary>
+                            <p>
+                                Oceny są w tej przeglądarce, nie na koncie. Wyczyszczenie danych
+                                witryny może je usunąć. Pobierz kopię JSON, aby zachować notatki lub
+                                przenieść je na inne urządzenie.
+                            </p>
+                            <p id="storageStatus" class="empty-copy"></p>
+                            <div class="backup-actions">
+                                <button id="exportBackup" class="secondary-button">
+                                    Pobierz kopię JSON
+                                </button>
+                                <button id="importBackup" class="secondary-button">
+                                    Wczytaj kopię
+                                </button>
+                                <button id="recoveryBackup" class="secondary-button" hidden>
+                                    Pobierz kopię odzyskiwania
+                                </button>
+                            </div>
+                            <input
+                                id="backupFile"
+                                type="file"
+                                accept="application/json,.json"
+                                hidden
+                                aria-label="Plik kopii JSON"
+                            />
+                            <p id="backupStatus" role="status" class="empty-copy"></p>
+                        </details>
+                        <details class="preference-panel">
+                            <summary>Wygląd i reakcje</summary>
+                            <label class="preference-row" for="useTransparency">
+                                <input id="useTransparency" type="checkbox" checked />
+                                Przezroczyste elementy
+                            </label>
+                            <p>
+                                Wyłącz, aby menu miało pełne tło. Wygląd jasny lub ciemny odpowiada
+                                ustawieniu systemu.
+                            </p>
+                            <label
+                                class="preference-row"
+                                id="hapticsSetting"
+                                for="useHaptics"
+                                hidden
+                            >
+                                <input id="useHaptics" type="checkbox" />
+                                Wibracje przy wyborze i zapisie
+                            </label>
+                            <p id="hapticsSupport"></p>
+                        </details>
+                        <details class="preference-panel app-information">
+                            <summary>Informacje o aplikacji</summary>
+                            <div class="info-block">
+                                <span id="catalogStatus">Wczytywanie katalogu…</span>
+                                <span id="offlineStatus" role="status"></span>
+                            </div>
+                        </details>
                     </details>
                 </section>
 

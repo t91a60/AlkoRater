@@ -182,11 +182,6 @@ textarea::placeholder {
     width: 100%;
     gap: var(--space-medium);
 }
-.app-wordmark {
-    font-size: var(--type-caption);
-    color: var(--fg-secondary);
-    letter-spacing: -0.02em;
-}
 .app-header h1 {
     margin: 0;
     font-size: var(--type-title);
@@ -311,9 +306,9 @@ textarea::placeholder {
 .collection-summary {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 16px;
     margin: 0;
-    padding: var(--space-large);
+    padding: 16px;
     background: var(--surface-1);
     border-radius: var(--radius-group) var(--radius-group) 0 0;
 }
@@ -360,7 +355,7 @@ textarea::placeholder {
     color: var(--fg-secondary);
     font-size: 0.875rem;
     margin: 0 0 16px;
-    padding: 14px var(--space-large) 20px;
+    padding: 0 16px 16px;
     background: var(--surface-1);
     border-radius: 0 0 var(--radius-group) var(--radius-group);
 }
@@ -1332,9 +1327,6 @@ html[data-opaque-surfaces] .context-menu {
         padding-right: 420px;
         min-height: 108px;
     }
-    .app-wordmark {
-        display: none;
-    }
     .bottom-nav {
         position: absolute;
         inset: 20px 32px auto auto;
@@ -1361,6 +1353,20 @@ html[data-opaque-surfaces] .context-menu {
 .preference-panel {
     margin-top: 0;
     border-top: 1px solid var(--separator);
+}
+.library-settings {
+    border-top: 1px solid var(--separator);
+    margin-top: 24px;
+}
+.library-settings > summary {
+    padding: 14px 0;
+    min-height: 48px;
+    color: var(--fg-secondary);
+    font-size: var(--type-detail);
+    cursor: pointer;
+}
+.library-settings[open] > summary {
+    color: var(--fg);
 }
 .preference-panel summary {
     cursor: pointer;

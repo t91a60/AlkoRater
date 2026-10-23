@@ -31,6 +31,12 @@ for (const count of [0, 1, 10, 100]) {
         }, count);
         await page.locator('#nav-favorites').click();
         await expect(page.locator('.favorite-card')).toHaveCount(count);
+        await page.locator('#nav-start').click();
+        await expect(page.locator('.app-wordmark')).toHaveCount(0);
+        await expect(page.locator('#librarySettings')).not.toHaveAttribute('open');
+        await expect(page.getByText('Kopia i przenoszenie danych', { exact: true })).toBeHidden();
+        await expect(page.locator('.collection-best')).toHaveCount(count > 1 ? 1 : 0);
+        await page.locator('#nav-favorites').click();
         if (!count) {
             await expect(page.locator('#collectionControls')).toBeHidden();
             await expect(page.getByRole('button', { name: 'Znajdź produkt' })).toBeVisible();

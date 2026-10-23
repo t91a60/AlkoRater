@@ -77,6 +77,7 @@ for (const colorScheme of ['light', 'dark']) {
         page.once('dialog', (dialog) => dialog.accept());
         await page.keyboard.press('Escape');
         await page.getByRole('tab', { name: 'Start', exact: true }).click();
+        await page.getByText('Ustawienia i dane', { exact: true }).click();
         await page.getByText('Wygląd i reakcje', { exact: true }).click();
         await page.getByLabel('Przezroczyste elementy', { exact: true }).uncheck();
         expect(
@@ -417,6 +418,7 @@ test('Anti-Slop: wpis przed podsumowaniem i rozróżnialny wyróżniony produkt'
     const details = await page.locator('#collectionDetails').boundingBox();
     expect(first.y + first.height).toBeLessThan(nav.y);
     expect(first.y).toBeLessThan(details.y);
-    await expect(page.locator('.collection-best')).toContainText('Piwo');
-    await expect(page.locator('.collection-best')).toContainText('5,8%');
+    await expect(page.locator('.collection-best')).toHaveCount(0);
+    await expect(page.locator('.recent-card').first()).toContainText('Piwo');
+    await expect(page.locator('.recent-card').first()).toContainText('5,8%');
 });
