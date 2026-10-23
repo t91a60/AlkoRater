@@ -40,7 +40,7 @@ for (const colorScheme of ['light', 'dark']) {
         const background = await page
             .locator('body')
             .evaluate((el) => getComputedStyle(el).backgroundColor);
-        expect(background).toBe(colorScheme === 'light' ? 'rgb(242, 244, 247)' : 'rgb(7, 16, 25)');
+        expect(background).toBe(colorScheme === 'light' ? 'rgb(245, 245, 243)' : 'rgb(24, 25, 27)');
         const text = await page
             .locator('.collection-intro p')
             .evaluate((el) => getComputedStyle(el).color);
@@ -356,6 +356,10 @@ test('HIG: pojedynczy wynik ma widoczny fokus, etykiety 200% nie nachodzą', asy
     const focused = await result.screenshot();
     expect(focused.equals(withoutFocus)).toBe(false);
     expect(await result.evaluate((el) => getComputedStyle(el).outlineWidth)).toBe('3px');
+    await result.click();
+    await page.getByRole('radio', { name: '4 z 5', exact: true }).click();
+    await page.locator('#saveButton').click();
+    await expect(page.getByRole('dialog')).toBeHidden();
     await page.getByRole('tab', { name: 'Moje oceny', exact: true }).click();
     await page.evaluate(() => {
         document.documentElement.style.fontSize = '200%';

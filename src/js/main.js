@@ -15,7 +15,7 @@ import {
     toggleSkeletons,
     updateDashboard,
     switchTab,
-    snapNavPill,
+    observeNavigation,
     renderFavorites,
     filterFavorites,
     deleteFavorite,
@@ -99,11 +99,11 @@ function status() {
         document.getElementById('recoveryBackup').hidden = false;
     }
     document.getElementById('offlineStatus').textContent = navigator.onLine
-        ? 'Gotowość offline jest sprawdzana…'
+        ? 'Online. Tryb offline dostępny po pobraniu aplikacji.'
         : 'Tryb offline';
     if (navigator.serviceWorker?.controller && navigator.onLine) {
         document.getElementById('offlineStatus').textContent =
-            'Aplikacja obsługiwana przez pamięć offline';
+            'Aplikacja uruchomiona z obsługą offline';
     }
 }
 
@@ -213,6 +213,11 @@ function setupListeners() {
     document
         .getElementById('favorites-search')
         .addEventListener('input', () =>
+            renderFavorites(document.querySelector('.filter-chip.active')?.dataset.filter),
+        );
+    document
+        .getElementById('favorites-sort')
+        .addEventListener('change', () =>
             renderFavorites(document.querySelector('.filter-chip.active')?.dataset.filter),
         );
     document
@@ -429,7 +434,7 @@ async function init() {
     toggleSkeletons(false);
     renderSuggestions();
     createIcons();
-    snapNavPill();
+    observeNavigation();
     registerSW();
     const action =
         window.location.hash.slice(1) || new URLSearchParams(window.location.search).get('action');

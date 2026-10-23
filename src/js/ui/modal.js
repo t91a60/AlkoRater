@@ -122,7 +122,7 @@ export function openRateModal(item, trigger = document.activeElement) {
 
     document.getElementById('modalTitle').textContent = item.name;
     document.getElementById('modalCategoryTag').innerHTML =
-        `Kategoria: ${escapeHTML(strictCategory)}${typeBadgeHTML(item.type)}${alcoholBadgeHTML(item.alcohol)}`;
+        `${escapeHTML(strictCategory)}${typeBadgeHTML(item.type)}${alcoholBadgeHTML(item.alcohol)}`;
     document.getElementById('note-input').value = state.ratingConfig.note;
     state.modalInitial = JSON.stringify([state.ratingConfig.stars, state.ratingConfig.note]);
 

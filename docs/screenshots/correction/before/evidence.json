@@ -1,0 +1,71 @@
+{
+  "phase": "before",
+  "browser": "156.0.8078.4",
+  "errors": [],
+  "geometry": [
+    {
+      "theme": "dark",
+      "height": 852,
+      "nav": {
+        "x": 16,
+        "y": 766,
+        "width": 361,
+        "height": 74,
+        "top": 766,
+        "right": 377,
+        "bottom": 840,
+        "left": 16
+      },
+      "content": {
+        "x": 0,
+        "y": 100,
+        "width": 393,
+        "height": 752,
+        "top": 100,
+        "right": 393,
+        "bottom": 852,
+        "left": 0
+      }
+    },
+    {
+      "theme": "light",
+      "height": 852,
+      "nav": {
+        "x": 16,
+        "y": 766,
+        "width": 361,
+        "height": 74,
+        "top": 766,
+        "right": 377,
+        "bottom": 840,
+        "left": 16
+      },
+      "content": {
+        "x": 0,
+        "y": 100,
+        "width": 393,
+        "height": 752,
+        "top": 100,
+        "right": 393,
+        "bottom": 852,
+        "left": 0
+      }
+    }
+  ],
+  "captures": [
+    "dark-home-empty",
+    "dark-ratings-empty",
+    "dark-search-idle",
+    "dark-search-results",
+    "dark-sheet",
+    "dark-ratings-1",
+    "dark-home-populated",
+    "light-home-empty",
+    "light-ratings-empty",
+    "light-search-idle",
+    "light-search-results",
+    "light-sheet",
+    "light-ratings-1",
+    "light-home-populated"
+  ]
+}
