@@ -313,6 +313,16 @@ test('rzeczywista aktualizacja z commita 2.13.1 zachowuje ID, ocenę i notatkę'
                 page.evaluate(() => !!navigator.serviceWorker.controller).catch(() => false),
             )
             .toBe(true);
+        // The historical worker reloads on its first controllerchange. A controller alone
+        // is not a ready UI: wait for that reload and the restored catalog before clicking.
+        await expect
+            .poll(() =>
+                page
+                    .evaluate(() => performance.getEntriesByType('navigation')[0]?.type)
+                    .catch(() => null),
+            )
+            .toBe('reload');
+        await expect(page.locator('#dbCount')).toHaveText('336');
         await page.getByRole('tab', { name: 'Szukaj', exact: true }).click();
         await page.locator('#search-input').fill('Żywiec');
         await page.locator('.search-card').first().click();
