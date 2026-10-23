@@ -40,4 +40,6 @@ Pierwszy pełny E2E: 160 PASS / 4 FAIL. Ten sam stary scenariusz w czterech prze
 
 Build: 59 plików; katalog: 336 ID, zero błędów; format: PASS. Commit implementacji tej iteracji: `5d8bfa1`.
 
+**Końcowa weryfikacja: 164/164 E2E PASS (2,4 minuty), bez pominięć.** Osobny retest pierwotnie potwierdził błąd Firefox. Źródło historycznego `sw-service.js` ujawniło automatyczny reload przy pierwszym `controllerchange`. Test klikał pomiędzy przejęciem kontroli a reloadem. Dodano oczekiwanie na typ nawigacji `reload` i ponowne wczytanie 336 produktów, bez zmiany historycznego kodu ani asercji migracji. Retest Firefox 1/1 PASS, następnie cały zestaw 164/164 PASS. Nie zwiększano timeoutów i nie pomijano scenariusza.
+
 Anti-Slop DURING: bez dodatkowych assetów, animacji, szkła i wymyślonych statystyk; cel każdej zmiany opisany powyżej. Granice: nadal PWA, bez natywnych komponentów UIKit i Dynamic Type.
