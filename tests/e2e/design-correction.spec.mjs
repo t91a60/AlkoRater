@@ -36,6 +36,16 @@ for (const count of [0, 1, 10, 100]) {
         await expect(page.locator('#librarySettings')).not.toHaveAttribute('open');
         await expect(page.getByText('Kopia i przenoszenie danych', { exact: true })).toBeHidden();
         await expect(page.locator('.collection-best')).toHaveCount(count > 1 ? 1 : 0);
+        if (count > 1) {
+            await page.locator('.collection-best').click();
+            await expect(page.getByRole('dialog')).toBeVisible();
+            await expect(page.getByRole('radio', { name: '5 z 5', exact: true })).toHaveAttribute(
+                'aria-checked',
+                'true',
+            );
+            await page.locator('#modalClose').click();
+            await expect(page.locator('.collection-best')).toBeFocused();
+        }
         await page.locator('#nav-favorites').click();
         if (!count) {
             await expect(page.locator('#collectionControls')).toBeHidden();

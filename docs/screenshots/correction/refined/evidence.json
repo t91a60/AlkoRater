@@ -1,0 +1,83 @@
+{
+  "phase": "after",
+  "browser": "156.0.8078.4",
+  "errors": [],
+  "geometry": [
+    {
+      "theme": "dark",
+      "height": 852,
+      "nav": {
+        "x": 0,
+        "y": 793,
+        "width": 393,
+        "height": 59,
+        "top": 793,
+        "right": 393,
+        "bottom": 852,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 76,
+        "width": 393,
+        "height": 717,
+        "top": 76,
+        "right": 393,
+        "bottom": 793,
+        "left": 0
+      }
+    },
+    {
+      "theme": "light",
+      "height": 852,
+      "nav": {
+        "x": 0,
+        "y": 793,
+        "width": 393,
+        "height": 59,
+        "top": 793,
+        "right": 393,
+        "bottom": 852,
+        "left": 0
+      },
+      "content": {
+        "x": 0,
+        "y": 76,
+        "width": 393,
+        "height": 717,
+        "top": 76,
+        "right": 393,
+        "bottom": 793,
+        "left": 0
+      }
+    }
+  ],
+  "captures": [
+    "dark-home-empty",
+    "dark-ratings-empty",
+    "dark-search-idle",
+    "dark-search-results",
+    "dark-sheet",
+    "dark-ratings-1",
+    "dark-home-populated",
+    "dark-ratings-10",
+    "dark-ratings-100",
+    "dark-small",
+    "dark-large-text",
+    "dark-desktop",
+    "dark-offline",
+    "light-home-empty",
+    "light-ratings-empty",
+    "light-search-idle",
+    "light-search-results",
+    "light-sheet",
+    "light-ratings-1",
+    "light-home-populated",
+    "light-ratings-10",
+    "light-ratings-100",
+    "light-small",
+    "light-large-text",
+    "light-desktop",
+    "light-offline"
+  ]
+}

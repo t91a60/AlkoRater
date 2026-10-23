@@ -78,9 +78,7 @@ test('ocena i notatka, edycja, wyszukanie kolekcji i prawidłowa średnia', asyn
             .locator('.start-rating-fill')
             .evaluate((el) => el.style.getPropertyValue('--fill')),
     ).toBe('1');
-    await page.locator('.collection-best').click();
-    await expect(page.getByRole('dialog')).toBeVisible();
-    await page.keyboard.press('Escape');
+    await expect(page.locator('.collection-best')).toHaveCount(0);
     await page.locator('.recent-card').first().click();
     await expect(page.getByRole('dialog')).toBeVisible();
     await page.keyboard.press('Escape');
