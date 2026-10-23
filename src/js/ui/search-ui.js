@@ -118,15 +118,6 @@ function renderRecentSearchesHTML() {
     `;
 }
 
-function renderSearchIntroHTML() {
-    return `
-        <div class="search-intro-copy">
-            <h2 class="search-intro-title">Co chcesz zapamiętać?</h2>
-            <p class="search-intro-sub">Wpisz nazwę, styl lub zawartość alkoholu, np. „Żywiec”, „IPA” albo „40%”. Wybierz produkt, aby dodać ocenę.</p>
-        </div>
-    `;
-}
-
 function renderNoResultsHTML(query) {
     const safeQuery = query.trim();
     return `
@@ -152,8 +143,7 @@ export function renderSuggestions() {
     const container = state.el.searchResults;
     container.innerHTML = `
         <div class="search-suggestions">
-            ${renderSearchIntroHTML()}
-            <p class="suggestions-label">Przeglądaj katalog</p>
+            <h2 class="suggestions-label">Kategorie</h2>
             <div class="suggestions-grid">
                 ${SUGGESTIONS.slice(0, 3)
                     .map(
@@ -184,6 +174,7 @@ export function renderSuggestions() {
 
 export function handleSearch(e) {
     const raw = e.target.value.slice(0, 160);
+    document.getElementById('clearSearch')?.toggleAttribute('hidden', !raw);
 
     if (!raw || !raw.trim()) {
         renderSuggestions();

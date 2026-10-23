@@ -29,20 +29,16 @@ export function collectionStats(favorites) {
 export function updateDashboard() {
     const { total, average, categories, best } = collectionStats(state.favorites);
     state.el.dashboardGrid.dataset.populated = String(total > 0);
-    state.el.dashboardGrid.innerHTML = `
+    document.getElementById('recentSection')?.toggleAttribute('hidden', !total);
+    state.el.dashboardGrid.innerHTML =
+        total && !state.storageError
+            ? ''
+            : `
         <div class="collection-intro">
-            <h2>${state.storageError ? 'Twoje dane wymagają uwagi' : total ? 'Twoja kolekcja' : 'Twoje oceny, pod ręką'}</h2>
-            <p>${state.storageError ? 'Nie traktujemy błędu odczytu jako pustej kolekcji. Skorzystaj z opcji odzyskiwania poniżej.' : total ? 'Wróć do zapisanych ocen i notatek.' : 'Znajdź produkt, wybierz ocenę i zapisz to, co chcesz zapamiętać.'}</p>
+            <h2>${state.storageError ? 'Twoje dane wymagają uwagi' : 'Jeszcze nic nie oceniono'}</h2>
+            <p>${state.storageError ? 'Nie udało się odczytać kolekcji. Opcje odzyskiwania znajdziesz poniżej.' : 'Wyszukaj produkt i zapisz pierwszą ocenę.'}</p>
+            ${state.storageError ? '' : '<button class="action-btn primary" data-action="open-search">Znajdź produkt</button>'}
         </div>
-        <div class="quick-actions-grid">
-            <button class="action-btn primary" data-action="open-search">
-                <i data-lucide="search" aria-hidden="true"></i> Szukaj produktu
-            </button>
-            <button class="action-btn secondary" data-action="open-favorites">
-                <i data-lucide="bookmark" aria-hidden="true"></i> Moje oceny
-            </button>
-        </div>
-        ${!total ? '<p class="local-data-hint">Bez konta. Oceny i notatki zapisujesz w tej przeglądarce. Kopia JSON pozwoli przenieść je na inne urządzenie.</p>' : ''}
     `;
     state.el.dashboardDetails.innerHTML = total
         ? `

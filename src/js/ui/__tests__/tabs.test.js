@@ -1,76 +1,44 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { snapNavPill } from '../tabs.js';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { switchTab } from '../tabs.js';
+import { state } from '../../app/state.js';
 
-/**
- * jsdom doesn't run real layout, so getBoundingClientRect() always returns
- * zeros unless mocked. These stand in for a nav bar spanning x=[0,300] with
- * three equal-width items, matching what a real .bottom-nav would report.
- */
-function mockRect(el, { left, width }) {
-    el.getBoundingClientRect = () => ({
-        left,
-        width,
-        right: left + width,
-        top: 0,
-        bottom: 44,
-        height: 44,
-        x: left,
-        y: 0,
-        toJSON() {},
-    });
-}
-
-function buildNav() {
-    document.body.innerHTML = `
-        <nav class="bottom-nav">
-            <div class="nav-pill" aria-hidden="true"></div>
-            <button class="nav-item" data-tab="start"></button>
-            <button class="nav-item" data-tab="search"></button>
-            <button class="nav-item" data-tab="favorites"></button>
-        </nav>
-    `;
-    const nav = document.querySelector('.bottom-nav');
-    const [start, search, favorites] = document.querySelectorAll('.nav-item');
-    mockRect(nav, { left: 0, width: 300 });
-    mockRect(start, { left: 0, width: 100 });
-    mockRect(search, { left: 100, width: 100 });
-    mockRect(favorites, { left: 200, width: 100 });
-    return { nav, start, search, favorites };
-}
-
-describe('snapNavPill', () => {
+describe('tab focus handoff', () => {
     beforeEach(() => {
-        document.body.innerHTML = '';
+        document.body.innerHTML = `<h1 id="title"></h1><main class="content-area"><section id="start"><button id="cta">Znajdź produkt</button></section><section id="search"></section></main><button class="nav-item" data-tab="search"></button>`;
+        const scroller = document.querySelector('.content-area');
+        scroller.scrollTo = vi.fn();
+        state.currentTab = 'start';
+        state.el = {
+            tabs: {
+                start: document.getElementById('start'),
+                search: document.getElementById('search'),
+            },
+            navItems: document.querySelectorAll('.nav-item'),
+            headerTitle: document.getElementById('title'),
+        };
     });
-
-    it('ustawia szerokość i przesunięcie pigułki na podstawie realnego layoutu aktywnego taba', () => {
-        buildNav();
-        snapNavPill('search');
-
-        const pill = document.querySelector('.nav-pill');
-        // środkowy przycisk: left=100, width=100, inset 4px z każdej strony
-        expect(pill.style.width).toBe('92px');
-        expect(pill.style.transform).toBe('translateX(104px)');
-        expect(pill.classList.contains('positioned')).toBe(true);
+    it('moves CTA focus out of the panel before aria-hidden is applied', () => {
+        document.getElementById('cta').focus();
+        const panel = state.el.tabs.start;
+        const original = panel.setAttribute.bind(panel);
+        vi.spyOn(panel, 'setAttribute').mockImplementation((key, value) => {
+            if (key === 'aria-hidden' && value === 'true') {
+                expect(panel.contains(document.activeElement)).toBe(false);
+            }
+            original(key, value);
+        });
+        switchTab('search', { recordHistory: false });
+        expect(document.activeElement.dataset.tab).toBe('search');
     });
-
-    it('poprawnie liczy dla pierwszego i ostatniego taba', () => {
-        buildNav();
-
-        snapNavPill('start');
-        let pill = document.querySelector('.nav-pill');
-        expect(pill.style.transform).toBe('translateX(4px)');
-
-        snapNavPill('favorites');
-        pill = document.querySelector('.nav-pill');
-        expect(pill.style.transform).toBe('translateX(204px)');
+    it('ignores unknown destinations without hiding content', () => {
+        switchTab('missing');
+        expect(state.currentTab).toBe('start');
+        expect(state.el.tabs.start.hasAttribute('aria-hidden')).toBe(false);
     });
-
-    it('nie wybucha, gdy pigułki albo taba o danej nazwie nie ma w DOM', () => {
-        document.body.innerHTML = '<nav class="bottom-nav"></nav>';
-        expect(() => snapNavPill('start')).not.toThrow();
-
-        buildNav();
-        expect(() => snapNavPill('nieistniejacy-tab')).not.toThrow();
+    it('keeps focus on a navigation control when the panel does not own focus', () => {
+        const tab = document.querySelector('.nav-item');
+        tab.focus();
+        switchTab('search', { recordHistory: false });
+        expect(document.activeElement).toBe(tab);
     });
 });

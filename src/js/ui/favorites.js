@@ -8,6 +8,9 @@ import { alcoholBadgeHTML, typeBadgeHTML, productThumbHTML } from './badges.js';
 import { createIcons } from './icons.js';
 
 export function renderFavorites(filter = 'wszystkie') {
+    document
+        .getElementById('collectionControls')
+        ?.toggleAttribute('hidden', !state.favorites.length || !!state.storageError);
     const query = normalizeSearchText(document.getElementById('favorites-search')?.value || '');
     const activeFilter = (filter || 'wszystkie').toLowerCase();
     const list = state.favorites.filter(
@@ -16,6 +19,13 @@ export function renderFavorites(filter = 'wszystkie') {
             normalizeSearchText([f.item.name, f.item.brand, f.note].join(' ')).includes(query),
     );
     const container = state.el.favoritesList;
+    const sort = document.getElementById('favorites-sort')?.value;
+    if (sort === 'rating') {
+        list.sort((a, b) => b.stars - a.stars);
+    }
+    if (sort === 'name') {
+        list.sort((a, b) => a.item.name.localeCompare(b.item.name, 'pl'));
+    }
     if (state.storageError) {
         container.innerHTML =
             '<p class="empty-copy">Nie można odczytać zapisanych ocen. Wróć na Start, aby spróbować ponownie lub pobrać kopię odzyskiwania. Dane nie zostały usunięte.</p>';
@@ -24,7 +34,7 @@ export function renderFavorites(filter = 'wszystkie') {
     if (!list.length) {
         container.innerHTML = state.favorites.length
             ? '<p class="empty-copy">Brak ocen pasujących do filtrów. Zmień kategorię lub wpisaną nazwę.</p>'
-            : '<div class="collection-empty"><h2>Tu znajdziesz swoje oceny</h2><p>Po zapisaniu produktu zobaczysz jego ocenę i notatkę.</p><button class="secondary-button" data-action="open-search">Szukaj produktu</button></div>';
+            : '<div class="collection-empty"><h2>Nie masz jeszcze ocen</h2><p>Ocenione produkty i notatki pojawią się tutaj.</p><button class="action-btn primary" data-action="open-search">Znajdź produkt</button></div>';
         return;
     }
     container.innerHTML = list
@@ -74,7 +84,10 @@ export async function deleteFavorite(id) {
         await removeFavorite(record);
         renderFavorites(filter);
         updateDashboard();
-        document.getElementById('favorites-search')?.focus({ preventScroll: true });
+        const focusTarget = state.favorites.length
+            ? document.getElementById('favorites-search')
+            : containerSearchButton();
+        focusTarget?.focus({ preventScroll: true });
         showToast('Usunięto ocenę', 'warning', {
             onUndo: async () => {
                 try {
@@ -93,4 +106,8 @@ export async function deleteFavorite(id) {
             button.disabled = false;
         }
     }
+}
+
+function containerSearchButton() {
+    return state.el.favoritesList.querySelector('[data-action="open-search"]');
 }
