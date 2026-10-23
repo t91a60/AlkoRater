@@ -1,0 +1,227 @@
+{
+  "contrasts": [
+    {
+      "colorScheme": "light",
+      "fg": "--fg",
+      "bg": "--bg",
+      "foreground": "rgb(36, 37, 34)",
+      "background": "rgb(245, 245, 243)",
+      "ratio": 14.116911652368355
+    },
+    {
+      "colorScheme": "light",
+      "fg": "--fg-secondary",
+      "bg": "--bg",
+      "foreground": "rgb(98, 100, 95)",
+      "background": "rgb(245, 245, 243)",
+      "ratio": 5.4848069756402795
+    },
+    {
+      "colorScheme": "light",
+      "fg": "--accent",
+      "bg": "--bg",
+      "foreground": "rgb(128, 80, 9)",
+      "background": "rgb(245, 245, 243)",
+      "ratio": 6.267878264243845
+    },
+    {
+      "colorScheme": "light",
+      "fg": "--fg",
+      "bg": "--surface-1",
+      "foreground": "rgb(36, 37, 34)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 15.410136525805353
+    },
+    {
+      "colorScheme": "light",
+      "fg": "--fg-secondary",
+      "bg": "--surface-1",
+      "foreground": "rgb(98, 100, 95)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 5.987260272902983
+    },
+    {
+      "colorScheme": "light",
+      "fg": "--accent",
+      "bg": "--surface-1",
+      "foreground": "rgb(128, 80, 9)",
+      "background": "rgb(255, 255, 255)",
+      "ratio": 6.8420673131379335
+    },
+    {
+      "colorScheme": "light",
+      "fg": "--fg",
+      "bg": "--surface-2",
+      "foreground": "rgb(36, 37, 34)",
+      "background": "rgb(237, 238, 235)",
+      "ratio": 13.230960463479455
+    },
+    {
+      "colorScheme": "light",
+      "fg": "--fg-secondary",
+      "bg": "--surface-2",
+      "foreground": "rgb(98, 100, 95)",
+      "background": "rgb(237, 238, 235)",
+      "ratio": 5.140590663988332
+    },
+    {
+      "colorScheme": "light",
+      "fg": "--accent",
+      "bg": "--surface-2",
+      "foreground": "rgb(128, 80, 9)",
+      "background": "rgb(237, 238, 235)",
+      "ratio": 5.874517851091007
+    },
+    {
+      "colorScheme": "light",
+      "fg": "--fg",
+      "bg": "--surface-3",
+      "foreground": "rgb(36, 37, 34)",
+      "background": "rgb(223, 225, 220)",
+      "ratio": 11.69786541415559
+    },
+    {
+      "colorScheme": "light",
+      "fg": "--fg-secondary",
+      "bg": "--surface-3",
+      "foreground": "rgb(98, 100, 95)",
+      "background": "rgb(223, 225, 220)",
+      "ratio": 4.544941231030352
+    },
+    {
+      "colorScheme": "light",
+      "fg": "--accent",
+      "bg": "--surface-3",
+      "foreground": "rgb(128, 80, 9)",
+      "background": "rgb(223, 225, 220)",
+      "ratio": 5.193826962509525
+    },
+    {
+      "colorScheme": "dark",
+      "fg": "--fg",
+      "bg": "--bg",
+      "foreground": "rgb(243, 242, 237)",
+      "background": "rgb(24, 25, 27)",
+      "ratio": 15.694406165538966
+    },
+    {
+      "colorScheme": "dark",
+      "fg": "--fg-secondary",
+      "bg": "--bg",
+      "foreground": "rgb(183, 185, 179)",
+      "background": "rgb(24, 25, 27)",
+      "ratio": 8.883159178296475
+    },
+    {
+      "colorScheme": "dark",
+      "fg": "--accent",
+      "bg": "--bg",
+      "foreground": "rgb(233, 180, 94)",
+      "background": "rgb(24, 25, 27)",
+      "ratio": 9.344647233493305
+    },
+    {
+      "colorScheme": "dark",
+      "fg": "--fg",
+      "bg": "--surface-1",
+      "foreground": "rgb(243, 242, 237)",
+      "background": "rgb(35, 36, 38)",
+      "ratio": 13.859020944462182
+    },
+    {
+      "colorScheme": "dark",
+      "fg": "--fg-secondary",
+      "bg": "--surface-1",
+      "foreground": "rgb(183, 185, 179)",
+      "background": "rgb(35, 36, 38)",
+      "ratio": 7.844316491268436
+    },
+    {
+      "colorScheme": "dark",
+      "fg": "--accent",
+      "bg": "--surface-1",
+      "foreground": "rgb(233, 180, 94)",
+      "background": "rgb(35, 36, 38)",
+      "ratio": 8.251835740810701
+    },
+    {
+      "colorScheme": "dark",
+      "fg": "--fg",
+      "bg": "--surface-2",
+      "foreground": "rgb(243, 242, 237)",
+      "background": "rgb(46, 48, 50)",
+      "ratio": 11.819929759737558
+    },
+    {
+      "colorScheme": "dark",
+      "fg": "--fg-secondary",
+      "bg": "--surface-2",
+      "foreground": "rgb(183, 185, 179)",
+      "background": "rgb(46, 48, 50)",
+      "ratio": 6.690174602628972
+    },
+    {
+      "colorScheme": "dark",
+      "fg": "--accent",
+      "bg": "--surface-2",
+      "foreground": "rgb(233, 180, 94)",
+      "background": "rgb(46, 48, 50)",
+      "ratio": 7.037735149988942
+    },
+    {
+      "colorScheme": "dark",
+      "fg": "--fg",
+      "bg": "--surface-3",
+      "foreground": "rgb(243, 242, 237)",
+      "background": "rgb(59, 62, 63)",
+      "ratio": 9.62337978999784
+    },
+    {
+      "colorScheme": "dark",
+      "fg": "--fg-secondary",
+      "bg": "--surface-3",
+      "foreground": "rgb(183, 185, 179)",
+      "background": "rgb(59, 62, 63)",
+      "ratio": 5.44690978467591
+    },
+    {
+      "colorScheme": "dark",
+      "fg": "--accent",
+      "bg": "--surface-3",
+      "foreground": "rgb(233, 180, 94)",
+      "background": "rgb(59, 62, 63)",
+      "ratio": 5.729881614056627
+    }
+  ],
+  "console": [],
+  "controls": [
+    {
+      "colorScheme": "light",
+      "checked": [
+        "Home CTA -> Search, focus outside hidden panel",
+        "query -> four results",
+        "clear -> empty focused input",
+        "Piwo -> 50 results",
+        "result -> sheet",
+        "4 stars -> enabled Save",
+        "synthetic keyboard -> Save inside 430px",
+        "200% sheet -> saved",
+        "tabs -> preserved query and rating"
+      ]
+    },
+    {
+      "colorScheme": "dark",
+      "checked": [
+        "Home CTA -> Search, focus outside hidden panel",
+        "query -> four results",
+        "clear -> empty focused input",
+        "Piwo -> 50 results",
+        "result -> sheet",
+        "4 stars -> enabled Save",
+        "synthetic keyboard -> Save inside 430px",
+        "200% sheet -> saved",
+        "tabs -> preserved query and rating"
+      ]
+    }
+  ]
+}

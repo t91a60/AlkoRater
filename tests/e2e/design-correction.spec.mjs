@@ -73,7 +73,7 @@ test('CTA nie ukrywa fokusu; pasek nie przykrywa treści po zmianie rozmiaru i s
     await page.goto('./');
     // WebKit touch clicks do not necessarily focus buttons. Exercise the keyboard-owned CTA path explicitly.
     await page.getByRole('button', { name: 'Znajdź produkt' }).focus();
-    await page.getByRole('button', { name: 'Znajdź produkt' }).click();
+    await page.getByRole('button', { name: 'Znajdź produkt' }).press('Enter');
     await expect(page.locator('#nav-search')).toBeFocused();
     await page.locator('#nav-favorites').click();
     await page.getByRole('button', { name: 'Znajdź produkt' }).click();
