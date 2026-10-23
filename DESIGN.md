@@ -18,6 +18,8 @@ Kierunek właściciela: Apple-inspired mobile-first PWA, precyzyjna ergonomia iO
 
 Zmiany nie obejmują nowego logo, zdjęć produktów, gamifikacji ani nowego frameworka.
 
+Doprecyzowanie Startu: przy pojedynczej ocenie nie powtarzamy produktu w wyróżnieniu. Podsumowanie ma mniejszy pionowy rytm niż lista. Kopia, preferencje i informacje są zgrupowane pod jednym wejściem „Ustawienia i dane”, automatycznie rozwijanym przy błędzie odczytu. Nagłówki pokazują tylko nazwę bieżącego ekranu, bez powtarzanej nazwy marki.
+
 Układ kompaktowy pusty: zwięzły tytuł, jeden komunikat i jedna akcja, zwinięte narzędzia. Z danymi: ostatnie wpisy przed podsumowaniem. Search: pole przed kategoriami, bez instrukcyjnego akapitu. Oceny ujawniają kontrolki dopiero przy danych. Układ szeroki zachowuje te same funkcje. Wybrano Native Minimal zamiast dwukolumnowej półki Premium Collection, bo katalog nie ma zdjęć, a nazwy, moc i notatki wymagają szerokości wiersza.
 
 Podstawa decyzji: `typography.md › Ensuring legibility`, `layout.md › Visual hierarchy`, `dark-mode.md › Best practices`, `liquid-glass.md › Where the material belongs`, `search-fields.md › Search as a tab`, `sheets.md › Best practices`, `motion.md › Best practices`. Pełne uzasadnienia, odstępstwa webowe i wyniki: `docs/APPLE_DESIGN_OVERHAUL_PL.md`.

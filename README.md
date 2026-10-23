@@ -6,6 +6,8 @@ Osobisty katalog ocen i notatek o piwach, winach i wódkach. Polskojęzyczna apl
 
 Wersja kandydująca w repozytorium: `2.14.0-rc.1`. Publiczna strona odzwierciedla ostatnie wdrożenie z `main`, niekoniecznie tę gałąź.
 
+**Ocena lokalnej gałęzi: Alpha (2026-10-23).** W audycie bieżącego drzewa roboczego `npm test` zakończyło się wynikiem 162 PASS / 4 FAIL w testach service workera. To nie jest wynik testów opublikowanej strony. [Szczegóły, dowody i granice oceny](docs/STATUS.md).
+
 ## Korzystanie z aplikacji
 
 - **Start** pokazuje podsumowanie ocen, ostatnio zapisane produkty oraz sekcję kopii danych.

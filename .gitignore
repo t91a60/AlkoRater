@@ -46,3 +46,5 @@ todo.md
 /test-results/
 /blob-report/
 /playwright/.cache/
+/docs
+/.serena
