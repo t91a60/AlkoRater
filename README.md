@@ -1,93 +1,85 @@
 # AlkoRater
 
-Osobisty katalog ocen i notatek o piwach, winach i wódkach. Polskojęzyczna aplikacja webowa dla dorosłych, bez konta, synchronizacji i własnego backendu. Nie służy do pomiaru ani śledzenia spożycia alkoholu.
+A personal catalogue of ratings and notes about beer, wine and vodka. The app's interface is in Polish and intended for adults. It runs in the browser without an account, sync service or application backend. It does not measure or track alcohol consumption.
 
-[Otwórz aplikację](https://t91a60.github.io/AlkoRater/) · [Zgłoś problem](https://github.com/t91a60/AlkoRater/issues) · [Apache-2.0](LICENSE)
+[Open the app](https://t91a60.github.io/AlkoRater/) · [Report an issue](https://github.com/t91a60/AlkoRater/issues) · [Apache-2.0](LICENSE)
 
-Wersja kandydująca w repozytorium: `2.14.0-rc.1`. Publiczna strona odzwierciedla ostatnie wdrożenie z `main`, niekoniecznie tę gałąź.
+The package identifies this snapshot as `2.14.0-rc.1`. GitHub Pages serves the latest deployment from `main`, which may differ from a development branch. The existing [overhaul report](docs/ALKORATER_OVERHAUL_REPORT_PL.md) records earlier verification and limitations; those results are historical, not a claim about the live deployment.
 
-**Ocena lokalnej gałęzi: Alpha (2026-10-23).** W audycie bieżącego drzewa roboczego `npm test` zakończyło się wynikiem 162 PASS / 4 FAIL w testach service workera. To nie jest wynik testów opublikowanej strony. [Szczegóły, dowody i granice oceny](docs/STATUS.md).
+## Use the app
 
-## Korzystanie z aplikacji
+- **Start** shows a ratings summary, recently saved products and backup controls.
+- **Szukaj** searches the catalogue by name, brand, style, category, country and alcohol content where available. Search ignores letter case and Polish diacritics. Open a result, choose a rating from 1 to 5, and optionally add a note.
+- **Moje oceny** filters saved entries by category and searches names, brands and notes. Edit or delete an entry; deletion offers an undo action.
 
-- **Start** pokazuje podsumowanie ocen, ostatnio zapisane produkty oraz sekcję kopii danych.
-- **Szukaj** przeszukuje katalog po nazwie, marce, stylu, kategorii, kraju i zawartości alkoholu, o ile te dane są znane. Polskie znaki i wielkość liter nie muszą być zgodne. Otwórz wynik, wybierz ocenę od 1 do 5 i opcjonalnie dopisz notatkę.
-- **Moje oceny** pozwala filtrować zapisane pozycje według kategorii i szukać po nazwie, marce oraz treści notatki. Wpis można edytować lub usunąć. Po usunięciu dostępne jest cofnięcie.
+### Catalogue
 
-### Katalog
+| File | Category | Products |
+| --- | --- | ---: |
+| `data/piwa.json` | Beer | 57 |
+| `data/wodki.json` | Vodka | 184 |
+| `data/wina.json` | Wine | 95 |
+| Total | | 336 |
 
-| Plik              | Kategoria | Liczba produktów |
-| ----------------- | --------- | ---------------: |
-| `data/piwa.json`  | Piwo      |               57 |
-| `data/wodki.json` | Wódka     |              184 |
-| `data/wina.json`  | Wino      |               95 |
-| Razem             |           |              336 |
+This is a limited local catalogue, not a source of prices, availability or store offers. Some products lack brand, country or style metadata. The current dataset has no actual product photographs: the UI uses a local placeholder and does not fetch the historical `dummyimage.com` URLs in the JSON files.
 
-To lokalny, niepełny katalog, nie baza cen, dostępności ani ofert sklepów. Część pozycji nie ma marki, kraju lub stylu. Obecny zestaw nie zawiera rzeczywistych zdjęć produktów. Interfejs używa lokalnego symbolu zastępczego; historyczne adresy `dummyimage.com` w JSON-ach nie są pobierane.
+### Screenshots
 
-### Zrzuty ekranu
+These existing screenshots show the candidate UI with synthetic ratings and notes from an isolated test profile.
 
-Widoki wersji kandydującej:
+| Home | Rating form |
+| --- | --- |
+| ![Home with a summary and recently saved products](docs/screenshots/after-home-collection.png) | ![Rating form with stars and a note](docs/screenshots/after-rating.png) |
 
-Oceny i notatki na zrzutach są danymi testowymi z odizolowanego profilu, nie ocenami użytkowników.
+Other views: [search](docs/screenshots/after-search.png), [saved ratings](docs/screenshots/after-collection.png), [home before the changes](docs/screenshots/before-home.png).
 
-| Start                                                                                           | Formularz oceny                                                                  |
-| ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| ![Start: podsumowanie i ostatnio zapisane produkty](docs/screenshots/after-home-collection.png) | ![Formularz z wyborem oceny i własną notatką](docs/screenshots/after-rating.png) |
+## Data and privacy
 
-Pozostałe widoki: [wyszukiwanie](docs/screenshots/after-search.png), [Moje oceny](docs/screenshots/after-collection.png), [Start przed zmianami](docs/screenshots/before-home.png).
+Ratings and notes stay in this browser's storage. The app has no analytics, advertising, external image requests or remote fonts. Loading the app and checking for updates still contacts GitHub Pages, whose hosting policies apply.
 
-## Prywatność i trwałość danych
+Storage uses native IndexedDB, schema version 2. A one-time migration reads the old localStorage `favorites` value; an existing nonempty IndexedDB database takes precedence. The old copy remains available for recovery but is no longer synchronized.
 
-Oceny i notatki są zapisywane w pamięci tej przeglądarki. Aplikacja nie wysyła ich na serwer, nie zawiera analityki ani reklam, nie pobiera zewnętrznych zdjęć ani fontów. Pierwsze pobranie i sprawdzanie aktualizacji wymagają połączenia z hostingiem GitHub Pages, który ma własne zasady przetwarzania ruchu.
+When IndexedDB is unavailable, the app can select and remember a localStorage fallback. Writes in that mode require Web Locks. A normal transaction failure does not silently switch storage or replace records with an empty collection.
 
-Podstawowy zapis korzysta z natywnego IndexedDB, baza ma wersję 2. Dawny zapis z klucza `favorites` w localStorage jest migrowany jednorazowo; niepusta baza IndexedDB ma pierwszeństwo. Stara kopia pozostaje do odzyskania, nie jest dalej synchronizowana.
+Browser storage is not a permanent archive. Clearing site data, private browsing, storage eviction or losing the device can remove entries. A different browser, profile, origin or device does not automatically receive them. A successful `navigator.storage.persist()` request is not a backup. Export JSON regularly.
 
-Przy niedostępnym IndexedDB może zostać wybrany i zapamiętany tryb awaryjny localStorage. Bez Web Locks bezpieczny zapis w tym trybie jest zablokowany. Błąd zwykłej transakcji nie powoduje cichego przełączenia na drugi magazyn ani zastąpienia danych pustą kolekcją.
+## Back up and transfer ratings
 
-Pamięć przeglądarki nie jest gwarantowanym archiwum. Czyszczenie danych witryny, tryb prywatny, zwolnienie miejsca przez przeglądarkę lub utrata urządzenia mogą usunąć wpisy. Inna przeglądarka, domena lub urządzenie nie otrzyma ich automatycznie. Prośba o trwałą pamięć (`navigator.storage.persist()`) też nie jest gwarancją. Rób kopie JSON.
+On **Start**, expand **Kopia i przenoszenie danych**:
 
-## Kopia i przenoszenie ocen
+1. **Pobierz kopię JSON** downloads ratings and notes. Store the file outside the site's browser storage. It is readable, unencrypted JSON and may contain private notes.
+2. On another device or after data loss, choose **Wczytaj kopię** and confirm the import.
 
-Na ekranie **Start** rozwiń **Kopia i przenoszenie danych**:
+The format includes `app: "AlkoRater"`, `schemaVersion: 1`, `exportedAt` and `records`. Files above 5 MB require an additional confirmation rather than being rejected solely for size. New notes have a 10,000-character editor limit; longer notes from older versions remain preserved.
 
-1. **Pobierz kopię JSON** zapisuje plik ocen i notatek. Przechowuj go poza danymi witryny, w zaufanym miejscu. To czytelny, nieszyfrowany JSON, który może zawierać prywatne notatki.
-2. Na drugim urządzeniu lub po utracie danych wybierz **Wczytaj kopię** i potwierdź import.
+The entire file is validated before writing. Import adds missing entries and skips conflicts with saved ratings; it does not replace existing ratings or synchronize newer edits between devices. Duplicate record IDs inside a backup reject the entire import. Repeated products with different entry IDs are skipped as duplicates.
 
-Obsługiwany format ma `app: "AlkoRater"`, `schemaVersion: 1`, `exportedAt` i `records`. Plik powyżej 5 MB wymaga dodatkowego potwierdzenia, ale aplikacja nie odrzuca własnej dużej kopii. Nowy tekst w edytorze ma limit 10 000 znaków; dłuższe notatki ze starszych wersji pozostają zachowane. Cały plik jest walidowany przed zapisem. Import dodaje brakujące wpisy; duplikaty i konflikty pomija. Nie zastępuje istniejących ocen, więc nie służy do synchronizacji nowszych zmian między urządzeniami.
+If reading storage fails, do not clear site data. Use **Pobierz kopię odzyskiwania**, when offered, to download a raw recovery export for manual analysis. That format differs from the normal backup and cannot be imported directly. The app does not automatically import corrupt data.
 
-Jeśli odczyt danych się nie powiedzie, nie czyść pamięci witryny. Użyj dostępnego wtedy przycisku **Pobierz kopię odzyskiwania**. To surowy zapis do ręcznej analizy i naprawy, w innym formacie niż zwykła kopia. Nie można go po prostu wczytać przez import. Aplikacja nie importuje automatycznie uszkodzonych danych.
+See the Polish [data, migration and PWA guide](docs/DATA_AND_PWA_PL.md) for details.
 
-Szczegóły: [dane, migracja i PWA](docs/DATA_AND_PWA_PL.md).
+## Offline use, installation and updates
 
-Powtórzone ID wpisów wewnątrz pliku oznaczają niejednoznaczną kopię i odrzucają cały import. Pomijanie duplikatów dotyczy konfliktów z już zapisaną kolekcją oraz powtórzonych produktów o różnych ID wpisu.
+The first visit requires a connection. Wait for the full catalogue and service worker installation, then reload while still online. **Aplikacja obsługiwana przez pamięć offline** on the home screen indicates service worker control. Test reopening with the network disconnected before relying on it.
 
-## Offline, instalacja i aktualizacje
+The service worker caches the application shell and catalogue as a versioned set. An incomplete download rejects the new installation. A first visit without connectivity, or browser cache eviction, can prevent offline startup.
 
-Pierwsze uruchomienie wymaga internetu. Poczekaj na wczytanie pełnego katalogu i zakończenie instalacji service workera, a następnie przeładuj stronę jeszcze online. Na ekranie Start powinien pojawić się komunikat **Aplikacja obsługiwana przez pamięć offline**. Dopiero wtedy odłącz sieć i sprawdź ponowne otwarcie.
+If shell files are missing, a recovery screen replaces the blank page; catalogue failures offer the same recovery action. **Napraw pamięć offline** requires a connection and closed additional tabs. It re-registers the worker and downloads application files without deleting IndexedDB or localStorage ratings. Do not substitute clearing site data for this operation.
 
-Service worker zapisuje powłokę aplikacji i katalog jako spójny zestaw dla danej wersji. Niekompletne pobranie odrzuca instalację nowej wersji. Brak połączenia podczas pierwszej wizyty lub usunięcie cache przez przeglądarkę może uniemożliwić uruchomienie offline.
+| Platform | Installation |
+| --- | --- |
+| iPhone / iPad, Safari | Use Share → Add to Home Screen manually. |
+| Android, Chrome / Edge | Use the browser's install or add-to-home-screen option if available. |
+| Desktop, Chrome / Edge | Install if the browser offers it, or use a normal tab. |
+| Other browsers | Use the website; installation and offline support depend on the engine and settings. |
 
-Jeśli brakuje plików powłoki, aplikacja wyświetla ekran odzyskiwania zamiast pustej strony. Błąd katalogu udostępnia tę samą naprawę w komunikacie błędu. **Napraw pamięć offline** wymaga internetu i zamknięcia pozostałych kart. Ponownie rejestruje service workera i pobiera pliki aplikacji; nie usuwa IndexedDB ani localStorage z ocenami. Nie zastępuj tej operacji czyszczeniem danych witryny.
+There is no custom `beforeinstallprompt` install button. Installing the PWA does not back up or sync browser data. Export before uninstalling; storage retention across uninstall/reinstall depends on the browser and OS.
 
-| Platforma               | Instalacja i ograniczenia                                                                        |
-| ----------------------- | ------------------------------------------------------------------------------------------------ |
-| iPhone / iPad, Safari   | Użyj menu udostępniania i opcji **Dodaj do ekranu początkowego**. Instalacja jest ręczna.        |
-| Android, Chrome / Edge  | Użyj opcji instalacji lub dodania do ekranu głównego w menu przeglądarki, jeśli jest dostępna.   |
-| Komputer, Chrome / Edge | Instalacja zależy od przeglądarki. Można też korzystać ze zwykłej karty.                         |
-| Inne przeglądarki       | Można korzystać ze strony; obsługa instalacji i pamięci offline zależy od silnika oraz ustawień. |
+An open app waits for confirmation in its update banner. Save or close the rating form and close other AlkoRater tabs first. Updates do not force other tabs to reload, and the catalogue is not independently replaced in the background.
 
-Aplikacja nie ma własnego przycisku instalacji opartego na `beforeinstallprompt`. Instalacja nie zapewnia kopii danych ani synchronizacji między ikoną PWA, profilami i przeglądarkami.
+## Run locally
 
-Przed odinstalowaniem PWA pobierz kopię. Zachowanie lokalnej pamięci po odinstalowaniu i ponownej instalacji zależy od systemu i przeglądarki.
-
-W otwartej aplikacji nowa wersja czeka na zatwierdzenie w banerze aktualizacji. Najpierw zapisz lub zamknij formularz oceny i zamknij pozostałe karty AlkoRater. Aktualizacja nie wymusza przeładowania innych kart. Katalog nie jest podmieniany w tle niezależnie od wersji aplikacji.
-
-## Uruchomienie lokalne
-
-Kod aplikacji to HTML, CSS i natywne moduły JavaScript. Nie ma frameworka, biblioteki `idb` ani zależności uruchomieniowych. Node.js jest potrzebny do narzędzi deweloperskich.
-
-Wymaganie z `package.json`: Node.js `^22.22.2 || ^24.15.0 || >=26.0.0`. Środowisko użyte przy tych pracach: Node.js `24.20.0`; CI używa linii 24. Nie oznacza to przetestowania każdej dopuszczonej wersji.
+The app uses HTML, CSS and native JavaScript modules with no runtime dependencies or framework. Node.js is needed for development tools. `package.json` requires Node.js `^22.22.2 || ^24.15.0 || >=26.0.0`; CI uses Node.js 24. This does not establish compatibility with every permitted version.
 
 ```bash
 git clone https://github.com/t91a60/AlkoRater.git
@@ -96,22 +88,22 @@ npm ci
 npm run dev
 ```
 
-Otwórz `http://127.0.0.1:4173/AlkoRater/`. Serwer udostępnia tylko pliki aplikacji, domyślnie z `Cache-Control: no-store`. Inny port: `npm run dev -- --port 4174`. Do pracy nad cache jest `npm run dev:cache`; działający service worker nadal może obsługiwać wcześniejszą wersję plików. Do zmian kodu używaj osobnego profilu, a instalację i aktualizacje testuj osobno.
+Open `http://127.0.0.1:4173/AlkoRater/`. Change the port with `npm run dev -- --port 4174`. The server exposes production application paths only and defaults to `Cache-Control: no-store`. `npm run dev:cache` enables caching for cache-related development. An existing worker can still serve older files; use a separate browser profile for code changes and test installation/update behavior separately.
 
-Nie otwieraj `index.html` przez `file://`. Service worker wymaga bezpiecznego kontekstu: HTTPS albo lokalnego adresu obsługiwanego przez przeglądarkę, takiego jak `localhost` lub `127.0.0.1`. Dostarczony serwer nasłuchuje tylko na `127.0.0.1`, nie udostępnia aplikacji telefonowi w sieci LAN.
+Do not open `index.html` with `file://`. Service workers require HTTPS or a browser-recognized local secure context such as `localhost` or `127.0.0.1`. The supplied server binds only to `127.0.0.1`, so it does not expose the app to a phone on the LAN.
 
-### Build i podgląd
+### Build and preview
 
-Po zatrzymaniu serwera `dev`:
+Stop the development server first because preview uses the same default port:
 
 ```bash
 npm run build
 npm run preview
 ```
 
-`build` odtwarza `dist/` i kopiuje do niego dozwolone pliki produkcyjne. Nie bundluje ani nie transpiluje kodu. Nie publikuje testów, `node_modules`, konfiguracji ani dokumentacji repozytorium. `preview` udostępnia `dist/` pod tym samym adresem i domyślnym portem co `dev`.
+The build recreates `dist/` from an allowlist of production files. It does not bundle or transpile code, and it excludes tests, `node_modules`, repository configuration and documentation. Preview serves `dist/` at the same URL as development.
 
-## Testy i kontrola jakości
+## Development checks
 
 ```bash
 npm test
@@ -123,34 +115,34 @@ npx playwright install chromium webkit firefox
 npm run test:e2e -- --project=chromium
 ```
 
-`npm test` uruchamia Vitest. Testy przeglądarkowe same uruchamiają serwer pod `http://127.0.0.1:4175/AlkoRater/`. Pełna macierz: `npm run test:e2e`, projekty `chromium` (mobilny), `chromium-desktop`, `webkit` (profil iPhone 13) i `firefox`. Na Linuksie instalacja przeglądarek może wymagać zależności systemowych; CI instaluje Chromium z `--with-deps`.
+Vitest runs the unit tests. Browser tests start their own server at `http://127.0.0.1:4175/AlkoRater/`. Run the full matrix with `npm run test:e2e`: mobile `chromium`, `chromium-desktop`, `webkit` with an iPhone 13 profile, and `firefox`. Linux may need browser system libraries; CI installs Chromium with `--with-deps`.
 
-Scenariusze obejmują oceny i notatki, klawiaturę, kopie JSON, migrację, konflikty między kartami, błędy zapisu, offline i aktualizacje. WebKit z profilem telefonu nie jest fizycznym iPhone'em. Instalacja iOS, restart urządzenia oraz zachowanie pamięci na rzeczywistym telefonie wymagają osobnej weryfikacji. Automatyczne sprawdzenie dostępności nie zastępuje testu z czytnikiem ekranu.
+Scenarios cover ratings, notes, keyboard use, backups, migration, concurrent tabs, storage errors, offline use and updates. Phone emulation is not a physical iPhone test. Verify iOS installation, device restart, actual storage retention and screen-reader behavior separately.
 
-`check:data` jest audytem tylko do odczytu: sprawdza stałe ID, zakres procentów i sprzeczne etykiety oraz raportuje nieznane pola. Nie przepisuje katalogu i nie pobiera danych z sieci. Zastępuje dawny `standardize-data.mjs`, który usuwał metadane i nadawał brakujące ID na podstawie kolejności.
+`check:data` is read-only: it checks stable IDs, alcohol percentages and contradictory labels, and reports unknown fields. It does not rewrite the catalogue or fetch network data. It replaces the old destructive `standardize-data.mjs` approach.
 
-Do ręcznego testu użyj oddzielnego profilu i testowych notatek. Sprawdź zapis po przeładowaniu, import bez nadpisania istniejącej oceny, konflikt dwóch kart i ponowne otwarcie offline. Nie czyść prawdziwych danych użytkownika w celu testowania cache.
+Use a separate profile and synthetic notes for manual checks: verify saving across reloads, non-overwriting imports, two-tab conflicts and offline reopening. Preserve real user data while testing cache recovery.
 
-Wyniki i ograniczenia weryfikacji: [raport prac](docs/ALKORATER_OVERHAUL_REPORT_PL.md). Znane nierozwiązane ryzyko narzędzi: 7 zgłoszeń `high` w deweloperskim łańcuchu zależności Stylelint. Te pakiety nie trafiają do aplikacji w przeglądarce, ale pozostają ryzykiem środowiska pracy. Nie jest to deklaracja braku innych zagrożeń.
+The earlier [overhaul report](docs/ALKORATER_OVERHAUL_REPORT_PL.md) records toolchain risks, including high-severity findings in development dependencies. These packages are excluded from the browser build; review current dependency reports separately rather than treating historical counts as current results.
 
-## Struktura i wdrożenie
+## Structure and deployment
 
 ```text
-data/                 lokalne katalogi produktów
-src/js/app/           stan i stałe aplikacji
-src/js/data/          identyfikacja produktów i repozytorium ocen
-src/js/services/      zapis, kopie, wyszukiwanie i service worker
-src/js/ui/            widoki oraz interakcje
-src/css/              style
-scripts/              serwer statyczny i przygotowanie dist/
-tests/e2e/            testy przeglądarkowe
-docs/                 decyzje, raport i zrzuty
-service-worker.js     wersjonowane zestawy zasobów offline
-manifest.json         metadane instalacji PWA
+data/                 local product catalogues
+src/js/app/           application state and constants
+src/js/data/          product identity and rating repository
+src/js/services/      storage, backup, search and worker integration
+src/js/ui/            views and interactions
+src/css/              styles
+scripts/              static server and dist staging
+tests/e2e/            browser tests
+docs/                 design decisions, reports and screenshots
+service-worker.js     versioned offline resource sets
+manifest.json         PWA metadata
 ```
 
-Istniejący workflow GitHub Pages publikuje `dist/` po pushu do `main` lub ręcznym uruchomieniu dla `main`, po lintowaniu, sprawdzeniu formatu, testach jednostkowych i buildzie. CI pull requestów dodatkowo uruchamia projekt Chromium. Gałąź robocza nie jest automatycznie wdrażana.
+The Pages workflow publishes `dist/` on a push to `main`, or a manual run on `main`, after lint, formatting, unit tests and build checks. Pull-request CI additionally runs Chromium. Development branches are not automatically deployed.
 
-GitHub Pages udostępnia pliki statyczne pod `/AlkoRater/`, bez API i serwerowego magazynu ocen. Nagłówki HTTP i cache hostingu nie są dowolnie konfigurowalne przez kod aplikacji. `robots.txt` umieszczony pod `/AlkoRater/` nie zastępuje pliku `/robots.txt` domeny. Sitemap zawiera jedyny publiczny adres aplikacji, nie osobne strony produktów czy prywatne oceny.
+GitHub Pages serves static files at `/AlkoRater/`; there is no API or server-side ratings store. The app cannot freely configure hosting HTTP/cache headers. Project-level `/AlkoRater/robots.txt` does not replace the domain's `/robots.txt`. The sitemap contains the app URL, not individual product pages or private ratings.
 
-Zasady zmian danych i przygotowania pull requestu: [CONTRIBUTING.md](CONTRIBUTING.md). Historia: [CHANGELOG.md](CHANGELOG.md). Licencja: [Apache License 2.0](LICENSE).
+For changes to data and pull-request preparation, see [CONTRIBUTING.md](CONTRIBUTING.md). See [CHANGELOG.md](CHANGELOG.md) for history. The project uses [Apache License 2.0](LICENSE).
