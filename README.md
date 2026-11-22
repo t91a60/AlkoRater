@@ -1,12 +1,13 @@
 # AlkoRater
 
-Osobisty katalog ocen i notatek o piwach, winach i wódkach. Polskojęzyczna aplikacja webowa dla dorosłych, bez konta, synchronizacji i własnego backendu. Nie służy do pomiaru ani śledzenia spożycia alkoholu.
+Osobisty katalog ocen i notatek o piwach, winach i wódkach. To polskojęzyczna aplikacja webowa dla dorosłych, bez konta i własnego backendu. Nie służy do pomiaru ani śledzenia spożycia alkoholu.
 
-[Otwórz aplikację](https://t91a60.github.io/AlkoRater/) · [Zgłoś problem](https://github.com/t91a60/AlkoRater/issues) · [Apache-2.0](LICENSE)
+[Otwórz aplikację](https://t91a60.github.io/AlkoRater/) · [Zrzuty ekranu](#zrzuty-ekranu) · [Uruchom lokalnie](#uruchomienie-lokalne) · [Zgłoś problem](https://github.com/t91a60/AlkoRater/issues) · [Apache-2.0](LICENSE)
 
-Wersja kandydująca w repozytorium: `2.14.0-rc.1`. Publiczna strona odzwierciedla ostatnie wdrożenie z `main`, niekoniecznie tę gałąź.
+Odszukaj pozycję w katalogu, wystaw ocenę od 1 do 5 i dopisz własną notatkę. Dane pozostają w tej przeglądarce. Do przeniesienia ich na inne urządzenie służy kopia JSON, nie automatyczna synchronizacja.
 
-**Ocena lokalnej gałęzi: Alpha (2026-10-23).** W audycie bieżącego drzewa roboczego `npm test` zakończyło się wynikiem 162 PASS / 4 FAIL w testach service workera. To nie jest wynik testów opublikowanej strony. [Szczegóły, dowody i granice oceny](docs/STATUS.md).
+> [!NOTE]
+> Repozytorium zawiera wersję kandydującą `2.14.0-rc.1`. Publiczna strona pokazuje stan z ostatniego wdrożenia `main`. [Audyt z 23 października 2026 r.](docs/STATUS.md) odnotował 162 testy zaliczone i 4 niezaliczone w sprawdzeniu lokalnego drzewa; nie jest to wynik dla opublikowanej strony.
 
 ## Korzystanie z aplikacji
 
